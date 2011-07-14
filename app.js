@@ -30,3 +30,9 @@ Ext.application({
         });
     }
 });
+
+
+if (typeof console === 'undefined') {
+    var c = console = {};
+    c.debug = c.log = c.error = c.warn = c.assert = Ext.emptyFn;
+}
