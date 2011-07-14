@@ -143,7 +143,7 @@ Ext.define('opennodeconsole.widgets.Gauge', {
     refresh: function() {
         if (this.rendered) {
             var ratio = Math.round(this.value / this.max * 100);
-            this.el.down('.value').update(ratio);
+            this.el.down('.value').update('' + ratio);
             this.el.down('.bar div').setWidth('' + ratio + '%');
 
             var redMax = 100 - this.criticalLevel;
