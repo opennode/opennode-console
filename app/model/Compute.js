@@ -16,6 +16,26 @@ Ext.define('opennodeconsole.model.Compute', {
         {name: 'diskspace_rootpartition', type: 'integer'},
         {name: 'diskspace_storagepartition', type: 'integer'},
         {name: 'diskspace_vzpartition', type: 'integer'},
-        {name: 'diskspace_backuppartition', type: 'integer'}
-    ]
+        {name: 'diskspace_backuppartition', type: 'integer'},
+        {name: 'startup_timestamp', type: 'string'}
+    ],
+
+    getUptime: function() {
+        if (this.get('status') === 'offline')
+            return 'NaN';
+        var timestamp = new Date(Date.parse(this.get('startup_timestamp')));
+
+        var s = Math.round((+(new Date()) - +timestamp) / 1000);
+
+        var days = Math.floor(s / 86400);
+        s -= days * 86400;
+
+        var hours = Math.floor(s / 3600);
+        s -= hours * 3600;
+
+        var mins = Math.floor(s / 60);
+        s -= mins * 60;
+
+        return '' + days + 'd ' + hours + 'h ' + mins + 'm ' + s + 's';
+    }
 });

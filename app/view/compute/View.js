@@ -90,6 +90,7 @@ Ext.define('opennodeconsole.view.compute.Info', {
     },
 
     onDestroy: function() {
+        this.callParent(arguments);
         clearInterval(this._randomDataInterval);
         delete this._randomDataInterval;
     }
@@ -130,7 +131,7 @@ Ext.define('opennodeconsole.view.compute.SystemTab', {
                     {html: 'Memory'}, {style: "font-weight: bold", html: rec.get('memory') + 'MB'},
                     {html: 'OS Release'}, {style: "font-weight: bold", html: rec.get('os_release')},
                     {html: 'Kernel'}, {style: "font-weight: bold", html: rec.get('kernel')},
-                    {html: 'Uptime'}, {style: "font-weight: bold", html: 'Very much days'}]
+                    {html: 'Uptime'}, {itemId: 'uptime', style: "font-weight: bold", html: rec.getUptime()}]
         }, {
             layout: {type: 'table', columns: 2},
             frame: true,
@@ -153,7 +154,19 @@ Ext.define('opennodeconsole.view.compute.SystemTab', {
 
                     {label: 'Network Usage', value: 0, max: this.record.get('network'), unit: 'Mbps'}]
         }];
+
+        var me = this;
+        this._uptimeUpdateInterval = setInterval(function() {
+            me.down('#uptime').update('' + rec.getUptime());
+        }, 1000);
+
         this.callParent(arguments);
+    },
+
+    onDestroy: function() {
+        this.callParent(arguments);
+        clearInterval(this._uptimeUpdateInterval);
+        delete this._uptimeUpdateInterval;
     }
 });
 
