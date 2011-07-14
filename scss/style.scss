@@ -1,0 +1,86 @@
+#header {
+    h1 {
+        font-family: serif;
+        font-size: 28px;
+        color: #1a1a1a;
+        font-weight: normal;
+    }
+}
+
+#compute-list {
+    $compute-list-width: 200px;
+    $status-icon-size: 20px;
+    $status-icon-margin: 5px;
+    $compute-horizontal-padding: 5px;
+    $item-hover-color: #ccf;
+
+    width: $compute-list-width;
+
+    overflow: hidden;
+
+    .compute {
+        padding: 10px $compute-horizontal-padding;
+        cursor: pointer;
+
+        .name { font-weight: bold; }
+
+        .descr {
+            width: $compute-list-width - (2 * $compute-horizontal-padding +
+                                          $status-icon-size +
+                                          2 * $status-icon-margin);
+            line-height: 1.5em;
+
+            &, .name {
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+        }
+
+        &.x-item-over { background-color: $item-hover-color; }
+        &.x-item-selected { background-color: darken($item-hover-color, 5%) !important; }
+    }
+
+    .status-icon {
+        float: left;
+        margin: $status-icon-margin;
+        width: $status-icon-size;
+        height: $status-icon-size;
+
+        border-radius: $status-icon-size / 2;
+        -moz-border-radius: $status-icon-size / 2;
+        -webkit-border-radius: $status-icon-size / 2;
+    }
+
+    .compute {
+        &.status-online .status-icon { background-color: green; }
+        &.status-offline .status-icon { background-color: gray; }
+    }
+}
+
+.gauge {
+    text-align: center;
+    padding: 5px;
+    border: 1px solid lightblue;
+    border-radius: 5px;
+
+    span { font-size: 11px; }
+    label { font-weight: bold; }
+
+    .bar {
+        margin-top: 3px;
+        background-color: lightgray;
+
+        div {
+            background-color: blue;
+            -webkit-transition: width 0.25s ease-out;
+        }
+
+        &, div {
+            $height: 5px;
+
+            height: $height;
+            border-radius: $height / 2;
+        }
+    }
+}

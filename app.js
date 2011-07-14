@@ -17,8 +17,7 @@ Ext.application({
                 frame: true
             }, {
                 region: 'west',
-                xtype: 'computelist',
-                width: 200
+                xtype: 'computelist'
             }, {
                 region: 'center',
                 xtype: 'computeview'
