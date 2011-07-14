@@ -46,14 +46,6 @@ Ext.define('opennodeconsole.view.compute.Info', {
             margin: '0 5px'
         };
         this.items = [
-
-            this._mainInfo = Ext.create('Ext.Container', {
-                frame: true,
-                padding: '5px 10px',
-                style: 'font-size: larger; font-weight: bold;',
-                tpl: ['{name} / {ip_address} / {type}']
-            }),
-
             {label: 'CPU', value: 0},
             {label: 'MEM', value: 0, max: 2560, unit: 'MiB'},
             {label: 'NET', value: 0, max: 100, unit: 'Mbs'},
@@ -75,12 +67,6 @@ Ext.define('opennodeconsole.view.compute.Info', {
     },
 
     loadRecord: function(record) {
-        this._mainInfo.update({
-            'name': record.get('name'),
-            'ip_address': record.get('ip_address'),
-            'type': record.get('type'),
-        });
-
         // TODO: Replace this with actual data from the server.
         // Initialise the gauges to random values for demonstration purposes:
         this.child('gauge[label=CPU]').setValue(Math.random());
