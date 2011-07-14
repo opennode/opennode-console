@@ -20,8 +20,8 @@ Ext.application({
                 xtype: 'computelist',
                 width: 200
             }, {
-                region: 'center'
-                xtype: 'computeview',
+                region: 'center',
+                xtype: 'computeview'
             }]
         });
     }
