@@ -1,0 +1,57 @@
+#header h1 {
+    font-family: serif;
+    font-size: 28px;
+    color: #1a1a1a;
+    font-weight: normal;
+}
+
+
+#compute-list .compute {
+    padding: 10px 5px;
+    cursor: pointer;
+}
+#compute-list .compute.x-item-over { background-color: #ccf; }
+#compute-list .compute.x-item-selected { background-color: #bbf !important; }
+#compute-list .compute .name {
+    font-weight: bold;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+#compute-list .compute .descr {
+    width: 155px; /* XXX: use CSS box layout */
+    overflow: hidden;
+    line-height: 1.5em;
+}
+#compute-list .compute .status-icon {
+    float: left;
+    margin: 5px;
+    border-radius: 10px;
+    width: 20px;
+    height: 20px;
+}
+#compute-list .compute.status-online .status-icon { background-color: green; }
+#compute-list .compute.status-offline .status-icon { background-color: gray; }
+
+
+
+.gauge {
+    text-align: center;
+    padding: 5px;
+    border: 1px solid lightblue;
+    border-radius: 5px;
+}
+.gauge span { font-size: 11px; }
+.gauge label { font-weight: bold; }
+.gauge .bar {
+    margin-top: 3px;
+    background-color: lightgray;
+}
+.gauge .bar div {
+    background-color: blue;
+    -webkit-transition: width 0.25s ease-out;
+}
+.gauge .bar, .gauge .bar div {
+    height: 5px;
+    border-radius: 3px;
+}
