@@ -20,7 +20,12 @@ Ext.application({
                 xtype: 'computelist'
             }, {
                 region: 'center',
-                xtype: 'computeview'
+                itemId: 'mainTabs',
+                xtype: 'tabpanel',
+                preventHeader: true,
+                defaults: {
+                    closable: true
+                }
             }]
         });
     }

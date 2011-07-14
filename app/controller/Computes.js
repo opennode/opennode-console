@@ -10,9 +10,27 @@ Ext.define('opennodeconsole.controller.Computes', {
             'computelist': {
                 selectionchange: function(view, selections, options) {
                     console.assert(selections.length === 1);
-                    Ext.ComponentQuery.query('[loadRecord]').forEach(function(cmp) {
-                        cmp.loadRecord(selections[0]);
-                    });
+                    var selection = selections[0];
+                    var computeId = selection.get('id');
+
+                    var tabPanel = Ext.ComponentQuery.query('#mainTabs')[0];
+                    var tab = tabPanel.child('computeview[computeId=' + computeId + ']');
+                    if (!tab) {
+                        tab = Ext.widget('computeview', {
+                            record: selection,
+                            computeId: computeId
+                        });
+                        tabPanel.add(tab);
+                    }
+                    tabPanel.setActiveTab(tab);
+                }
+            },
+            '#mainTabs': {
+                tabchange: function(tabPanel, newTab) {
+                    var computeId = newTab.computeId;
+                    var computeList = Ext.ComponentQuery.query('computelist')[0];
+                    var store = computeList.getStore();
+                    computeList.select(store.getById(computeId));
                 }
             }
         });

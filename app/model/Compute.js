@@ -1,13 +1,16 @@
 Ext.define('opennodeconsole.model.Compute', {
     extend: 'Ext.data.Model',
     fields: [
+        {name: 'id', type: 'integer'},
         {name: 'name', type: 'string'},
         {name: 'status', type: 'string'},
         {name: 'ip_address', type: 'string'},
         {name: 'type', type: 'string'},
         {name: 'cpu', type: 'string'},
-        {name: 'memory', type: 'string'},
+        {name: 'memory', type: 'integer'},
         {name: 'os_release', type: 'string'},
-        {name: 'kernel', type: 'string'}
+        {name: 'kernel', type: 'string'},
+        {name: 'network', type: 'integer'},
+        {name: 'diskspace', type: 'integer'}
     ]
 });

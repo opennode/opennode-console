@@ -4,29 +4,41 @@ Ext.define('opennodeconsole.view.compute.View', {
 
     layout: {type: 'vbox', align: 'stretch'},
 
-    items: [{
-        xtype: 'computeinfo'
-    }, {
-        flex: 1,
-        xtype: 'tabpanel',
-        activeTab: 0,
-        items: [{
-            title: 'Status',
-            xtype: 'computestatustab'
+    initComponent: function() {
+        this.title = this.record.get('name');
+        this.tabConfig = {
+            tooltip: (this.record.get('name') + '<br/>' +
+                      this.record.get('ip_address') + '<br/>' +
+                      this.record.get('type'))
+        };
+
+        this.items = [{
+            xtype: 'computeinfo',
+            record: this.record
         }, {
-            title: 'System',
-            // xtype: 'computesystemtab'
-        }, {
-            title: 'Network',
-            // xtype: 'computenetworktab'
-        }, {
-            title: 'Storage',
-            // html: 'computestoragetab'
-        }, {
-            title: 'Templates',
-            // html: 'computetemplatestab'
-        }]
-    }]
+            flex: 1,
+            xtype: 'tabpanel',
+            activeTab: 0,
+            items: [{
+                title: 'Status',
+                xtype: 'computestatustab'
+            }, {
+                title: 'System',
+                // xtype: 'computesystemtab'
+            }, {
+                title: 'Network',
+                // xtype: 'computenetworktab'
+            }, {
+                title: 'Storage',
+                // html: 'computestoragetab'
+            }, {
+                title: 'Templates',
+                // html: 'computetemplatestab'
+            }]
+        }];
+
+        this.callParent(arguments);
+    }
 });
 
 
@@ -47,15 +59,15 @@ Ext.define('opennodeconsole.view.compute.Info', {
         };
         this.items = [
             {label: 'CPU', value: 0},
-            {label: 'MEM', value: 0, max: 2560, unit: 'MiB'},
-            {label: 'NET', value: 0, max: 100, unit: 'Mbs'},
-            {label: 'DISK', value: 0, max: 500, unit: 'GiB'}
+            {label: 'MEM', value: 0, max: this.record.get('memory'), unit: 'MB'},
+            {label: 'NET', value: 0, max: this.record.get('network'), unit: 'Mbs'},
+            {label: 'DISK', value: 0, max: this.record.get('diskspace'), unit: 'GB'}
         ];
 
         // TODO: Replace this with actual data from the server.
         // Feed the CPU and NET gauges with random values for demonstration purposes:
         var me = this;
-        setInterval(function() {
+        this._randomDataInterval = setInterval(function() {
             ['CPU', 'NET'].forEach(function(gaugeName) {
                 var gauge = me.child('gauge[label=' + gaugeName + ']');
                 var d = gauge.max * Math.random() * 0.1;
@@ -66,13 +78,19 @@ Ext.define('opennodeconsole.view.compute.Info', {
         this.callParent(arguments);
     },
 
-    loadRecord: function(record) {
+    onRender: function() {
+        this.callParent(arguments);
         // TODO: Replace this with actual data from the server.
         // Initialise the gauges to random values for demonstration purposes:
         this.child('gauge[label=CPU]').setValue(Math.random());
-        this.child('gauge[label=MEM]').setValue(Math.random() * 2560);
-        this.child('gauge[label=NET]').setValue(Math.random() * 100);
-        this.child('gauge[label=DISK]').setValue(Math.random() * 500);
+        this.child('gauge[label=MEM]').setValue(Math.random() * this.record.get('memory'));
+        this.child('gauge[label=NET]').setValue(Math.random() * this.record.get('network'));
+        this.child('gauge[label=DISK]').setValue(Math.random() * this.record.get('diskspace'));
+    },
+
+    onDestroy: function() {
+        clearInterval(this._randomDataInterval);
+        delete this._randomDataInterval;
     }
 });
 
