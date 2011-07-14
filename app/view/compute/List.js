@@ -21,9 +21,12 @@ Ext.define('opennodeconsole.view.compute.List', {
     itemSelector: '.compute',
     bodyPadding: 5,
 
-    listeners: {
-        afterrender: function() {
-            this.select(0);
-        }
+    initComponent: function() {
+        this.callParent(arguments);
+
+        this.store.on('load', function(store, records) {
+            if (records.length > 0)
+                this.select(0);
+        }, this);
     }
 });
