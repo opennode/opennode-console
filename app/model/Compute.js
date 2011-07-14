@@ -11,6 +11,11 @@ Ext.define('opennodeconsole.model.Compute', {
         {name: 'os_release', type: 'string'},
         {name: 'kernel', type: 'string'},
         {name: 'network', type: 'integer'},
-        {name: 'diskspace', type: 'integer'}
+        {name: 'diskspace', type: 'integer'},
+        {name: 'swap_size', type: 'integer'},
+        {name: 'diskspace_rootpartition', type: 'integer'},
+        {name: 'diskspace_storagepartition', type: 'integer'},
+        {name: 'diskspace_vzpartition', type: 'integer'},
+        {name: 'diskspace_backuppartition', type: 'integer'}
     ]
 });

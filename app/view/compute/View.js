@@ -19,12 +19,13 @@ Ext.define('opennodeconsole.view.compute.View', {
             flex: 1,
             xtype: 'tabpanel',
             activeTab: 0,
+            defaults: {record: this.record},
             items: [{
                 title: 'Status',
                 xtype: 'computestatustab'
             }, {
                 title: 'System',
-                // xtype: 'computesystemtab'
+                xtype: 'computesystemtab'
             }, {
                 title: 'Network',
                 // xtype: 'computenetworktab'
@@ -95,11 +96,65 @@ Ext.define('opennodeconsole.view.compute.Info', {
 });
 
 
-Ext.define('opennodeconsole.view.compute.StatusTab', {
+Ext.define('opennodeconsole.view.compute.Tab', {
     extend: 'Ext.panel.Panel',
+    frame: true,
+    bodyPadding: 5
+});
+
+
+Ext.define('opennodeconsole.view.compute.StatusTab', {
+    extend: 'opennodeconsole.view.compute.Tab',
     alias: 'widget.computestatustab',
 
     html: 'Status tab'
+});
+
+
+Ext.define('opennodeconsole.view.compute.SystemTab', {
+    extend: 'opennodeconsole.view.compute.Tab',
+    alias: 'widget.computesystemtab',
+
+    initComponent: function() {
+        var rec = this.record;
+
+        this.items = [{
+            layout: {type: 'table', columns: 2},
+            frame: true,
+            margin: '0 0 10px 0',
+            defaults: {
+                xtype: 'box',
+                padding: 5
+            },
+            items: [{html: 'CPU info'}, {style: "font-weight: bold", html: rec.get('cpu')},
+                    {html: 'Memory'}, {style: "font-weight: bold", html: rec.get('memory') + 'MB'},
+                    {html: 'OS Release'}, {style: "font-weight: bold", html: rec.get('os_release')},
+                    {html: 'Kernel'}, {style: "font-weight: bold", html: rec.get('kernel')},
+                    {html: 'Uptime'}, {style: "font-weight: bold", html: 'Very much days'}]
+        }, {
+            layout: {type: 'table', columns: 2},
+            frame: true,
+            defaults: {
+                xtype: 'gauge',
+                width: 250,
+                margin: 10
+            },
+            items: [{label: 'CPU Usage', value: 0},
+                    {label: 'HD Space (Root Partition)', value: 0, max: rec.get('diskspace_rootpartition'), unit: 'MB'},
+
+                    {label: 'IO Delays', value: 0},
+                    {label: 'HD Space (Storage Partition)', value: 0, max: rec.get('diskspace_storagepartition'), unit: 'GB'},
+
+                    {label: 'Physical Memory', value: 0, max: rec.get('memory'), unit: 'MB'},
+                    {label: 'HD Space (VZ Partition)', value: 0, max: rec.get('diskspace_vzpartition'), unit: 'GB'},
+
+                    {label: 'Swap Space', value: 0, max: this.record.get('swap_size'), unit: 'MB'},
+                    {label: 'HD Space (Backup Partition)', value: 0, max: rec.get('diskspace_backuppartition'), unit: 'GB'},
+
+                    {label: 'Network Usage', value: 0, max: this.record.get('network'), unit: 'Mbps'}]
+        }];
+        this.callParent(arguments);
+    }
 });
 
 
