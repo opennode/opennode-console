@@ -89,7 +89,7 @@ Ext.define('opennodeconsole.view.compute.Info', {
         // TODO: Replace this with actual data from the server.
         // Initialise the gauges to random values for demonstration purposes:
         this.child('gauge[label=CPU]').setValue(Math.random());
-        this.child('gauge[label=MEM]').setValue(Math.random() * record.get('memory'));
+        this.child('gauge[label=MEM]').setValue(Math.random() * rec.get('memory'));
         this.child('gauge[label=NET]').setValue(Math.random() * rec.get('network'));
         this.child('gauge[label=DISK]').setValue(Math.random() * rec.get('diskspace'));
     },
