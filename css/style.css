@@ -13,7 +13,7 @@
     #compute-list .compute .name {
       font-weight: bold; }
     #compute-list .compute .descr {
-      width: 160px;
+      width: 156px;
       line-height: 1.5em; }
       #compute-list .compute .descr, #compute-list .compute .descr .name {
         overflow: hidden;
@@ -26,15 +26,17 @@
   #compute-list .status-icon {
     float: left;
     margin: 5px;
-    width: 20px;
-    height: 20px;
-    border-radius: 10px;
-    -moz-border-radius: 10px;
-    -webkit-border-radius: 10px; }
-  #compute-list .compute.status-online .status-icon {
-    background-color: green; }
-  #compute-list .compute.status-offline .status-icon {
-    background-color: gray; }
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    -moz-border-radius: 12px;
+    -webkit-border-radius: 12px;
+    background-image: url(../img/icon/mainframe.png); }
+  #compute-list .compute {
+    /* &.status-online .status-icon { background-color: green; } */
+    /* &.status-offline .status-icon { background-color: gray; } */ }
+    #compute-list .compute.status-offline .status-icon {
+      opacity: 0.5; }
 
 .gauge {
   text-align: center;
@@ -54,3 +56,22 @@
     .gauge .bar, .gauge .bar div {
       height: 5px;
       border-radius: 2.5px; }
+  .gauge.with-icon {
+    padding-left: 35px;
+    background-repeat: no-repeat;
+    background-position: 5px 5px; }
+
+.icon-hd {
+  background-image: url("../img/icon/hd.png"); }
+
+.icon-cpu {
+  background-image: url("../img/icon/cpu.png"); }
+
+.icon-network {
+  background-image: url("../img/icon/network.png"); }
+
+.icon-network {
+  background-image: url("../img/icon/network.png"); }
+
+.icon-mainframe {
+  background-image: url("../img/icon/mainframe.png"); }

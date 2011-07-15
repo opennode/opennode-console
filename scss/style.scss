@@ -9,7 +9,7 @@
 
 #compute-list {
     $compute-list-width: 200px;
-    $status-icon-size: 20px;
+    $status-icon-size: 24px;
     $status-icon-margin: 5px;
     $compute-horizontal-padding: 5px;
     $item-hover-color: #ccf;
@@ -50,11 +50,14 @@
         border-radius: $status-icon-size / 2;
         -moz-border-radius: $status-icon-size / 2;
         -webkit-border-radius: $status-icon-size / 2;
+
+        background-image: url(../img/icon/mainframe.png);
     }
 
     .compute {
-        &.status-online .status-icon { background-color: green; }
-        &.status-offline .status-icon { background-color: gray; }
+        /* &.status-online .status-icon { background-color: green; } */
+        /* &.status-offline .status-icon { background-color: gray; } */
+        &.status-offline .status-icon { opacity: 0.5; }
     }
 }
 
@@ -83,4 +86,27 @@
             border-radius: $height / 2;
         }
     }
+
+    &.with-icon {
+        padding-left: 35px;
+        background-repeat: no-repeat;
+        background-position: 5px 5px;
+    }
+}
+
+
+.icon-hd {
+    background-image: url('../img/icon/hd.png');
+}
+.icon-cpu {
+    background-image: url('../img/icon/cpu.png');
+}
+.icon-network {
+    background-image: url('../img/icon/network.png');
+}
+.icon-network {
+    background-image: url('../img/icon/network.png');
+}
+.icon-mainframe {
+    background-image: url('../img/icon/mainframe.png');
 }

@@ -25,9 +25,11 @@ Ext.define('opennodeconsole.view.compute.View', {
                 xtype: 'computestatustab'
             }, {
                 title: 'System',
-                xtype: 'computesystemtab'
+                xtype: 'computesystemtab',
+                iconCls: 'icon-mainframe'
             }, {
                 title: 'Network',
+                iconCls: 'icon-network'
                 // xtype: 'computenetworktab'
             }, {
                 title: 'Storage',
@@ -54,15 +56,18 @@ Ext.define('opennodeconsole.view.compute.Info', {
     layout: {type: 'hbox', align: 'middle'},
 
     initComponent: function() {
+        var rec = this.record;
+
         this.defaults = {
             xtype: 'gauge',
-            margin: '0 5px'
+            margin: '0 5px',
+            width: 150
         };
         this.items = [
-            {label: 'CPU', value: 0},
-            {label: 'MEM', value: 0, max: this.record.get('memory'), unit: 'MB'},
-            {label: 'NET', value: 0, max: this.record.get('network'), unit: 'Mbs'},
-            {label: 'DISK', value: 0, max: this.record.get('diskspace'), unit: 'GB'}
+            {label: 'CPU', value: 0, iconCls: 'icon-cpu'},
+            {label: 'MEM', value: 0, max: rec.get('memory'), unit: 'MB'},
+            {label: 'NET', value: 0, iconCls: 'icon-network', max: rec.get('network'), unit: 'Mbs'},
+            {label: 'DISK', value: 0, iconCls: 'icon-hd', max: rec.get('diskspace'), unit: 'GB'}
         ];
 
         // TODO: Replace this with actual data from the server.
@@ -84,9 +89,9 @@ Ext.define('opennodeconsole.view.compute.Info', {
         // TODO: Replace this with actual data from the server.
         // Initialise the gauges to random values for demonstration purposes:
         this.child('gauge[label=CPU]').setValue(Math.random());
-        this.child('gauge[label=MEM]').setValue(Math.random() * this.record.get('memory'));
-        this.child('gauge[label=NET]').setValue(Math.random() * this.record.get('network'));
-        this.child('gauge[label=DISK]').setValue(Math.random() * this.record.get('diskspace'));
+        this.child('gauge[label=MEM]').setValue(Math.random() * record.get('memory'));
+        this.child('gauge[label=NET]').setValue(Math.random() * rec.get('network'));
+        this.child('gauge[label=DISK]').setValue(Math.random() * rec.get('diskspace'));
     },
 
     onDestroy: function() {
@@ -175,6 +180,7 @@ Ext.define('opennodeconsole.widgets.Gauge', {
     extend: 'Ext.Component',
     alias: 'widget.gauge',
     cls: 'gauge',
+    iconCls: null,
 
     width: 125,
 
@@ -196,6 +202,10 @@ Ext.define('opennodeconsole.widgets.Gauge', {
     onRender: function() {
         this.callParent(arguments);
         this.tpl.overwrite(this.el, this);
+        if (this.iconCls) {
+            this.el.addCls(this.iconCls);
+            this.el.addCls('with-icon');
+        }
     },
 
     afterRender: function() {
