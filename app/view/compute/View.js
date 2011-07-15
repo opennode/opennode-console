@@ -6,21 +6,23 @@ Ext.define('opennodeconsole.view.compute.View', {
     layout: {type: 'vbox', align: 'stretch'},
 
     initComponent: function() {
-        this.title = this.record.get('name');
+        var rec = this.record;
+
+        this.title = rec.get('name');
         this.tabConfig = {
-            tooltip: (this.record.get('name') + '<br/>' +
-                      this.record.get('ip_address') + '<br/>' +
-                      this.record.get('type'))
+            tooltip: (rec.get('name') + '<br/>' +
+                      rec.get('ip_address') + '<br/>' +
+                      rec.get('type'))
         };
 
         this.items = [{
             xtype: 'computeinfo',
-            record: this.record
+            record: rec
         }, {
             flex: 1,
             xtype: 'tabpanel',
             activeTab: 0,
-            defaults: {record: this.record},
+            defaults: {record: rec},
             items: [{
                 title: 'Status',
                 xtype: 'computestatustab'
@@ -158,10 +160,10 @@ Ext.define('opennodeconsole.view.compute.SystemTab', {
                     {label: 'Physical Memory', value: 0, max: rec.get('memory'), unit: 'MB'},
                     {label: 'HD Space (VZ Partition)', value: 0, max: rec.get('diskspace_vzpartition'), unit: 'GB'},
 
-                    {label: 'Swap Space', value: 0, max: this.record.get('swap_size'), unit: 'MB'},
+                    {label: 'Swap Space', value: 0, max: rec.get('swap_size'), unit: 'MB'},
                     {label: 'HD Space (Backup Partition)', value: 0, max: rec.get('diskspace_backuppartition'), unit: 'GB'},
 
-                    {label: 'Network Usage', value: 0, max: this.record.get('network'), unit: 'Mbps'}]
+                    {label: 'Network Usage', value: 0, max: rec.get('network'), unit: 'Mbps'}]
         }];
 
         var me = this;
