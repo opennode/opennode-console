@@ -85,6 +85,8 @@ Ext.define('opennodeconsole.view.compute.Info', {
     },
 
     onRender: function() {
+        var rec = this.record;
+
         this.callParent(arguments);
         // TODO: Replace this with actual data from the server.
         // Initialise the gauges to random values for demonstration purposes:
