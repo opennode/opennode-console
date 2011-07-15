@@ -2,6 +2,7 @@ Ext.define('opennodeconsole.view.compute.View', {
     extend: 'Ext.Container',
     alias: 'widget.computeview',
 
+    iconCls: 'icon-mainframe',
     layout: {type: 'vbox', align: 'stretch'},
 
     initComponent: function() {
@@ -33,6 +34,7 @@ Ext.define('opennodeconsole.view.compute.View', {
                 // xtype: 'computenetworktab'
             }, {
                 title: 'Storage',
+                iconCls: 'icon-hd'
                 // html: 'computestoragetab'
             }, {
                 title: 'Templates',
