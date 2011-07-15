@@ -61,7 +61,7 @@ Ext.define('opennodeconsole.view.compute.Info', {
         this.defaults = {
             xtype: 'gauge',
             margin: '0 5px',
-            width: 150
+            width: 160
         };
         this.items = [
             {label: 'CPU', value: 0, iconCls: 'icon-cpu'},
