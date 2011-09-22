@@ -22,7 +22,7 @@
         padding: 10px $compute-horizontal-padding;
         cursor: pointer;
 
-        .name { font-weight: bold; }
+        .hostname { font-weight: bold; }
 
         .descr {
             width: $compute-list-width - (2 * $compute-horizontal-padding +
@@ -30,7 +30,7 @@
                                           2 * $status-icon-margin);
             line-height: 1.5em;
 
-            &, .name {
+            &, .hostname {
                 overflow: hidden;
                 white-space: nowrap;
                 text-overflow: ellipsis;

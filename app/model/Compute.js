@@ -2,7 +2,7 @@ Ext.define('opennodeconsole.model.Compute', {
     extend: 'Ext.data.Model',
     fields: [
         {name: 'id', type: 'integer'},
-        {name: 'name', type: 'string'},
+        {name: 'hostname', type: 'string'},
         {name: 'status', type: 'string'},
         {name: 'ip_address', type: 'string'},
         {name: 'type', type: 'string'},

@@ -8,7 +8,7 @@ Ext.define('opennodeconsole.view.compute.List', {
         '    <div class="compute status-{status}">',
         '        <div class="status-icon"></div>',
         '        <div class="descr">',
-        '            <div class="name">{name}</div>',
+        '            <div class="hostname">{hostname}</div>',
         '            {ip_address} / {type}',
         '        </div>',
         '    </div>',

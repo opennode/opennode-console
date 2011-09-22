@@ -8,9 +8,9 @@ Ext.define('opennodeconsole.view.compute.View', {
     initComponent: function() {
         var rec = this.record;
 
-        this.title = rec.get('name');
+        this.title = rec.get('hostname');
         this.tabConfig = {
-            tooltip: (rec.get('name') + '<br/>' +
+            tooltip: (rec.get('hostname') + '<br/>' +
                       rec.get('ip_address') + '<br/>' +
                       rec.get('type'))
         };
