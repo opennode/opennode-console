@@ -8,7 +8,9 @@
 }
 
 #compute-list {
-    $compute-list-width: 200px;
+    $SCROLLBAR-WIDTH: 15px;
+
+    $compute-list-width: 200px + $SCROLLBAR-WIDTH;
     $status-icon-size: 24px;
     $status-icon-margin: 5px;
     $compute-horizontal-padding: 5px;
@@ -27,7 +29,7 @@
         .descr {
             width: $compute-list-width - (2 * $compute-horizontal-padding +
                                           $status-icon-size +
-                                          2 * $status-icon-margin);
+                                          2 * $status-icon-margin) - $SCROLLBAR-WIDTH;
             line-height: 1.5em;
 
             &, .hostname {

@@ -20,6 +20,7 @@ Ext.define('opennodeconsole.view.compute.List', {
     overItemCls: 'x-item-over',
     itemSelector: '.compute',
     bodyPadding: 5,
+    autoScroll: true,
 
     initComponent: function() {
         this.callParent(arguments);
