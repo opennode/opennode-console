@@ -28,7 +28,7 @@ Ext.define('opennodeconsole.view.compute.List', {
         this.store.on('load', function(store, records) {
             if (records.length > 0)
                 this.select(0);
-        }, this);
+        }, this, {single: true});
     },
 
     applyFilter: function(keywords) {
