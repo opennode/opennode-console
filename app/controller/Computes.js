@@ -5,7 +5,8 @@ Ext.define('opennodeconsole.controller.Computes', {
     stores: ['Computes'],
     views: ['compute.List', 'compute.View'],
 
-    refs: [{ref: 'list', selector: 'computelist'}],
+    refs: [{ref: 'list', selector: 'computelist'},
+           {ref: 'tabs', selector: '#mainTabs'}],
 
     init: function() {
         this.control({
@@ -17,7 +18,7 @@ Ext.define('opennodeconsole.controller.Computes', {
                     var selection = selections[0];
                     var computeId = selection.get('id');
 
-                    var tabPanel = Ext.ComponentQuery.query('#mainTabs')[0];
+                    var tabPanel = this.getTabs();
                     var tab = tabPanel.child('computeview[computeId=' + computeId + ']');
                     if (!tab) {
                         tab = Ext.widget('computeview', {
