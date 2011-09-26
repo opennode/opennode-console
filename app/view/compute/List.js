@@ -29,6 +29,12 @@ Ext.define('opennodeconsole.view.compute.List', {
             if (records.length > 0)
                 this.select(0);
         }, this);
+    },
+
+    applyFilter: function(keywords) {
+        var store = this.getStore();
+        store.getProxy().extraParams['q'] = keywords;
+        store.load();
     }
 });
 
@@ -40,7 +46,20 @@ Ext.define('opennodeconsole.view.compute.ListFilter', {
 
     items: {
         xtype: 'textfield',
-        inputId: 'filter',
-        emptyText: "Filter by..."
+        emptyText: "Filter by...",
+        listeners: {
+            'change': function(sender, newValue) {
+                sender.up()._showCompletions(newValue);
+            },
+            'specialkey': function(sender, event) {
+                if (event.getKey() == event.ENTER) {
+                    sender.up().up().child('computelist').applyFilter(sender.getValue());
+                }
+            }
+        }
+    },
+
+    _showCompletions: function(keywords) {
+
     }
 });

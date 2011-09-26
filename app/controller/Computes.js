@@ -9,7 +9,9 @@ Ext.define('opennodeconsole.controller.Computes', {
         this.control({
             'computelist': {
                 selectionchange: function(view, selections, options) {
-                    console.assert(selections.length === 1);
+                    if (selections.length === 0)
+                        return;
+
                     var selection = selections[0];
                     var computeId = selection.get('id');
 
