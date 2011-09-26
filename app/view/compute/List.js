@@ -42,24 +42,18 @@ Ext.define('opennodeconsole.view.compute.List', {
 Ext.define('opennodeconsole.view.compute.ListFilter', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.computelistfilter',
+
+    events: ['changed'],
+
     layout: 'fit',
+    items: {xtype: 'textfield', emptyText: "Filter by..."},
 
-    items: {
-        xtype: 'textfield',
-        emptyText: "Filter by...",
-        listeners: {
-            'change': function(sender, newValue) {
-                sender.up()._showCompletions(newValue);
-            },
-            'specialkey': function(sender, event) {
-                if (event.getKey() == event.ENTER) {
-                    sender.up().up().child('computelist').applyFilter(sender.getValue());
-                }
-            }
-        }
-    },
-
-    _showCompletions: function(keywords) {
-
+    initComponent: function() {
+        this.callParent(arguments);
+        var me = this;
+        this.child('textfield').addListener('specialkey', function(sender, event) {
+            if (event.getKey() == event.ENTER)
+                me.fireEvent('changed', sender.getValue());
+        });
     }
 });

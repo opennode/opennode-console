@@ -29,6 +29,11 @@ Ext.define('opennodeconsole.controller.Computes', {
                     tabPanel.setActiveTab(tab);
                 }
             },
+            'computelistfilter': {
+                'changed': function(keywords) {
+                    this.getList().applyFilter(keywords);
+                }
+            },
             '#mainTabs': {
                 tabchange: function(tabPanel, newTab) {
                     var computeId = newTab.computeId;
