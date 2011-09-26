@@ -40,7 +40,11 @@ Ext.define('opennodeconsole.controller.Computes', {
                     var computeId = newTab.computeId;
                     var computeList = this.getList();
                     var store = computeList.getStore();
-                    computeList.select(store.getById(computeId));
+                    var selModel = computeList.getSelectionModel();
+                    if (computeList.getStore().getById(computeId))
+                        selModel.select(store.getById(computeId));
+                    else
+                        selModel.deselect(selModel.getSelection());
                 }
             }
         });
