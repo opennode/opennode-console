@@ -5,8 +5,8 @@ Ext.define('opennodeconsole.view.compute.List', {
     store: 'Computes',
     tpl: [
         '<tpl for=".">',
-        '    <div class="compute status-{status}">',
-        '        <div class="status-icon"></div>',
+        '    <div class="compute state-{state}">',
+        '        <div class="state-icon"></div>',
         '        <div class="descr">',
         '            <div class="hostname">{hostname}</div>',
         '            {ip_address} / {type}',

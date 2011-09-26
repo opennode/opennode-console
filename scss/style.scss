@@ -11,8 +11,8 @@
     $SCROLLBAR-WIDTH: 15px;
 
     $compute-list-width: 200px + $SCROLLBAR-WIDTH;
-    $status-icon-size: 24px;
-    $status-icon-margin: 5px;
+    $state-icon-size: 24px;
+    $state-icon-margin: 5px;
     $compute-horizontal-padding: 5px;
     $item-hover-color: #ccf;
 
@@ -28,8 +28,8 @@
 
         .descr {
             width: $compute-list-width - (2 * $compute-horizontal-padding +
-                                          $status-icon-size +
-                                          2 * $status-icon-margin) - $SCROLLBAR-WIDTH;
+                                          $state-icon-size +
+                                          2 * $state-icon-margin) - $SCROLLBAR-WIDTH;
             line-height: 1.5em;
 
             &, .hostname {
@@ -43,23 +43,23 @@
         &.x-item-selected { background-color: darken($item-hover-color, 5%) !important; }
     }
 
-    .status-icon {
+    .state-icon {
         float: left;
-        margin: $status-icon-margin;
-        width: $status-icon-size;
-        height: $status-icon-size;
+        margin: $state-icon-margin;
+        width: $state-icon-size;
+        height: $state-icon-size;
 
-        border-radius: $status-icon-size / 2;
-        -moz-border-radius: $status-icon-size / 2;
-        -webkit-border-radius: $status-icon-size / 2;
+        border-radius: $state-icon-size / 2;
+        -moz-border-radius: $state-icon-size / 2;
+        -webkit-border-radius: $state-icon-size / 2;
 
         background-image: url(../img/icon/mainframe.png);
     }
 
     .compute {
-        /* &.status-online .status-icon { background-color: green; } */
-        /* &.status-offline .status-icon { background-color: gray; } */
-        &.status-offline .status-icon { opacity: 0.5; }
+        /* &.state-active .state-icon { background-color: green; } */
+        /* &.state-inactive .state-icon { background-color: gray; } */
+        &.state-inactive .state-icon { opacity: 0.5; }
     }
 }
 

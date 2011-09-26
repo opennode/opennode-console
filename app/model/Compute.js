@@ -3,7 +3,7 @@ Ext.define('opennodeconsole.model.Compute', {
     fields: [
         {name: 'id', type: 'integer'},
         {name: 'hostname', type: 'string'},
-        {name: 'status', type: 'string'},
+        {name: 'state', type: 'string'},
         {name: 'ip_address', type: 'string'},
         {name: 'type', type: 'string'},
         {name: 'cpu', type: 'string'},
@@ -21,7 +21,7 @@ Ext.define('opennodeconsole.model.Compute', {
     ],
 
     getUptime: function() {
-        if (this.get('status') === 'offline')
+        if (this.get('state') === 'inactive')
             return 'NaN';
         var timestamp = new Date(Date.parse(this.get('startup_timestamp')));
 

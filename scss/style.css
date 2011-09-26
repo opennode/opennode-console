@@ -23,7 +23,7 @@
       background-color: #ccccff; }
     #compute-list .compute.x-item-selected {
       background-color: #b3b3ff !important; }
-  #compute-list .status-icon {
+  #compute-list .state-icon {
     float: left;
     margin: 5px;
     width: 24px;
@@ -33,9 +33,9 @@
     -webkit-border-radius: 12px;
     background-image: url(../img/icon/mainframe.png); }
   #compute-list .compute {
-    /* &.status-online .status-icon { background-color: green; } */
-    /* &.status-offline .status-icon { background-color: gray; } */ }
-    #compute-list .compute.status-offline .status-icon {
+    /* &.state-active .state-icon { background-color: green; } */
+    /* &.state-inactive .state-icon { background-color: gray; } */ }
+    #compute-list .compute.state-inactive .state-icon {
       opacity: 0.5; }
 
 .gauge {
