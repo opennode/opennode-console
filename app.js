@@ -17,9 +17,10 @@ Ext.application({
                 frame: true
             }, {
                 region: 'west',
+                layout: {type: 'vbox', align: 'stretchmax'},
                 items: [
                     {xtype: 'computelistfilter'},
-                    {xtype: 'computelist'}
+                    {xtype: 'computelist', flex: 1}
                 ]
             }, {
                 region: 'center',

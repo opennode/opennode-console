@@ -36,12 +36,10 @@ Ext.define('opennodeconsole.view.compute.List', {
 Ext.define('opennodeconsole.view.compute.ListFilter', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.computelistfilter',
-
-    layout: 'hbox',
+    layout: 'fit',
 
     items: {
         xtype: 'textfield',
-        flex: 1,
         inputId: 'filter',
         emptyText: "Filter by..."
     }
