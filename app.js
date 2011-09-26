@@ -17,7 +17,10 @@ Ext.application({
                 frame: true
             }, {
                 region: 'west',
-                xtype: 'computelist'
+                items: [
+                    {xtype: 'computelistfilter'},
+                    {xtype: 'computelist'}
+                ]
             }, {
                 region: 'center',
                 itemId: 'mainTabs',

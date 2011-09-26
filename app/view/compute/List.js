@@ -31,3 +31,18 @@ Ext.define('opennodeconsole.view.compute.List', {
         }, this);
     }
 });
+
+
+Ext.define('opennodeconsole.view.compute.ListFilter', {
+    extend: 'Ext.panel.Panel',
+    alias: 'widget.computelistfilter',
+
+    layout: 'hbox',
+
+    items: {
+        xtype: 'textfield',
+        flex: 1,
+        inputId: 'filter',
+        emptyText: "Filter by..."
+    }
+});
