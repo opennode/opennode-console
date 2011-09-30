@@ -22,6 +22,15 @@ Ext.define('opennodeconsole.view.compute.List', {
     bodyPadding: 5,
     autoScroll: true,
 
+    listeners: {
+        'selectionchange': function(_, selections) {
+            if (selections.length === 1) {
+                var node = this.getNode(selections[0]);
+                Ext.fly(node).scrollIntoView(this.el);
+            }
+        }
+    },
+
     initComponent: function() {
         this.callParent(arguments);
 
