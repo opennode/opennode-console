@@ -55,7 +55,11 @@ Ext.define('opennodeconsole.view.compute.ListFilter', {
     events: ['changed'],
 
     layout: 'fit',
-    items: {xtype: 'textfield', emptyText: "Filter by..."},
+    items: {
+        xtype: 'textfield',
+        emptyText: "Filter by...",
+        enableKeyEvents: true
+    },
 
     initComponent: function() {
         this.callParent(arguments);
@@ -64,5 +68,13 @@ Ext.define('opennodeconsole.view.compute.ListFilter', {
             if (event.getKey() == event.ENTER)
                 me.fireEvent('changed', sender.getValue());
         });
+
+        this.child('textfield').addListener({
+            'keyup': function(sender, event) {
+                if (event.isSpecialKey())
+                    me.fireEvent('changed', sender.getValue());
+            },
+            buffer: 300
+        })
     }
 });
