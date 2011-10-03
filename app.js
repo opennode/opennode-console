@@ -1,6 +1,22 @@
 Ext.BLANK_IMAGE_URL = 'ext-4.0/resources/themes/images/default/tree/s.gif';
 
-Ext.require('Ext.MessageBox');
+Ext.Loader.setConfig('paths', {
+    'opennodeconsole': './app/opennodeconsole'
+});
+
+Ext.syncRequire([
+    'Ext.MessageBox',
+    'Ext.XTemplate',
+    'opennodeconsole.widgets.Gauge',
+    'opennodeconsole.widgets.ComputeInfo',
+    'opennodeconsole.widgets.ComputeListFilter',
+    'opennodeconsole.tabs.Tab',
+    'opennodeconsole.tabs.StatusTab',
+    'opennodeconsole.tabs.SystemTab',
+    'opennodeconsole.tabs.NetworkTab',
+    'opennodeconsole.tabs.StorageTab',
+    'opennodeconsole.tabs.TemplatesTab',
+]);
 
 Ext.application({
     name: 'opennodeconsole',
