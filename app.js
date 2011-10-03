@@ -1,5 +1,7 @@
 Ext.BLANK_IMAGE_URL = 'ext-4.0/resources/themes/images/default/tree/s.gif';
 
+Ext.require('Ext.MessageBox');
+
 Ext.application({
     name: 'opennodeconsole',
 
