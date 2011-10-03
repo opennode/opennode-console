@@ -37,5 +37,7 @@ Ext.define('opennodeconsole.model.Compute', {
         s -= mins * 60;
 
         return '' + days + 'd ' + hours + 'h ' + mins + 'm ' + s + 's';
-    }
+    },
+
+    hasMany: {model: 'opennodeconsole.model.Compute', name: 'vms'}
 });
