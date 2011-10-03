@@ -19,10 +19,15 @@ Ext.define('opennodeconsole.widgets.ComputeListFilter', {
                 me.fireEvent('changed', sender.getValue());
         });
 
+        var previousValue = '';
+
         this.child('textfield').addListener({
             'keyup': function(sender, event) {
-                if (event.isSpecialKey())
+                var newValue = sender.getValue().trim();
+                if (newValue !== previousValue) {
+                    previousValue = newValue;
                     me.fireEvent('changed', sender.getValue());
+                }
             },
             buffer: 300
         })
