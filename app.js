@@ -1,4 +1,4 @@
-Ext.BLANK_IMAGE_URL = '../extjs/resources/images/default/s.gif';
+Ext.BLANK_IMAGE_URL = 'ext-4.0/resources/themes/images/default/tree/s.gif';
 
 Ext.application({
     name: 'opennodeconsole',
