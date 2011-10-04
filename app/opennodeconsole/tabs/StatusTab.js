@@ -29,6 +29,7 @@ Ext.define('opennodeconsole.tabs.StatusTab', {
             },
             {
                 text: 'Show Details', icon: 'ZoomIn', handler: function(vms) {
+                    console.assert(vms.length === 1);
                     Ext.Msg.show({title: "FYI", msg: "Showing details of " + vms.map(function(vm) { return vm.get('hostname'); }).join(", "),
                                   buttons: Ext.Msg.OK, icon: Ext.Msg.INFO});
                 }
@@ -51,7 +52,7 @@ Ext.define('opennodeconsole.tabs.StatusTab', {
             };
         });
 
-        tbarButtons.splice(3, 0, {xtype: 'tbseparator'});
+        tbarButtons.pop();  // Don't want the 'Show Details' button for multiple VMs
 
         var rowActions = actions.map(function(action) {
             return {
