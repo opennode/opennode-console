@@ -11,6 +11,12 @@ Ext.define('opennodeconsole.model.VirtualBridge', {
         {name: 'stp', type: 'boolean'},
         {name: 'rx', type: 'string'},
         {name: 'tx', type: 'string'},
-        {name: 'members', type: 'string'}
+        {name: 'members', convert: function(value) {
+            // XXX: This is needed because there seems to be no way to
+            // read in model fields as `Array`s.  `Array`s in the
+            // (JSON) data will be stored as plain `Object`s when the
+            // `type` of the field is set to `'auto'`.
+            return value.toString().split(',');
+        }},
     ]
 });
