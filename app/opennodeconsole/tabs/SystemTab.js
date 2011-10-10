@@ -38,7 +38,7 @@ Ext.define('opennodeconsole.tabs.SystemTab', {
                     {label: 'Swap Space', value: 0, max: rec.get('swap_size'), unit: 'MB'},
                     {label: 'HD Space (Backup Partition)', value: 0, max: rec.get('diskspace_backuppartition'), unit: 'GB'},
 
-                    {label: 'Network Usage', value: 0, max: rec.get('network'), unit: 'Mbps'}]
+                    {label: 'Network Usage', value: 0, max: rec.get('network_usage'), unit: 'Mbps'}]
         }];
 
         var me = this;

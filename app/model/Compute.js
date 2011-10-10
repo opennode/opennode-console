@@ -10,7 +10,7 @@ Ext.define('opennodeconsole.model.Compute', {
         {name: 'memory', type: 'integer'},
         {name: 'os_release', type: 'string'},
         {name: 'kernel', type: 'string'},
-        {name: 'network', type: 'integer'},
+        {name: 'network_usage', type: 'integer'},
         {name: 'diskspace', type: 'integer'},
         {name: 'swap_size', type: 'integer'},
         {name: 'diskspace_rootpartition', type: 'integer'},
@@ -39,5 +39,12 @@ Ext.define('opennodeconsole.model.Compute', {
         return '' + days + 'd ' + hours + 'h ' + mins + 'm ' + s + 's';
     },
 
-    hasMany: {model: 'opennodeconsole.model.Compute', name: 'vms'}
+    hasMany: [
+        {model: 'opennodeconsole.model.Compute', name: 'vms'},
+        {
+            model: 'opennodeconsole.model.VirtualBridge',
+            name: 'bridgeInterfaces',
+            associationKey: 'bridge_interfaces'
+        }
+    ]
 });
