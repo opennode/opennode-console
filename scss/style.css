@@ -54,7 +54,7 @@
   margin: 5px;
   width: 24px;
   height: 24px;
-  background-image: url(../img/icon/mainframe.png); }
+  background-image: url("../img/icon/mainframe.png"); }
 
 .compute.state-inactive .state-icon {
   opacity: 0.5; }

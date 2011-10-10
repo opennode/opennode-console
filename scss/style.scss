@@ -2,6 +2,11 @@
 
 @import "gauge";
 
+$ICON-PREFIX: "../img/icon/";
+@function ico($name) {
+    @return $ICON-PREFIX + $name + ".png";
+}
+
 
 #header {
     h1 {
@@ -57,7 +62,7 @@ $state-icon-margin: 5px;
     width: $state-icon-size;
     height: $state-icon-size;
 
-    background-image: url(../img/icon/mainframe.png);
+    background-image: url(ico("mainframe"));
 }
 
 .compute {
@@ -66,22 +71,22 @@ $state-icon-margin: 5px;
 
 
 .icon-hd {
-    background-image: url('../img/icon/hd.png');
+    background-image: url(ico("hd"));
 }
 .x-tab-icon.icon-hd {
-    background-image: url('../img/icon/hd-16x16.png');
+    background-image: url(ico("hd-16x16"));
 }
 .icon-cpu {
-    background-image: url('../img/icon/cpu.png');
+    background-image: url(ico("cpu"));
 }
 .icon-network {
-    background-image: url('../img/icon/network.png');
+    background-image: url(ico("network"));
 }
 .x-tab-icon.icon-network {
-    background-image: url('../img/icon/network-16x16.png');
+    background-image: url(ico("network-16x16"));
 }
 .x-tab-icon.icon-mainframe {
-    background-image: url('../img/icon/mainframe-16x16.png');
+    background-image: url(ico("mainframe-16x16"));
 }
 
 .x-action-col-icon {
