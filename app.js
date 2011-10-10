@@ -60,6 +60,48 @@ if (typeof console === 'undefined') {
 }
 
 
+Ext.apply(Ext.data.SortTypes, {
+    asIpv4: function(ipv4Address) {
+        var ret;
+        ret = ipv4Address.split('.');
+        ret = ret.map(function(part) {
+            // Have to return `String`s because of the way `Array.sort` works in Javascript
+            return Ext.String.leftPad(part, 3, '0');
+        });
+        return ret.join('.');  // Could use '', but with '.' it's more intuititive;
+    },
+
+    asIpv6: function(ipv6Address) {
+        var ipAndSubnet = ipv6Address.split('/');
+
+        var ipAddress = ipAndSubnet[0];
+        var subnet = parseInt(ipAndSubnet[1]);
+
+        function _makeSortable(ipAddress, subnet) {
+            console.assert(subnet % 4 === 0);
+            subnet = subnet / 4;  // 4 bits per 1 hex digit
+
+            // Split all digits:
+            var hexSeq = ipAddress.split(/:+/).join('').split(new RegExp(''));
+
+            var zerosForSubnetMask = [0].repeat(subnet);
+            hexSeq.splice.apply(hexSeq, [-subnet, subnet].concat(zerosForSubnetMask));
+
+            var asZeroPaddedDecimals = hexSeq.map(function(i) {
+                i = parseInt(i, 16);
+                return Ext.String.leftPad(i, 2, '0');
+            });
+
+            return asZeroPaddedDecimals.join('.');  // Could use '', but with '.' it's more intuititive;
+        }
+
+        return (_makeSortable(ipAddress, subnet) +
+                '--' +
+                _makeSortable(ipAddress, 0));
+    }
+});
+
+
 String.prototype.repeat = function(n) {
     var ret = '';
     for (var i = n; i > 0; i -= 1)
