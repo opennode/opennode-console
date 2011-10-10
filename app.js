@@ -58,3 +58,20 @@ if (typeof console === 'undefined') {
     var c = console = {};
     c.debug = c.log = c.error = c.warn = c.assert = Ext.emptyFn;
 }
+
+
+String.prototype.repeat = function(n) {
+    var ret = '';
+    for (var i = n; i > 0; i -= 1)
+        ret += this;
+    return ret;
+};
+
+
+Array.prototype.repeat = function(n) {
+    if (n < 0) throw new Error('Argument must be non-negative');
+    ret = [];
+    for (var i = n; i > 0; i -= 1)
+        ret = ret.concat(this);
+    return ret;
+};
