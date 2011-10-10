@@ -1,3 +1,28 @@
+.gauge {
+  text-align: center;
+  padding: 5px;
+  border: 1px solid lightblue;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px; }
+  .gauge span {
+    font-size: 11px; }
+  .gauge label {
+    font-weight: bold; }
+  .gauge .bar {
+    margin-top: 3px;
+    background-color: lightgray; }
+    .gauge .bar div {
+      background-color: blue;
+      -webkit-transition: width 0.25s ease-out; }
+    .gauge .bar, .gauge .bar div {
+      height: 5px;
+      border-radius: 2.5px; }
+  .gauge.with-icon {
+    padding-left: 35px;
+    background-repeat: no-repeat;
+    background-position: 5px 5px; }
+
 #header h1 {
   font-family: serif;
   font-size: 28px;
@@ -29,39 +54,10 @@
   margin: 5px;
   width: 24px;
   height: 24px;
-  border-radius: 12px;
-  -moz-border-radius: 12px;
-  -webkit-border-radius: 12px;
   background-image: url(../img/icon/mainframe.png); }
 
-.compute {
-  /* &.state-active .state-icon { background-color: green; } */
-  /* &.state-inactive .state-icon { background-color: gray; } */ }
-  .compute.state-inactive .state-icon {
-    opacity: 0.5; }
-
-.gauge {
-  text-align: center;
-  padding: 5px;
-  border: 1px solid lightblue;
-  border-radius: 5px; }
-  .gauge span {
-    font-size: 11px; }
-  .gauge label {
-    font-weight: bold; }
-  .gauge .bar {
-    margin-top: 3px;
-    background-color: lightgray; }
-    .gauge .bar div {
-      background-color: blue;
-      -webkit-transition: width 0.25s ease-out; }
-    .gauge .bar, .gauge .bar div {
-      height: 5px;
-      border-radius: 2.5px; }
-  .gauge.with-icon {
-    padding-left: 35px;
-    background-repeat: no-repeat;
-    background-position: 5px 5px; }
+.compute.state-inactive .state-icon {
+  opacity: 0.5; }
 
 .icon-hd {
   background-image: url("../img/icon/hd.png"); }
@@ -85,3 +81,19 @@
   opacity: 0.7; }
   .x-action-col-icon:hover {
     opacity: 1.0; }
+
+.horizontal-dataview-item, .bridge-interface-members div {
+  display: inline-block;
+  margin-right: 2px;
+  padding: 3px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  cursor: default; }
+
+.bridge-interface-members div {
+  border: 2px solid #d7d7ff;
+  background-color: #f0f0ff; }
+  .bridge-interface-members div:hover {
+    border: 2px solid #bdbdff;
+    background-color: #d7d7ff; }
