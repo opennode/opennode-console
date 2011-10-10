@@ -88,3 +88,31 @@ $state-icon-margin: 5px;
     opacity: 0.7;
     &:hover { opacity: 1.0; }
 }
+
+
+@mixin bg-and-border($color) {
+    border: 2px solid darken($color, 5%);
+    background-color: $color;
+}
+
+
+.horizontal-dataview-item {
+    display: inline-block;
+    margin-right: 2px;
+    padding: 3px;
+    @include -border-radius(10px);
+    cursor: default;
+}
+
+
+// NETWORK TAB
+.bridge-interface-members div {
+    @extend .horizontal-dataview-item;
+
+    $color: #f0f0ff;
+    @include bg-and-border($color);
+
+    &:hover {
+        @include bg-and-border(darken($color, 5%));
+    }
+}
