@@ -1,7 +1,6 @@
 Ext.define('opennodeconsole.widgets.Gauge', {
     extend: 'Ext.Component',
     alias: 'widget.gauge',
-    requires: ['Ext.XTemplate'],
 
     cls: 'gauge',
     iconCls: null,
