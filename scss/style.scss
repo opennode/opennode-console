@@ -1,3 +1,8 @@
+@import "utils";
+
+@import "gauge";
+
+
 #header {
     h1 {
         font-family: serif;
@@ -7,15 +12,15 @@
     }
 }
 
-$SCROLLBAR-WIDTH: 15px;
 
-$compute-list-width: 200px + $SCROLLBAR-WIDTH;
 $state-icon-size: 24px;
 $state-icon-margin: 5px;
-$compute-horizontal-padding: 5px;
-$item-hover-color: #ccf;
 
 #compute-list {
+    $SCROLLBAR-WIDTH: 15px;
+    $compute-list-width: 200px + $SCROLLBAR-WIDTH;
+    $compute-horizontal-padding: 5px;
+
     width: $compute-list-width;
 
     overflow: hidden;
@@ -39,10 +44,12 @@ $item-hover-color: #ccf;
             }
         }
 
+        $item-hover-color: #ccf;
         &.x-item-over { background-color: $item-hover-color; }
         &.x-item-selected { background-color: darken($item-hover-color, 5%) !important; }
     }
 }
+
 
 .state-icon {
     float: left;
@@ -50,50 +57,11 @@ $item-hover-color: #ccf;
     width: $state-icon-size;
     height: $state-icon-size;
 
-    border-radius: $state-icon-size / 2;
-    -moz-border-radius: $state-icon-size / 2;
-    -webkit-border-radius: $state-icon-size / 2;
-
     background-image: url(../img/icon/mainframe.png);
 }
 
 .compute {
-        /* &.state-active .state-icon { background-color: green; } */
-        /* &.state-inactive .state-icon { background-color: gray; } */
     &.state-inactive .state-icon { opacity: 0.5; }
-}
-
-.gauge {
-    text-align: center;
-    padding: 5px;
-    border: 1px solid lightblue;
-    border-radius: 5px;
-
-    span { font-size: 11px; }
-    label { font-weight: bold; }
-
-    .bar {
-        margin-top: 3px;
-        background-color: lightgray;
-
-        div {
-            background-color: blue;
-            -webkit-transition: width 0.25s ease-out;
-        }
-
-        &, div {
-            $height: 5px;
-
-            height: $height;
-            border-radius: $height / 2;
-        }
-    }
-
-    &.with-icon {
-        padding-left: 35px;
-        background-repeat: no-repeat;
-        background-position: 5px 5px;
-    }
 }
 
 
