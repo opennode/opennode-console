@@ -63,14 +63,34 @@ if (typeof console === 'undefined') {
 // These are essentially IP address normalisers.
 Ext.apply(Ext.data.SortTypes, {
     asIpv4: function(value) {
-        return value.split('.').map(function(part) {
-            // Have to return `String`s because of the way `Array.sort` works in Javascript
-            return Ext.String.leftPad(part, 3, '0');
-        }).join('.');
+        return IPAddress.normalizeIpv4(value).addr;
     },
 
     asIpv6: function(value) {
-        var address = value.split('/')[0];
+        return IPAddress.normalizeIpv6(value).addr;
+    }
+});
+
+
+IPAddress = {
+    normalizeIpv4: function(value) {
+        var addrAndPrefixLen = value.split('/');
+        var address = addrAndPrefixLen[0];
+        var prefixLen = addrAndPrefixLen.split('/')[1];
+
+        var normalizedAddr = value.split('.').map(function(part) {
+            // Have to return `String`s because of the way `Array.sort` works in Javascript
+            return Ext.String.leftPad(part, 3, '0');
+        }).join('.');
+
+        return {addr: normalizedAddr,
+                prefixLen: prefixLen};
+    },
+
+    normalizeIpv6: function(value) {
+        var addrAndPrefixLen = value.split('/');
+        var address = addrAndPrefixLen[0];
+        var prefixLen = addrAndPrefixLen.split('/')[1];
         var groups = address.split(':');
 
         if (/[^0-9a-f:]/i.test(address) ||  // Chars other than HEX or :
@@ -91,11 +111,13 @@ Ext.apply(Ext.data.SortTypes, {
             console.assert(groups.length === 8);
         }
 
-        return groups.map(function(part) {
+        var normalizedAddr = groups.map(function(part) {
             return Ext.String.leftPad(part, 4, '0');
         }).join(':');
+        return {addr: normalizedAddr,
+                prefixLen: prefixLen};
     }
-});
+};
 
 
 String.prototype.repeat = function(n) {
