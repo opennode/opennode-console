@@ -60,44 +60,40 @@ if (typeof console === 'undefined') {
 }
 
 
+// These are essentially IP address normalisers.
 Ext.apply(Ext.data.SortTypes, {
-    asIpv4: function(ipv4Address) {
-        var ret;
-        ret = ipv4Address.split('.');
-        ret = ret.map(function(part) {
+    asIpv4: function(value) {
+        return value.split('.').map(function(part) {
             // Have to return `String`s because of the way `Array.sort` works in Javascript
             return Ext.String.leftPad(part, 3, '0');
-        });
-        return ret.join('.');  // Could use '', but with '.' it's more intuititive;
+        }).join('.');
     },
 
-    asIpv6: function(ipv6Address) {
-        var ipAndSubnet = ipv6Address.split('/');
+    asIpv6: function(value) {
+        var address = value.split('/')[0];
+        var groups = address.split(':');
 
-        var ipAddress = ipAndSubnet[0];
-        var subnet = parseInt(ipAndSubnet[1]);
-
-        function _makeSortable(ipAddress, subnet) {
-            console.assert(subnet % 4 === 0);
-            subnet = subnet / 4;  // 4 bits per 1 hex digit
-
-            // Split all digits:
-            var hexSeq = ipAddress.split(/:+/).join('').split(new RegExp(''));
-
-            var zerosForSubnetMask = [0].repeat(subnet);
-            hexSeq.splice.apply(hexSeq, [-subnet, subnet].concat(zerosForSubnetMask));
-
-            var asZeroPaddedDecimals = hexSeq.map(function(i) {
-                i = parseInt(i, 16);
-                return Ext.String.leftPad(i, 2, '0');
-            });
-
-            return asZeroPaddedDecimals.join('.');  // Could use '', but with '.' it's more intuititive;
+        if (/[^0-9a-f:]/i.test(address) ||  // Chars other than HEX or :
+            /[^:]{5,}/.test(address) ||  // More than 4 digits in a group
+            /:{3,}/.test(address) ||  // :::, ::::, etc
+            /:{2}/.test(address) && groups.length === 8 ||  // Extraneous ::
+            groups.length > 8 ||
+            groups.length < 8 && !/:{2}/.test(address))  // Missing ::
+        {
+            throw new Error('Invalid IPv6 address format');
         }
 
-        return (_makeSortable(ipAddress, subnet) +
-                '--' +
-                _makeSortable(ipAddress, 0));
+        if (groups.length < 8) {
+            var extraZeroGroups = ['0000'].repeat(8 - groups.length + 1);
+            var i = groups.indexOf('');
+            console.assert(i !== -1);
+            groups.splice.apply(groups, [i, 1].concat(extraZeroGroups));
+            console.assert(groups.length === 8);
+        }
+
+        return groups.map(function(part) {
+            return Ext.String.leftPad(part, 4, '0');
+        }).join(':');
     }
 });
 
