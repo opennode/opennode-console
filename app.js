@@ -76,21 +76,29 @@ IPAddress = {
     normalizeIpv4: function(value) {
         var addrAndPrefixLen = value.split('/');
         var address = addrAndPrefixLen[0];
-        var prefixLen = addrAndPrefixLen.split('/')[1];
+        var prefixLen = addrAndPrefixLen[1];
 
         var normalizedAddr = value.split('.').map(function(part) {
-            // Have to return `String`s because of the way `Array.sort` works in Javascript
-            return Ext.String.leftPad(part, 3, '0');
+            return part.lpad(3, '0');
         }).join('.');
 
-        return {addr: normalizedAddr,
-                prefixLen: prefixLen};
+        var netmask = [0, 8, 16, 24].map(function(i) {
+            var numBitsInGroup = (prefixLen - i).constrain(0, 8);
+            var groupInBin = '1'.repeat(numBitsInGroup).rpad(8, '0');
+            return parseInt(groupInBin, 2);
+        });
+
+        return {
+            addr: normalizedAddr,
+            prefixLen: prefixLen,
+            netmask: netmask.join('.')
+        };
     },
 
     normalizeIpv6: function(value) {
         var addrAndPrefixLen = value.split('/');
         var address = addrAndPrefixLen[0];
-        var prefixLen = addrAndPrefixLen.split('/')[1];
+        var prefixLen = addrAndPrefixLen[1];
         var groups = address.split(':');
 
         if (/[^0-9a-f:]/i.test(address) ||  // Chars other than HEX or :
@@ -112,7 +120,7 @@ IPAddress = {
         }
 
         var normalizedAddr = groups.map(function(part) {
-            return Ext.String.leftPad(part, 4, '0');
+            return part.lpad(4, '0');
         }).join(':');
         return {addr: normalizedAddr,
                 prefixLen: prefixLen};
