@@ -128,10 +128,30 @@ String.prototype.repeat = function(n) {
 };
 
 
+String.prototype.reverse = function() {
+    return this.split(new RegExp('')).reverse().join('');
+};
+
+
+String.prototype.lpad = function(n, c) {
+    return Ext.String.leftPad(this, n, c);
+};
+
+
+String.prototype.rpad = function(n, c) {
+    return this.reverse().lpad(n, c).reverse();
+};
+
+
 Array.prototype.repeat = function(n) {
     if (n < 0) throw new Error('Argument must be non-negative');
     ret = [];
     for (var i = n; i > 0; i -= 1)
         ret = ret.concat(this);
     return ret;
+};
+
+
+Number.prototype.constrain = function(a, b) {
+    return Ext.Number.constrain(this, a, b);
 };
