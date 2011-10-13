@@ -76,7 +76,8 @@ IPAddress = {
     normalizeIpv4: function(value) {
         var addrAndPrefixLen = value.split('/');
         var address = addrAndPrefixLen[0];
-        var prefixLen = addrAndPrefixLen[1];
+        var prefixLen = parseInt(addrAndPrefixLen[1]);
+        console.assert(Ext.isNumber(prefixLen));
 
         var normalizedAddr = value.split('.').map(function(part) {
             return part.lpad(3, '0');
@@ -98,7 +99,8 @@ IPAddress = {
     normalizeIpv6: function(value) {
         var addrAndPrefixLen = value.split('/');
         var address = addrAndPrefixLen[0];
-        var prefixLen = addrAndPrefixLen[1];
+        var prefixLen = parseInt(addrAndPrefixLen[1]);
+        console.assert(Ext.isNumber(prefixLen));
         var groups = address.split(':');
 
         if (/[^0-9a-f:]/i.test(address) ||  // Chars other than HEX or :
