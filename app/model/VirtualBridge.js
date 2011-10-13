@@ -4,7 +4,6 @@ Ext.define('opennodeconsole.model.VirtualBridge', {
         {name: 'id', type: 'string'},
         {name: 'ipv4_address', type: 'string', sortType: 'asIpv4'},
         {name: 'ipv6_address', type: 'string', sortType: 'asIpv6'},
-        {name: 'subnet_mask', type: 'string'},
         {name: 'bcast', type: 'string'},
         {name: 'hw_address', type: 'string'},
         {name: 'metric', type: 'int'},
@@ -18,5 +17,8 @@ Ext.define('opennodeconsole.model.VirtualBridge', {
             // `type` of the field is set to `'auto'`.
             return value.toString().split(',');
         }},
+        {name: 'subnet_mask', type: 'string', convert: function(_, rec) {
+            return IPAddress.normalizeIpv4(rec.get('ipv4_address')).netmask;
+        }}
     ]
 });
