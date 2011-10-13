@@ -103,7 +103,8 @@ Ext.define('opennodeconsole.tabs.StatusTab', {
                 {header: 'ID', dataIndex: 'id', width: 45},
                 {header: 'State', xtype: 'templatecolumn', tpl: '<div class="state-icon" title="{state}"></div>', width: 40},
                 {header: 'Name', dataIndex: 'hostname'},
-                {header: 'IP Address', dataIndex: 'ip_address'},
+                {header: 'Inet4', dataIndex: 'ip_address'},
+                {header: 'Inet6', dataIndex: 'ipv6_address'},
 
                 _makeGaugeColumn('CPU usage', 'cpuUsage'),
                 _makeGaugeColumn('Memory usage', 'memUsage'),
