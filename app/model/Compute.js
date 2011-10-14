@@ -4,7 +4,7 @@ Ext.define('opennodeconsole.model.Compute', {
         {name: 'id', type: 'integer'},
         {name: 'hostname', type: 'string'},
         {name: 'state', type: 'string'},
-        {name: 'ip_address', type: 'string', sortType: 'asIpv4'},
+        {name: 'ipv4_address', type: 'string', sortType: 'asIpv4'},
         {name: 'ipv6_address', type: 'string', sortType: 'asIpv6'},
         {name: 'type', type: 'string'},
         {name: 'cpu', type: 'string'},

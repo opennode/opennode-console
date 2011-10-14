@@ -11,7 +11,7 @@ Ext.define('opennodeconsole.view.compute.View', {
         this.title = rec.get('hostname');
         this.tabConfig = {
             tooltip: (rec.get('hostname') + '<br/>' +
-                      rec.get('ip_address') + '<br/>' +
+                      rec.get('ipv4_address') + '<br/>' +
                       rec.get('type'))
         };
 

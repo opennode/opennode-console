@@ -9,7 +9,7 @@ Ext.define('opennodeconsole.view.compute.List', {
         '        <div class="state-icon"></div>',
         '        <div class="descr">',
         '            <div class="hostname">{hostname}</div>',
-        '            {ip_address} / {type}',
+        '            {ipv4_address} | {type}',
         '        </div>',
         '    </div>',
         '</tpl>'
