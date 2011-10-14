@@ -154,7 +154,6 @@ String.prototype.rpad = function(n, c) {
 
 
 Array.prototype.repeat = function(n) {
-    if (n < 0) throw new Error('Argument must be non-negative');
     ret = [];
     for (var i = n; i > 0; i -= 1)
         ret = ret.concat(this);
@@ -163,5 +162,5 @@ Array.prototype.repeat = function(n) {
 
 
 Number.prototype.constrain = function(a, b) {
-    return Ext.Number.constrain(this, a, b);
+    return Math.min(b, Math.max(a, this));
 };
