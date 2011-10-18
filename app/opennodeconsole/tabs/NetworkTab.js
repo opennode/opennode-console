@@ -28,7 +28,7 @@ Ext.define('opennodeconsole.tabs.NetworkTab', {
                      // so delayed rendering seems to be the only solution, albeit hacky.
                      setTimeout(function() {
                          Ext.create('Ext.view.View', {
-                             style: 'width: 100%; overflow: auto',
+                             style: 'overflow: auto',
                              renderTo: id,
                              cls: 'bridge-interface-members',
                              tpl: '<tpl for="."><div class="bridge-interface-member">{name}</div></tpl>',

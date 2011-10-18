@@ -83,8 +83,9 @@
     opacity: 1.0; }
 
 .horizontal-dataview-item, .bridge-interface-members div {
-  display: inline-block;
+  float: left;
   margin-right: 2px;
+  margin-bottom: 2px;
   padding: 3px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;

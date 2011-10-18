@@ -102,8 +102,9 @@ $state-icon-margin: 5px;
 
 
 .horizontal-dataview-item {
-    display: inline-block;
+    float: left;
     margin-right: 2px;
+    margin-bottom: 2px;
     padding: 3px;
     @include -border-radius(10px);
     cursor: default;
