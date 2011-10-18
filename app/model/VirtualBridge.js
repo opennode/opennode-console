@@ -18,7 +18,8 @@ Ext.define('opennodeconsole.model.VirtualBridge', {
             return value.toString().split(',');
         }},
         {name: 'subnet_mask', type: 'string', convert: function(_, rec) {
-            return IPAddress.normalizeIpv4(rec.get('ipv4_address')).netmask;
+            var ipAddress = rec.get('ipv4_address');
+            return !ipAddress ? '' : IPAddress.normalizeIpv4(ipAddress).netmask;
         }}
     ]
 });
