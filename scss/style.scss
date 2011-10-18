@@ -112,13 +112,16 @@ $state-icon-margin: 5px;
 
 
 // NETWORK TAB
-.bridge-interface-members div {
-    @extend .horizontal-dataview-item;
+.bridge-interface-members {
+    min-height: 20px;
+    div {
+        @extend .horizontal-dataview-item;
 
-    $color: #f0f0ff;
-    @include bg-and-border($color);
+        $color: #f0f0ff;
+        @include bg-and-border($color);
 
-    &:hover {
-        @include bg-and-border(darken($color, 5%));
+        &:hover {
+            @include bg-and-border(darken($color, 5%));
+        }
     }
 }

@@ -92,9 +92,11 @@
   border-radius: 10px;
   cursor: default; }
 
-.bridge-interface-members div {
-  border: 2px solid #d7d7ff;
-  background-color: #f0f0ff; }
-  .bridge-interface-members div:hover {
-    border: 2px solid #bdbdff;
-    background-color: #d7d7ff; }
+.bridge-interface-members {
+  min-height: 20px; }
+  .bridge-interface-members div {
+    border: 2px solid #d7d7ff;
+    background-color: #f0f0ff; }
+    .bridge-interface-members div:hover {
+      border: 2px solid #bdbdff;
+      background-color: #d7d7ff; }
