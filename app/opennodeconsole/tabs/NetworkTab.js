@@ -48,7 +48,7 @@ Ext.define('opennodeconsole.tabs.NetworkTab', {
                 {header: 'Metric', dataIndex: 'metric', width: 25},
                 {header: 'STP', dataIndex: 'stp', width: 40},
                 {header: 'RX', dataIndex: 'rx', width: 50},
-                {header: 'TX', dataIndex: 'tx', width: 50},
+                {header: 'TX', dataIndex: 'tx', width: 50}
             ]
         }];
 
