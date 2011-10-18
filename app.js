@@ -153,6 +153,11 @@ String.prototype.rpad = function(n, c) {
 };
 
 
+String.prototype.startswith = function(substr) {
+    return this.substr(0, substr.length) === substr;
+};
+
+
 Array.prototype.repeat = function(n) {
     ret = [];
     for (var i = n; i > 0; i -= 1)
