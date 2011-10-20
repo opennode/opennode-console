@@ -2,7 +2,7 @@ Ext.define('opennodeconsole.tabs.NetworkTab', {
     extend: 'opennodeconsole.tabs.Tab',
     alias: 'widget.computenetworktab',
 
-    layout: 'fit',
+    layout: {type: 'vbox', align: 'stretch'},
 
     initComponent: function() {
         var me = this;
@@ -10,6 +10,7 @@ Ext.define('opennodeconsole.tabs.NetworkTab', {
 
         this.items = [{
             xtype: 'gridpanel',
+            flex: 3,
             title: 'Bridge Interfaces',
             forceFit: true,
             store: rec.bridgeInterfaces(),
@@ -51,6 +52,23 @@ Ext.define('opennodeconsole.tabs.NetworkTab', {
                 {header: 'STP', dataIndex: 'stp', width: 40},
                 {header: 'RX', dataIndex: 'rx', width: 50},
                 {header: 'TX', dataIndex: 'tx', width: 50}
+            ]
+        }, {
+            xtype: 'gridpanel',
+            flex: 2,
+            title: 'Kernel IP Routing Table',
+            forceFit: true,
+            store: rec.routes(),
+            tbar: [{icon: 'img/icon/add.png'},
+                   {icon: 'img/icon/delete.png'}],
+
+            columns: [
+                {header: 'Destination', dataIndex: 'destination'},
+                {header: 'Gateway', dataIndex: 'gateway'},
+                {header: 'Genmask', dataIndex: 'genmask'},
+                {header: 'Flags', dataIndex: 'flags', convert: function(value) { return value; }},
+                {header: 'Metric', dataIndex: 'metric'},
+                {header: 'Iface', dataIndex: 'iface'}
             ]
         }];
 

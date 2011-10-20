@@ -41,11 +41,18 @@ Ext.define('opennodeconsole.model.Compute', {
     },
 
     hasMany: [
-        {model: 'opennodeconsole.model.Compute', name: 'vms'},
+        {
+            model: 'opennodeconsole.model.Compute',
+            name: 'vms'
+        },
         {
             model: 'opennodeconsole.model.VirtualBridge',
             name: 'bridgeInterfaces',
             associationKey: 'bridge_interfaces'
+        },
+        {
+            model: 'opennodeconsole.model.IpRoute',
+            name: 'routes'
         }
     ]
 });
