@@ -16,11 +16,12 @@ Ext.define('opennodeconsole.tabs.NetworkTab', {
             store: rec.bridgeInterfaces(),
             tbar: [{icon: 'img/icon/add.png'},
                    {icon: 'img/icon/delete.png'}],
+            plugins: [Ext.create('Ext.grid.plugin.RowEditing', {clicksToEdit: 2})],
 
             columns: [
-                {header: 'Name', dataIndex: 'id', width: 40},
-                {header: 'Inet4', dataIndex: 'ipv4_address', width: 75},
-                {header: 'Inet6', dataIndex: 'ipv6_address', width: 150},
+                {header: 'Name', dataIndex: 'id', width: 40, editor: {xtype: 'textfield', allowBlank: false }},
+                {header: 'Inet4', dataIndex: 'ipv4_address', width: 75, editor: {xtype: 'textfield', allowBlank: false }},
+                {header: 'Inet6', dataIndex: 'ipv6_address', width: 150, editor: {xtype: 'textfield', allowBlank: false }},
                 {header: 'Members', dataIndex: 'members', width: 150,
                  renderer: function (members, _, rec) {
                      var id = Ext.id();
@@ -46,10 +47,10 @@ Ext.define('opennodeconsole.tabs.NetworkTab', {
                  }
                 },
                 {header: 'Subnet Mask', dataIndex: 'subnet_mask', width: 75},
-                {header: 'Broadcast', dataIndex: 'bcast', width: 75},
-                {header: 'Hardware Address', dataIndex: 'hw_address'},
-                {header: 'Metric', dataIndex: 'metric', width: 25},
-                {header: 'STP', dataIndex: 'stp', width: 40},
+                {header: 'Broadcast', dataIndex: 'bcast', width: 75, editor: {xtype: 'textfield', allowBlank: false }},
+                {header: 'Hardware Address', dataIndex: 'hw_address', editor: {xtype: 'textfield', allowBlank: false }},
+                {header: 'Metric', dataIndex: 'metric', width: 25, editor: {xtype: 'textfield', allowBlank: false }},
+                {header: 'STP', dataIndex: 'stp', width: 40, editor: {xtype: 'textfield', allowBlank: false }},
                 {header: 'RX', dataIndex: 'rx', width: 50},
                 {header: 'TX', dataIndex: 'tx', width: 50}
             ]
@@ -61,14 +62,15 @@ Ext.define('opennodeconsole.tabs.NetworkTab', {
             store: rec.routes(),
             tbar: [{icon: 'img/icon/add.png'},
                    {icon: 'img/icon/delete.png'}],
+            plugins: [Ext.create('Ext.grid.plugin.RowEditing', {clicksToEdit: 1})],
 
             columns: [
-                {header: 'Destination', dataIndex: 'destination'},
-                {header: 'Gateway', dataIndex: 'gateway'},
-                {header: 'Genmask', dataIndex: 'genmask'},
-                {header: 'Flags', dataIndex: 'flags', convert: function(value) { return value; }},
-                {header: 'Metric', dataIndex: 'metric'},
-                {header: 'Iface', dataIndex: 'iface'}
+                {header: 'Destination', dataIndex: 'destination', editor: {xtype: 'textfield', allowBlank: false }},
+                {header: 'Gateway', dataIndex: 'gateway', editor: {xtype: 'textfield', allowBlank: false }},
+                {header: 'Genmask', dataIndex: 'genmask', editor: {xtype: 'textfield', allowBlank: false }},
+                {header: 'Flags', dataIndex: 'flags', editor: {xtype: 'textfield', allowBlank: false }},
+                {header: 'Metric', dataIndex: 'metric', editor: {xtype: 'textfield', allowBlank: false }},
+                {header: 'Iface', dataIndex: 'iface', editor: {xtype: 'textfield', allowBlank: false }}
             ]
         }];
 
