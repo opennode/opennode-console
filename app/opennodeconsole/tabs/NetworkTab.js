@@ -59,7 +59,6 @@ Ext.define('opennodeconsole.tabs.NetworkTab', {
             flex: 2,
             title: 'Kernel IP Routing Table',
             forceFit: true,
-            store: rec.routes(),
             tbar: [{icon: 'img/icon/add.png'},
                    {icon: 'img/icon/delete.png'}],
             plugins: Ext.create('Ext.grid.plugin.RowEditing'),
@@ -71,7 +70,16 @@ Ext.define('opennodeconsole.tabs.NetworkTab', {
                 {header: 'Flags', dataIndex: 'flags', editor: {xtype: 'textfield', allowBlank: false }},
                 {header: 'Metric', dataIndex: 'metric', editor: {xtype: 'textfield', allowBlank: false }},
                 {header: 'Iface', dataIndex: 'iface', editor: {xtype: 'textfield', allowBlank: false }}
-            ]
+            ],
+
+            // store: rec.routes(),
+            store: Ext.create('Ext.data.Store', {
+                model: 'opennodeconsole.model.IpRoute',
+                data: [
+                    {destination: '192.168.12.34', gateway: '192.168.43.56', genmask: '255.144.033.022', flags: 'WOW', metric: '1', iface: 'babyface'},
+                    {destination: '192.168.21.43', gateway: '91.261.8345.6', genmask: '55.1440.330.222', flags: 'OWW', metric: '1', iface: 'abyfaceb'}
+                ]
+            })
         }];
 
         this.callParent(arguments);
