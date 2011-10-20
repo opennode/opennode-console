@@ -13,6 +13,8 @@ Ext.define('opennodeconsole.tabs.NetworkTab', {
             title: 'Bridge Interfaces',
             forceFit: true,
             store: rec.bridgeInterfaces(),
+            tbar: [{icon: 'img/icon/add.png'},
+                   {icon: 'img/icon/delete.png'}],
 
             columns: [
                 {header: 'Name', dataIndex: 'id', width: 40},
