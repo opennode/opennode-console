@@ -16,7 +16,7 @@ Ext.define('opennodeconsole.tabs.NetworkTab', {
             store: rec.bridgeInterfaces(),
             tbar: [{icon: 'img/icon/add.png'},
                    {icon: 'img/icon/delete.png'}],
-            plugins: [Ext.create('Ext.grid.plugin.RowEditing', {clicksToEdit: 2})],
+            plugins: Ext.create('Ext.grid.plugin.RowEditing'),
 
             columns: [
                 {header: 'Name', dataIndex: 'id', width: 40, editor: {xtype: 'textfield', allowBlank: false }},
@@ -62,7 +62,7 @@ Ext.define('opennodeconsole.tabs.NetworkTab', {
             store: rec.routes(),
             tbar: [{icon: 'img/icon/add.png'},
                    {icon: 'img/icon/delete.png'}],
-            plugins: [Ext.create('Ext.grid.plugin.RowEditing', {clicksToEdit: 1})],
+            plugins: Ext.create('Ext.grid.plugin.RowEditing'),
 
             columns: [
                 {header: 'Destination', dataIndex: 'destination', editor: {xtype: 'textfield', allowBlank: false }},
