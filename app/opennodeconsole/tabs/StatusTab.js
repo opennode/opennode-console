@@ -72,14 +72,14 @@ Ext.define('opennodeconsole.tabs.StatusTab', {
                 width: 135,
                 dataIndex: 'id',
                 renderer: function(vmId, meta) {
-                    var domId = 'compute-' + rec.get('id') + '-vm-gauge-' + name + '-' + vmId;
+                    var id = Ext.id();
                     setTimeout(function() {
                         var gauge = Ext.create('opennodeconsole.widgets.Gauge', {
-                            renderTo: domId,
+                            renderTo: id,
                             label: label
                         });
                     }, 0);
-                    return '<div id="' + domId + '"></div>';
+                    return Ext.String.format('<div id="{0}"></div>', id);
                 }
             };
         }
