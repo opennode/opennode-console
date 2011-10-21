@@ -87,6 +87,7 @@ Ext.define('opennodeconsole.tabs.StatusTab', {
         this.items = [{
             xtype: 'gridpanel',
             title: "Virtual Machines",
+            forceFit: true,
             multiSelect: true,
 
             store: rec.vms(),
@@ -98,13 +99,14 @@ Ext.define('opennodeconsole.tabs.StatusTab', {
             },
 
             tbar: tbarButtons,
+            plugins: Ext.create('Ext.grid.plugin.RowEditing'),
 
             columns: [
-                {header: 'ID', dataIndex: 'id', width: 45},
+                {header: 'ID', dataIndex: 'id', width: 130},
                 {header: 'State', xtype: 'templatecolumn', tpl: '<div class="state-icon" title="{state}"></div>', width: 40},
-                {header: 'Name', dataIndex: 'hostname'},
-                {header: 'Inet4', dataIndex: 'ip_address'},
-                {header: 'Inet6', dataIndex: 'ipv6_address'},
+                {header: 'Name', dataIndex: 'hostname', width: 75, editor: {xtype: 'textfield', allowBlank: false}},
+                {header: 'Inet4', dataIndex: 'ip_address', editor: {xtype: 'textfield', allowBlank: false}},
+                {header: 'Inet6', dataIndex: 'ipv6_address', editor: {xtype: 'textfield', allowBlank: false}},
 
                 _makeGaugeColumn('CPU usage', 'cpuUsage'),
                 _makeGaugeColumn('Memory usage', 'memUsage'),
