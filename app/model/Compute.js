@@ -1,7 +1,7 @@
 Ext.define('opennodeconsole.model.Compute', {
     extend: 'Ext.data.Model',
     fields: [
-        {name: 'id', type: 'integer'},
+        {name: 'id', type: 'string'},
         {name: 'hostname', type: 'string'},
         {name: 'state', type: 'string'},
         {name: 'ipv4_address', type: 'string', sortType: 'asIpv4'},
