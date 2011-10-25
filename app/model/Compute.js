@@ -53,6 +53,14 @@ Ext.define('opennodeconsole.model.Compute', {
         {
             model: 'opennodeconsole.model.IpRoute',
             name: 'routes'
+        },
+        {
+            model: 'opennodeconsole.model.Storage',
+            name: 'storages'
+        },
+        {
+            model: 'opennodeconsole.model.Template',
+            name: 'templates'
         }
     ]
 });
