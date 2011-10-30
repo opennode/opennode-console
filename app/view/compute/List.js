@@ -31,15 +31,6 @@ Ext.define('opennodeconsole.view.compute.List', {
         }
     },
 
-    initComponent: function() {
-        this.callParent(arguments);
-
-        this.store.on('load', function(store, records) {
-            if (records.length > 0)
-                this.select(0);
-        }, this, {single: true});
-    },
-
     applyFilter: function(keywords) {
         var store = this.getStore();
         store.getProxy().extraParams['q'] = keywords;

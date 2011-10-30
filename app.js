@@ -10,6 +10,7 @@ Ext.syncRequire([
     'opennodeconsole.widgets.Gauge',
     'opennodeconsole.widgets.ComputeInfo',
     'opennodeconsole.widgets.ComputeListFilter',
+    'opennodeconsole.widgets.Shell',
     'opennodeconsole.tabs.Tab',
     'opennodeconsole.tabs.StatusTab',
     'opennodeconsole.tabs.SystemTab',
@@ -47,7 +48,11 @@ Ext.application({
                 preventHeader: true,
                 defaults: {
                     closable: true
-                }
+                },
+                items: [{
+                    xtype: 'shell',
+                    title: "OMS Shell!"
+                }]
             }]
         });
     }
