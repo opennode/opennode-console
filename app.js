@@ -25,7 +25,7 @@ Ext.application({
     controllers: ['Computes'],
 
     launch: function() {
-        Ext.create('Ext.container.Viewport', {
+        Ext.create('widget.viewport', {
             layout: 'border',
             items: [{
                 region: 'north',
