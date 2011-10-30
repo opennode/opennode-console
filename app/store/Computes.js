@@ -7,6 +7,6 @@ Ext.define('opennodeconsole.store.Computes', {
     proxy: {
         type: 'rest',
         reader: 'json',
-        url: BACKEND_PREFIX + 'computes' + (BACKEND_PREFIX === 'dummy-data/' ? '.json' : '/')
+        url: BACKEND_PREFIX + 'computes/'
     }
 });
