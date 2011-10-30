@@ -13,11 +13,11 @@ Ext.define('opennodeconsole.tabs.TemplatesTab', {
                 model: 'opennodeconsole.model.Template',
                 idProperty: 'id',
                 data: [
-                    {'id': 'af109692-1824-ff90-123a-998b', 'name': 'storage1', 'base_os': 'dos', 'min_disk': '10', 'min_memory': '512', 'min_cpu': '1000', 'storage_name': 'supperfloppy1'},
-                    {'id': 'fa011231-1aab-f9f0-12a3-18b9', 'name': 'storage2', 'base_os': 'dos', 'min_disk': '10', 'min_memory': '256', 'min_cpu': '1200', 'storage_name': 'supperfloppy1'},
-                    {'id': 'af106432-09ee-cf90-b123-598b', 'name': 'storage3', 'base_os': 'dos', 'min_disk': '20', 'min_memory': '256', 'min_cpu': '1200', 'storage_name': 'supperfloppy1'},
-                    {'id': 'fa109304-a9bd-cd01-123a-198b', 'name': 'storage4', 'base_os': 'win31', 'min_disk': '30', 'min_memory': '512', 'min_cpu': '800', 'storage_name': 'supperfloppy1'},
-                    {'id': 'a1f00192-6912-aa09-453a-938b', 'name': 'storage5', 'base_os': 'linux', 'min_disk': '5', 'min_memory': '512', 'min_cpu': '800', 'storage_name': 'supperfloppy1'}
+                    {'id': 'af109692-1824-ff90-123a-998b', 'name': 'template1', 'base_os': 'dos', 'min_disk': '10', 'min_memory': '512', 'min_cpu': '1000', 'storage_name': 'supperfloppy1'},
+                    {'id': 'fa011231-1aab-f9f0-12a3-18b9', 'name': 'template2', 'base_os': 'dos', 'min_disk': '10', 'min_memory': '256', 'min_cpu': '1200', 'storage_name': 'supperfloppy1'},
+                    {'id': 'af106432-09ee-cf90-b123-598b', 'name': 'template3', 'base_os': 'dos', 'min_disk': '20', 'min_memory': '256', 'min_cpu': '1200', 'storage_name': 'supperfloppy1'},
+                    {'id': 'fa109304-a9bd-cd01-123a-198b', 'name': 'template4', 'base_os': 'win31', 'min_disk': '30', 'min_memory': '512', 'min_cpu': '800', 'storage_name': 'supperfloppy1'},
+                    {'id': 'a1f00192-6912-aa09-453a-938b', 'name': 'template5', 'base_os': 'linux', 'min_disk': '5', 'min_memory': '512', 'min_cpu': '800', 'storage_name': 'supperfloppy1'}
                 ]
             }),
             forceFit: true,
