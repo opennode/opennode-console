@@ -51,7 +51,8 @@ Ext.application({
                 },
                 items: [{
                     xtype: 'shell',
-                    title: "OMS Shell!"
+                    title: "OMS Shell",
+                    iconCls: 'icon-shell'
                 }]
             }]
         });
