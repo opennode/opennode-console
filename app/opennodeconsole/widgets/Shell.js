@@ -7,15 +7,19 @@ Ext.define('opennodeconsole.widgets.Shell', {
         'afterrender': function() {
             var me = this;
             setTimeout(function() {
-                me.shell = new ShellInABox(BACKEND_PREFIX + 'terminal/management', me.el.dom);
-                me.shell.indicateSize = true;
+                me._shell = new ShellInABox(BACKEND_PREFIX + 'terminal/management', me.el.dom);
+                me._shell.indicateSize = true;
             }, 100);
         },
         'resize': function() {
-            if (this.shell) {
-                this.shell.resizer();
-                this.shell.showCurrentSize();
+            if (this._shell) {
+                this._shell.resizer();
+                this._shell.showCurrentSize();
             }
+        },
+        'activate': function() {
+            if (this._shell)
+                this._shell.focusCursor();
         }
     }
 })
