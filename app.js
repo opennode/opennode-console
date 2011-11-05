@@ -5,7 +5,7 @@ Ext.Loader.setConfig('paths', {
 });
 
 Ext.syncRequire([
-    'Ext.MessageBox',
+    'Ext.window.MessageBox',
     'Ext.XTemplate',
     'opennodeconsole.widgets.Gauge',
     'opennodeconsole.widgets.ComputeInfo',
