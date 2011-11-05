@@ -5,19 +5,10 @@ Ext.define('opennodeconsole.tabs.ShellTab', {
     layout: 'fit',
 
     initComponent: function() {
-        console.debug('ShellTab.initComponent');
         this.items = [{
             xtype: 'shell',
-            url: this.shellConfig.url,
-
-            listeners: {'afterrender': function() { console.debug('shell.on:afterrender'); }}
+            url: (this.shellConfig || {}).url
         }];
         this.callParent(arguments);
-    },
-
-    listeners: {
-        'afterrender': function() {
-            console.debug('ShellTab.on:afterrender')
-        }
     }
 });
