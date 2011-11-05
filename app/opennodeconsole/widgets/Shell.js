@@ -3,11 +3,17 @@ Ext.define('opennodeconsole.widgets.Shell', {
     alias: 'widget.shell',
     cls: 'webshell',
 
+    initComponent: function() {
+        if (typeof this.url === 'undefined')
+            throw new Error("URL not specified");
+        this.callParent();
+    },
+
     listeners: {
         'afterrender': function() {
             var me = this;
             setTimeout(function() {
-                me._shell = new ShellInABox(BACKEND_PREFIX + 'terminal/management', me.el.dom);
+                me._shell = new ShellInABox(BACKEND_PREFIX + me.url, me.el.dom);
                 me._shell.indicateSize = true;
             }, 100);
         },

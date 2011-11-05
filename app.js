@@ -17,6 +17,7 @@ Ext.syncRequire([
     'opennodeconsole.tabs.NetworkTab',
     'opennodeconsole.tabs.StorageTab',
     'opennodeconsole.tabs.TemplatesTab',
+    'opennodeconsole.tabs.ShellTab',
 ]);
 
 Ext.application({
@@ -49,11 +50,12 @@ Ext.application({
                 defaults: {
                     closable: true
                 },
-                items: [{
-                    xtype: 'shell',
+                items: {
                     title: "OMS Shell",
-                    iconCls: 'icon-shell'
-                }]
+                    iconCls: 'icon-shell',
+                    xtype: 'shell',
+                    url: 'terminal/management'
+                }
             }]
         });
     }
