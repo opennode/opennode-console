@@ -53,6 +53,7 @@ Ext.application({
                 items: {
                     title: "OMS Shell",
                     iconCls: 'icon-shell',
+                    closable: false,
                     xtype: 'shell',
                     url: 'terminal/management'
                 }
