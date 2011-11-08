@@ -27,7 +27,8 @@
   font-family: serif;
   font-size: 28px;
   color: #1a1a1a;
-  font-weight: normal; }
+  font-weight: normal;
+  padding;10px;}
 
 #compute-list {
   width: 215px;

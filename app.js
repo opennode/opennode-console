@@ -32,7 +32,7 @@ Ext.application({
             items: [{
                 region: 'north',
                 id: 'header',
-                html: '<h1>OpenNode Console</h1>infrastructure management',
+                html: '<img src="img/onc_logo.png" alt="OpenNode Console" />',
                 bodyPadding: 5,
                 frame: true
             }, {
