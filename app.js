@@ -32,8 +32,7 @@ Ext.application({
             items: [{
                 region: 'north',
                 id: 'header',
-                html: '<img src="img/onc_logo.png" alt="OpenNode Console" />',
-                bodyPadding: 5,
+                html: '<img src="img/onc_logo.png" alt="OpenNode Console" width="436px" height="59px" />',
                 frame: true
             }, {
                 region: 'west',

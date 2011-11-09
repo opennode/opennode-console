@@ -23,13 +23,6 @@
     background-repeat: no-repeat;
     background-position: 5px 5px; }
 
-#header h1 {
-  font-family: serif;
-  font-size: 28px;
-  color: #1a1a1a;
-  font-weight: normal;
-  padding: 10px; }
-
 #compute-list {
   width: 215px;
   overflow: hidden; }
