@@ -24,7 +24,7 @@ Ext.define('opennodeconsole.view.compute.View', {
             activeTab: 0,
             defaults: {record: rec},
             items: [{
-                title: 'Status',
+                title: 'VMs',
                 xtype: 'computestatustab'
             }, {
                 title: 'System',
