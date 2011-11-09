@@ -81,6 +81,15 @@ $state-icon-margin: 5px;
 .icon-shell {
     background-image: url(ico("shell-16x16"));
 }
+.x-tab-icon.icon-shell {
+    background-image: url(ico("shell-16x16"));
+}
+.x-tab-icon.icon-template {
+    background-image: url(ico("template-16x16"));
+}
+.x-tab-icon.icon-status {
+    background-image: url(ico("status"));
+}
 
 .x-action-col-icon {
     opacity: 0.7;

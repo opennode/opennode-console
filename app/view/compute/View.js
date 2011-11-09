@@ -25,7 +25,8 @@ Ext.define('opennodeconsole.view.compute.View', {
             defaults: {record: rec},
             items: [{
                 title: 'VMs',
-                xtype: 'computestatustab'
+                xtype: 'computestatustab',
+                iconCls: 'icon-status'
             }, {
                 title: 'System',
                 xtype: 'computesystemtab',
@@ -40,10 +41,12 @@ Ext.define('opennodeconsole.view.compute.View', {
                 iconCls: 'icon-hd'
             }, {
                 title: 'Templates',
-                xtype: 'computetemplatestab'
+                xtype: 'computetemplatestab',
+                iconCls: 'icon-template'
             }, {
                 title: 'Shell',
                 xtype: 'computeshelltab',
+                iconCls: 'icon-shell',
                 shellConfig: {
                     url: '/computes/' + rec.get('id') + '/consoles/default/webterm'
                     // url: 'terminal/test_arbitrary?user=root&host=' + rec.get('hostname')
