@@ -50,6 +50,13 @@ Ext.define('opennodeconsole.view.compute.View', {
                 shellConfig: {
                     url: Ext.String.format('/computes/{0}/consoles/default/webterm', rec.get('id'))
                 }
+            }, {
+                title: 'Vnc',
+                xtype: 'computevnctab',
+                iconCls: 'icon-shell',
+                vncConfig: {
+                    url: Ext.String.format('/computes/{0}/consoles/vnc', rec.get('id'))
+                }
             }]
         }];
 

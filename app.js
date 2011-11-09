@@ -11,6 +11,7 @@ Ext.syncRequire([
     'opennodeconsole.widgets.ComputeInfo',
     'opennodeconsole.widgets.ComputeListFilter',
     'opennodeconsole.widgets.Shell',
+    'opennodeconsole.widgets.Vnc',
     'opennodeconsole.tabs.Tab',
     'opennodeconsole.tabs.StatusTab',
     'opennodeconsole.tabs.SystemTab',
@@ -18,6 +19,7 @@ Ext.syncRequire([
     'opennodeconsole.tabs.StorageTab',
     'opennodeconsole.tabs.TemplatesTab',
     'opennodeconsole.tabs.ShellTab',
+    'opennodeconsole.tabs.VncTab',
     'opennodeconsole.components.NewVmWindow'
 ]);
 
