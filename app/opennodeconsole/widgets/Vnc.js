@@ -2,11 +2,15 @@ Ext.define('opennodeconsole.widgets.Vnc', {
     extend: 'Ext.Container',
     alias: 'widget.vnc',
     cls: 'webvnc',
-    html: '<canvas width="1024" height="768"/>',
+    html: '<div><canvas width="1024" height="768"></canvas><input class="input-focus" style="position: absolute; top: -10000; left: -10000; width: 0px; height: 0px;"></input></div>',
 
     listeners: {
         'afterrender': function() {
             var me = this;
+
+            $(this.el.dom).find("canvas").click(function() {
+                $(me.el.dom).find(".input-focus").focus();
+            });
 
             function updateState(rfb, state, oldstate, msg) {
                 if (state == 'disconnected')
@@ -32,7 +36,9 @@ Ext.define('opennodeconsole.widgets.Vnc', {
                                  });
             }
 
-            this.rfb = RFB({target: $(this.el.dom).children('canvas')[0], onUpdateState: updateState});
+            this.rfb = RFB({target: $(this.el.dom).find('canvas')[0],
+                            focusContainer: $(this.el.dom).find('.input-focus')[0],
+                            onUpdateState: updateState});
 
             this.autoReconnecting = true;
             reconnect();
