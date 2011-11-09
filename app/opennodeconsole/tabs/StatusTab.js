@@ -54,6 +54,16 @@ Ext.define('opennodeconsole.tabs.StatusTab', {
 
         tbarButtons.pop();  // Don't want the 'Show Details' button for multiple VMs
 
+        tbarButtons.unshift({xtype: 'tbseparator'});
+        tbarButtons.unshift({
+            text: 'New', icon: 'img/icon/add.png', tooltip: 'Add New Virtual Machine',
+            listeners: {
+                'click': function() {
+                    Ext.create('widget.newvmwindow').show();
+                }
+            }
+        });
+
         var rowActions = actions.map(function(action) {
             return {
                 tooltip: action.text,

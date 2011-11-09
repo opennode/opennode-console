@@ -2,7 +2,7 @@ Ext.define('opennodeconsole.controller.Computes', {
     extend: 'Ext.app.Controller',
 
     models: ['Compute', 'VirtualBridge', 'IpRoute', 'Storage', 'Template'],
-    stores: ['Computes'],
+    stores: ['Computes', 'Templates'],
     views: ['compute.List', 'compute.View'],
 
     refs: [{ref: 'list', selector: 'computelist'},

@@ -18,6 +18,7 @@ Ext.syncRequire([
     'opennodeconsole.tabs.StorageTab',
     'opennodeconsole.tabs.TemplatesTab',
     'opennodeconsole.tabs.ShellTab',
+    'opennodeconsole.components.NewVmWindow'
 ]);
 
 Ext.application({
