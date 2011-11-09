@@ -134,12 +134,14 @@ Ext.define('opennodeconsole.components.NewVmWindow', {
             }, {
                 xtype: 'fieldset',
                 title: "Security",
+                defaults: {
+                    xtype: 'textfield',
+                    inputType: 'password'
+                },
                 items: [{
-                    fieldLabel: "Root Password",
-                    xtype: 'textfield'
+                    fieldLabel: "Root Password"
                 }, {
-                    fieldLabel: "Root Password (repeat)",
-                    xtype: 'textfield'
+                    fieldLabel: "Root Password (repeat)"
                 }]
             }, {
                 xtype: 'checkbox',
