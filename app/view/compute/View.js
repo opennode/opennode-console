@@ -48,8 +48,7 @@ Ext.define('opennodeconsole.view.compute.View', {
                 xtype: 'computeshelltab',
                 iconCls: 'icon-shell',
                 shellConfig: {
-                    url: '/computes/' + rec.get('id') + '/consoles/default/webterm'
-                    // url: 'terminal/test_arbitrary?user=root&host=' + rec.get('hostname')
+                    url: Ext.String.format('/computes/{0}/consoles/default/webterm', rec.get('id'))
                 }
             }]
         }];
