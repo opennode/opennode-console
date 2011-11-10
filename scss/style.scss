@@ -63,23 +63,21 @@ $state-icon-margin: 5px;
 .icon-hd {
     background-image: url(ico("hd"));
 }
-.x-tab-icon.icon-hd {
-    background-image: url(ico("hd-16x16"));
-}
 .icon-cpu {
     background-image: url(ico("cpu"));
 }
 .icon-network {
     background-image: url(ico("network"));
 }
+
+.x-tab-icon.icon-hd {
+    background-image: url(ico("hd-16x16"));
+}
 .x-tab-icon.icon-network {
     background-image: url(ico("network-16x16"));
 }
 .x-tab-icon.icon-mainframe {
     background-image: url(ico("mainframe-16x16"));
-}
-.icon-shell {
-    background-image: url(ico("shell-16x16"));
 }
 .x-tab-icon.icon-shell {
     background-image: url(ico("shell-16x16"));
@@ -88,7 +86,7 @@ $state-icon-margin: 5px;
     background-image: url(ico("template-16x16"));
 }
 .x-tab-icon.icon-status {
-    background-image: url(ico("status"));
+    background-image: url(ico("status-16x16"));
 }
 
 .x-action-col-icon {
