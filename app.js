@@ -37,6 +37,7 @@ Ext.application({
                 frame: true
             }, {
                 region: 'west',
+                collapsible: true,
                 layout: {type: 'vbox', align: 'stretchmax'},
                 items: [
                     {xtype: 'computelistfilter'},
