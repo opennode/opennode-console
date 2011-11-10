@@ -2,49 +2,63 @@ Ext.define('opennodeconsole.widgets.Vnc', {
     extend: 'Ext.Container',
     alias: 'widget.vnc',
     cls: 'webvnc',
-    html: '<div><canvas width="1024" height="768"></canvas><input class="input-focus" style="position: absolute; top: -10000; left: -10000; width: 0px; height: 0px;"></input></div>',
+    html: (
+        '<div>' +
+          '<canvas width="1024" height="768"></canvas>' +
+          '<input class="input-focus" style="position: absolute; top: -10000; left: -10000; width: 0px; height: 0px;"></input>' +
+        '</div>'
+    ),
+
+    _rfb: null,
+    _request: null,
 
     listeners: {
         'afterrender': function() {
             var me = this;
 
-            $(this.el.dom).find("canvas").click(function() {
-                $(me.el.dom).find(".input-focus").focus();
+            var canvasEl = this.el.down('canvas');
+            var inputFocusEl = this.el.down('.input-focus');
+
+            canvasEl.on('click', function() {
+                inputFocusEl.focus();
             });
 
-            function updateState(rfb, state, oldstate, msg) {
-                if (state == 'disconnected')
-                    reconnect();
-            }
+            this._rfb = RFB({
+                target: canvasEl.dom,
+                focusContainer: inputFocusEl.dom,
+                onUpdateState: function(rfb, state, oldState, msg) {
+                    console.assert(!me.isDestroyed);
+                    if (state === 'disconnected')
+                        me._connect();
+                }
+            });
 
-            function reconnect() {
-                Ext.Ajax.request({url: BACKEND_PREFIX + me.url,
-                                  success: function(result) {
-                                      var jsonData = JSON.parse(result.responseText);
-                                      ws_uri = $.url.parse(jsonData.ws_url);
-                                      me.rfb.connect(ws_uri.host, ws_uri.port, '', '');
-                                  },
-                                  failure: function() {
-                                      if (me.autoReconnecting){
-                                          console.log("cannot get vnc console, reconnecting in 4 sec");
-                                          setTimeout(reconnect, 4000);
-                                      } else {
-                                          console.log("cannot get vnc console, autoreconnect disabled for this tab");
-                                      }
-
-                                  }
-                                 });
-            }
-
-            this.rfb = RFB({target: $(this.el.dom).find('canvas')[0],
-                            focusContainer: $(this.el.dom).find('.input-focus')[0],
-                            onUpdateState: updateState});
-
-            this.autoReconnecting = true;
-            reconnect();
+            this._connect();
         },
+
         'beforedestroy': function() {
-            this.autoReconnecting = false;
+            if (this._rfb) this._rfb.disconnect();
+            if (this._request) this._request.abort();
         }
+    },
+
+    _connect: function() {
+        var me = this;
+        me._request = Ext.Ajax.request({
+            url: BACKEND_PREFIX + me.url,
+            success: function(result) {
+                var jsonData = Ext.JSON.decode(result.responseText);
+                var wsUri = $.url.parse(jsonData['ws_url']);
+                me._rfb.connect(wsUri.host, wsUri.port, '', '');
+            },
+            failure: function() {
+                if (me._autoReconnecting){
+                    console.log("cannot get vnc console, reconnecting in 4 sec");
+                    setTimeout(function() { me._connect(); }, 4000);
+                } else {
+                    console.log("cannot get vnc console, autoreconnect disabled for this tab");
+                }
+            }
+        });
     }
 })
