@@ -23,13 +23,6 @@
     background-repeat: no-repeat;
     background-position: 5px 5px; }
 
-#header h1 {
-  font-family: serif;
-  font-size: 28px;
-  color: #1a1a1a;
-  font-weight: normal;
-  padding;10px;}
-
 #compute-list {
   width: 215px;
   overflow: hidden; }
@@ -63,32 +56,24 @@
 .icon-hd {
   background-image: url("../img/icon/hd.png"); }
 
-.x-tab-icon.icon-hd {
-  background-image: url("../img/icon/hd-16x16.png"); }
-
 .icon-cpu {
   background-image: url("../img/icon/cpu.png"); }
 
 .icon-network {
   background-image: url("../img/icon/network.png"); }
 
+.x-tab-icon.icon-hd {
+  background-image: url("../img/icon/hd-16x16.png"); }
 .x-tab-icon.icon-network {
   background-image: url("../img/icon/network-16x16.png"); }
-
-.x-tab-icon.icon-template {
-  background-image: url("../img/icon/template-16x16.png"); }
-  
-.x-tab-icon.icon-shell {
-  background-image: url("../img/icon/shell-16x16.png"); }
-
 .x-tab-icon.icon-mainframe {
   background-image: url("../img/icon/mainframe-16x16.png"); }
-
-.x-tab-icon.icon-status {
-  background-image: url("../img/icon/status.png"); }
-
-.icon-shell {
+.x-tab-icon.icon-shell {
   background-image: url("../img/icon/shell-16x16.png"); }
+.x-tab-icon.icon-template {
+  background-image: url("../img/icon/template-16x16.png"); }
+.x-tab-icon.icon-status {
+  background-image: url("../img/icon/status-16x16.png"); }
 
 .x-action-col-icon {
   opacity: 0.7; }
