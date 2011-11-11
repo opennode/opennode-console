@@ -30,7 +30,7 @@ Ext.application({
 
     appFolder: 'app',
     controllers: ['Computes'],
-	
+
     launch: function() {
         Ext.create('widget.viewport', {
             layout: 'border',
