@@ -4,7 +4,7 @@ Ext.Loader.setConfig('paths', {
     'opennodeconsole': './app/opennodeconsole'
 });
 
-Ext.Loader.setConfig({disableCaching: false})
+Ext.Loader.setConfig({enabled: true, disableCaching: false})
 
 Ext.syncRequire([
     'Ext.window.MessageBox',
