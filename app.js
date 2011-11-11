@@ -4,6 +4,8 @@ Ext.Loader.setConfig('paths', {
     'opennodeconsole': './app/opennodeconsole'
 });
 
+Ext.Loader.setConfig({disableCaching: false})
+
 Ext.syncRequire([
     'Ext.window.MessageBox',
     'Ext.XTemplate',
@@ -28,7 +30,7 @@ Ext.application({
 
     appFolder: 'app',
     controllers: ['Computes'],
-
+	
     launch: function() {
         Ext.create('widget.viewport', {
             layout: 'border',
