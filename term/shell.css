@@ -155,7 +155,9 @@
 .webshell .ansi1               { color:            #cd0000; }
 .webshell .ansi2               { color:            #00cd00; }
 .webshell .ansi3               { color:            #cdcd00; }
-.webshell .ansi4               { color:            #0000ee; }
+.webshell .ansi4               { color:            #729fcf; }
+.webshell .ansi4               { color:            #3465a4; }
+
 .webshell .ansi5               { color:            #cd00cd; }
 .webshell .ansi6               { color:            #00cdcd; }
 .webshell .ansi7               { color:            #e5e5e5; }
@@ -172,7 +174,7 @@
 .webshell .bgAnsi1             { background-color: #cd0000; }
 .webshell .bgAnsi2             { background-color: #00cd00; }
 .webshell .bgAnsi3             { background-color: #cdcd00; }
-.webshell .bgAnsi4             { background-color: #0000ee; }
+.webshell .bgAnsi4             { background-color: #3465a4; }
 .webshell .bgAnsi5             { background-color: #cd00cd; }
 .webshell .bgAnsi6             { background-color: #00cdcd; }
 .webshell .bgAnsi7             { background-color: #e5e5e5; }
@@ -212,5 +214,7 @@
     background-color: #ffffff; }
 .webshell .ansi15              { color:            #000000; }
 .webshell .bgAnsi0             { background-color: #ffffff; }
+
+.webshell .ansi0.bgAnsi7             { color: #000000; }
 
 /* end black on white */
