@@ -26,10 +26,6 @@ Ext.define('opennodeconsole.polymorphic.Reader', {
                                          : node['__type__']);
                 if (typeDiscriminator) {
                     modelCls = Ext.ClassManager.get(typeDiscriminator);
-                    if (!modelCls && me.modelPrefix) {
-                        typeDiscriminator = me.modelPrefix + '.' + typeDiscriminator;
-                        modelCls = Ext.ClassManager.get(typeDiscriminator);
-                    }
                 }
             }
             if (!modelCls) {
