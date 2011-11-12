@@ -100,7 +100,7 @@ Ext.define('opennodeconsole.tabs.StatusTab', {
             forceFit: true,
             multiSelect: true,
 
-            store: rec.vms(),
+            store: rec.getChild('vms').children(),
 
             viewConfig: {
                 getRowClass: function(record) {

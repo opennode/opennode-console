@@ -15,6 +15,45 @@ Ext.define('opennodeconsole.view.compute.View', {
                       rec.get('type'))
         };
 
+        var tabs = [{
+            title: 'VMs',
+            xtype: 'computestatustab',
+            iconCls: 'icon-status'
+        }, {
+            title: 'System',
+            xtype: 'computesystemtab',
+            iconCls: 'icon-mainframe'
+        }, {
+            title: 'Network',
+            xtype: 'computenetworktab',
+            iconCls: 'icon-network'
+        }, {
+            title: 'Storage',
+            xtype: 'computestoragetab',
+            iconCls: 'icon-hd'
+        }, {
+            title: 'Templates',
+            xtype: 'computetemplatestab',
+            iconCls: 'icon-template'
+        }, {
+            title: 'Shell',
+            xtype: 'computeshelltab',
+            iconCls: 'icon-shell',
+            shellConfig: {
+                url: Ext.String.format('/computes/{0}/consoles/default/webterm', rec.get('id'))
+            }
+        }, {
+            title: 'Vnc',
+            xtype: 'computevnctab',
+            iconCls: 'icon-shell',
+            vncConfig: {
+                url: Ext.String.format('/computes/{0}/consoles/vnc', rec.get('id'))
+            }
+        }];
+
+        if (!rec.getChild('vms'))
+            tabs.shift();
+
         this.items = [{
             xtype: 'computeinfo',
             record: rec
@@ -23,41 +62,7 @@ Ext.define('opennodeconsole.view.compute.View', {
             xtype: 'tabpanel',
             activeTab: 0,
             defaults: {record: rec},
-            items: [{
-                title: 'VMs',
-                xtype: 'computestatustab',
-                iconCls: 'icon-status'
-            }, {
-                title: 'System',
-                xtype: 'computesystemtab',
-                iconCls: 'icon-mainframe'
-            }, {
-                title: 'Network',
-                xtype: 'computenetworktab',
-                iconCls: 'icon-network'
-            }, {
-                title: 'Storage',
-                xtype: 'computestoragetab',
-                iconCls: 'icon-hd'
-            }, {
-                title: 'Templates',
-                xtype: 'computetemplatestab',
-                iconCls: 'icon-template'
-            }, {
-                title: 'Shell',
-                xtype: 'computeshelltab',
-                iconCls: 'icon-shell',
-                shellConfig: {
-                    url: Ext.String.format('/computes/{0}/consoles/default/webterm', rec.get('id'))
-                }
-            }, {
-                title: 'Vnc',
-                xtype: 'computevnctab',
-                iconCls: 'icon-shell',
-                vncConfig: {
-                    url: Ext.String.format('/computes/{0}/consoles/vnc', rec.get('id'))
-                }
-            }]
+            items: tabs
         }];
 
         this.callParent(arguments);
