@@ -183,3 +183,27 @@ Array.prototype.repeat = function(n) {
 Number.prototype.constrain = function(a, b) {
     return Math.min(b, Math.max(a, this));
 };
+
+/**
+ * Amends existing methods to print out their name, arguments and return value.
+ *
+ * Useful for peeking into existing framework methods. Ignores
+ * non-existing names, so changing 'methodName' to e.g. '#methodName'
+ * will effectively comment out that item.
+ */
+function inspectMethods(methodNames) {
+    methodNames.forEach(function iterator(name) {
+        if (name in opennodeconsole.components.ContainerReader.prototype) {
+            var stuff = {};
+            stuff[name] = function() {
+                var ret = this.callParent(arguments);
+                if (ret !== undefined)
+                    console.debug(name, "(", (arguments.length ? arguments : ''), ") => ", ret)
+                else
+                    console.debug(name, "(", (arguments.length ? arguments : ''), ")")
+                return ret;
+            };
+            Ext.override(opennodeconsole.components.ContainerReader, stuff);
+        }
+    });
+}
