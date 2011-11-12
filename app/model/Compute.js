@@ -40,11 +40,21 @@ Ext.define('opennodeconsole.model.Compute', {
         return '' + days + 'd ' + hours + 'h ' + mins + 'm ' + s + 's';
     },
 
-    hasMany: [
+    associations: [
         {
-            model: 'opennodeconsole.model.Compute',
-            name: 'vms'
-        },
+            type: 'polymorphic',
+            model: 'opennodeconsole.model.Base',
+            name: 'children',
+            modelPrefix: 'opennodeconsole.model',
+            getTypeDiscriminator: function(node) {
+                return {
+                    'vms': 'VirtualizationContainer',
+                    'hangar': 'Hangar'
+                }[node['id']];
+            }
+        }
+    ],
+    hasMany: [
         {
             model: 'opennodeconsole.model.VirtualBridge',
             name: 'bridgeInterfaces',

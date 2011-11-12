@@ -22,7 +22,9 @@ Ext.syncRequire([
     'opennodeconsole.tabs.TemplatesTab',
     'opennodeconsole.tabs.ShellTab',
     'opennodeconsole.tabs.VncTab',
-    'opennodeconsole.components.NewVmWindow'
+    'opennodeconsole.components.NewVmWindow',
+    'opennodeconsole.polymorphic.Reader',
+    'opennodeconsole.polymorphic.HasManyAssociation'
 ]);
 
 Ext.application({

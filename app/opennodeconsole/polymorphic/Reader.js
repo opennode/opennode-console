@@ -18,7 +18,6 @@ Ext.define('opennodeconsole.polymorphic.Reader', {
 
         for (; i < length; i++) {
             node   = root[i];
-            values = me.extractValues(node);
             id     = me.getId(node);
 
             if ('__type__' in node || me.getTypeDiscriminator) {
@@ -38,6 +37,21 @@ Ext.define('opennodeconsole.polymorphic.Reader', {
                     throw new Error("Polymorphic contents must be of type " + me.model.$className);
                 }
             }
+
+            // XXX: hack, but unavoidable if we want polymorphic associations:
+            // (Sencha people just can't write flexible code it seems...)
+
+            // extractValues uses this.model so we need to temporarily
+            // override that. Ext.data.reader.Reader class expect the
+            // model class to be defined only once at the beginning,
+            // so we have to override `this.model`, and rebuild the
+            // field extractors in order to ensure extractValues()
+            // extracts the right data fields:
+            var tmp = me.model;
+            me.model = modelCls;
+            me.buildExtractors(true);
+            values = me.extractValues(node);
+            me.model = tmp;
 
             record = modelCls.create(values, id, node);
             records.push(record);
