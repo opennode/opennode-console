@@ -1,4 +1,4 @@
-Ext.define('opennodeconsole.polymorphic.HasManyAssociation', {
+Ext.define('opennodeconsole.polymorphic.Association', {
     extend: 'Ext.data.HasManyAssociation',
     alias : 'association.polymorphic',
 

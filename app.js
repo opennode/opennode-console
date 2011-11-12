@@ -24,7 +24,7 @@ Ext.syncRequire([
     'opennodeconsole.tabs.VncTab',
     'opennodeconsole.components.NewVmWindow',
     'opennodeconsole.polymorphic.Reader',
-    'opennodeconsole.polymorphic.HasManyAssociation'
+    'opennodeconsole.polymorphic.Association'
 ]);
 
 Ext.application({
