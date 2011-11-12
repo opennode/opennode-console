@@ -37,8 +37,14 @@ Ext.define('opennodeconsole.widgets.Vnc', {
         },
 
         'beforedestroy': function() {
-            if (this._rfb) this._rfb.disconnect();
-            if (this._request) this._request.abort();
+            if (this._rfb) {
+                this._rfb.disconnect();
+                delete this._rfb;
+            }
+            if (this._request) {
+                this._request.abort();
+                delete this._request;
+            }
         }
     },
 
