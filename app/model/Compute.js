@@ -40,6 +40,10 @@ Ext.define('opennodeconsole.model.Compute', {
         return '' + days + 'd ' + hours + 'h ' + mins + 'm ' + s + 's';
     },
 
+    getChild: function(name) {
+        return this.children().findRecord('id', name);
+    },
+
     associations: [
         {
             type: 'polymorphic',
