@@ -28,12 +28,11 @@ Ext.define('opennodeconsole.polymorphic.Reader', {
                     modelCls = Ext.ClassManager.get(typeDiscriminator);
                 }
             }
-            if (!modelCls) {
-                modelCls = me.model;
-            } else {
-                if (!(modelCls.prototype instanceof me.model)) {
-                    throw new Error("Polymorphic contents must be of type " + me.model.$className);
-                }
+
+            if (!modelCls || !(modelCls.prototype instanceof me.model
+                               || modelCls == me.model))
+            {
+                continue;
             }
 
             // XXX: hack, but unavoidable if we want polymorphic associations:
@@ -57,6 +56,8 @@ Ext.define('opennodeconsole.polymorphic.Reader', {
             if (me.implicitIncludes) {
                 me.readAssociated(record, node);
             }
+
+            modelCls = null;
         }
 
         return records;
