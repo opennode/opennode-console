@@ -49,12 +49,13 @@ Ext.define('opennodeconsole.model.Compute', {
             type: 'polymorphic',
             model: 'opennodeconsole.model.Base',
             name: 'children',
-            modelPrefix: 'opennodeconsole.model',
             getTypeDiscriminator: function(node) {
-                return {
+                var type = {
                     'vms': 'VirtualizationContainer',
                     'hangar': 'Hangar'
                 }[node['id']];
+                if (type)
+                    return 'opennodeconsole.model.' + type;
             }
         }
     ],
