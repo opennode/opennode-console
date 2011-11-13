@@ -25,6 +25,9 @@ Ext.define('opennodeconsole.polymorphic.Reader', {
                                          ? me.getTypeDiscriminator(node)
                                          : node['__type__']);
                 if (typeDiscriminator) {
+                    if (!Ext.isString(typeDiscriminator)) {
+                        Ext.Error.raise("Type discriminator must be a string.")
+                    }
                     modelCls = Ext.ClassManager.get(typeDiscriminator);
                 }
             }
