@@ -167,7 +167,9 @@ Ext.define('opennodeconsole.components.NewVmWindow', {
         },
 
         items: [{
-            text: 'Cancel'
+            text: 'Cancel', handler: function() {
+                this.up('window').destroy();
+            }
         }, {
             text: 'Create'
         }]
