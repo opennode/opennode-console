@@ -75,6 +75,8 @@
     top:              0px;
     overflow:         hidden;
     z-index:          1;
+    padding-bottom: 21px;
+    padding-right: 1px;
 }
 
 .webshell #cursor.bright {
