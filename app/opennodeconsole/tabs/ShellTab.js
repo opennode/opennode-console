@@ -3,6 +3,8 @@ Ext.define('opennodeconsole.tabs.ShellTab', {
     alias: 'widget.computeshelltab',
 
     layout: 'fit',
+    padding: 10,
+    bodyPadding: 0,
 
     initComponent: function() {
         this.items = [{
