@@ -1441,10 +1441,10 @@ VT100.prototype.putString = function(x, y, text, color, style) {
   }
   this.cursorY                      = yIdx - this.numScrollbackLines;
   if (pixelY >= 0) {
-    this.cursor.style.top           = pixelY - $(this.container).position().top + 2 + 'px';
+    this.cursor.style.top           = pixelY - $(this.container).position().top + 'px';
   } else {
     this.cursor.style.top           = yIdx*this.cursorHeight +
-                                      console.offsetTop - $(this.container).position().top + 2 + 'px';
+                                      console.offsetTop - $(this.container).position().top + 'px';
   }
 
   if (text.length) {
