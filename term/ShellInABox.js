@@ -578,6 +578,14 @@ VT100.prototype.initializeElements = function(container) {
     x                         += parent.offsetLeft;
     y                         += parent.offsetTop;
   }
+
+
+  Ext.getBody().on("contextmenu", function(e) {
+    if($(e.target).parents(".webshell").length > 0)
+      e.preventDefault();
+  }, null);
+
+
   this.isEmbedded              = marginTop != y ||
                                  marginLeft != x ||
                                  (window.innerWidth ||
