@@ -2391,6 +2391,7 @@ VT100.prototype.keyDown = function(event) {
 
   if((event.ctrlKey || event.altKey || event.metaKey || event.altGraphKey) && event.keyCode == 86) {
     return true;
+  }
 
   var asciiKey                  =
     event.keyCode ==  32                         ||
