@@ -55,12 +55,7 @@ Ext.define('opennodeconsole.model.Compute', {
             model: 'opennodeconsole.model.Base',
             name: 'children',
             getTypeDiscriminator: function(node) {
-                var type = {
-                    'vms': 'VirtualizationContainer',
-                    'hangar': 'Hangar'
-                }[node['id']];
-                if (type)
-                    return 'opennodeconsole.model.' + type;
+                return'opennodeconsole.model.' + node['__type__'];
             }
         }
     ],
@@ -77,10 +72,6 @@ Ext.define('opennodeconsole.model.Compute', {
         {
             model: 'opennodeconsole.model.Storage',
             name: 'storages'
-        },
-        {
-            model: 'opennodeconsole.model.Template',
-            name: 'templates'
         }
     ]
 });
