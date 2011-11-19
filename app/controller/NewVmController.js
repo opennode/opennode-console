@@ -3,5 +3,5 @@ Ext.define('opennodeconsole.controller.NewVmController', {
 
     models: ['Compute'],
     stores: ['Computes'],
-    views: ['compute.New']
+    views: ['compute.NewVmView']
 });
