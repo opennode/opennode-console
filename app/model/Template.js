@@ -4,10 +4,14 @@ Ext.define('opennodeconsole.model.Template', {
     fields: [
         {name: 'id', type: 'string'},
         {name: 'name', type: 'string'},
-        {name: 'base_os', type: 'string'},
-        {name: 'min_disk', type: 'string'},
-        {name: 'min_memory', type: 'string'},
-        {name: 'min_cpu', type: 'string'},
-        {name: 'storage_name', type: 'string'}
+        {name: 'base_type', type: 'string'},
+        {name: 'min_cores', type: 'integer'},
+        {name: 'max_cores', type: 'integer'},
+        {name: 'min_memory', type: 'integer'},
+        {name: 'max_memory', type: 'integer'},
+
+        {name: 'name_and_base_type', convert: function(_, record) {
+            return Ext.String.format("{0} ({1})", record.get('name'), record.get('base_type'));
+        }}
     ]
 });
