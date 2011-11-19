@@ -10,6 +10,9 @@ Ext.define('opennodeconsole.store.Computes', {
             type: 'json',
             root: 'children'
         },
-        url: BACKEND_PREFIX + 'computes/?depth=1'
+        api: {
+            read: BACKEND_PREFIX + 'computes/?depth=1',
+            create: BACKEND_PREFIX + 'computes',
+        }
     }
 });
