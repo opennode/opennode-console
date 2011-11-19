@@ -23,7 +23,6 @@ Ext.syncRequire([
     'opennodeconsole.tabs.TemplatesTab',
     'opennodeconsole.tabs.ShellTab',
     'opennodeconsole.tabs.VncTab',
-    'opennodeconsole.components.NewVmWindow',
     'opennodeconsole.polymorphic.Reader',
     'opennodeconsole.polymorphic.Association'
 ]);
@@ -32,7 +31,7 @@ Ext.application({
     name: 'opennodeconsole',
 
     appFolder: 'app',
-    controllers: ['Computes'],
+    controllers: ['Computes', 'ComputeController', 'NewVmController'],
     autoCreateViewport: true
 });
 

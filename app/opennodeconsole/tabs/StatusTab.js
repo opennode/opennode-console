@@ -56,12 +56,7 @@ Ext.define('opennodeconsole.tabs.StatusTab', {
 
         tbarButtons.unshift({xtype: 'tbseparator'});
         tbarButtons.unshift({
-            text: 'New', icon: 'img/icon/add.png', tooltip: 'Add New Virtual Machine',
-            listeners: {
-                'click': function() {
-                    Ext.create('widget.newvmwindow').show();
-                }
-            }
+            itemId: 'new-vm-button', text: 'New', icon: 'img/icon/add.png', tooltip: 'Add New Virtual Machine'
         });
 
         var rowActions = actions.map(function(action) {
