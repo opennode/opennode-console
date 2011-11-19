@@ -1,6 +1,7 @@
 Ext.BLANK_IMAGE_URL = 'ext-4.0/resources/themes/images/default/tree/s.gif';
 
 Ext.Loader.setConfig('paths', {
+    'Ext': 'ext-4.0/src',
     'opennodeconsole': './app/opennodeconsole'
 });
 
