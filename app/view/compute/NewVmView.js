@@ -1,6 +1,6 @@
-Ext.define('opennodeconsole.components.NewVmWindow', {
+Ext.define('opennodeconsole.view.compute.NewVmView', {
     extend: 'Ext.window.Window',
-    alias: 'widget.newvmwindow',
+    alias: 'widget.newcompute',
 
     title: 'New Virtual Machine',
     modal: true,
@@ -33,8 +33,9 @@ Ext.define('opennodeconsole.components.NewVmWindow', {
                     name: 'template',
                     xtype: 'combobox',
                     forceSelection: true,
-                    store: 'Templates',
-                    displayField: 'name'
+                    store: this.parent.getList('templates'),
+                    displayField: 'name_and_base_type',
+                    queryMode: 'local'
                 }]
             }, {
                 xtype: 'fieldset',
@@ -46,6 +47,7 @@ Ext.define('opennodeconsole.components.NewVmWindow', {
                 },
                 items: [{
                     fieldLabel: "Memory/MB",
+                    name: 'memory',
                     xtype: 'textfield',
                     value: '256',
                     width: 160
@@ -63,6 +65,7 @@ Ext.define('opennodeconsole.components.NewVmWindow', {
                     }
                 }, {
                     fieldLabel: "Nr. of CPUs",
+                    name: 'num_cpus',
                     xtype: 'textfield',
                     value: '1',
                     width: 160
@@ -78,6 +81,7 @@ Ext.define('opennodeconsole.components.NewVmWindow', {
                     }
                 }, {
                     fieldLabel: "CPU Limit",
+                    name: 'cpu',
                     xtype: 'textfield',
                     value: '1',
                     width: 160
@@ -91,6 +95,7 @@ Ext.define('opennodeconsole.components.NewVmWindow', {
                     }
                 }, {
                     fieldLabel: "Disk Size/GB",
+                    name: 'diskspace',
                     xtype: 'textfield',
                     value: '10',
                     width: 160
@@ -120,15 +125,19 @@ Ext.define('opennodeconsole.components.NewVmWindow', {
                     ]
                 }, {
                     fieldLabel: "Hostname",
+                    name: 'hostname',
                     xtype: 'textfield'
                 }, {
                     fieldLabel: "IP Address",
+                    name: 'ipv4_address',
                     xtype: 'textfield'
                 }, {
                     fieldLabel: "DNS 1",
+                    name: 'dns1',
                     xtype: 'textfield'
                 }, {
                     fieldLabel: "DNS 2",
+                    name: 'dns2',
                     xtype: 'textfield'
                 }]
             }, {
@@ -139,17 +148,25 @@ Ext.define('opennodeconsole.components.NewVmWindow', {
                     inputType: 'password'
                 },
                 items: [{
-                    fieldLabel: "Root Password"
+                    fieldLabel: "Root Password",
+                    name: 'root_passwrod'
                 }, {
-                    fieldLabel: "Root Password (repeat)"
+                    fieldLabel: "Root Password (repeat)",
+                    name: 'root_passwrod_repeat'
                 }]
             }, {
                 xtype: 'checkbox',
+                name: 'start_on_boot',
                 fieldLabel: "Start on boot"
             }]
         };
 
         this.callParent(arguments);
+
+
+        this.record = Ext.create('opennodeconsole.model.Compute', {});
+
+        this.child('form').loadRecord(this.record);
     },
 
     dockedItems: {
@@ -167,7 +184,7 @@ Ext.define('opennodeconsole.components.NewVmWindow', {
         },
 
         items: [{
-            text: 'Cancel', handler: function() {
+            text: 'Cancel' , handler: function() {
                 this.up('window').destroy();
             }
         }, {
