@@ -1,6 +1,8 @@
 Ext.define('opennodeconsole.controller.ComputeController', {
     extend: 'Ext.app.Controller',
 
+    views: ['compute.NewVmView'],
+
     refs: [
         {ref: 'computeInfo', selector: 'computeview'}
     ],
