@@ -44,6 +44,11 @@ Ext.define('opennodeconsole.model.Compute', {
         return this.children().findRecord('id', name);
     },
 
+    getList: function(name) {
+        var child = this.getChild(name);
+        return child ? child.children() : null;
+    },
+
     associations: [
         {
             type: 'polymorphic',
