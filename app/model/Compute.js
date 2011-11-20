@@ -2,22 +2,32 @@ Ext.define('opennodeconsole.model.Compute', {
     extend: 'Ext.data.Model',
     fields: [
         {name: 'id', type: 'string'},
-        {name: 'hostname', type: 'string'},
-        {name: 'state', type: 'string'},
-        {name: 'ipv4_address', type: 'string', sortType: 'asIpv4'},
-        {name: 'ipv6_address', type: 'string', sortType: 'asIpv6'},
-        {name: 'type', type: 'string'},
-        {name: 'cpu', type: 'string'},
-        {name: 'memory', type: 'integer'},
+
+        {name: 'architecture', type: 'string'},
+        {name: 'cpu_info', type: 'string'},
         {name: 'os_release', type: 'string'},
         {name: 'kernel', type: 'string'},
-        {name: 'network_usage', type: 'integer'},
-        {name: 'diskspace', type: 'integer'},
-        {name: 'swap_size', type: 'integer'},
-        {name: 'diskspace_rootpartition', type: 'integer'},
-        {name: 'diskspace_storagepartition', type: 'integer'},
-        {name: 'diskspace_vzpartition', type: 'integer'},
-        {name: 'diskspace_backuppartition', type: 'integer'},
+        {name: 'disk_info', type: 'string'},
+        {name: 'memory_info', type: 'string'},
+
+        {name: 'hostname', type: 'string'},
+        {name: 'ipv4_address', type: 'string', sortType: 'asIpv4'},
+        {name: 'ipv6_address', type: 'string', sortType: 'asIpv6'},
+
+        {name: 'state', type: 'string'},
+        {name: 'effective_state', type: 'string'},
+
+        {name: 'num_cores', type: 'integer'},
+        {name: 'memory', type: 'float'},
+        {name: 'diskspace'},
+        {name: 'network', type: 'float'},
+        {name: 'swap_size', type: 'float'},
+
+        {name: 'cpu_usage', type: 'float'},
+        {name: 'memory_usage', type: 'float'},
+        {name: 'diskspace_usage'},
+        {name: 'network_usage', type: 'float'},
+
         {name: 'startup_timestamp', type: 'string'}
     ],
 
