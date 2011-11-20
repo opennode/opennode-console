@@ -11,25 +11,25 @@ $ICON-PREFIX: "../img/icon/";
 $state-icon-size: 24px;
 $state-icon-margin: 5px;
 
-#compute-list {
+#search-results {
     $SCROLLBAR-WIDTH: 15px;
-    $compute-list-width: 200px + $SCROLLBAR-WIDTH;
-    $compute-horizontal-padding: 5px;
+    $search-results-width: 200px + $SCROLLBAR-WIDTH;
+    $search-results-horizontal-padding: 5px;
 
-    width: $compute-list-width;
+    width: $search-results-width;
 
     overflow: hidden;
 
-    .compute {
-        padding: 10px $compute-horizontal-padding;
+    .search-result {
+        padding: 10px $search-results-horizontal-padding;
         cursor: pointer;
 
         .hostname { font-weight: bold; }
 
         .descr {
-            width: $compute-list-width - (2 * $compute-horizontal-padding +
-                                          $state-icon-size +
-                                          2 * $state-icon-margin) - $SCROLLBAR-WIDTH;
+            width: $search-results-width - (2 * $search-results-horizontal-padding +
+                                            $state-icon-size +
+                                            2 * $state-icon-margin) - $SCROLLBAR-WIDTH;
             line-height: 1.5em;
 
             &, .hostname {
@@ -46,16 +46,16 @@ $state-icon-margin: 5px;
 }
 
 
-.state-icon {
-    float: left;
-    margin: $state-icon-margin;
-    width: $state-icon-size;
-    height: $state-icon-size;
-
-    background-image: url(ico("mainframe"));
-}
-
 .compute {
+    .state-icon {
+        float: left;
+        margin: $state-icon-margin;
+        width: $state-icon-size;
+        height: $state-icon-size;
+
+        background-image: url(ico("mainframe"));
+    }
+
     &.state-inactive .state-icon { opacity: 0.5; }
 }
 

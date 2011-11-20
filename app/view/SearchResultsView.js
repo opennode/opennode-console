@@ -5,7 +5,10 @@ Ext.define('opennodeconsole.view.SearchResultsView', {
     store: 'ComputesStore',
     tpl: [
         '<tpl for=".">',
-        '    <div class="compute state-{state}">',
+        // TODO: the content-type specific (`compute` and `state-_`)
+        // CSS classes, and the contents of `.descr` should come
+        // polymorphically depending on the type of the search result.
+        '    <div class="search-result compute state-{state}">',
         '        <div class="state-icon"></div>',
         '        <div class="descr">',
         '            <div class="hostname">{hostname}</div>',
@@ -14,12 +17,12 @@ Ext.define('opennodeconsole.view.SearchResultsView', {
         '    </div>',
         '</tpl>'
     ],
-    emptyText: 'No computes to display',
+    emptyText: 'No search results to display',
 
-    id: 'compute-list',
+    id: 'search-results',
     itemId: 'search-results',
     overItemCls: 'x-item-over',
-    itemSelector: '.compute',
+    itemSelector: '.search-result',
     bodyPadding: 5,
     autoScroll: true,
 

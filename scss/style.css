@@ -23,33 +23,32 @@
     background-repeat: no-repeat;
     background-position: 5px 5px; }
 
-#compute-list {
+#search-results {
   width: 215px;
   overflow: hidden; }
-  #compute-list .compute {
+  #search-results .search-result {
     padding: 10px 5px;
     cursor: pointer; }
-    #compute-list .compute .hostname {
+    #search-results .search-result .hostname {
       font-weight: bold; }
-    #compute-list .compute .descr {
+    #search-results .search-result .descr {
       width: 156px;
       line-height: 1.5em; }
-      #compute-list .compute .descr, #compute-list .compute .descr .hostname {
+      #search-results .search-result .descr, #search-results .search-result .descr .hostname {
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis; }
-    #compute-list .compute.x-item-over {
+    #search-results .search-result.x-item-over {
       background-color: #ccccff; }
-    #compute-list .compute.x-item-selected {
+    #search-results .search-result.x-item-selected {
       background-color: #b3b3ff !important; }
 
-.state-icon {
+.compute .state-icon {
   float: left;
   margin: 5px;
   width: 24px;
   height: 24px;
   background-image: url("../img/icon/mainframe.png"); }
-
 .compute.state-inactive .state-icon {
   opacity: 0.5; }
 
