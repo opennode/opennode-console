@@ -17,10 +17,10 @@ Ext.define('opennodeconsole.view.compute.ComputeInfoView', {
             width: 160
         };
         this.items = [
-            {label: 'CPU', value: 0, iconCls: 'icon-cpu'},
+            {label: 'CPU', value: 0, iconCls: 'icon-cpu', max: rec.getMaxCpuLoad()},
             {label: 'MEM', value: 0, max: rec.get('memory'), unit: 'MB'},
             {label: 'NET', value: 0, iconCls: 'icon-network', max: rec.get('network'), unit: 'Mbs'},
-            {label: 'DISK', value: 0, iconCls: 'icon-hd', max: rec.get('diskspace'), unit: 'GB'}
+            {label: 'DISK', value: 0, iconCls: 'icon-hd', max: rec.get('diskspace')['total'], unit: 'GB'}
         ];
 
         // TODO: Replace this with actual data from the server.
@@ -43,10 +43,10 @@ Ext.define('opennodeconsole.view.compute.ComputeInfoView', {
         this.callParent(arguments);
         // TODO: Replace this with actual data from the server.
         // Initialise the gauges to random values for demonstration purposes:
-        this.child('gauge[label=CPU]').setValue(Math.random());
+        this.child('gauge[label=CPU]').setValue(Math.random() * rec.getMaxCpuLoad());
         this.child('gauge[label=MEM]').setValue(Math.random() * rec.get('memory'));
         this.child('gauge[label=NET]').setValue(Math.random() * rec.get('network'));
-        this.child('gauge[label=DISK]').setValue(Math.random() * rec.get('diskspace'));
+        this.child('gauge[label=DISK]').setValue(Math.random() * rec.get('diskspace')['total']);
     },
 
     onDestroy: function() {

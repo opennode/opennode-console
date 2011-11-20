@@ -31,6 +31,10 @@ Ext.define('opennodeconsole.model.Compute', {
         {name: 'startup_timestamp', type: 'string'}
     ],
 
+    getMaxCpuLoad: function() {
+        return this.get('num_cores') * 1.0;
+    },
+
     getUptime: function() {
         if (this.get('state') === 'inactive')
             return 'NaN';
