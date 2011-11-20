@@ -3,6 +3,9 @@ Ext.define('opennodeconsole.model.Template', {
 
     fields: [
         {name: 'id', type: 'string'},
+        {name: 'url', type: 'string'},
+        {name: 'tags'},
+
         {name: 'name', type: 'string'},
         {name: 'base_type', type: 'string'},
         {name: 'min_cores', type: 'integer'},

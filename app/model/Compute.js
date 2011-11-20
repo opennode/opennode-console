@@ -2,6 +2,8 @@ Ext.define('opennodeconsole.model.Compute', {
     extend: 'Ext.data.Model',
     fields: [
         {name: 'id', type: 'string'},
+        {name: 'url', type: 'string'},
+        {name: 'tags'},
 
         {name: 'architecture', type: 'string'},
         {name: 'cpu_info', type: 'string'},
