@@ -1,4 +1,4 @@
-Ext.define('opennodeconsole.store.Templates', {
+Ext.define('opennodeconsole.store.TemplatesStore', {
     extend: 'Ext.data.Store',
     model: 'opennodeconsole.model.Template',
 

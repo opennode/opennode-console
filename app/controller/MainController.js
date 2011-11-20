@@ -1,16 +1,16 @@
-Ext.define('opennodeconsole.controller.Computes', {
+Ext.define('opennodeconsole.controller.MainController', {
     extend: 'Ext.app.Controller',
 
     models: ['Base', 'Compute', 'VirtualBridge', 'IpRoute', 'Storage', 'Template', 'VirtualizationContainer', 'Hangar', 'Templates'],
-    stores: ['Computes', 'Templates'],
-    views: ['compute.List', 'compute.View'],
+    stores: ['ComputesStore', 'TemplatesStore'],
+    views: ['SearchResultsView', 'compute.ComputeView'],
 
-    refs: [{ref: 'list', selector: 'computelist'},
+    refs: [{ref: 'searchResults', selector: '#search-results'},
            {ref: 'tabs', selector: '#mainTabs'}],
 
     init: function() {
         this.control({
-            'computelist': {
+            '#search-results': {
                 selectionchange: function(view, selections, options) {
                     if (selections.length === 0)
                         return;
@@ -30,18 +30,18 @@ Ext.define('opennodeconsole.controller.Computes', {
                     tabPanel.setActiveTab(tab);
                 }
             },
-            'computelistfilter': {
+            '#search-filter': {
                 'changed': function(keywords) {
-                    this.getList().applyFilter(keywords);
+                    this.getSearchResults().applyFilter(keywords);
                 }
             },
             '#mainTabs': {
                 tabchange: function(tabPanel, newTab) {
                     var computeId = newTab.computeId;
-                    var computeList = this.getList();
-                    var store = computeList.getStore();
-                    var selModel = computeList.getSelectionModel();
-                    if (computeList.getStore().getById(computeId))
+                    var searchResults = this.getSearchResults();
+                    var store = searchResults.getStore();
+                    var selModel = searchResults.getSelectionModel();
+                    if (searchResults.getStore().getById(computeId))
                         selModel.select(store.getById(computeId));
                     else
                         selModel.deselect(selModel.getSelection());

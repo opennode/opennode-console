@@ -1,4 +1,4 @@
-Ext.define('opennodeconsole.store.Computes', {
+Ext.define('opennodeconsole.store.ComputesStore', {
     extend: 'Ext.data.Store',
     model: 'opennodeconsole.model.Compute',
 

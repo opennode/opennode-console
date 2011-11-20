@@ -1,4 +1,4 @@
-Ext.define('opennodeconsole.widgets.ComputeInfo', {
+Ext.define('opennodeconsole.view.compute.ComputeInfoView', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.computeinfo',
 

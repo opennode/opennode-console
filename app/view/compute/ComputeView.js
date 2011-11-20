@@ -1,6 +1,9 @@
-Ext.define('opennodeconsole.view.compute.View', {
+Ext.define('opennodeconsole.view.compute.ComputeView', {
     extend: 'Ext.Container',
     alias: 'widget.computeview',
+    requires: [
+        'opennodeconsole.view.compute.ComputeInfoView'
+    ],
 
     iconCls: 'icon-mainframe',
     layout: {type: 'vbox', align: 'stretch'},

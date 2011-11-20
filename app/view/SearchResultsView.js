@@ -1,8 +1,8 @@
-Ext.define('opennodeconsole.view.compute.List', {
+Ext.define('opennodeconsole.view.SearchResultsView', {
     extend: 'Ext.view.View',
-    alias: 'widget.computelist',
+    alias: 'widget.searchresults',
 
-    store: 'Computes',
+    store: 'ComputesStore',
     tpl: [
         '<tpl for=".">',
         '    <div class="compute state-{state}">',
@@ -17,6 +17,7 @@ Ext.define('opennodeconsole.view.compute.List', {
     emptyText: 'No computes to display',
 
     id: 'compute-list',
+    itemId: 'search-results',
     overItemCls: 'x-item-over',
     itemSelector: '.compute',
     bodyPadding: 5,

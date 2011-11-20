@@ -1,9 +1,10 @@
-Ext.define('opennodeconsole.widgets.ComputeListFilter', {
+Ext.define('opennodeconsole.view.SearchFilterView', {
     extend: 'Ext.panel.Panel',
-    alias: 'widget.computelistfilter',
+    alias: 'widget.searchfilter',
 
     events: ['changed'],
 
+    itemId: 'search-filter',
     layout: 'fit',
     items: {
         xtype: 'textfield',

@@ -1,6 +1,10 @@
 Ext.define('opennodeconsole.view.Viewport', {
     extend: 'Ext.container.Viewport',
     layout: 'border',
+    requires: [
+        'opennodeconsole.view.SearchFilterView',
+        'opennodeconsole.view.SearchResultsView'
+    ],
 
     items: [{
         region: 'north',
@@ -12,8 +16,8 @@ Ext.define('opennodeconsole.view.Viewport', {
         collapsible: true,
         layout: {type: 'vbox', align: 'stretchmax'},
         items: [
-            {xtype: 'computelistfilter'},
-            {xtype: 'computelist', flex: 1}
+            {xtype: 'searchfilter'},
+            {xtype: 'searchresults', flex: 1}
         ]
     }, {
         region: 'center',

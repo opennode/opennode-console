@@ -11,8 +11,6 @@ Ext.syncRequire([
     'Ext.window.MessageBox',
     'Ext.XTemplate',
     'opennodeconsole.widgets.Gauge',
-    'opennodeconsole.widgets.ComputeInfo',
-    'opennodeconsole.widgets.ComputeListFilter',
     'opennodeconsole.widgets.Shell',
     'opennodeconsole.widgets.Vnc',
     'opennodeconsole.tabs.Tab',
@@ -31,7 +29,7 @@ Ext.application({
     name: 'opennodeconsole',
 
     appFolder: 'app',
-    controllers: ['Computes', 'ComputeController', 'NewVmController'],
+    controllers: ['MainController', 'ComputeController', 'NewVmController'],
     autoCreateViewport: true
 });
 
