@@ -82,7 +82,7 @@ Ext.define('opennodeconsole.view.compute.NewVmView', {
                     }
                 }, {
                     fieldLabel: "CPU Limit",
-                    name: 'cpu',
+                    name: 'cpu_limit',
                     xtype: 'textfield',
                     value: '1',
                     width: 160
@@ -150,10 +150,10 @@ Ext.define('opennodeconsole.view.compute.NewVmView', {
                 },
                 items: [{
                     fieldLabel: "Root Password",
-                    name: 'root_passwrod'
+                    name: 'root_password'
                 }, {
                     fieldLabel: "Root Password (repeat)",
-                    name: 'root_passwrod_repeat'
+                    name: 'root_password_repeat'
                 }]
             }, {
                 xtype: 'checkbox',
