@@ -12,7 +12,7 @@ Ext.define('opennodeconsole.view.SearchResultsView', {
         '        <div class="state-icon"></div>',
         '        <div class="descr">',
         '            <div class="hostname">{hostname}</div>',
-        '            {ipv4_address} | {type}',
+        '            {ipv4_address}',
         '        </div>',
         '    </div>',
         '</tpl>'
