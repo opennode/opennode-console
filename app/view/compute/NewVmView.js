@@ -19,16 +19,17 @@ Ext.define('opennodeconsole.view.compute.NewVmView', {
             xtype: 'form',
             items: [{
                 xtype: 'fieldset',
-                items: [{
-                    fieldLabel: "Virtualization type",
-                    xtype: 'radiogroup',
-                    columns: 2,
-                    vertical: true,
-                    items: [
-                        {boxLabel: "OpenVZ", name: 'vtype', inputValue: 'openvz', checked: true},
-                        {boxLabel: "KVM", name: 'vtype', inputValue: 'kvm'},
-                    ]
-                }, {
+                items: [// {
+                //     fieldLabel: "Virtualization type",
+                //     xtype: 'radiogroup',
+                //     columns: 2,
+                //     vertical: true,
+                //     items: [
+                //         {boxLabel: "OpenVZ", name: 'vtype', inputValue: 'openvz', checked: true},
+                //         {boxLabel: "KVM", name: 'vtype', inputValue: 'kvm'},
+                //     ]
+                // },
+                        {
                     fieldLabel: 'Template',
                     name: 'template',
                     xtype: 'combobox',
