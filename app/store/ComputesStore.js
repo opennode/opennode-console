@@ -11,7 +11,7 @@ Ext.define('opennodeconsole.store.ComputesStore', {
             root: 'children'
         },
         api: {
-            read: BACKEND_PREFIX + 'computes/?depth=1',
+            read: BACKEND_PREFIX + 'computes/?depth=2',
             create: BACKEND_PREFIX + 'computes',
         }
     }
