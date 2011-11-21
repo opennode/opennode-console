@@ -1,6 +1,6 @@
 Ext.define('opennodeconsole.view.compute.NewVmView', {
     extend: 'Ext.window.Window',
-    alias: 'widget.newcompute',
+    alias: 'widget.newvm',
 
     title: 'New Virtual Machine',
     modal: true,
@@ -13,6 +13,12 @@ Ext.define('opennodeconsole.view.compute.NewVmView', {
         bodyStyle: 'background: inherit',
         bodyPadding: 4
     },
+
+    /**
+     * The parent compte whose virtualization container to create the
+     * virtual machine in.
+     */
+    parentCompute: null,
 
     initComponent: function() {
         this.items = {
@@ -34,7 +40,7 @@ Ext.define('opennodeconsole.view.compute.NewVmView', {
                     name: 'template',
                     xtype: 'combobox',
                     forceSelection: true,
-                    store: this.parent.getList('templates'),
+                    store: this.parentCompute.getList('templates'),
                     displayField: 'name_and_base_type',
                     queryMode: 'local'
                 }]
@@ -47,24 +53,6 @@ Ext.define('opennodeconsole.view.compute.NewVmView', {
                     columns: 2
                 },
                 items: [{
-                    fieldLabel: "Memory/MB",
-                    name: 'memory',
-                    xtype: 'textfield',
-                    value: '256',
-                    width: 160
-                }, {
-                    xtype: 'slider',
-                    width: 100,
-                    minValue: 128,
-                    maxValue: 10240,
-                    increment: 32,
-                    value: 256,
-                    listeners: {
-                        'change': function(ev, newValue) {
-                            this.previousSibling().setValue(newValue);
-                        }
-                    }
-                }, {
                     fieldLabel: "Nr. of CPUs",
                     name: 'num_cpus',
                     xtype: 'textfield',
@@ -89,6 +77,24 @@ Ext.define('opennodeconsole.view.compute.NewVmView', {
                 }, {
                     xtype: 'slider',
                     width: 100,
+                    listeners: {
+                        'change': function(ev, newValue) {
+                            this.previousSibling().setValue(newValue);
+                        }
+                    }
+                }, {
+                    fieldLabel: "Memory/MB",
+                    name: 'memory',
+                    xtype: 'textfield',
+                    value: '256',
+                    width: 160
+                }, {
+                    xtype: 'slider',
+                    width: 100,
+                    minValue: 128,
+                    maxValue: 10240,
+                    increment: 32,
+                    value: 256,
                     listeners: {
                         'change': function(ev, newValue) {
                             this.previousSibling().setValue(newValue);
@@ -159,37 +165,22 @@ Ext.define('opennodeconsole.view.compute.NewVmView', {
                 xtype: 'checkbox',
                 name: 'start_on_boot',
                 fieldLabel: "Start on boot"
+            }],
+
+            buttons: [{
+                text: 'Cancel' , handler: function() {
+                    this.up('window').destroy();
+                }
+            }, {
+                text: 'Create', itemId: 'create-new-vm-button'
             }]
         };
 
         this.callParent(arguments);
 
 
-        this.record = Ext.create('opennodeconsole.model.Compute', {});
+        // this.record = Ext.create('opennodeconsole.model.Compute', {});
 
-        this.child('form').loadRecord(this.record);
-    },
-
-    dockedItems: {
-        dock: 'bottom',
-        frame: true,
-
-        layout: {
-            type: 'hbox',
-            pack: 'end'
-        },
-
-        defaults: {
-            xtype: 'button',
-            margin: 2
-        },
-
-        items: [{
-            text: 'Cancel' , handler: function() {
-                this.up('window').destroy();
-            }
-        }, {
-            text: 'Create'
-        }]
+        // this.child('form').loadRecord(this.record);
     }
 });

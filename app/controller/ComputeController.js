@@ -12,7 +12,7 @@ Ext.define('opennodeconsole.controller.ComputeController', {
             'computeview computestatustab #new-vm-button': {
                 click: function() {
                     this.getView('compute.NewVmView').create({
-                        parent: this.getComputeInfo().record
+                        parentCompute: this.getComputeInfo().record
                     }).show();
                 }
             }
