@@ -1,6 +1,6 @@
 Ext.define('opennodeconsole.model.VirtualizationContainer', {
     extend: 'opennodeconsole.model.Base',
-    fields: ['id', 'backend'],
+    fields: ['id', 'url', 'backend'],
 
     belongsTo: 'opennodeconsole.model.Compute',
 
