@@ -1,8 +1,9 @@
 Ext.define('opennodeconsole.controller.MainController', {
     extend: 'Ext.app.Controller',
 
-    models: ['Base', 'Compute', 'VirtualBridge', 'IpRoute', 'Storage', 'Template', 'VirtualizationContainer', 'Hangar', 'Templates'],
-    stores: ['ComputesStore', 'TemplatesStore'],
+    models: ['Base', 'Compute', 'VirtualBridge', 'IpRoute', 'Storage', 'Template', 'VirtualizationContainer', 'Hangar',
+             'Templates', 'SearchResult'],
+    stores: ['ComputesStore', 'TemplatesStore', 'SearchResultsStore'],
     views: ['SearchResultsView', 'compute.ComputeView'],
 
     refs: [{ref: 'searchResults', selector: '#search-results'},
