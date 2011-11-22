@@ -2389,7 +2389,7 @@ VT100.prototype.keyDown = function(event) {
   this.lastKeyDownEvent         = undefined;
   this.lastNormalKeyDownEvent   = event;
 
-  if((event.ctrlKey || event.altKey || event.metaKey || event.altGraphKey) && event.keyCode == 86) {
+  if((event.ctrlKey || event.altKey || event.metaKey || event.altGraphKey) && (event.keyCode == 86 /* V */ || event.keyCode == 82 /* R */ || event.keyCode == 76 /* L */ )) {
     return true;
   }
 
