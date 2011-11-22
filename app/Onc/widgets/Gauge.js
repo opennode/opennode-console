@@ -1,4 +1,4 @@
-Ext.define('opennodeconsole.widgets.Gauge', {
+Ext.define('Onc.widgets.Gauge', {
     extend: 'Ext.Component',
     alias: 'widget.gauge',
 

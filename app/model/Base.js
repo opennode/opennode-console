@@ -1,3 +1,3 @@
-Ext.define('opennodeconsole.model.Base', {
+Ext.define('Onc.model.Base', {
     extend: 'Ext.data.Model'
 });

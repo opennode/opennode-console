@@ -2,7 +2,7 @@ Ext.BLANK_IMAGE_URL = 'ext-4.0/resources/themes/images/default/tree/s.gif';
 
 Ext.Loader.setConfig('paths', {
     'Ext': 'ext-4.0/src',
-    'opennodeconsole': './app/opennodeconsole'
+    'Onc': './app/Onc'
 });
 
 Ext.Loader.setConfig({enabled: true, disableCaching: false})
@@ -10,23 +10,23 @@ Ext.Loader.setConfig({enabled: true, disableCaching: false})
 Ext.syncRequire([
     'Ext.window.MessageBox',
     'Ext.XTemplate',
-    'opennodeconsole.widgets.Gauge',
-    'opennodeconsole.widgets.Shell',
-    'opennodeconsole.widgets.Vnc',
-    'opennodeconsole.tabs.Tab',
-    'opennodeconsole.tabs.StatusTab',
-    'opennodeconsole.tabs.SystemTab',
-    'opennodeconsole.tabs.NetworkTab',
-    'opennodeconsole.tabs.StorageTab',
-    'opennodeconsole.tabs.TemplatesTab',
-    'opennodeconsole.tabs.ShellTab',
-    'opennodeconsole.tabs.VncTab',
-    'opennodeconsole.polymorphic.Reader',
-    'opennodeconsole.polymorphic.Association'
+    'Onc.widgets.Gauge',
+    'Onc.widgets.Shell',
+    'Onc.widgets.Vnc',
+    'Onc.tabs.Tab',
+    'Onc.tabs.StatusTab',
+    'Onc.tabs.SystemTab',
+    'Onc.tabs.NetworkTab',
+    'Onc.tabs.StorageTab',
+    'Onc.tabs.TemplatesTab',
+    'Onc.tabs.ShellTab',
+    'Onc.tabs.VncTab',
+    'Onc.polymorphic.Reader',
+    'Onc.polymorphic.Association'
 ]);
 
 Ext.application({
-    name: 'opennodeconsole',
+    name: 'Onc',
 
     appFolder: 'app',
     controllers: ['MainController', 'ComputeController', 'NewVmController'],
@@ -159,7 +159,7 @@ Number.prototype.constrain = function(a, b) {
  */
 function inspectMethods(methodNames) {
     methodNames.forEach(function iterator(name) {
-        if (name in opennodeconsole.components.ContainerReader.prototype) {
+        if (name in Onc.components.ContainerReader.prototype) {
             var stuff = {};
             stuff[name] = function() {
                 var ret = this.callParent(arguments);
@@ -169,7 +169,7 @@ function inspectMethods(methodNames) {
                     console.debug(name, "(", (arguments.length ? arguments : ''), ")")
                 return ret;
             };
-            Ext.override(opennodeconsole.components.ContainerReader, stuff);
+            Ext.override(Onc.components.ContainerReader, stuff);
         }
     });
 }

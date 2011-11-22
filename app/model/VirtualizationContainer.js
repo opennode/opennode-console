@@ -1,11 +1,11 @@
-Ext.define('opennodeconsole.model.VirtualizationContainer', {
-    extend: 'opennodeconsole.model.Base',
+Ext.define('Onc.model.VirtualizationContainer', {
+    extend: 'Onc.model.Base',
     fields: ['id', 'url', 'backend'],
 
-    belongsTo: 'opennodeconsole.model.Compute',
+    belongsTo: 'Onc.model.Compute',
 
     hasMany: {
         name: 'children',
-        model: 'opennodeconsole.model.Compute'
+        model: 'Onc.model.Compute'
     }
 });

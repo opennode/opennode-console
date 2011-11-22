@@ -1,4 +1,4 @@
-Ext.define('opennodeconsole.model.IpRoute', {
+Ext.define('Onc.model.IpRoute', {
     extend: 'Ext.data.Model',
 
     fields: [

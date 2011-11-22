@@ -1,4 +1,4 @@
-Ext.define('opennodeconsole.widgets.Vnc', {
+Ext.define('Onc.widgets.Vnc', {
     extend: 'Ext.Container',
     alias: 'widget.vnc',
     cls: 'webvnc',

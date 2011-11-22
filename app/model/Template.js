@@ -1,4 +1,4 @@
-Ext.define('opennodeconsole.model.Template', {
+Ext.define('Onc.model.Template', {
     extend: 'Ext.data.Model',
 
     fields: [

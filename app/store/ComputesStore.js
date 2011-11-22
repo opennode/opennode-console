@@ -1,6 +1,6 @@
-Ext.define('opennodeconsole.store.ComputesStore', {
+Ext.define('Onc.store.ComputesStore', {
     extend: 'Ext.data.Store',
-    model: 'opennodeconsole.model.Compute',
+    model: 'Onc.model.Compute',
 
     autoLoad: true,
 

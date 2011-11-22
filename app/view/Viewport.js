@@ -1,9 +1,9 @@
-Ext.define('opennodeconsole.view.Viewport', {
+Ext.define('Onc.view.Viewport', {
     extend: 'Ext.container.Viewport',
     layout: 'border',
     requires: [
-        'opennodeconsole.view.SearchFilterView',
-        'opennodeconsole.view.SearchResultsView'
+        'Onc.view.SearchFilterView',
+        'Onc.view.SearchResultsView'
     ],
 
     items: [{

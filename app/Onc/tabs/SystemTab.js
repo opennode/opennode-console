@@ -1,5 +1,5 @@
-Ext.define('opennodeconsole.tabs.SystemTab', {
-    extend: 'opennodeconsole.tabs.Tab',
+Ext.define('Onc.tabs.SystemTab', {
+    extend: 'Onc.tabs.Tab',
     alias: 'widget.computesystemtab',
 
     initComponent: function() {

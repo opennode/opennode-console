@@ -1,4 +1,4 @@
-Ext.define('opennodeconsole.model.SearchResult', {
+Ext.define('Onc.model.SearchResult', {
     extend: 'Ext.data.Model',
     fields: [
         {name: 'id', type: 'string'},

@@ -1,4 +1,4 @@
-Ext.define('opennodeconsole.model.Storage', {
+Ext.define('Onc.model.Storage', {
     extend: 'Ext.data.Model',
 
     fields: [

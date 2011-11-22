@@ -1,5 +1,5 @@
-Ext.define('opennodeconsole.tabs.TemplatesTab', {
-    extend: 'opennodeconsole.tabs.Tab',
+Ext.define('Onc.tabs.TemplatesTab', {
+    extend: 'Onc.tabs.Tab',
     alias: 'widget.computetemplatestab',
 
     layout: 'fit',
@@ -10,7 +10,7 @@ Ext.define('opennodeconsole.tabs.TemplatesTab', {
             title: 'Templates',
             // store: this.record.templates(),
             store: Ext.create('Ext.data.Store', {
-                model: 'opennodeconsole.model.Template',
+                model: 'Onc.model.Template',
                 idProperty: 'id',
                 data: [
                     {'id': 'af109692-1824-ff90-123a-998b', 'name': 'template1', 'base_os': 'dos', 'min_disk': '10', 'min_memory': '512', 'min_cpu': '1000', 'storage_name': 'supperfloppy1'},

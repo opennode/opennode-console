@@ -1,11 +1,11 @@
-Ext.define('opennodeconsole.model.Templates', {
-    extend: 'opennodeconsole.model.Base',
+Ext.define('Onc.model.Templates', {
+    extend: 'Onc.model.Base',
     fields: ['id'],
 
-    belongsTo: 'opennodeconsole.model.Compute',
+    belongsTo: 'Onc.model.Compute',
 
     hasMany: {
         name: 'children',
-        model: 'opennodeconsole.model.Template'
+        model: 'Onc.model.Template'
     }
 });

@@ -1,4 +1,4 @@
-Ext.define('opennodeconsole.controller.ComputeController', {
+Ext.define('Onc.controller.ComputeController', {
     extend: 'Ext.app.Controller',
 
     views: ['compute.NewVmView'],

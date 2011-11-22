@@ -1,5 +1,5 @@
-Ext.define('opennodeconsole.tabs.VncTab', {
-    extend: 'opennodeconsole.tabs.Tab',
+Ext.define('Onc.tabs.VncTab', {
+    extend: 'Onc.tabs.Tab',
     alias: 'widget.computevnctab',
 
     layout: 'fit',

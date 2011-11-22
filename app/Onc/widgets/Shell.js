@@ -1,4 +1,4 @@
-Ext.define('opennodeconsole.widgets.Shell', {
+Ext.define('Onc.widgets.Shell', {
     extend: 'Ext.Component',
     alias: 'widget.shell',
     cls: 'webshell',

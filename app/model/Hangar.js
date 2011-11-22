@@ -1,13 +1,13 @@
-Ext.define('opennodeconsole.model.Hangar', {
-    extend: 'opennodeconsole.model.Base',
+Ext.define('Onc.model.Hangar', {
+    extend: 'Onc.model.Base',
     fields: [
         {name: 'id', type: 'string'},
     ],
 
-    belongsTo: 'opennodeconsole.model.Compute',
+    belongsTo: 'Onc.model.Compute',
 
     hasMany: {
         name: 'children',
-        model: 'opennodeconsole.model.Compute'
+        model: 'Onc.model.Compute'
     }
 });

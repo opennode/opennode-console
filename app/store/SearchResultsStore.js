@@ -1,6 +1,6 @@
-Ext.define('opennodeconsole.store.SearchResultsStore', {
+Ext.define('Onc.store.SearchResultsStore', {
     extend: 'Ext.data.Store',
-    model: 'opennodeconsole.model.SearchResult',
+    model: 'Onc.model.SearchResult',
 
     proxy: {
         type: 'rest',

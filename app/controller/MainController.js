@@ -1,4 +1,4 @@
-Ext.define('opennodeconsole.controller.MainController', {
+Ext.define('Onc.controller.MainController', {
     extend: 'Ext.app.Controller',
 
     models: ['Base', 'Compute', 'VirtualBridge', 'IpRoute', 'Storage', 'Template', 'VirtualizationContainer', 'Hangar',

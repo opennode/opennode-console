@@ -1,5 +1,5 @@
-Ext.define('opennodeconsole.tabs.NetworkTab', {
-    extend: 'opennodeconsole.tabs.Tab',
+Ext.define('Onc.tabs.NetworkTab', {
+    extend: 'Onc.tabs.Tab',
     alias: 'widget.computenetworktab',
 
     layout: {type: 'vbox', align: 'stretch'},
@@ -76,7 +76,7 @@ Ext.define('opennodeconsole.tabs.NetworkTab', {
 
             // store: rec.routes(),
             store: Ext.create('Ext.data.Store', {
-                model: 'opennodeconsole.model.IpRoute',
+                model: 'Onc.model.IpRoute',
                 data: [
                     {destination: '192.168.12.34', gateway: '192.168.43.56', genmask: '255.144.033.022', flags: 'WOW', metric: '1', iface: 'babyface'},
                     {destination: '192.168.21.43', gateway: '91.261.8345.6', genmask: '55.1440.330.222', flags: 'OWW', metric: '1', iface: 'abyfaceb'}

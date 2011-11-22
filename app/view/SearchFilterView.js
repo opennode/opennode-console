@@ -1,4 +1,4 @@
-Ext.define('opennodeconsole.view.SearchFilterView', {
+Ext.define('Onc.view.SearchFilterView', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.searchfilter',
 

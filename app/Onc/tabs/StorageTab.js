@@ -1,5 +1,5 @@
-Ext.define('opennodeconsole.tabs.StorageTab', {
-    extend: 'opennodeconsole.tabs.Tab',
+Ext.define('Onc.tabs.StorageTab', {
+    extend: 'Onc.tabs.Tab',
     alias: 'widget.computestoragetab',
 
     layout: 'fit',
@@ -10,7 +10,7 @@ Ext.define('opennodeconsole.tabs.StorageTab', {
             title: 'Storage',
             // store: this.record.storages(),
             store: Ext.create('Ext.data.Store', {
-                model: 'opennodeconsole.model.Storage',
+                model: 'Onc.model.Storage',
                 idProperty: 'id',
                 data: [
                     {'id': '1', 'name': 'storage1', path: '/foo/bar/baz', type: 'floppy', usage: 'bad'},

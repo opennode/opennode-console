@@ -1,4 +1,4 @@
-Ext.define('opennodeconsole.polymorphic.Reader', {
+Ext.define('Onc.polymorphic.Reader', {
     extend: 'Ext.data.reader.Json',
     alias : 'reader.polymorphic',
 

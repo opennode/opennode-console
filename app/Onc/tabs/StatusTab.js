@@ -1,5 +1,5 @@
-Ext.define('opennodeconsole.tabs.StatusTab', {
-    extend: 'opennodeconsole.tabs.Tab',
+Ext.define('Onc.tabs.StatusTab', {
+    extend: 'Onc.tabs.Tab',
     alias: 'widget.computestatustab',
 
     layout: 'fit',
@@ -79,7 +79,7 @@ Ext.define('opennodeconsole.tabs.StatusTab', {
                 renderer: function(vmId, meta) {
                     var id = Ext.id();
                     setTimeout(function() {
-                        var gauge = Ext.create('opennodeconsole.widgets.Gauge', {
+                        var gauge = Ext.create('Onc.widgets.Gauge', {
                             renderTo: id,
                             label: label
                         });

@@ -1,4 +1,4 @@
-Ext.define('opennodeconsole.model.VirtualBridge', {
+Ext.define('Onc.model.VirtualBridge', {
     extend: 'Ext.data.Model',
     fields: [
         {name: 'id', type: 'string'},

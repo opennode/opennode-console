@@ -1,4 +1,4 @@
-Ext.define('opennodeconsole.model.Compute', {
+Ext.define('Onc.model.Compute', {
     extend: 'Ext.data.Model',
     fields: [
         {name: 'id', type: 'string'},
@@ -68,25 +68,25 @@ Ext.define('opennodeconsole.model.Compute', {
     associations: [
         {
             type: 'polymorphic',
-            model: 'opennodeconsole.model.Base',
+            model: 'Onc.model.Base',
             name: 'children',
             getTypeDiscriminator: function(node) {
-                return'opennodeconsole.model.' + node['__type__'];
+                return'Onc.model.' + node['__type__'];
             }
         }
     ],
     hasMany: [
         {
-            model: 'opennodeconsole.model.VirtualBridge',
+            model: 'Onc.model.VirtualBridge',
             name: 'bridgeInterfaces',
             associationKey: 'bridge_interfaces'
         },
         {
-            model: 'opennodeconsole.model.IpRoute',
+            model: 'Onc.model.IpRoute',
             name: 'routes'
         },
         {
-            model: 'opennodeconsole.model.Storage',
+            model: 'Onc.model.Storage',
             name: 'storages'
         }
     ]

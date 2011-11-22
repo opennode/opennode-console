@@ -1,4 +1,4 @@
-Ext.define('opennodeconsole.view.compute.NewVmView', {
+Ext.define('Onc.view.compute.NewVmView', {
     extend: 'Ext.window.Window',
     alias: 'widget.newvm',
 
@@ -183,7 +183,7 @@ Ext.define('opennodeconsole.view.compute.NewVmView', {
         this.callParent(arguments);
 
 
-        // this.record = Ext.create('opennodeconsole.model.Compute', {});
+        // this.record = Ext.create('Onc.model.Compute', {});
 
         // this.child('form').loadRecord(this.record);
     }

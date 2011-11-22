@@ -1,4 +1,4 @@
-Ext.define('opennodeconsole.controller.NewVmController', {
+Ext.define('Onc.controller.NewVmController', {
     extend: 'Ext.app.Controller',
 
     views: ['compute.NewVmView'],
@@ -27,7 +27,7 @@ Ext.define('opennodeconsole.controller.NewVmController', {
                                 if (!ret['success']) {
                                     form.markInvalid(ret['errors']);
                                 } else {
-                                    var compute = new opennodeconsole.model.Compute(ret['result']);
+                                    var compute = new Onc.model.Compute(ret['result']);
                                     virtualizationContainer.children().add(compute);
                                     me.getWindow().destroy();
                                 }

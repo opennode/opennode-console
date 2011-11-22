@@ -1,4 +1,4 @@
-Ext.define('opennodeconsole.view.SearchResultsView', {
+Ext.define('Onc.view.SearchResultsView', {
     extend: 'Ext.view.View',
     alias: 'widget.searchresults',
 

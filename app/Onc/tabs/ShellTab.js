@@ -1,5 +1,5 @@
-Ext.define('opennodeconsole.tabs.ShellTab', {
-    extend: 'opennodeconsole.tabs.Tab',
+Ext.define('Onc.tabs.ShellTab', {
+    extend: 'Onc.tabs.Tab',
     alias: 'widget.computeshelltab',
 
     layout: 'fit',
