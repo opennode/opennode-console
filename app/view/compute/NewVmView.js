@@ -60,6 +60,7 @@ Ext.define('opennodeconsole.view.compute.NewVmView', {
                     width: 160
                 }, {
                     xtype: 'slider',
+                    isFormField: false,
                     width: 100,
                     minValue: 1,
                     maxValue: 10,
@@ -76,6 +77,7 @@ Ext.define('opennodeconsole.view.compute.NewVmView', {
                     width: 160
                 }, {
                     xtype: 'slider',
+                    isFormField: false,
                     width: 100,
                     listeners: {
                         'change': function(ev, newValue) {
@@ -90,6 +92,7 @@ Ext.define('opennodeconsole.view.compute.NewVmView', {
                     width: 160
                 }, {
                     xtype: 'slider',
+                    isFormField: false,
                     width: 100,
                     minValue: 128,
                     maxValue: 10240,
@@ -108,6 +111,7 @@ Ext.define('opennodeconsole.view.compute.NewVmView', {
                     width: 160
                 }, {
                     xtype: 'slider',
+                    isFormField: false,
                     width: 100,
                     minValue: 2,
                     maxValue: 1000,
