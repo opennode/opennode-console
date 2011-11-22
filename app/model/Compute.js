@@ -89,5 +89,9 @@ Ext.define('Onc.model.Compute', {
             model: 'Onc.model.Storage',
             name: 'storages'
         }
-    ]
+    ],
+
+    getRepr: function() {
+        return this.get('hostname');
+    }
 });
