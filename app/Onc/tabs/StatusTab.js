@@ -11,20 +11,26 @@ Ext.define('Onc.tabs.StatusTab', {
         var actions = [
             {
                 text: 'Start', icon: 'Start', handler: function(vms) {
-                    Ext.Msg.show({title: "FYI", msg: "Starting " + vms.map(function(vm) { return vm.get('hostname'); }).join(", "),
-                                  buttons: Ext.Msg.OK, icon: Ext.Msg.INFO});
+                    Ext.each(vms, function(vm) {
+                        vm.set('state', 'active');
+                        vm.save();
+                    });
                 }
             },
-            {
-                text: 'Pause', icon: 'Sleep', handler: function(vms) {
-                    Ext.Msg.show({title: "FYI", msg: "Pausing " + vms.map(function(vm) { return vm.get('hostname'); }).join(", "),
-                                  buttons: Ext.Msg.OK, icon: Ext.Msg.INFO});
-                }
-            },
+            // {
+            //     text: 'Pause', icon: 'Sleep', handler: function(vms) {
+            //         Ext.each(vms, function(vm) {
+            //             vm.set('state', 'suspended');
+            //             vm.save();
+            //         });
+            //     }
+            // },
             {
                 text: 'Shut Down', icon: 'Standby', handler: function(vms) {
-                    Ext.Msg.show({title: "FYI", msg: "Shutting down " + vms.map(function(vm) { return vm.get('hostname'); }).join(", "),
-                                  buttons: Ext.Msg.OK, icon: Ext.Msg.INFO});
+                    Ext.each(vms, function(vm) {
+                        vm.set('state', 'inactive');
+                        vm.save();
+                    });
                 }
             },
             {
