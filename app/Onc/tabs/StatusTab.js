@@ -64,7 +64,7 @@ Ext.define('Onc.tabs.StatusTab', {
                 tooltip: action.text,
                 altText: action.text,
                 icon: 'img/icon/' + action.icon + '.png',
-                handler: function(actionName, _, rowIndex) {
+                handler: function(actionName, rowIndex) {
                     var compute = me.child('gridpanel').getStore().getAt(rowIndex);
                     action.handler([compute]);
                 }
