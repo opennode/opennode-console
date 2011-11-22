@@ -40,7 +40,7 @@ Ext.define('Onc.model.Compute', {
             root: 'children'
         },
         extraParams: {
-            depth: 3
+            'depth': 3
         },
         limitParam: null, pageParam: null, startParam: null,
         url: BACKEND_PREFIX + 'computes'
