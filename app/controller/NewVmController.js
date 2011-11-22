@@ -20,7 +20,7 @@ Ext.define('opennodeconsole.controller.NewVmController', {
                 click: function(sender) {
                     var form = this.getForm().getForm();
                     if (form.isValid()) {
-                        var data = form.getValues();
+                        var data = form.getFieldValues();
                         var virtualizationContainer = this.getWindow().parentCompute.getChild('vms');
                         var url = BACKEND_PREFIX + virtualizationContainer.get('url');
                         Ext.Ajax.request({

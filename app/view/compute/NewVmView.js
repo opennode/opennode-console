@@ -53,10 +53,10 @@ Ext.define('opennodeconsole.view.compute.NewVmView', {
                     columns: 2
                 },
                 items: [{
-                    fieldLabel: "Nr. of CPUs",
-                    name: 'num_cpus',
-                    xtype: 'textfield',
-                    value: '1',
+                    fieldLabel: "Number of Cores",
+                    name: 'num_cores',
+                    xtype: 'numberfield',
+                    value: 1,
                     width: 160
                 }, {
                     xtype: 'slider',
@@ -72,8 +72,8 @@ Ext.define('opennodeconsole.view.compute.NewVmView', {
                 }, {
                     fieldLabel: "CPU Limit",
                     name: 'cpu_limit',
-                    xtype: 'textfield',
-                    value: '1',
+                    xtype: 'numberfield',
+                    value: 1,
                     width: 160
                 }, {
                     xtype: 'slider',
@@ -87,8 +87,8 @@ Ext.define('opennodeconsole.view.compute.NewVmView', {
                 }, {
                     fieldLabel: "Memory/MB",
                     name: 'memory',
-                    xtype: 'textfield',
-                    value: '256',
+                    xtype: 'numberfield',
+                    value: 256,
                     width: 160
                 }, {
                     xtype: 'slider',
@@ -106,8 +106,8 @@ Ext.define('opennodeconsole.view.compute.NewVmView', {
                 }, {
                     fieldLabel: "Disk Size/GB",
                     name: 'diskspace',
-                    xtype: 'textfield',
-                    value: '10',
+                    xtype: 'numberfield',
+                    value: 10,
                     width: 160
                 }, {
                     xtype: 'slider',
