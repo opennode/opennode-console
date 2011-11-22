@@ -1,5 +1,5 @@
 Ext.define('Onc.model.VirtualBridge', {
-    extend: 'Ext.data.Model',
+    extend: 'Onc.model.Base',
     fields: [
         {name: 'id', type: 'string'},
         {name: 'ipv4_address', type: 'string', sortType: 'asIpv4'},

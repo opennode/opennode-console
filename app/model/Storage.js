@@ -1,5 +1,5 @@
 Ext.define('Onc.model.Storage', {
-    extend: 'Ext.data.Model',
+    extend: 'Onc.model.Base',
 
     fields: [
         {name: 'id', type: 'string'},

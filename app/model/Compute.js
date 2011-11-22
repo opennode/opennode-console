@@ -1,5 +1,5 @@
 Ext.define('Onc.model.Compute', {
-    extend: 'Ext.data.Model',
+    extend: 'Onc.model.Base',
     fields: [
         {name: 'id', type: 'string'},
         {name: 'url', type: 'string'},
