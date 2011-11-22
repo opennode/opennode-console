@@ -10,12 +10,8 @@ Ext.define('opennodeconsole.controller.NewVmController', {
     ],
 
     init: function() {
+        var me = this;
         this.control({
-            'window.newvm form': {
-                beforerender: function(sender) {
-                    // sender.getForm().url = BACKEND_PREFIX + this.getWindow().parentCompute.getChild('vms').get('url');
-                }
-            },
             '#create-new-vm-button': {
                 click: function(sender) {
                     var form = this.getForm().getForm();
@@ -29,18 +25,16 @@ Ext.define('opennodeconsole.controller.NewVmController', {
                             success: function(response) {
                                 var ret = Ext.JSON.decode(response.responseText);
                                 if (!ret['success']) {
-                                    var errors = ret['errors'];
-                                    form.markInvalid(errors);
+                                    form.markInvalid(ret['errors']);
                                 } else {
-                                    var compute = Ext.create('opennodeconsole.model.Compute', ret['result']);
+                                    var compute = new opennodeconsole.model.Compute(ret['result']);
                                     virtualizationContainer.children().add(compute);
-                                    this.getWindow().destroy();
+                                    me.getWindow().destroy();
                                 }
                             },
                             failure: function(response) {
                                 console.error(response.responseText);
-                            },
-                            scope: this
+                            }
                         });
                     }
                 }
