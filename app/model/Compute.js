@@ -1,11 +1,11 @@
 Ext.define('Onc.model.Compute', {
     extend: 'Onc.model.Base',
     fields: [
-        {name: 'id', type: 'string'},
-        {name: 'url', type: 'string'},
+        {name: 'id', type: 'string', persist: false},
+        {name: 'url', type: 'string', persist: false},
         {name: 'tags'},
 
-        {name: 'architecture', type: 'string'},
+        {name: 'architecture'},
         {name: 'cpu_info', type: 'string'},
         {name: 'os_release', type: 'string'},
         {name: 'kernel', type: 'string'},
@@ -17,7 +17,7 @@ Ext.define('Onc.model.Compute', {
         {name: 'ipv6_address', type: 'string', sortType: 'asIpv6'},
 
         {name: 'state', type: 'string'},
-        {name: 'effective_state', type: 'string'},
+        {name: 'effective_state', type: 'string', persist: false},
 
         {name: 'num_cores', type: 'integer'},
         {name: 'memory', type: 'float'},
@@ -25,12 +25,12 @@ Ext.define('Onc.model.Compute', {
         {name: 'network', type: 'float'},
         {name: 'swap_size', type: 'float'},
 
-        {name: 'cpu_usage', type: 'float'},
-        {name: 'memory_usage', type: 'float'},
-        {name: 'diskspace_usage'},
-        {name: 'network_usage', type: 'float'},
+        {name: 'cpu_usage', type: 'float', persist: false},
+        {name: 'memory_usage', type: 'float', persist: false},
+        {name: 'diskspace_usage', persist: false},
+        {name: 'network_usage', type: 'float', persist: false},
 
-        {name: 'startup_timestamp', type: 'string'}
+        {name: 'startup_timestamp', type: 'string', persist: false}
     ],
 
     getMaxCpuLoad: function() {
