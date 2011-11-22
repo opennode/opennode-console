@@ -33,6 +33,19 @@ Ext.define('Onc.model.Compute', {
         {name: 'startup_timestamp', type: 'string', persist: false}
     ],
 
+    proxy: {
+        type: 'rest',
+        reader: {
+            type: 'json',
+            root: 'children'
+        },
+        extraParams: {
+            depth: 3
+        },
+        limitParam: null, pageParam: null, startParam: null,
+        url: BACKEND_PREFIX + 'computes'
+    },
+
     getMaxCpuLoad: function() {
         return this.get('num_cores') * 1.0;
     },
