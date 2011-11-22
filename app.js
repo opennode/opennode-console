@@ -137,6 +137,12 @@ String.prototype.startswith = function(substr) {
     return this.substr(0, substr.length) === substr;
 };
 
+String.prototype.format = function() {
+    var args = [this];
+    args.push.apply(args, arguments);
+    return Ext.String.format.apply(Ext.String, args);
+};
+
 
 Array.prototype.repeat = function(n) {
     ret = [];
