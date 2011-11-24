@@ -12,7 +12,10 @@ Ext.define('Onc.tabs.StatusTab', {
 
         var actions = [
             {text: 'Start', icon: 'Start', handler: function(vms) {
-                me.fireEvent('startvms', vms);
+                me.down('grid').setLoading(true, true);
+                me.fireEvent('startvms', vms, function() {
+                    me.down('grid').setLoading(false);
+                });
             }},
             // {text: 'Pause', icon: 'Sleep', handler: function(vms) {
             //     Ext.each(vms, function(vm) {
@@ -21,7 +24,10 @@ Ext.define('Onc.tabs.StatusTab', {
             //     });
             // }},
             {text: 'Shut Down', icon: 'Standby', handler: function(vms) {
-                me.fireEvent('stopvms', vms);
+                me.down('grid').setLoading(true, true);
+                me.fireEvent('stopvms', vms, function() {
+                    me.down('grid').setLoading(false);
+                });
             }},
             {text: 'Show Details', icon: 'ZoomIn', handler: function(vms) {
                 console.assert(vms.length === 1);

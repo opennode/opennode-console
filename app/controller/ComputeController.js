@@ -21,17 +21,19 @@ Ext.define('Onc.controller.ComputeController', {
                     var computeId = vm.get('id');
                     this.getController('MainController').openComputeInTab(computeId);
                 },
-                startvms: function(vms) {
+                startvms: function(vms, callback) {
                     Ext.each(vms, function(vm) {
                         vm.set('state', 'active');
                         vm.save();
                     });
+                    setTimeout(callback, 300 + Math.random() * 150);
                 },
-                stopvms: function(vms) {
+                stopvms: function(vms, callback) {
                     Ext.each(vms, function(vm) {
                         vm.set('state', 'inactive');
                         vm.save();
                     });
+                    setTimeout(callback, 300 + Math.random() * 150);
                 }
             }
         });
