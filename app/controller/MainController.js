@@ -9,14 +9,14 @@ Ext.define('Onc.controller.MainController', {
     refs: [{ref: 'searchResults', selector: '#search-results'},
            {ref: 'tabs', selector: '#mainTabs'}],
 
-    openComputeInTab: function(computeId, compute) {
+    openComputeInTab: function(computeId, _compute) {
         var tabPanel = this.getTabs();
         var tab = tabPanel.child('computeview[computeId=' + computeId + ']');
         if (!tab) {
-            if (!compute)
-                compute = this.getStore('ComputesStore').getById(computeId);
+            if (!_compute)
+                _compute = this.getStore('ComputesStore').getById(computeId);
             tab = Ext.widget('computeview', {
-                record: compute,
+                record: _compute,
                 computeId: computeId
             });
             tabPanel.add(tab);
