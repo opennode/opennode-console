@@ -118,8 +118,8 @@ Ext.define('Onc.tabs.StatusTab', {
             columns: [
                 {header: 'State', xtype: 'templatecolumn', tpl: '<div class="state-icon" title="{state}"></div>', width: 40},
                 {header: 'Name', dataIndex: 'hostname', width: 75, editor: {xtype: 'textfield', allowBlank: false}},
-                {xtype: 'actioncolumn', hideable: false, sortable: false, width: 4 * (32 + 2), items: rowActions},
                 {header: 'Inet4', dataIndex: 'ip_address', editor: {xtype: 'textfield', allowBlank: false}},
+                {xtype: 'actioncolumn', sortable: false, width: 4 * (32 + 2), items: rowActions},
                 {header: 'Inet6', dataIndex: 'ipv6_address', editor: {xtype: 'textfield', allowBlank: false}},
 
                 _makeGaugeColumn('CPU usage', 'cpuUsage'),
