@@ -8,38 +8,25 @@ Ext.define('Onc.tabs.StatusTab', {
         var me = this;
         var rec = this.record;
 
+        this.addEvents('showvmdetails', 'startvms', 'stopvms');
+
         var actions = [
-            {
-                text: 'Start', icon: 'Start', handler: function(vms) {
-                    Ext.each(vms, function(vm) {
-                        vm.set('state', 'active');
-                        vm.save();
-                    });
-                }
-            },
-            // {
-            //     text: 'Pause', icon: 'Sleep', handler: function(vms) {
-            //         Ext.each(vms, function(vm) {
-            //             vm.set('state', 'suspended');
-            //             vm.save();
-            //         });
-            //     }
-            // },
-            {
-                text: 'Shut Down', icon: 'Standby', handler: function(vms) {
-                    Ext.each(vms, function(vm) {
-                        vm.set('state', 'inactive');
-                        vm.save();
-                    });
-                }
-            },
-            {
-                text: 'Show Details', icon: 'ZoomIn', handler: function(vms) {
-                    console.assert(vms.length === 1);
-                    Ext.Msg.show({title: "FYI", msg: "Showing details of " + vms.map(function(vm) { return vm.get('hostname'); }).join(", "),
-                                  buttons: Ext.Msg.OK, icon: Ext.Msg.INFO});
-                }
-            }
+            {text: 'Start', icon: 'Start', handler: function(vms) {
+                me.fireEvent('startvms', vms);
+            }},
+            // {text: 'Pause', icon: 'Sleep', handler: function(vms) {
+            //     Ext.each(vms, function(vm) {
+            //         vm.set('state', 'suspended');
+            //         vm.save();
+            //     });
+            // }},
+            {text: 'Shut Down', icon: 'Standby', handler: function(vms) {
+                me.fireEvent('stopvms', vms);
+            }},
+            {text: 'Show Details', icon: 'ZoomIn', handler: function(vms) {
+                console.assert(vms.length === 1);
+                me.fireEvent('showvmdetails', vms[0]);
+            }}
         ];
 
         var tbarButtons = actions.map(function(action) {

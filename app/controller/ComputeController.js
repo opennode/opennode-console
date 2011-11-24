@@ -15,6 +15,24 @@ Ext.define('Onc.controller.ComputeController', {
                         parentCompute: this.getComputeInfo().record
                     }).show();
                 }
+            },
+            'computeview computestatustab': {
+                showvmdetails: function(vm) {
+                    var computeId = vm.get('id');
+                    this.getController('MainController').openComputeInTab(computeId);
+                },
+                startvms: function(vms) {
+                    Ext.each(vms, function(vm) {
+                        vm.set('state', 'active');
+                        vm.save();
+                    });
+                },
+                stopvms: function(vms) {
+                    Ext.each(vms, function(vm) {
+                        vm.set('state', 'inactive');
+                        vm.save();
+                    });
+                }
             }
         });
 
