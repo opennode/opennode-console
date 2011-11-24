@@ -9,9 +9,25 @@ Ext.define('Onc.controller.MainController', {
     refs: [{ref: 'searchResults', selector: '#search-results'},
            {ref: 'tabs', selector: '#mainTabs'}],
 
+    openComputeInTab: function(computeId, compute) {
+        var tabPanel = this.getTabs();
+        var tab = tabPanel.child('computeview[computeId=' + computeId + ']');
+        if (!tab) {
+            if (!compute)
+                compute = this.getStore('ComputesStore').getById(computeId);
+            tab = Ext.widget('computeview', {
+                record: compute,
+                computeId: computeId
+            });
+            tabPanel.add(tab);
+        }
+        tabPanel.setActiveTab(tab);
+    },
+
     init: function() {
         this.control({
             '#search-results': {
+                // TODO: Use a custom event instead
                 selectionchange: function(view, selections, options) {
                     if (selections.length === 0)
                         return;
@@ -19,16 +35,7 @@ Ext.define('Onc.controller.MainController', {
                     var selection = selections[0];
                     var computeId = selection.get('id');
 
-                    var tabPanel = this.getTabs();
-                    var tab = tabPanel.child('computeview[computeId=' + computeId + ']');
-                    if (!tab) {
-                        tab = Ext.widget('computeview', {
-                            record: selection,
-                            computeId: computeId
-                        });
-                        tabPanel.add(tab);
-                    }
-                    tabPanel.setActiveTab(tab);
+                    this.openComputeInTab(computeId, selection);
                 }
             },
             '#search-filter': {
