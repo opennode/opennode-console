@@ -87,6 +87,14 @@ Ext.define('Onc.tabs.StatusTab', {
                 renderer: function(vmId, meta) {
                     var id = Ext.id();
                     setTimeout(function() {
+                        // XXX: For some weird reason, when a new
+                        // Compute is added, a ghost row is created in
+                        // this grid for which this renderer will be
+                        // invoked. However, since the row is ghost,
+                        // the DOM element with that ID is not
+                        // available, causing Gauge to error out.
+                        if (!Ext.get(id)) return;
+
                         var gauge = Ext.create('Onc.widgets.Gauge', {
                             renderTo: id,
                             label: label
