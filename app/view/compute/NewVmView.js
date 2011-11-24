@@ -73,15 +73,24 @@ Ext.define('Onc.view.compute.NewVmView', {
                     fieldLabel: "CPU Limit",
                     name: 'cpu_limit',
                     xtype: 'numberfield',
-                    value: 1,
+                    allowDecimals: true,
+                    decimalPrecision: 2,
+                    minValue: 0.0,
+                    maxValue: 1.0,
+                    step: 0.05,
+                    value: 1.0,
                     width: 160
                 }, {
                     xtype: 'slider',
                     isFormField: false,
                     width: 100,
+                    minValue: 5,
+                    maxValue: 100,
+                    increment: 5,
+                    value: 100,
                     listeners: {
                         'change': function(ev, newValue) {
-                            this.previousSibling().setValue(newValue);
+                            this.previousSibling().setValue(newValue / 100);
                         }
                     }
                 }, {
