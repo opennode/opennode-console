@@ -62,7 +62,9 @@ Ext.define('Onc.tabs.StatusTab', {
 
         tbarButtons.unshift({xtype: 'tbseparator'});
         tbarButtons.unshift({
-            itemId: 'new-vm-button', text: 'New', icon: 'img/icon/add.png', tooltip: 'Add New Virtual Machine'
+            itemId: 'new-vm-button', text: 'New', icon: 'img/icon/add.png', tooltip: 'Add a new virtual machine'
+        }, {
+            itemId: 'delete-vm-button', text: 'Delete', icon: 'img/icon/delete.png', tooltip: 'Delete the selected virtual machines'
         });
 
         var rowActions = actions.map(function(action) {
