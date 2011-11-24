@@ -33,6 +33,12 @@ Ext.application({
     autoCreateViewport: true
 });
 
+Ext.override(Ext.Base, {
+    toString: function() {
+        return '<{0}>'.format(this.$className);
+    }
+});
+
 
 if (typeof console === 'undefined') {
     var c = console = {};
