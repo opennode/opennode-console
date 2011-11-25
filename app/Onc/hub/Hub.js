@@ -7,16 +7,13 @@ Ext.define('Onc.hub.Hub', {
         _subscriptions: {},
 
         /**
-         *  Subscribes the given objects to the specified
-         *  resources. Returns the number of new subscriptions
-         *  created.
+         *  Subscribes the given objects to the specified resources.
          */
         subscribe: function(resources, subscriber, _remove) {
             var me = this;
             console.assert(subscriber instanceof Function);
             console.assert(Ext.Array.every(resources, function(r) { return typeof r === 'string'; }));
 
-            var numChanged = 0;
             Ext.Array.forEach(resources, function(resource) {
                 var subscribers = me._subscriptions[resource];
                 if (subscribers === undefined)
@@ -26,26 +23,20 @@ Ext.define('Onc.hub.Hub', {
                 if (ix === -1 && !_remove ||
                     _remove && ix !== -1)
                 {
-                    if (!_remove) {
-                        subscribers.push(subscriber);
-                    } else {
-                        Ext.Array.remove(subscribers, subscriber);
-                    }
-                    numChanged += 1;
+                    if (!_remove) subscribers.push(subscriber);
+                    else Ext.Array.remove(subscribers, subscriber);
                 }
             });
-            return numChanged;
         },
 
         /**
          * Inverse of subscribe.
          */
         unsubscribe: function(resources, subscriber) {
-            var ret = this.subscribe(resources, subscriber, true);
+            this.subscribe(resources, subscriber, true);
             for (var resource in this._subscriptions)
                 if ((this._subscriptions[resource] || []).length === 0)
                     delete this._subscriptions[resource];
-            return ret;
         },
 
         /**
@@ -73,22 +64,12 @@ Ext.define('Onc.hub.Hub', {
                         values[allSubscribedResources[i]] = value;
                     });
                     var replies = [];
-                    function _addReplyData(s, r, v) {
-                        var found = false;
-                        var d = {}; d[r] = v;
-                        Ext.Array.forEach(replies, function(reply) {
-                            var subscriber = reply[0];
-                            var replyData = reply[1];
-                            if (!found && subscriber === s) {
-                                found = true;
-                                replyData[r] = v;
-                            }
-                        });
-                        if (!found) replies.push([s, d]);
-                    }
                     Ext.Object.each(this._subscriptions, function(resource, subscribers) {
+                        var value = values[resource];
                         Ext.Array.forEach(subscribers, function(subscriber) {
-                            _addReplyData(subscriber, resource, values[resource]);
+                            var replyData = replies.assoc(subscriber);
+                            if (!replyData) replyData = replies.setassoc(subscriber, {});
+                            replyData[resource] = value;
                         });
                     });
                     Ext.Array.forEach(replies, function(reply) {
