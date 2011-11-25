@@ -22,7 +22,9 @@ Ext.syncRequire([
     'Onc.tabs.ShellTab',
     'Onc.tabs.VncTab',
     'Onc.polymorphic.Reader',
-    'Onc.polymorphic.Association'
+    'Onc.polymorphic.Association',
+
+    'Onc.hub.Hub'
 ]);
 
 Ext.application({
