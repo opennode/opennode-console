@@ -32,7 +32,11 @@ Ext.application({
 
     appFolder: 'app',
     controllers: ['MainController', 'ComputeController', 'NewVmController'],
-    autoCreateViewport: true
+    autoCreateViewport: true,
+
+    launch: function() {
+        Onc.hub.Hub.run();
+    }
 });
 
 Ext.override(Ext.Base, {
