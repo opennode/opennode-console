@@ -119,9 +119,9 @@ Ext.define('Onc.tabs.StatusTab', {
                 {header: 'State', xtype: 'templatecolumn', tpl: '<div class="state-icon" title="{state}"></div>', width: 40},
                 {header: 'Name', dataIndex: 'hostname', width: 75, editor: {xtype: 'textfield', allowBlank: false}},
                 {header: 'Inet4', dataIndex: 'ip_address', editor: {xtype: 'textfield', allowBlank: false}},
-                {xtype: 'actioncolumn', sortable: false, width: 4 * (32 + 2), items: rowActions},
                 {header: 'Inet6', dataIndex: 'ipv6_address', editor: {xtype: 'textfield', allowBlank: false}},
 
+                {xtype: 'actioncolumn', sortable: false, width: 4 * (32 + 2), items: rowActions},
                 _makeGaugeColumn('CPU usage', 'cpuUsage'),
                 _makeGaugeColumn('Memory usage', 'memUsage'),
                 _makeGaugeColumn('Disk usage', 'diskUsage'),
