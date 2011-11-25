@@ -160,24 +160,22 @@ Array.prototype.repeat = function(n) {
 };
 
 
-Array.prototype.assoc = function(k, v) {
-    if (arguments.length === 2) {
-        for (var i = this.length - 1; i >= 0; i -= 1) {
-            if (this[i][0] === k) {
-                this[i][1] = v;
-                return v;
-            }
+Array.prototype.setassoc = function(k, v) {
+    for (var i = this.length - 1; i >= 0; i -= 1) {
+        if (this[i][0] === k) {
+            this[i][1] = v;
+            return v;
         }
-        this.push([k, v]);
-        return v;
-    } else if (arguments.length === 1) {
-        for (var i = this.length - 1; i >= 0; i -= 1) {
-            if (this[i][0] === k)
-                return this[i][1];
-        }
-    } else {
-        throw new Error("Array.assoc takes 1 or 2 arguments");
     }
+    this.push([k, v]);
+    return v;
+};
+Array.prototype.assoc = function(k, dflt) {
+    for (var i = this.length - 1; i >= 0; i -= 1) {
+        if (this[i][0] === k)
+            return this[i][1];
+    }
+    return dflt;
 };
 
 
