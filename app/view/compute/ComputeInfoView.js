@@ -32,23 +32,20 @@ Ext.define('Onc.view.compute.ComputeInfoView', {
         this._hubListener = this._onDataFromHub.bind(this)
 
         var baseUrl= this.record.get('url');
-        var urls = this._hubUrls = {};
-
         Onc.hub.Hub.subscribe(
-            ['cpu', 'memory', 'network', 'diskspace'].map(function(i) {
-                var ret = baseUrl + 'metrics/{0}_usage'.format(i);
-                urls[ret] = i;
-                return ret;
-            }),
+            {
+                'cpu': baseUrl + 'metrics/{0}_usage'.format('cpu'),
+                'memory': baseUrl + 'metrics/{0}_usage'.format('memory'),
+                'network': baseUrl + 'metrics/{0}_usage'.format('network'),
+                'diskspace': baseUrl + 'metrics/{0}_usage'.format('diskspace'),
+            },
             this._hubListener
         );
     },
 
     _onDataFromHub: function(values) {
-        Ext.Object.each(values, function(resource, value) {
-            var name = this._hubUrls[resource];
-            var gauge = this.child('#{0}-gauge'.format(name));
-            gauge.setValue(value);
+        Ext.Object.each(values, function(name, value) {
+            this.child('#{0}-gauge'.format(name)).setValue(value);
         }.bind(this));
     },
 
