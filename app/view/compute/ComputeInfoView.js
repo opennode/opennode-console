@@ -17,36 +17,39 @@ Ext.define('Onc.view.compute.ComputeInfoView', {
             width: 160
         };
         this.items = [
-            {label: 'CPU', value: 0, iconCls: 'icon-cpu', max: rec.getMaxCpuLoad()},
-            {label: 'MEM', value: 0, max: rec.get('memory'), unit: 'MB'},
-            {label: 'NET', value: 0, iconCls: 'icon-network', max: rec.get('network'), unit: 'Mbs'},
-            {label: 'DISK', value: 0, iconCls: 'icon-hd', max: rec.get('diskspace')['total'], unit: 'GB'}
+            {label: 'CPU', itemId: 'cpu-gauge', value: 0, iconCls: 'icon-cpu', max: rec.getMaxCpuLoad()},
+            {label: 'MEM', itemId: 'memory-gauge', value: 0, max: rec.get('memory'), unit: 'MB'},
+            {label: 'NET', itemId: 'network-gauge', value: 0, iconCls: 'icon-network', max: rec.get('network'), unit: 'Mbs'},
+            {label: 'DISK', itemId: 'diskspace-gauge', value: 0, iconCls: 'icon-hd', max: rec.get('diskspace')['total'], unit: 'GB'}
         ];
-
-        // TODO: Replace this with actual data from the server.
-        // Feed the CPU and NET gauges with random values for demonstration purposes:
-        var me = this;
-        this._randomDataInterval = setInterval(function() {
-            ['CPU', 'NET'].forEach(function(gaugeName) {
-                var gauge = me.child('gauge[label=' + gaugeName + ']');
-                var d = gauge.max * Math.random() * 0.1;
-                gauge.setValue(Math.max(0, Math.min(gauge.max, gauge.value + (Math.random() < 0.5 ? +d : -d))));
-            });
-        }, 500);
 
         this.callParent(arguments);
     },
 
     onRender: function() {
-        var rec = this.record;
-
         this.callParent(arguments);
-        // TODO: Replace this with actual data from the server.
-        // Initialise the gauges to random values for demonstration purposes:
-        this.child('gauge[label=CPU]').setValue(Math.random() * rec.getMaxCpuLoad());
-        this.child('gauge[label=MEM]').setValue(Math.random() * rec.get('memory'));
-        this.child('gauge[label=NET]').setValue(Math.random() * rec.get('network'));
-        this.child('gauge[label=DISK]').setValue(Math.random() * rec.get('diskspace')['total']);
+
+        this._hubListener = this._onDataFromHub.bind(this)
+
+        var baseUrl= this.record.get('url');
+        var urls = this._hubUrls = {};
+
+        Onc.hub.Hub.subscribe(
+            ['cpu', 'memory', 'network', 'diskspace'].map(function(i) {
+                var ret = baseUrl + 'metrics/{0}_usage'.format(i);
+                urls[ret] = i;
+                return ret;
+            }),
+            this._hubListener
+        );
+    },
+
+    _onDataFromHub: function(values) {
+        Ext.Object.each(values, function(resource, value) {
+            var name = this._hubUrls[resource];
+            var gauge = this.child('#{0}-gauge'.format(name));
+            gauge.setValue(value);
+        }.bind(this));
     },
 
     onDestroy: function() {
