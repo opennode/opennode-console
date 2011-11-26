@@ -85,7 +85,7 @@ Ext.define('Onc.hub.Hub', {
                     var values = {};
                     Ext.Object.each(valueData, function(i, value) {
                         i = parseInt(i);
-                        values[allSubscribedResources[i]] = value;
+                        values[allSubscribedResources[i]] = value.pop()[1];
                     });
                     var replies = [];
                     Ext.Object.each(this._subscriptions, function(resource, subscribers) {
