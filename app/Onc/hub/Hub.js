@@ -5,19 +5,22 @@ Ext.define('Onc.hub.Hub', {
         METHOD: 'POST',
 
         _subscriptions: {},
+        _allSubscribers: [],  // assoc
 
         /**
          *  Subscribes the given objects to the specified resources.
          */
         subscribe: function(resources, subscriber, _remove) {
-            var me = this;
-            console.assert(subscriber instanceof Function);
-            console.assert(Ext.Array.every(resources, function(r) { return typeof r === 'string'; }));
+            if (!(subscriber instanceof Function))
+                throw new Error("Subscriber must be callable");
 
-            Ext.Array.forEach(resources, function(resource) {
-                var subscribers = me._subscriptions[resource];
-                if (subscribers === undefined)
-                    subscribers = me._subscriptions[resource] = [];
+            if (!_remove && !(resources instanceof Array))
+                this._registerMapping(subscriber, resources);
+
+            var me = this;
+            function _handleUrl(url) {
+                var subscribers = me._subscriptions[url];
+                if (!subscribers) subscribers = me._subscriptions[url] = [];
 
                 var ix = subscribers.indexOf(subscriber);
                 if (ix === -1 && !_remove ||
@@ -26,7 +29,12 @@ Ext.define('Onc.hub.Hub', {
                     if (!_remove) subscribers.push(subscriber);
                     else Ext.Array.remove(subscribers, subscriber);
                 }
-            });
+            }
+
+            if (resources instanceof Array)
+                Ext.Array.forEach(resources, _handleUrl);
+            else
+                Ext.Object.each(resources, function(_, resUrl) { _handleUrl(resUrl); });
         },
 
         /**
@@ -73,14 +81,40 @@ Ext.define('Onc.hub.Hub', {
                         });
                     });
                     Ext.Array.forEach(replies, function(reply) {
-                        reply[0](reply[1]);
-                    });
+                        var subscriber = reply[0];
+                        var replyData = reply[1]
+                        replyData = this._mapReply(subscriber, replyData);
+                        subscriber(replyData);
+                    }.bind(this));
                 },
                 failure: function(response) {
                     console.error("Failed to poll %s", this.URL);
                 },
                 scope: this
             });
+        },
+
+        _registerMapping: function(subscriber, resources) {
+            var mapping = this._allSubscribers.assoc(subscriber);
+            if (!mapping)
+                mapping = this._allSubscribers.setassoc(subscriber, {});
+            Ext.Object.each(resources, function(name, url) {
+                if (url in mapping)
+                    throw new Error("URL already in subscriber resource mapping");
+                mapping[url] = name;
+            });
+        },
+
+        _mapReply: function(subscriber, replyData) {
+            var mapping = this._allSubscribers.assoc(subscriber);
+            if (!mapping) return replyData;
+
+            var ret = {};
+            Ext.Object.each(replyData, function(url, value) {
+                var name = (url in mapping) ? mapping[url] : url;
+                ret[name] = value;
+            });
+            return ret;
         }
     }
 });
