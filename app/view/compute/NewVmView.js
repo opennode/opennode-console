@@ -134,16 +134,17 @@ Ext.define('Onc.view.compute.NewVmView', {
             }, {
                 xtype: 'fieldset',
                 title: "Network",
-                items: [{
-                    fieldLabel: "Network Type",
-                    xtype: 'radiogroup',
-                    columns: 2,
-                    vertical: true,
-                    items: [
-                        {boxLabel: "VENET", name: 'network-type', inputValue: 'venet', checked: true},
-                        {boxLabel: "VETH", name: 'network-type', inputValue: 'veth'},
-                    ]
-                }, {
+                items: [// {
+                //     fieldLabel: "Network Type",
+                //     xtype: 'radiogroup',
+                //     columns: 2,
+                //     vertical: true,
+                //     items: [
+                //         {boxLabel: "VENET", name: 'network-type', inputValue: 'venet', checked: true},
+                //         {boxLabel: "VETH", name: 'network-type', inputValue: 'veth'},
+                //     ]
+                // },
+                        {
                     fieldLabel: "Hostname",
                     name: 'hostname',
                     xtype: 'textfield'
