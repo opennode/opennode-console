@@ -75,11 +75,16 @@ Ext.define('Onc.hub.Hub', {
 
             Ext.Ajax.request({
                 method: this.METHOD, url: BACKEND_PREFIX + this.URL,
+                params: {'after': this._relativisticToken || 0},
                 jsonData: allSubscribedResources,
                 success: function(response) {
                     var result = Ext.JSON.decode(response.responseText);
+                    this._relativisticToken = result[0];
+                    var valueData = result[1];
+
                     var values = {};
-                    Ext.Array.forEach(result, function(value, i) {
+                    Ext.Object.each(valueData, function(i, value) {
+                        i = parseInt(i);
                         values[allSubscribedResources[i]] = value;
                     });
                     var replies = [];
