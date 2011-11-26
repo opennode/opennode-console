@@ -9,6 +9,14 @@ Ext.define('Onc.hub.Hub', {
 
         /**
          *  Subscribes the given objects to the specified resources.
+         *
+         *  Resources can either be an array of URLs, or a mapping of
+         *  name => URL. If a mapping is provided, the subscriber will
+         *  be fed a dictionary of values where keys are names not
+         *  URLs.
+         *
+         *  @param {Array|Object} resources The list or dict of resources.
+         *  @param {Function} subscriber The function to pass incoming data to.
          */
         subscribe: function(resources, subscriber, _remove) {
             if (!(subscriber instanceof Function))
@@ -39,6 +47,9 @@ Ext.define('Onc.hub.Hub', {
 
         /**
          * Inverse of subscribe.
+         *
+         * @param {Array|Object} resources Same as with `subscribe`
+         * @param {Function} subscriber The function instance that was used to create the subscription.
          */
         unsubscribe: function(resources, subscriber) {
             this.subscribe(resources, subscriber, true);
