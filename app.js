@@ -163,6 +163,10 @@ Array.prototype.repeat = function(n) {
     return ret;
 };
 
+Array.prototype.contains = function(i) {
+    return Ext.Array.contains(this, i);
+};
+
 
 Array.prototype.setassoc = function(k, v) {
     for (var i = this.length - 1; i >= 0; i -= 1) {
@@ -180,6 +184,59 @@ Array.prototype.assoc = function(k, dflt) {
             return this[i][1];
     }
     return dflt;
+};
+Array.prototype.delassoc = function(k) {
+    for (var i = this.length - 1; i >= 0; i -= 1) {
+        if (this[i][0] === k) {
+            this.splice(i, 1);
+            break;
+        }
+    }
+};
+
+Array.prototype.setmassoc = function(k, v) {
+    for (var i = this.length - 1; i >= 0; i -= 1) {
+        var k1 = this[i][0];
+        var v1 = this[i][1];
+        if (k1 === k && v1 === v)
+            return;
+    }
+    this.push([k, v]);
+};
+Array.prototype.massoc = function(k) {
+    var ret = [];
+    for (var i = this.length - 1; i >= 0; i -= 1) {
+        if (this[i][0] === k)
+            ret.push(this[i][1]);
+    }
+    return ret;
+};
+Array.prototype.massocKeys = function() {
+    return Ext.Array.unique(this.map(function(kv) { return kv[0]; }));
+};
+Array.prototype.massocValues = function() {
+    return Ext.Array.unique(this.map(function(kv) { return kv[1]; }));
+};
+Array.prototype.massocForEach = function(fun) {
+    var me = this;
+    this.massocKeys().forEach(function(key) {
+        fun(key, me.massoc(key));
+    });
+};
+Array.prototype.assocForEach = function(fun) {
+    this.forEach(function(pair) { fun(pair[0], pair[1]); });
+};
+
+Array.prototype.flatten = function() {
+    var ret = [];
+    this.forEach(function(i) {
+        ret.push.apply(ret, i);
+    });
+    return ret;
+};
+
+Array.prototype.keep = function(f) {
+    return this.filter(function(i) { return !f(i); });
 };
 
 
