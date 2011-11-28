@@ -38,10 +38,12 @@ Ext.define('Onc.view.compute.NewVmView', {
                         {
                     fieldLabel: 'Template',
                     name: 'template',
+                    hiddenName: 'template',  // So that valueField would be respected when POSTing
                     xtype: 'combobox',
                     forceSelection: true,
                     store: this.parentCompute.getList('templates'),
                     displayField: 'name_and_base_type',
+                    valueField: 'name',
                     queryMode: 'local'
                 }]
             }, {

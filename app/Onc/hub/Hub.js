@@ -4,8 +4,12 @@ Ext.define('Onc.hub.Hub', {
         URL: 'stream',
         METHOD: 'POST',
 
-        _subscriptions: {},
-        _allSubscribers: [],  // assoc
+        _reg: [],  // massoc
+        _mappings: [],  // assoc
+
+        // State
+        _running: false,
+        _relativisticToken: null,
 
         /**
          *  Subscribes the given objects to the specified resources.
@@ -17,32 +21,33 @@ Ext.define('Onc.hub.Hub', {
          *
          *  @param {Array|Object} resources The list or dict of resources.
          *  @param {Function} subscriber The function to pass incoming data to.
+         *  @param {String} type The type of the subscription, either 'gauge' or 'chart'.
          */
-        subscribe: function(resources, subscriber, _remove) {
+        subscribe: function(subscriber, resources, type, _remove) {
             if (!(subscriber instanceof Function))
                 throw new Error("Subscriber must be callable");
 
-            if (!_remove && !(resources instanceof Array))
-                this._registerMapping(subscriber, resources);
+            var urls;
 
-            var me = this;
-            function _handleUrl(url) {
-                var subscribers = me._subscriptions[url];
-                if (!subscribers) subscribers = me._subscriptions[url] = [];
-
-                var ix = subscribers.indexOf(subscriber);
-                if (ix === -1 && !_remove ||
-                    _remove && ix !== -1)
-                {
-                    if (!_remove) subscribers.push(subscriber);
-                    else Ext.Array.remove(subscribers, subscriber);
-                }
+            if (resources instanceof Array) {
+                urls = resources;
+            } else {
+                urls = Ext.Object.getValues(resources);
+                if (!_remove)
+                    this._registerMapping(subscriber, resources, type);
             }
 
-            if (resources instanceof Array)
-                Ext.Array.forEach(resources, _handleUrl);
-            else
-                Ext.Object.each(resources, function(_, resUrl) { _handleUrl(resUrl); });
+            if (!_remove) {
+                urls.forEach(function(url) {
+                    this._reg.setmassoc(url, subscriber);
+                }.bind(this));
+            } else {
+                var newReg = this._reg.keep(function(reg) {
+                    return (reg[1] === subscriber && (!resources || resources.contains(reg[0])));
+                });
+                console.assert(newReg.length !== this._reg.length, "Registry should shrink after unsubscription");
+                this._reg = newReg;
+            }
         },
 
         /**
@@ -51,11 +56,10 @@ Ext.define('Onc.hub.Hub', {
          * @param {Array|Object} resources Same as with `subscribe`
          * @param {Function} subscriber The function instance that was used to create the subscription.
          */
-        unsubscribe: function(resources, subscriber) {
-            this.subscribe(resources, subscriber, true);
-            for (var resource in this._subscriptions)
-                if ((this._subscriptions[resource] || []).length === 0)
-                    delete this._subscriptions[resource];
+        unsubscribe: function(subscriber, resources) {
+            this.subscribe(subscriber, resources, undefined, true);
+            if (!this._reg.massocValues().contains(subscriber))
+                this._mappings.delassoc(subscriber);
         },
 
         /**
@@ -70,67 +74,77 @@ Ext.define('Onc.hub.Hub', {
         },
 
         _poll: function() {
-            var allSubscribedResources = Ext.Object.getKeys(this._subscriptions);
-            if (allSubscribedResources.length === 0) return;
+            var urls = this._reg.massocKeys();
+            if (urls.length === 0) return;
 
             Ext.Ajax.request({
                 method: this.METHOD, url: BACKEND_PREFIX + this.URL,
-                params: {'after': this._relativisticToken || 0},
-                jsonData: allSubscribedResources,
+                params: {
+                    'after': this._relativisticToken || 0
+                },
+                jsonData: urls,
+
                 success: function(response) {
                     var result = Ext.JSON.decode(response.responseText);
                     this._relativisticToken = result[0];
-                    var valueData = result[1];
+                    var streamData = result[1];
 
-                    var values = {};
-                    Ext.Object.each(valueData, function(i, value) {
-                        i = parseInt(i);
-                        values[allSubscribedResources[i]] = value.pop()[1];
-                    });
                     var replies = [];
-                    Ext.Object.each(this._subscriptions, function(resource, subscribers) {
-                        var value = values[resource];
-                        Ext.Array.forEach(subscribers, function(subscriber) {
-                            var replyData = replies.assoc(subscriber);
-                            if (!replyData) replyData = replies.setassoc(subscriber, {});
-                            replyData[resource] = value;
+                    Ext.Object.each(streamData, function(urlIx, updates) {
+                        if (updates.length === 0) {
+                            console.warn("Stream response violates protocol: value lists in streamData should be non-empty");
+                            return;
+                        }
+                        var urlIx = parseInt(urlIx);
+                        var subscribers = this._reg.massoc(urls[urlIx]);
+                        subscribers.forEach(function(subscriber) {
+                            replies.push([subscriber, [urls[urlIx], updates]]);
                         });
-                    });
-                    Ext.Array.forEach(replies, function(reply) {
-                        var subscriber = reply[0];
-                        var replyData = reply[1]
-                        replyData = this._mapReply(subscriber, replyData);
-                        subscriber(replyData);
                     }.bind(this));
-                },
+
+                    replies.massocForEach(function(subscriber, data) {
+                        var dataAsObj = {};
+                        data.assocForEach(function(url, updates) {
+                            dataAsObj[url] = updates;
+                        });
+                        this._deliverReply(subscriber, dataAsObj);
+                    }.bind(this));
+                }.bind(this),
+
                 failure: function(response) {
                     console.error("Failed to poll %s", this.URL);
-                },
-                scope: this
+                }.bind(this)
             });
         },
 
-        _registerMapping: function(subscriber, resources) {
-            var mapping = this._allSubscribers.assoc(subscriber);
+        _registerMapping: function(subscriber, resources, type) {
+            var mapping = this._mappings.assoc(subscriber);
             if (!mapping)
-                mapping = this._allSubscribers.setassoc(subscriber, {});
+                mapping = this._mappings.setassoc(subscriber, {});
             Ext.Object.each(resources, function(name, url) {
                 if (url in mapping)
                     throw new Error("URL already in subscriber resource mapping");
-                mapping[url] = name;
+                mapping[url] = [name, type];
             });
         },
 
-        _mapReply: function(subscriber, replyData) {
-            var mapping = this._allSubscribers.assoc(subscriber);
-            if (!mapping) return replyData;
+        _deliverReply: function(subscriber, replyData) {
+            var mapping = this._mappings.assoc(subscriber);
 
-            var ret = {};
-            Ext.Object.each(replyData, function(url, value) {
-                var name = (url in mapping) ? mapping[url] : url;
-                ret[name] = value;
+            var data = {};
+            Ext.Object.each(replyData, function(url, updates) {
+                var m = (mapping && url in mapping ? mapping[url] : [url, 'stream']);
+
+                var name = m[0];
+                var type = m[1];
+
+                // If the subscription type is gauge, only the last
+                // value is important. Any previous values are ignored
+                // and so is the timestamp of the last value:
+                data[name] = (type === 'gauge' ? updates.pop()[1] : updates);
             });
-            return ret;
+
+            subscriber(data);
         }
     }
 });
