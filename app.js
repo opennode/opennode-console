@@ -291,3 +291,15 @@ Ext.data.Association.create = function(association){
     }
     return association;
 };
+
+
+function dict(kvs) {
+    if (arguments.length > 1)
+        kvs = Array.prototype.slice.apply(arguments);
+    if (kvs.length % 2 !== 0)
+        throw new Error("dict() takes an even number of arguments");
+    var ret = {};
+    for (var i = 2 * kvs.length - 1; i >= 0; i -= 2)
+        ret[kvs[i - 1]] = kvs[i];
+    return ret;
+};
