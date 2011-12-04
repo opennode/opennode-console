@@ -305,3 +305,28 @@ function dict(kvs) {
         ret[kvs[i - 1]] = kvs[i];
     return ret;
 };
+
+
+function dump(obj) {
+    if (obj instanceof Array)
+        return '[' + obj.map(function(i) { return dump(i); }).join(', ') + ']';
+    else if (typeof obj === 'number' || obj instanceof Number)
+        return ''+obj;
+    else if (typeof obj === 'string' || obj instanceof String)
+        return '"' + obj.replace('"', '\"') + '"';
+    else if (typeof obj === 'boolean' || obj instanceof Boolean)
+        return obj ? 'true' : 'false'
+    else if (obj === null)
+        return 'null';
+    else if (obj === undefined)
+        return 'undefined';
+    else if (obj instanceof Date)
+        return '"' + obj.toString() + '"';
+    else if (obj instanceof Object) {
+        var pairs = [];
+        Ext.Object.each(obj, function(key, value) {
+            pairs.push(key + ': ' + dump(value));
+        });
+        return '{' + pairs.join(', ') + '}';
+    }
+}
