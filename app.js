@@ -253,9 +253,9 @@ Number.prototype.constrain = function(a, b) {
  * non-existing names, so changing 'methodName' to e.g. '#methodName'
  * will effectively comment out that item.
  */
-function inspectMethods(methodNames) {
+function inspectMethods(methodNames, ctor) {
     methodNames.forEach(function iterator(name) {
-        if (name in Onc.components.ContainerReader.prototype) {
+        if (name in ctor.prototype) {
             var stuff = {};
             stuff[name] = function() {
                 var ret = this.callParent(arguments);
@@ -265,7 +265,7 @@ function inspectMethods(methodNames) {
                     console.debug(name, "(", (arguments.length ? arguments : ''), ")")
                 return ret;
             };
-            Ext.override(Onc.components.ContainerReader, stuff);
+            Ext.override(ctor, stuff);
         }
     });
 }
