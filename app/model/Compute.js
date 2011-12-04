@@ -106,5 +106,9 @@ Ext.define('Onc.model.Compute', {
 
     getRepr: function() {
         return this.get('hostname');
+    },
+
+    toString: function() {
+        return '<Compute {0}>'.format(this.getRepr());
     }
 });
