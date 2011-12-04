@@ -44,6 +44,7 @@ Ext.define('Onc.widgets.Gauge', {
     refresh: function() {
         if (this.rendered) {
             var ratio = Math.round(this.value / this.max * 100);
+            ratio = (isNaN(ratio) ? 0 : ratio);
             this.el.down('.value').update('' + ratio);
             this.el.down('.bar div').setWidth('' + ratio + '%');
 
