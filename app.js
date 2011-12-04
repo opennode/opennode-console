@@ -299,7 +299,7 @@ function dict(kvs) {
     if (kvs.length % 2 !== 0)
         throw new Error("dict() takes an even number of arguments");
     var ret = {};
-    for (var i = 2 * kvs.length - 1; i >= 0; i -= 2)
+    for (var i = kvs.length - 1; i >= 0; i -= 2)
         ret[kvs[i - 1]] = kvs[i];
     return ret;
 };
