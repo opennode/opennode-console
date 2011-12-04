@@ -330,3 +330,10 @@ function dump(obj) {
         return '{' + pairs.join(', ') + '}';
     }
 }
+
+
+function empty(obj) {
+    for (var _ in obj)
+        return false;
+    return true;
+}
