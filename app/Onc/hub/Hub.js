@@ -9,7 +9,7 @@ Ext.define('Onc.hub.Hub', {
 
         // State
         _running: false,
-        _relativisticToken: null,
+        _relativisticToken: +(new Date),
 
         /**
          *  Subscribes the given objects to the specified resources.
