@@ -334,7 +334,9 @@ function dump(obj) {
 
 
 function empty(obj) {
-    for (var _ in obj)
-        return false;
+    for (var key in obj) {
+        if (obj.hasOwnProperty(key))
+            return false;
+    }
     return true;
 }
