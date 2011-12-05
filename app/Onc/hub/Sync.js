@@ -29,14 +29,14 @@ Ext.define('Onc.hub.Sync', {
         recordModified: function(rec, changes) {
             console.assert(!rec.phantom);
             console.assert(rec instanceof Onc.model.Base);
+            console.assert(rec.getId(), "Only records with an ID work with Sync");
 
             if (this._doppelganger) {
                 if (rec === this._doppelganger)
                     return;
                 else
-                    console.warn("an unrelated record was modified while syncing doppelgängers");
+                    throw new Error("An unrelated record was modified while syncing doppelgängers");
             }
-            console.assert(rec.getId(), "Only records with an ID work with Sync");
 
             var recId = rec.getId();
             var recType = rec.$className;
@@ -51,16 +51,7 @@ Ext.define('Onc.hub.Sync', {
                 throw new Error("recordModified called for a non-registered record");
 
             found.forEach(function(doppelganger) {
-                // console.debug("syncing doppelgänger %s of %s", ''+doppelganger, ''+rec);
-                // This is the easiest way to avoid an endless recursive loop;
-                // we cannot use silent=true.
-                console.assert(!this._doppelganger)
-                this._doppelganger = doppelganger;
-                try {
-                    doppelganger.set(changes);
-                } finally {
-                    this._doppelganger = null;
-                }
+                this._syncRecord(doppelganger, changes);
             }.bind(this));
         },
 
@@ -69,14 +60,13 @@ Ext.define('Onc.hub.Sync', {
         },
 
         _syncRecord: function(rec, changes) {
-            if (this._doppelganger) {
-                if (this._doppelganger === rec)
-                    return;
-                else
-                    throw new Error("Attempt to sync a record while another one is already being synced");
-            }
+            if (this._doppelganger)
+                throw new Error("Attempt to sync a record while another one is already being synced");
 
+            // This is the easiest way to avoid an endless recursive
+            // loop; we cannot use silent=true.
             this._doppelganger = rec;
+
             try {
                 var wasEditing = rec.editing;
 
