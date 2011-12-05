@@ -24,7 +24,8 @@ Ext.syncRequire([
     'Onc.polymorphic.Reader',
     'Onc.polymorphic.Association',
 
-    'Onc.hub.Hub'
+    'Onc.hub.Hub',
+    'Onc.hub.Sync'
 ]);
 
 Ext.application({
