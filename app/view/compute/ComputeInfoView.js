@@ -50,10 +50,8 @@ Ext.define('Onc.view.compute.ComputeInfoView', {
 
     _onDataFromHub: function(values) {
         Ext.Object.each(values, function(name, value) {
-            console.debug('iter: name = %s, value = ', name, value)
             this.child('#{0}-gauge'.format(name)).setValue(value);
         }.bind(this));
-        this.__streamUnsubscribe();
     },
 
     onDestroy: function() {
