@@ -123,7 +123,7 @@ Ext.define('Onc.hub.Hub', {
                 mapping = this._mappings.setassoc(subscriber, {});
             Ext.Object.each(resources, function(name, url) {
                 if (url in mapping)
-                    throw new Error("URL already in subscriber resource mapping");
+                    throw new Error("URL '{0}' already in subscriber resource mapping".format(url));
                 mapping[url] = [name, type];
             });
         },
