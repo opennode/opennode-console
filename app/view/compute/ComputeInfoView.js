@@ -41,7 +41,7 @@ Ext.define('Onc.view.compute.ComputeInfoView', {
             'memory': baseUrl + 'metrics/{0}_usage'.format('memory'),
             'network': baseUrl + 'metrics/{0}_usage'.format('network'),
             'diskspace': baseUrl + 'metrics/{0}_usage'.format('diskspace'),
-        });
+        }, 'gauge');
     },
 
     __streamUnsubscribe: function() {
