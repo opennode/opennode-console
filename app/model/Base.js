@@ -44,15 +44,11 @@ Ext.define('Onc.model.Base', {
     },
 
     reject: function(_) {
-        var rejected = this.getChanges();
+        var original = clone(this.modified);
 
         this.callParent(arguments);
 
-        var changes = {};
-        for (var key in rejected)
-            changes[key] = this.get(key);
-
-        this._maybeNotifyChanges(rejected);
+        this._maybeNotifyChanges(original);
     },
 
     set: function(name, value) {
