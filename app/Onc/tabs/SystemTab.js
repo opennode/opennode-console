@@ -13,7 +13,7 @@ Ext.define('Onc.tabs.SystemTab', {
                 xtype: 'box',
                 padding: 5
             },
-            items: [{html: 'CPU info'}, {style: "font-weight: bold", html: rec.get('cpu')},
+            items: [{html: 'CPU info'}, {style: "font-weight: bold", html: rec.get('cpu_info')},
                     {html: 'Memory'}, {style: "font-weight: bold", html: rec.get('memory') + 'MB'},
                     {html: 'OS Release'}, {style: "font-weight: bold", html: rec.get('os_release')},
                     {html: 'Kernel'}, {style: "font-weight: bold", html: rec.get('kernel')},
