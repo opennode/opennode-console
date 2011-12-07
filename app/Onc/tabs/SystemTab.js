@@ -26,19 +26,16 @@ Ext.define('Onc.tabs.SystemTab', {
                 width: 250,
                 margin: 10
             },
-            items: [{label: 'CPU Usage', value: 0},
+            items: [
                     {label: 'HD Space (Root Partition)', value: 0, max: rec.get('diskspace_rootpartition'), unit: 'MB'},
 
-                    {label: 'IO Delays', value: 0},
                     {label: 'HD Space (Storage Partition)', value: 0, max: rec.get('diskspace_storagepartition'), unit: 'GB'},
 
                     {label: 'Physical Memory', value: 0, max: rec.get('memory'), unit: 'MB'},
                     {label: 'HD Space (VZ Partition)', value: 0, max: rec.get('diskspace_vzpartition'), unit: 'GB'},
 
                     {label: 'Swap Space', value: 0, max: rec.get('swap_size'), unit: 'MB'},
-                    {label: 'HD Space (Backup Partition)', value: 0, max: rec.get('diskspace_backuppartition'), unit: 'GB'},
-
-                    {label: 'Network Usage', value: 0, max: rec.get('network_usage'), unit: 'Mbps'}]
+                    {label: 'HD Space (Backup Partition)', value: 0, max: rec.get('diskspace_backuppartition'), unit: 'GB'}]
         }];
 
         var me = this;
