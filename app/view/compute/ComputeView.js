@@ -34,11 +34,13 @@ Ext.define('Onc.view.compute.ComputeView', {
 	            title: 'Network',
 	            xtype: 'computenetworktab',
 	            iconCls: 'icon-network'
-	        }, {
-	            title: 'Storage',
-	            xtype: 'computestoragetab',
-	            iconCls: 'icon-hd'
-	        }, {
+	        }, 
+//	        {
+//	            title: 'Storage',
+//	            xtype: 'computestoragetab',
+//	            iconCls: 'icon-hd'
+//	        }, 
+	        	{
 	            title: 'Templates',
 	            xtype: 'computetemplatestab',
 	            iconCls: 'icon-template'
