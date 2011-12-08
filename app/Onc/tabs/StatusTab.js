@@ -75,7 +75,8 @@ Ext.define('Onc.tabs.StatusTab', {
         function _makeGaugeColumn(label, name) {
             return {
                 header: label,
-                width: 135,
+                width: 80,
+                align: 'center',
                 dataIndex: 'id',
                 renderer: function(vmId, meta) {
                     var id = Ext.id();
@@ -90,7 +91,7 @@ Ext.define('Onc.tabs.StatusTab', {
 
                         var gauge = Ext.create('Onc.widgets.Gauge', {
                             renderTo: id,
-                            label: label
+                            label: '',
                         });
                     }, 0);
                     return Ext.String.format('<div id="{0}"></div>', id);
@@ -118,15 +119,15 @@ Ext.define('Onc.tabs.StatusTab', {
             columns: [
                 {header: 'State', xtype: 'templatecolumn', tpl: '<div class="state-icon" title="{state}"></div>', width: 40},
                 {header: 'Name', dataIndex: 'hostname', width: 75, editor: {xtype: 'textfield', allowBlank: false}},
-                {header: 'Inet4', dataIndex: 'ip_address', editor: {xtype: 'textfield', allowBlank: false}},
-                {header: 'Inet6', dataIndex: 'ipv6_address', editor: {xtype: 'textfield', allowBlank: false}},
+                {header: 'Inet4', dataIndex: 'ipv4_address', editor: {xtype: 'textfield', allowBlank: true}},
+                {header: 'Inet6', dataIndex: 'ipv6_address', editor: {xtype: 'textfield', allowBlank: true}},
 
-                {xtype: 'actioncolumn', sortable: false, width: 4 * (32 + 2), items: rowActions},
+                {xtype: 'actioncolumn', sortable: false, width: 3 * (20 + 2), items: rowActions, align: 'center'},
                 _makeGaugeColumn('CPU usage', 'cpuUsage'),
                 _makeGaugeColumn('Memory usage', 'memUsage'),
                 _makeGaugeColumn('Disk usage', 'diskUsage'),
 
-                {header: 'ID', dataIndex: 'id', width: 130}
+                {header: 'ID', dataIndex: 'id', width: 130, hidden: true}
             ]
         }];
 
