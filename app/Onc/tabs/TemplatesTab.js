@@ -11,18 +11,30 @@ Ext.define('Onc.tabs.TemplatesTab', {
             store: this.record.getList('templates'),
             forceFit: true,
             multiSelect: true,
-            tbar: [{icon: 'img/icon/add.png'},
-                   {icon: 'img/icon/delete.png'}],
-            plugins: Ext.create('Ext.grid.plugin.RowEditing'),
 
             columns: [
-                {header: 'ID', dataIndex: 'id', width: 40},
+                {header: 'ID', dataIndex: 'id', hidden: true},
                 {header: 'Name', dataIndex: 'name'},
-                {header: 'Base OS', dataIndex: 'base_os'},
-                {header: 'Min. Disk', dataIndex: 'min_disk'},
-                {header: 'Min. Memory', dataIndex: 'min_memory'},
-                {header: 'Min. CPU', dataIndex: 'min_cpu'},
-                {header: 'Storage Name', dataIndex: 'storage_name'}
+                {header: 'Base Type', dataIndex: 'base_type'},
+                {header: 'Password', dataIndex: 'password', hidden: true},
+                {header: 'Nameserver', dataIndex: 'nameserver'},
+                {header: 'Default IP', dataIndex: 'ip'},
+
+                {header: 'Min. Memory', dataIndex: 'memory_min'},
+                {header: 'Default Memory', dataIndex: 'memory_default'},
+                {header: 'Max. Memory', dataIndex: 'memory_max', hidden: true},
+                
+                {header: 'Min. Disk', dataIndex: 'disk_min'},
+                {header: 'Default Disk', dataIndex: 'disk_default'},
+                {header: 'Max. Disk', dataIndex: 'disk_max', hidden: true},
+
+                {header: 'Min. Cores', dataIndex: 'cores_min', hidden: true},
+                {header: 'Default Cores', dataIndex: 'cores_default', hidden: true},
+                {header: 'Max. Cores', dataIndex: 'cores_max', hidden: true},
+                
+                {header: 'Min. CPU Limit', dataIndex: 'cpu_limit_min', hidden: true},
+                {header: 'Default CPU Limit', dataIndex: 'cpu_limit_default', hidden: true},
+                {header: 'Max. CPU Limit', dataIndex: 'cpu_limit_max', hidden: true},
             ]
         };
         this.callParent(arguments);

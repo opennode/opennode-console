@@ -350,3 +350,10 @@ function clone(obj) {
     }
     return ret;
 }
+
+
+function idx(field_idx) {
+	return function(value) {
+		return value[field_idx];
+	}
+}
