@@ -18,7 +18,7 @@ Ext.define('Onc.view.compute.ComputeInfoView', {
         };
         this.items = [
             {label: 'CPU', itemId: 'cpu-gauge', value: 0, iconCls: 'icon-cpu', max: rec.getMaxCpuLoad()},
-            {label: 'MEM', itemId: 'memory-gauge', value: 0, max: rec.get('memory'), unit: 'MB'},
+            {label: 'MEM', itemId: 'memory-gauge', value: 0, iconCls: 'icon-memory', max: rec.get('memory'), unit: 'MB'},
             {label: 'NET', itemId: 'network-gauge', value: 0, iconCls: 'icon-network', max: rec.get('network'), unit: 'Mbs'},
             {label: 'DISK', itemId: 'diskspace-gauge', value: 0, iconCls: 'icon-hd', max: rec.get('diskspace')['total'], unit: 'GB'}
         ];
