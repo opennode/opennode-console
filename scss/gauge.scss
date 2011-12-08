@@ -3,7 +3,6 @@
 .gauge {
     text-align: center;
     padding: 5px;
-    border: 1px solid lightblue;
     @include -border-radius(5px);
 
     span { font-size: 11px; }
@@ -27,6 +26,7 @@
     }
 
     &.with-icon {
+        border: 1px solid lightblue;
         padding-left: 35px;
         background-repeat: no-repeat;
         background-position: 5px 5px;
