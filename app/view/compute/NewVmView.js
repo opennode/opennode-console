@@ -44,7 +44,7 @@ Ext.define('Onc.view.compute.NewVmView', {
                     store: this.parentCompute.getList('templates'),
                     displayField: 'name_and_base_type',
                     valueField: 'name',
-                    queryMode: 'local'
+                    queryMode: 'remote'
                 }]
             }, {
                 xtype: 'fieldset',
