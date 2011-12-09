@@ -40,7 +40,8 @@ Ext.define('Onc.tabs.SystemTab', {
 
         var me = this;
         this._uptimeUpdateInterval = setInterval(function() {
-            me.down('#uptime').update('' + rec.getUptime());
+            me.down('#uptime').update(rec.get('status') === 'active' ?
+                                      rec.getUptime() : 'Server is switched off.');
         }, 1000);
 
         this.callParent(arguments);

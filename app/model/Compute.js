@@ -52,7 +52,7 @@ Ext.define('Onc.model.Compute', {
 
     getUptime: function() {
         if (this.get('state') === 'inactive')
-            return 'Server is switched off.';
+            return null;
         var timestamp = new Date(Date.parse(this.get('startup_timestamp')));
 
         var s = Math.round((+(new Date()) - +timestamp) / 1000);
