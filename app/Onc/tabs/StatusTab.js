@@ -90,7 +90,8 @@ Ext.define('Onc.tabs.StatusTab', {
                         if (!Ext.get(id)) return;
 
                         var gauge = Ext.create('Onc.widgets.Gauge', {
-                            renderTo: id
+                            renderTo: id,
+                            border: false
                         });
                     }, 0);
                     return Ext.String.format('<div id="{0}"></div>', id);
