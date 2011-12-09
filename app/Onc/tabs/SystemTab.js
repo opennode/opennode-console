@@ -27,15 +27,16 @@ Ext.define('Onc.tabs.SystemTab', {
                 margin: 10
             },
             items: [
-                    {label: 'HD Space (Root Partition)', value: 0, max: rec.get('diskspace_rootpartition'), unit: 'MB'},
+                {label: 'HD Space (Root Partition)', value: 0, max: rec.get('diskspace_rootpartition'), unit: 'MB'},
 
-                    {label: 'HD Space (Storage Partition)', value: 0, max: rec.get('diskspace_storagepartition'), unit: 'GB'},
+                {label: 'HD Space (Storage Partition)', value: 0, max: rec.get('diskspace_storagepartition'), unit: 'GB'},
 
-                    {label: 'Physical Memory', value: 0, max: rec.get('memory'), unit: 'MB'},
-                    {label: 'HD Space (VZ Partition)', value: 0, max: rec.get('diskspace_vzpartition'), unit: 'GB'},
+                {label: 'Physical Memory', value: 0, max: rec.get('memory'), unit: 'MB'},
+                {label: 'HD Space (VZ Partition)', value: 0, max: rec.get('diskspace_vzpartition'), unit: 'GB'},
 
-                    {label: 'Swap Space', value: 0, max: rec.get('swap_size'), unit: 'MB'},
-                    {label: 'HD Space (Backup Partition)', value: 0, max: rec.get('diskspace_backuppartition'), unit: 'GB'}]
+                {label: 'Swap Space', value: 0, max: rec.get('swap_size'), unit: 'MB'},
+                {label: 'HD Space (Backup Partition)', value: 0, max: rec.get('diskspace_backuppartition'), unit: 'GB'}
+            ]
         }];
 
         var me = this;
