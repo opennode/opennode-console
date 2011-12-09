@@ -3,11 +3,14 @@
   padding: 5px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
-  border-radius: 5px; }
+  border-radius: 5px;
+  overflow: hidden; }
   .gauge span {
     font-size: 11px; }
   .gauge label {
     font-weight: bold; }
+  .gauge > span {
+    white-space: nowrap; }
   .gauge .bar {
     margin-top: 3px;
     background-color: lightgray; }

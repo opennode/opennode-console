@@ -4,9 +4,11 @@
     text-align: center;
     padding: 5px;
     @include -border-radius(5px);
+    overflow: hidden;
 
     span { font-size: 11px; }
     label { font-weight: bold; }
+    & > span { white-space: nowrap; }
 
     .bar {
         margin-top: 3px;
