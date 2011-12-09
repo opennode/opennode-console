@@ -14,13 +14,17 @@ Ext.define('Onc.view.compute.ComputeInfoView', {
         this.defaults = {
             xtype: 'gauge',
             margin: '0 5px',
-            width: 160
+            width: 200
         };
         this.items = [
-            {label: 'CPU', itemId: 'cpu-gauge', value: 0, iconCls: 'icon-cpu', max: rec.getMaxCpuLoad()},
-            {label: 'MEM', itemId: 'memory-gauge', value: 0, iconCls: 'icon-memory', max: rec.get('memory'), unit: 'MB'},
-            {label: 'NET', itemId: 'network-gauge', value: 0, iconCls: 'icon-network', max: rec.get('network'), unit: 'Mbs'},
-            {label: 'DISK', itemId: 'diskspace-gauge', value: 0, iconCls: 'icon-hd', max: rec.get('diskspace')['total'], unit: 'GB'}
+            {label: 'CPU', itemId: 'cpu-gauge', iconCls: 'icon-cpu',
+             value: 0, max: rec.getMaxCpuLoad()},
+            {label: 'MEM', itemId: 'memory-gauge', iconCls: 'icon-memory',
+             value: 0, max: rec.get('memory'), unit: 'MB'},
+            {label: 'NET', itemId: 'network-gauge', iconCls: 'icon-network',
+             value: 0, max: rec.get('network'), unit: 'Mbs'},
+            {label: 'DISK', itemId: 'diskspace-gauge', iconCls: 'icon-hd',
+             value: 0, max: rec.get('diskspace')['total'], unit: 'GB'}
         ];
 
         this.callParent(arguments);
