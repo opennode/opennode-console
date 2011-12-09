@@ -27,13 +27,14 @@
     .gauge .bar, .gauge .bar div {
       height: 5px;
       border-radius: 2.5px; }
-    .gauge .bar.overload div {
+    .gauge .bar.overload {
       -webkit-animation: blink 0.5s infinite alternate; }
   .gauge.with-icon {
-    border: 1px solid lightblue;
     padding-left: 35px;
     background-repeat: no-repeat;
     background-position: 5px 5px; }
+  .gauge.with-border {
+    border: 1px solid lightblue; }
 
 #search-results {
   width: 215px;

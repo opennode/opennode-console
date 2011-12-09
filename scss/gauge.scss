@@ -37,9 +37,12 @@
     }
 
     &.with-icon {
-        border: 1px solid lightblue;
         padding-left: 35px;
         background-repeat: no-repeat;
         background-position: 5px 5px;
+    }
+
+    &.with-border {
+        border: 1px solid lightblue;
     }
 }

@@ -29,6 +29,8 @@ Ext.define('Onc.widgets.Gauge', {
             this.el.addCls(this.iconCls);
             this.el.addCls('with-icon');
         }
+        if (this.border !== false)
+            this.el.addCls('with-border');
     },
 
     afterRender: function() {
