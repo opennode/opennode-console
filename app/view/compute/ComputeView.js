@@ -22,29 +22,27 @@ Ext.define('Onc.view.compute.ComputeView', {
             title: 'System',
             xtype: 'computesystemtab',
             iconCls: 'icon-mainframe'
-        }]
-        
+        }];
+
         if (rec.getChild('vms')) {
             tabs.unshift({
             	title: 'VMs',
             	xtype: 'computestatustab',
             	iconCls: 'icon-status'
        		});
-       		tabs.push({
-	            title: 'Network',
-	            xtype: 'computenetworktab',
-	            iconCls: 'icon-network'
-	        }, 
-//	        {
-//	            title: 'Storage',
-//	            xtype: 'computestoragetab',
-//	            iconCls: 'icon-hd'
-//	        }, 
-	        	{
-	            title: 'Templates',
-	            xtype: 'computetemplatestab',
-	            iconCls: 'icon-template'
-	        });
+            tabs.push({
+                title: 'Network',
+                xtype: 'computenetworktab',
+                iconCls: 'icon-network'
+            // }, {
+            //     title: 'Storage',
+            //     xtype: 'computestoragetab',
+            //     iconCls: 'icon-hd'
+            }, {
+                title: 'Templates',
+                xtype: 'computetemplatestab',
+                iconCls: 'icon-template'
+            });
         }
 
        	if (rec.data['state'] == 'active')
