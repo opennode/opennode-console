@@ -1,3 +1,10 @@
+@-webkit-keyframes blink {
+  0% {
+    -webkit-opacity: 1.0; }
+
+  100% {
+    -webkit-opacity: 0.1; } }
+
 .gauge {
   text-align: center;
   padding: 5px;
@@ -20,6 +27,8 @@
     .gauge .bar, .gauge .bar div {
       height: 5px;
       border-radius: 2.5px; }
+    .gauge .bar.overload div {
+      -webkit-animation: blink 0.5s infinite alternate; }
   .gauge.with-icon {
     border: 1px solid lightblue;
     padding-left: 35px;

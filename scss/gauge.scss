@@ -1,5 +1,10 @@
 @import "utils";
 
+@-webkit-keyframes blink {
+    0% { -webkit-opacity: 1.0;}
+    100% { -webkit-opacity: 0.1; }
+}
+
 .gauge {
     text-align: center;
     padding: 5px;
@@ -24,6 +29,10 @@
 
             height: $height;
             border-radius: $height / 2;
+        }
+
+        &.overload {
+            -webkit-animation: blink 0.5s infinite alternate;
         }
     }
 
