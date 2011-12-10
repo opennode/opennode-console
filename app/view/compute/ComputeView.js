@@ -26,10 +26,10 @@ Ext.define('Onc.view.compute.ComputeView', {
 
         if (rec.getChild('vms')) {
             tabs.unshift({
-            	title: 'VMs',
-            	xtype: 'computestatustab',
-            	iconCls: 'icon-status'
-       		});
+                title: 'VMs',
+                xtype: 'computevmlisttab',
+                iconCls: 'icon-vmlist'
+            });
             tabs.push({
                 title: 'Network',
                 xtype: 'computenetworktab',

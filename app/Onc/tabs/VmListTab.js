@@ -1,6 +1,6 @@
-Ext.define('Onc.tabs.StatusTab', {
+Ext.define('Onc.tabs.VmListTab', {
     extend: 'Onc.tabs.Tab',
-    alias: 'widget.computestatustab',
+    alias: 'widget.computevmlisttab',
 
     layout: 'fit',
 

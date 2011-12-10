@@ -14,7 +14,7 @@ Ext.syncRequire([
     'Onc.widgets.Shell',
     'Onc.widgets.Vnc',
     'Onc.tabs.Tab',
-    'Onc.tabs.StatusTab',
+    'Onc.tabs.VmListTab',
     'Onc.tabs.SystemTab',
     'Onc.tabs.NetworkTab',
     'Onc.tabs.StorageTab',

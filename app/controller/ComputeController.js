@@ -9,14 +9,14 @@ Ext.define('Onc.controller.ComputeController', {
 
     init: function() {
         this.control({
-            'computeview computestatustab #new-vm-button': {
+            'computeview computevmlisttab #new-vm-button': {
                 click: function() {
                     this.getView('compute.NewVmView').create({
                         parentCompute: this.getComputeInfo().record
                     }).show();
                 }
             },
-            'computeview computestatustab': {
+            'computeview computevmlisttab': {
                 showvmdetails: function(vm) {
                     var computeId = vm.get('id');
                     this.getController('MainController').openComputeInTab(computeId);
