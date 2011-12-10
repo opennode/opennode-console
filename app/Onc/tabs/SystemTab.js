@@ -27,15 +27,15 @@ Ext.define('Onc.tabs.SystemTab', {
                 margin: 10
             },
             items: [
-                {label: 'HD Space (Root Partition)', value: 0, max: rec.get('diskspace_rootpartition'), unit: 'MB'},
+                {itemId: 'diskspace-root-gauge', label: 'HD Space (Root Partition)', value: 0, max: rec.get('diskspace_rootpartition'), unit: 'MB'},
 
-                {label: 'HD Space (Storage Partition)', value: 0, max: rec.get('diskspace_storagepartition'), unit: 'GB'},
+                {itemId: 'diskspace-storage-gauge', label: 'HD Space (Storage Partition)', value: 0, max: rec.get('diskspace_storagepartition'), unit: 'GB'},
 
-                {label: 'Physical Memory', value: 0, max: rec.get('memory'), unit: 'MB'},
-                {label: 'HD Space (VZ Partition)', value: 0, max: rec.get('diskspace_vzpartition'), unit: 'GB'},
+                {itemId: 'ram-gauge', label: 'Physical Memory', value: 0, max: rec.get('memory'), unit: 'MB'},
+                {itemId: 'diskspace-vz-gauge', label: 'HD Space (VZ Partition)', value: 0, max: rec.get('diskspace_vzpartition'), unit: 'GB'},
 
-                {label: 'Swap Space', value: 0, max: rec.get('swap_size'), unit: 'MB'},
-                {label: 'HD Space (Backup Partition)', value: 0, max: rec.get('diskspace_backuppartition'), unit: 'GB'}
+                {itemId: 'diskspace-swap-gauge', label: 'Swap Space', value: 0, max: rec.get('swap_size'), unit: 'MB'},
+                {itemId: 'diskspace-backup-gauge', label: 'HD Space (Backup Partition)', value: 0, max: rec.get('diskspace_backuppartition'), unit: 'GB'}
             ]
         }];
 
