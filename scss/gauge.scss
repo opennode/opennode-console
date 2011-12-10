@@ -1,9 +1,13 @@
 @import "utils";
 
-@-webkit-keyframes blink {
-    0% { -webkit-opacity: 1.0;}
-    100% { -webkit-opacity: 0.1; }
+@mixin blink-keyframes {
+    from { opacity: 1.0; }
+    to { opacity: 0.1; }
 }
+
+@keyframes blink { @include blink-keyframes(); }
+@-webkit-keyframes blink { @include blink-keyframes(); }
+@-moz-keyframes blink { @include blink-keyframes(); }
 
 .gauge {
     text-align: center;
