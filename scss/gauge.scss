@@ -8,7 +8,7 @@
 .gauge {
     text-align: center;
     padding: 5px;
-    @include -border-radius(5px);
+    @include xbrowser(border-radius, 5px);
     overflow: hidden;
 
     span { font-size: 11px; }
@@ -21,7 +21,7 @@
 
         div {
             background-color: blue;
-            -webkit-transition: width 0.25s ease-out;
+            @include xbrowser(transition, width 0.25s ease-out);
         }
 
         &, div {
@@ -32,7 +32,7 @@
         }
 
         &.overload {
-            -webkit-animation: blink 0.5s infinite alternate;
+            @include xbrowser(animation, blink 0.5s infinite alternate);
         }
     }
 
