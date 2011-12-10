@@ -60,8 +60,6 @@ Ext.define('Onc.view.compute.ComputeInfoView', {
 
     onDestroy: function() {
         this.callParent(arguments);
-        clearInterval(this._randomDataInterval);
-        delete this._randomDataInterval;
         this.__streamUnsubscribe();
     }
 });
