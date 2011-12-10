@@ -1,5 +1,6 @@
-@mixin -border-radius($val) {
-  -webkit-border-radius: $val;
-  -moz-border-radius: $val;
-  border-radius: $val;
+@mixin xbrowser($name, $val) {
+    #{$name}: $val;
+    -ms-#{$name}: $val;
+    -webkit-#{$name}: $val;
+    -moz-#{$name}: $val;
 }
