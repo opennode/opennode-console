@@ -33,9 +33,10 @@ Ext.define('Onc.hub.Hub', {
                 urls = resources;
             } else {
                 urls = Ext.Object.getValues(resources);
-                if (!_remove)
-                    this._registerMapping(subscriber, resources, type);
             }
+
+            if (!_remove)
+                this._registerMapping(subscriber, resources, type);
 
             if (!_remove) {
                 urls.forEach(function(url) {
@@ -123,11 +124,22 @@ Ext.define('Onc.hub.Hub', {
             var mapping = this._mappings.assoc(subscriber);
             if (!mapping)
                 mapping = this._mappings.setassoc(subscriber, {});
-            Ext.Object.each(resources, function(name, url) {
+
+            function _addMapping(url, m) {
                 if (url in mapping)
                     throw new Error("URL '{0}' already in subscriber resource mapping".format(url));
-                mapping[url] = [name, type];
-            });
+                mapping[url] = m;
+            }
+
+            if (resources instanceof Array) {
+                resources.forEach(function(url) {
+                    _addMapping(url, [url, type]);
+                });
+            } else {
+                Ext.Object.each(resources, function(name, url) {
+                    _addMapping(url, [name, type]);
+                });
+            }
         },
 
         _deliverReply: function(subscriber, replyData) {
