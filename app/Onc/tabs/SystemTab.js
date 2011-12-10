@@ -48,9 +48,36 @@ Ext.define('Onc.tabs.SystemTab', {
         this.callParent(arguments);
     },
 
+    onRender: function() {
+        this.callParent(arguments);
+        this._streamSubscribe();
+    },
+
+    _streamSubscribe: function() {
+        console.assert(!this._hubListener);
+        this._hubListener = this._onDataFromHub.bind(this);
+
+        var baseUrl= this.record.get('url');
+        Onc.hub.Hub.subscribe(this._hubListener, {
+            'memory': baseUrl + 'metrics/{0}_usage'.format('memory'),
+            'diskspace': baseUrl + 'metrics/{0}_usage'.format('diskspace'),
+        }, 'gauge');
+    },
+
+    _streamUnsubscribe: function() {
+        Onc.hub.Hub.unsubscribe(this._hubListener);
+    },
+
+    _onDataFromHub: function(values) {
+        this.down('#ram-gauge').setValue(values['memory']);
+    },
+
     onDestroy: function() {
         this.callParent(arguments);
+
         clearInterval(this._uptimeUpdateInterval);
         delete this._uptimeUpdateInterval;
+
+        this._streamUnsubscribe();
     }
 });
