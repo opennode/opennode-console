@@ -78,7 +78,7 @@ Ext.define('Onc.tabs.StatusTab', {
                 width: 80,
                 align: 'center',
                 dataIndex: 'id',
-                renderer: function(vmId, meta) {
+                renderer: function(vmId, meta, rec) {
                     var id = Ext.id();
                     setTimeout(function() {
                         // XXX: For some weird reason, when a new
@@ -89,10 +89,20 @@ Ext.define('Onc.tabs.StatusTab', {
                         // available, causing Gauge to error out.
                         if (!Ext.get(id)) return;
 
+                        var max = (name === 'cpu' ? rec.getMaxCpuLoad()
+                                   : name === 'diskspace' ? rec.get('diskspace')['total']
+                                   : rec.get(name));
+
                         var gauge = Ext.create('Onc.widgets.Gauge', {
                             renderTo: id,
-                            border: false
+                            border: false,
+                            max: max
                         });
+
+                        var url = rec.get('url') + '/metrics/{0}_usage'.format(name);
+                        var listener = function(data) { gauge.setValue(data[url]); };
+
+                        Onc.hub.Hub.subscribe(listener, [url], 'gauge');
                     }, 0);
                     return Ext.String.format('<div id="{0}"></div>', id);
                 }
@@ -123,9 +133,9 @@ Ext.define('Onc.tabs.StatusTab', {
                 {header: 'Inet6', dataIndex: 'ipv6_address', editor: {xtype: 'textfield', allowBlank: true}},
 
                 {xtype: 'actioncolumn', sortable: false, width: 3 * (20 + 2), items: rowActions, align: 'center'},
-                _makeGaugeColumn('CPU usage', 'cpuUsage'),
-                _makeGaugeColumn('Memory usage', 'memUsage'),
-                _makeGaugeColumn('Disk usage', 'diskUsage'),
+                _makeGaugeColumn('CPU usage', 'cpu'),
+                _makeGaugeColumn('Memory usage', 'memory'),
+                _makeGaugeColumn('Disk usage', 'diskspace'),
 
                 {header: 'ID', dataIndex: 'id', width: 130, hidden: true}
             ]
