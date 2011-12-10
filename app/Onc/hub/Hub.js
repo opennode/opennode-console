@@ -105,8 +105,10 @@ Ext.define('Onc.hub.Hub', {
                     replies.massocForEach(function(subscriber, data) {
                         var dataAsObj = {};
                         data.assocForEach(function(url, updates) {
+                            console.assert(updates.length);
                             dataAsObj[url] = updates;
                         });
+                        console.assert(!empty(dataAsObj));
                         this._deliverReply(subscriber, dataAsObj);
                     }.bind(this));
                 }.bind(this),
@@ -141,7 +143,7 @@ Ext.define('Onc.hub.Hub', {
                 // If the subscription type is gauge, only the last
                 // value is important. Any previous values are ignored
                 // and so is the timestamp of the last value:
-                data[name] = (type === 'gauge' ? updates.pop()[1] : updates);
+                data[name] = (type === 'gauge' ? updates[updates.length - 1][1] : updates);
             });
 
             subscriber(data);
