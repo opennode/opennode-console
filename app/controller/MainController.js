@@ -1,8 +1,8 @@
 Ext.define('Onc.controller.MainController', {
     extend: 'Ext.app.Controller',
 
-    models: ['Base', 'Compute', 'VirtualBridge', 'IpRoute', 'Storage', 'Template', 'VirtualizationContainer', 'Hangar',
-             'Templates', 'SearchResult'],
+    models: ['Base', 'Compute', 'IpRoute', 'Storage', 'Template', 'VirtualizationContainer', 'Hangar',
+             'Templates', 'SearchResult', 'NetworkInterface', 'NetworkInterfaces'],
     stores: ['ComputesStore', 'TemplatesStore', 'SearchResultsStore'],
     views: ['SearchResultsView', 'compute.ComputeView'],
 

@@ -14,7 +14,7 @@ Ext.define('Onc.tabs.NetworkTab', {
             title: 'Bridge Interfaces',
             forceFit: true,
             multiSelect: true,
-            store: rec.bridgeInterfaces(),
+            store: rec.getList('interfaces'),
             tbar: [{icon: 'img/icon/add.png'},
                    {icon: 'img/icon/delete.png'}],
             plugins: Ext.create('Ext.grid.plugin.RowEditing'),
@@ -25,6 +25,8 @@ Ext.define('Onc.tabs.NetworkTab', {
                 {header: 'Inet6', dataIndex: 'ipv6_address', width: 150, editor: {xtype: 'textfield', allowBlank: false }},
                 {header: 'Members', dataIndex: 'members', width: 150,
                  renderer: function (members, _, rec) {
+                     if (!members) return '';
+
                      var id = Ext.id();
                      var memberData = members.map(function(memberName) {
                          return {name: memberName};
