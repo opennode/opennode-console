@@ -21,8 +21,8 @@ Ext.define('Onc.tabs.NetworkTab', {
 
             columns: [
                 {header: 'Name', dataIndex: 'id', width: 40, editor: {xtype: 'textfield', allowBlank: false }},
-                {header: 'Inet4', dataIndex: 'ipv4_address', width: 75, editor: {xtype: 'textfield', allowBlank: false }},
-                {header: 'Inet6', dataIndex: 'ipv6_address', width: 150, editor: {xtype: 'textfield', allowBlank: false }},
+                {header: 'Inet4', dataIndex: 'ipv4_address', width: 75, editor: {xtype: 'textfield', allowBlank: true }},
+                {header: 'Inet6', dataIndex: 'ipv6_address', width: 150, editor: {xtype: 'textfield', allowBlank: true }},
                 {header: 'Members', dataIndex: 'members', width: 150,
                  renderer: function (members, _, rec) {
                      if (!members) return '';
@@ -50,12 +50,12 @@ Ext.define('Onc.tabs.NetworkTab', {
                  }
                 },
                 {header: 'Subnet Mask', dataIndex: 'subnet_mask', width: 75},
-                {header: 'Broadcast', dataIndex: 'bcast', width: 75, editor: {xtype: 'textfield', allowBlank: false }},
-                {header: 'Hardware Address', dataIndex: 'hw_address', editor: {xtype: 'textfield', allowBlank: false }},
-                {header: 'Metric', dataIndex: 'metric', width: 25, editor: {xtype: 'textfield', allowBlank: false }},
-                {header: 'STP', dataIndex: 'stp', width: 40, editor: {xtype: 'textfield', allowBlank: false }},
-                {header: 'RX', dataIndex: 'rx', width: 50},
-                {header: 'TX', dataIndex: 'tx', width: 50}
+                {header: 'Broadcast', dataIndex: 'bcast', width: 75, editor: {xtype: 'textfield', allowBlank: true }},
+                {header: 'Hardware Address', dataIndex: 'hw_address', editor: {xtype: 'textfield', allowBlank: true }},
+                {header: 'Metric', dataIndex: 'metric', width: 25, editor: {xtype: 'textfield' }},
+                {header: 'STP', dataIndex: 'stp', width: 40, editor: {xtype: 'textfield' }},
+                {header: 'RX', dataIndex: 'rx', width: 50, hidden: true},
+                {header: 'TX', dataIndex: 'tx', width: 50, hidden: true}
             ]
         }, {
             xtype: 'gridpanel',
