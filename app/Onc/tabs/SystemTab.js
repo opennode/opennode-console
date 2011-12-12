@@ -17,6 +17,7 @@ Ext.define('Onc.tabs.SystemTab', {
                     {html: 'Memory'}, {style: "font-weight: bold", html: rec.get('memory') + 'MB'},
                     {html: 'OS Release'}, {style: "font-weight: bold", html: rec.get('os_release')},
                     {html: 'Kernel'}, {style: "font-weight: bold", html: rec.get('kernel')},
+                    {html: 'Template'}, {style: "font-weight: bold", html: rec.get('template')},
                     {html: 'Uptime'}, {itemId: 'uptime', style: "font-weight: bold", html: rec.getUptime()}]
         }, {
             layout: {type: 'table', columns: 2},
