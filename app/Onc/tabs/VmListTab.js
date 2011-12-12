@@ -72,7 +72,7 @@ Ext.define('Onc.tabs.VmListTab', {
             };
         });
 
-        function _makeGaugeColumn(label, name) {
+        function _makeGaugeColumn(label, name, unit) {
             return {
                 header: label,
                 width: 80,
@@ -96,7 +96,8 @@ Ext.define('Onc.tabs.VmListTab', {
                         var gauge = Ext.create('Onc.widgets.Gauge', {
                             renderTo: id,
                             border: false,
-                            max: max
+                            max: max,
+                            unit: unit
                         });
 
                         var url = rec.get('url') + '/metrics/{0}_usage'.format(name);
@@ -134,8 +135,8 @@ Ext.define('Onc.tabs.VmListTab', {
 
                 {xtype: 'actioncolumn', sortable: false, width: 3 * (20 + 2), items: rowActions, align: 'center'},
                 _makeGaugeColumn('CPU usage', 'cpu'),
-                _makeGaugeColumn('Memory usage', 'memory'),
-                _makeGaugeColumn('Disk usage', 'diskspace'),
+                _makeGaugeColumn('Memory usage', 'memory', 'MB'),
+                _makeGaugeColumn('Disk usage', 'diskspace', 'MB'),
 
                 {header: 'ID', dataIndex: 'id', width: 130, hidden: true}
             ]
