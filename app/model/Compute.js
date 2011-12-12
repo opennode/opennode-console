@@ -21,7 +21,11 @@ Ext.define('Onc.model.Compute', {
 
         {name: 'num_cores', type: 'integer'},
         {name: 'memory', type: 'float'},
-        {name: 'diskspace'},
+        {name: 'diskspace', convert: function(value) {
+            for (var key in value)
+                value[key] = Math.round(value[key]);
+            return value;
+        }},
         {name: 'network', type: 'float'},
         {name: 'swap_size', type: 'float'},
 
