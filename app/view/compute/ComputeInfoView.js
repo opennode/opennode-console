@@ -24,7 +24,7 @@ Ext.define('Onc.view.compute.ComputeInfoView', {
             {label: 'NET', itemId: 'network-gauge', iconCls: 'icon-network',
              value: 0, max: rec.get('network'), unit: 'Mbs'},
             {label: 'DISK', itemId: 'diskspace-gauge', iconCls: 'icon-hd',
-             value: 0, max: rec.get('diskspace')['total'], unit: 'GB'}
+             value: 0, max: rec.get('diskspace')['total'], unit: 'MB'}
         ];
 
         this.callParent(arguments);
