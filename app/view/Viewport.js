@@ -32,7 +32,7 @@ Ext.define('Onc.view.Viewport', {
             iconCls: 'icon-shell',
             closable: false,
             xtype: 'shell',
-            url: 'terminal/management'
+            url: 'bin/omsh/webterm'
         }
     }]
 });
