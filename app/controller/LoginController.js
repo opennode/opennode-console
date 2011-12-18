@@ -17,7 +17,6 @@ Ext.define('Onc.controller.LoginController', {
             withCredentials: true,
             success: function(response) {
                 var result = Ext.decode(response.responseText);
-                console.debug(result['status'])
                 me.getView('Viewport').create();
             },
             failure: function(response) {
@@ -29,7 +28,6 @@ Ext.define('Onc.controller.LoginController', {
         this.control({
             'loginwindow': {
                 login: function(token) {
-                    // Ext.Ajax.defaultHeaders = {'X-OMS-Security-Token': token};
                     me.getView('Viewport').create();
                 }
             }
