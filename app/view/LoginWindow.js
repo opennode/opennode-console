@@ -43,13 +43,11 @@ Ext.define('Onc.view.LoginWindow', {
             html: '<img src="img/onc_logo_login.png" alt="OpenNode Console" width="290px" height="59px" />'
         }, {
             emptyText: "Username",
-            name: 'username',
-            value: 'erik'
+            name: 'username'
         }, {
             emptyText: "Password",
             inputType: 'password',
-            name: 'password',
-            value: '1'
+            name: 'password'
         }, {
             itemId: 'errormsg',
             xtype: 'label',
