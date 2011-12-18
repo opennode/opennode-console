@@ -4112,6 +4112,7 @@ ShellInABox.prototype.sendKeys = function(keys) {
     this.pendingKeys           = '';
     var request                = new XMLHttpRequest();
     request.open('POST', this.url + '?', true);
+    request.withCredentials = true;
     request.setRequestHeader('Cache-Control', 'no-cache');
     request.setRequestHeader('Content-Type',
                            'application/x-www-form-urlencoded; charset=utf-8');
