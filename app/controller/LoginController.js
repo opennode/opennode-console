@@ -20,6 +20,7 @@ Ext.define('Onc.controller.LoginController', {
             },
             failure: function(response) {
                 console.assert(response.status === 403);
+                me.getView('LoginWindow').create();
             }
         });
 
