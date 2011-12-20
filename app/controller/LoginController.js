@@ -9,33 +9,23 @@ Ext.define('Onc.controller.LoginController', {
     _viewport: null,
 
     init: function() {
-        var me = this;
+        Onc.Backend.on('loginrequired', function() {
+            if (this._viewport)
+                this._viewport.destroy();
+            this.getView('LoginWindow').create();
+        }.bind(this));
 
-        Ext.Ajax.withCredentials = true;
-
-        Ext.Ajax.on('requestexception', function() {
-            if (me._viewport)
-                me._viewport.destroy();
-            me.getView('LoginWindow').create();
-        });
-
-        Ext.Ajax.request({
-            url: BACKEND_PREFIX + 'auth',
-            method: 'POST',
-            withCredentials: true,
-            success: function(response) {
-                me.onAuth();
-            },
-            failure: function(response) {
+        Onc.Backend.request('GET', 'auth')
+            .success(this.onAuth.bind(this))
+            .except(function(response) {
                 console.assert(response.status === 403);
-            }
-        });
+            });
 
         this.control({
             'loginwindow': {
                 login: function(token) {
-                    me.onAuth();
-                }
+                    this.onAuth();
+                }.bind(this)
             }
         });
     },
