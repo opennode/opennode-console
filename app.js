@@ -242,6 +242,10 @@ Number.prototype.constrain = function(a, b) {
     return Math.min(b, Math.max(a, this));
 };
 
+
+Array.prototype.clear = function() { return this.splice(); };
+
+
 /**
  * Amends existing methods to print out their name, arguments and return value.
  *
