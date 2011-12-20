@@ -1,3 +1,5 @@
 ext-4.0
 *~
 .sass-cache/
+*.egg-info
+*.pyc
