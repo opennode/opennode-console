@@ -1,36 +1,52 @@
 Ext.define('Onc.util.Deferred', {
     callbacks: null,
     errbacks: null,
+    finalizers: null,
+
+    _result: undefined,
+    _exArgs: undefined,
 
     constructor: function() {
         this.callbacks = [];
         this.errbacks = [];
+        this.finalizers = [];
     },
 
-    success: function(callback) {
+    success: function(fn) {
         if (this._result)
-            callback(this._result)
+            fn.apply(this, this._result)
         else
-            this.callbacks.push(callback);
+            this.callbacks.push(fn);
         return this;
     },
-    except: function(errback) {
-        if (this._error)
-            errback(this._error);
+    except: function(fn) {
+        if (this._exArgs)
+            fn.apply(this, this._exArgs);
         else
-            this.errbacks.push(errback);
+            this.errbacks.push(fn);
+        return this;
+    },
+    finally: function(fn) {
+        if (this._exArgs || this._result)
+            fn.apply(this, [this._result ? true : false].concat(this._result || this._exArgs));
+        else
+            this.finalizers.push(fn);
         return this;
     },
 
-    callback: function(result) {
-        this._result = result;
-        this.callbacks.forEach(function(c) { c(result); });
+    callback: function() {
+        this._result = Array.prototype.slice.call(arguments, 0);
+        this.callbacks.forEach(function(c) { c.apply(this, this._result); }.bind(this));
+        this.finalizers.forEach(function(c) { c.apply(this, [true].concat(this._result)); }.bind(this));
         delete this.callbacks;
+        delete this.finalizers;
     },
 
-    errback: function(exception) {
-        this._exception = exception;
-        this.errbacks.forEach(function(c) { c(exception); });
+    errback: function() {
+        this._exArgs = Array.prototype.slice.call(arguments, 0);;
+        this.errbacks.forEach(function(c) { c.apply(this, this._exArgs); }.bind(this));
+        this.finalizers.forEach(function(c) { c.apply(this, [false].concat(this._exArgs)); }.bind(this));
         delete this.errbacks;
+        delete this.finalizers;
     }
 });
