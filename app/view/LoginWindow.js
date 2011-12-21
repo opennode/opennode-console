@@ -66,23 +66,21 @@ Ext.define('Onc.view.LoginWindow', {
 
                     if (!values['username']) return;
 
-                    Ext.Ajax.request({
-                        method: 'POST',
-                        url: BACKEND_PREFIX + 'auth',
+                    var r = Onc.Backend.request('POST', 'auth', {
+                        successCodes: [403],
                         jsonData: {
                             'username': values['username'],
                             'password': values['password']
-                        },
-                        success: function(response) {
-                            var result = Ext.decode(response.responseText);
-
+                        }
+                    })
+                    r.success(function(result) {
                             var window = button.up('window');
                             window.destroy();
                             window.fireEvent('login', result['token']);
-                        }.bind(this),
-                        failure: function() {
-                            button.up('window').down('#errormsg').setText("Invalid username or password");
-                        }
+                    }.bind(this));
+
+                    r.except(function() {
+                        button.up('window').down('#errormsg').setText("Invalid username or password");
                     });
                 }.bind(this)
             }
