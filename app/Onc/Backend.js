@@ -42,7 +42,6 @@ Ext.define('Onc.Backend', {
                         d.errback(result, response);
                     }
                 } else {
-                    var result = Ext.decode(response.responseText);
                     d.callback(result, response);
                 }
 
