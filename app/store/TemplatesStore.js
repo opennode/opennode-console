@@ -3,8 +3,8 @@ Ext.define('Onc.store.TemplatesStore', {
     model: 'Onc.model.Template',
 
     proxy: {
-        type: 'rest',
+        type: 'onc',
         reader: 'json',
-        url: BACKEND_PREFIX + 'templates/'
+        url: 'templates/'
     }
 });

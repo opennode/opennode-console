@@ -38,7 +38,7 @@ Ext.define('Onc.model.Compute', {
     ],
 
     proxy: {
-        type: 'rest',
+        type: 'onc',
         reader: {
             type: 'json',
             root: 'children'
@@ -47,7 +47,7 @@ Ext.define('Onc.model.Compute', {
             'depth': 3
         },
         limitParam: null, pageParam: null, startParam: null,
-        url: BACKEND_PREFIX + 'computes'
+        url: 'computes'
     },
 
     getMaxCpuLoad: function() {
