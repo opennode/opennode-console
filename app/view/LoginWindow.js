@@ -79,7 +79,7 @@ Ext.define('Onc.view.LoginWindow', {
                             window.fireEvent('login', result['token']);
                     }.bind(this));
 
-                    r.except(function() {
+                    r.failure(function() {
                         button.up('window').down('#errormsg').setText("Invalid username or password");
                     });
                 }.bind(this)

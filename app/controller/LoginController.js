@@ -13,7 +13,7 @@ Ext.define('Onc.controller.LoginController', {
 
         Onc.Backend.request('GET', 'auth')
             .success(this._onAuth.bind(this))
-            .except(function(response) {
+            .failure(function(response) {
                 console.assert(response.status === 403);
             });
 

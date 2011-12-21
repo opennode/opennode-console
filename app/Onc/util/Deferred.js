@@ -19,7 +19,7 @@ Ext.define('Onc.util.Deferred', {
             this.callbacks.push(fn);
         return this;
     },
-    except: function(fn) {
+    failure: function(fn) {
         if (this._exArgs)
             fn.apply(this, this._exArgs);
         else

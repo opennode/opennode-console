@@ -117,7 +117,7 @@ Ext.define('Onc.hub.Hub', {
             d.callback();
         }.bind(this));
 
-        r.except(function(response) {
+        r.failure(function(response) {
             console.error("Failed to poll %s", this.URL);
         }.bind(this));
 
