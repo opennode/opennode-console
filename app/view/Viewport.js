@@ -10,7 +10,13 @@ Ext.define('Onc.view.Viewport', {
         region: 'north',
         id: 'header',
         html: '<img src="img/onc_logo.png" alt="OpenNode Console" width="436px" height="59px" />',
-        frame: true
+        frame: true,
+        items: [{
+            id: 'logout-button',
+            xtype: 'button',
+            text: 'Log out',
+            style: 'position: absolute; top: 0px; right: 0px'
+        }]
     }, {
         region: 'west',
         collapsible: true,

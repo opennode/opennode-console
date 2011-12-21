@@ -9,11 +9,7 @@ Ext.define('Onc.controller.LoginController', {
     _viewport: null,
 
     init: function() {
-        Onc.Backend.on('loginrequired', function() {
-            if (this._viewport)
-                this._viewport.destroy();
-            this.getView('LoginWindow').create();
-        }.bind(this));
+        Onc.Backend.on('loginrequired', this._login.bind(this));
 
         Onc.Backend.request('GET', 'auth')
             .success(this.onAuth.bind(this))
@@ -26,8 +22,20 @@ Ext.define('Onc.controller.LoginController', {
                 login: function(token) {
                     this.onAuth();
                 }.bind(this)
+            },
+            '#logout-button': {
+                click: function() {
+                    Onc.Backend.request('GET', 'logout');
+                    this._login();
+                }
             }
         });
+    },
+
+    _login: function() {
+        if (this._viewport)
+            this._viewport.destroy();
+        this.getView('LoginWindow').create();
     },
 
     onAuth: function() {
