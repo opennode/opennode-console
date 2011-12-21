@@ -24,7 +24,10 @@ Ext.syncRequire([
     'Onc.polymorphic.Reader',
     'Onc.polymorphic.Association',
 
+    'Onc.util.Deferred',
     'Onc.Backend',
+    'Onc.Proxy',
+    'Onc.util.Scheduler',
     'Onc.hub.Hub',
     'Onc.hub.Sync'
 ]);
