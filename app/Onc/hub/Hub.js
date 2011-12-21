@@ -72,53 +72,58 @@ Ext.define('Onc.hub.Hub', {
      */
     run: function() {
         if (this._running) throw new Error("Hub already running");
-        setInterval(this._poll.bind(this), this.POLL_INTERVAL);
+        this._poll.bind(this).schedule({
+            wait: this.POLL_INTERVAL,
+            repeat: true
+        });
     },
 
     _poll: function() {
         var urls = this._reg.massocKeys();
-        if (urls.length === 0) return;
+        if (urls.length === 0) return succeed();
 
-        Ext.Ajax.request({
-            method: this.METHOD, url: BACKEND_PREFIX + this.URL,
-            params: {
-                'after': this._relativisticToken || 0
-            },
-            jsonData: urls,
+        var d = new Onc.util.Deferred();
 
-            success: function(response) {
-                var result = Ext.JSON.decode(response.responseText);
-                this._relativisticToken = result[0];
-                var streamData = result[1];
-
-                var replies = [];
-                Ext.Object.each(streamData, function(urlIx, updates) {
-                    if (updates.length === 0) {
-                        console.warn("Stream response violates protocol: value lists in streamData should be non-empty");
-                        return;
-                    }
-                    var urlIx = parseInt(urlIx);
-                    var subscribers = this._reg.massoc(urls[urlIx]);
-                    subscribers.forEach(function(subscriber) {
-                        replies.push([subscriber, [urls[urlIx], updates]]);
-                    });
-                }.bind(this));
-
-                replies.massocForEach(function(subscriber, data) {
-                    var dataAsObj = {};
-                    data.assocForEach(function(url, updates) {
-                        console.assert(updates.length);
-                        dataAsObj[url] = updates;
-                    });
-                    console.assert(!empty(dataAsObj));
-                    this._deliverReply(subscriber, dataAsObj);
-                }.bind(this));
-            }.bind(this),
-
-            failure: function(response) {
-                console.error("Failed to poll %s", this.URL);
-            }.bind(this)
+        var r = Onc.Backend.request(this.METHOD, this.URL, {
+            params: {'after': this._relativisticToken || 0},
+            jsonData: urls
         });
+
+        r.success(function(result, response) {
+            this._relativisticToken = result[0];
+            var streamData = result[1];
+
+            var replies = [];
+            Ext.Object.each(streamData, function(urlIx, updates) {
+                if (updates.length === 0) {
+                    console.warn("Stream response violates protocol: value lists in streamData should be non-empty");
+                    return;
+                }
+                var urlIx = parseInt(urlIx);
+                var subscribers = this._reg.massoc(urls[urlIx]);
+                subscribers.forEach(function(subscriber) {
+                    replies.push([subscriber, [urls[urlIx], updates]]);
+                });
+            }.bind(this));
+
+            replies.massocForEach(function(subscriber, data) {
+                var dataAsObj = {};
+                data.assocForEach(function(url, updates) {
+                    console.assert(updates.length);
+                    dataAsObj[url] = updates;
+                });
+                console.assert(!empty(dataAsObj));
+                this._deliverReply(subscriber, dataAsObj);
+            }.bind(this));
+
+            d.callback();
+        }.bind(this));
+
+        r.except(function(response) {
+            console.error("Failed to poll %s", this.URL);
+        }.bind(this));
+
+        return d;
     },
 
     _registerMapping: function(subscriber, resources, type) {
