@@ -12,7 +12,7 @@ Ext.define('Onc.controller.LoginController', {
         Onc.Backend.on('loginrequired', this._login.bind(this));
 
         Onc.Backend.request('GET', 'auth')
-            .success(this.onAuth.bind(this))
+            .success(this._onAuth.bind(this))
             .except(function(response) {
                 console.assert(response.status === 403);
             });
@@ -20,7 +20,7 @@ Ext.define('Onc.controller.LoginController', {
         this.control({
             'loginwindow': {
                 login: function(token) {
-                    this.onAuth();
+                    this._onAuth();
                 }.bind(this)
             },
             '#logout-button': {
@@ -38,7 +38,7 @@ Ext.define('Onc.controller.LoginController', {
         this.getView('LoginWindow').create();
     },
 
-    onAuth: function() {
+    _onAuth: function() {
         Onc.hub.Hub.run();
         Ext.getStore('ComputesStore').load();
         this._viewport = this.getView('Viewport').create();
