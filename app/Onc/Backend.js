@@ -8,8 +8,6 @@ Ext.define('Onc.Backend', {
     },
 
     request: function(method, url, options, request) {
-        var d = new Onc.util.Deferred;
-
         options = options || {};
         var successCodes = options.successCodes || [];
         delete options.successCodes;
@@ -68,6 +66,7 @@ Ext.define('Onc.Backend', {
             Ext.Ajax.request(options);
         }
 
+        var d = new Onc.util.Deferred();
         return d;
     }
 });

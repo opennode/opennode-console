@@ -82,8 +82,6 @@ Ext.define('Onc.hub.Hub', {
         var urls = this._reg.massocKeys();
         if (urls.length === 0) return succeed();
 
-        var d = new Onc.util.Deferred();
-
         var r = Onc.Backend.request(this.METHOD, this.URL, {
             params: {'after': this._relativisticToken || 0},
             jsonData: urls
@@ -123,6 +121,7 @@ Ext.define('Onc.hub.Hub', {
             console.error("Failed to poll %s", this.URL);
         }.bind(this));
 
+        var d = new Onc.util.Deferred();
         return d;
     },
 
