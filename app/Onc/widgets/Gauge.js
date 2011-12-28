@@ -12,8 +12,13 @@ Ext.define('Onc.widgets.Gauge', {
     unit: null,
     criticalLevel: 0.00,
     criticalCurve: 0.05,
+
+    // This must be either ['fixed', _] or ['precision', _] where _ is
+    // an integer between 1 and 21 incl:
     display: null,
     defaultDisplay: ['fixed', 0],
+
+    convert: function(v) { return v; },
 
     tpl: new Ext.XTemplate(
         '<span>',
@@ -77,6 +82,8 @@ Ext.define('Onc.widgets.Gauge', {
     },
 
     _formatValue: function(value) {
+        if (value === undefined) return value;
+        value = this.convert(value);
         var display = this.display || this.defaultDisplay;
         return value['to' + display[0].capitalize()](display[1]);
     }
