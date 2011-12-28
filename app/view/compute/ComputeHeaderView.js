@@ -1,6 +1,6 @@
-Ext.define('Onc.view.compute.ComputeInfoView', {
+Ext.define('Onc.view.compute.ComputeHeaderView', {
     extend: 'Ext.panel.Panel',
-    alias: 'widget.computeinfo',
+    alias: 'widget.computeheader',
 
     frame: true,
     height: 50,

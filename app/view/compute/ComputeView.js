@@ -2,7 +2,7 @@ Ext.define('Onc.view.compute.ComputeView', {
     extend: 'Ext.Container',
     alias: 'widget.computeview',
     requires: [
-        'Onc.view.compute.ComputeInfoView'
+        'Onc.view.compute.ComputeHeaderView'
     ],
 
     iconCls: 'icon-mainframe',
@@ -63,7 +63,7 @@ Ext.define('Onc.view.compute.ComputeView', {
 	        });
 
         this.items = [{
-            xtype: 'computeinfo',
+            xtype: 'computeheader',
             record: rec
         }, {
             flex: 1,
