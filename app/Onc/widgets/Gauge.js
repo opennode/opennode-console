@@ -12,12 +12,13 @@ Ext.define('Onc.widgets.Gauge', {
     unit: null,
     criticalLevel: 0.00,
     criticalCurve: 0.05,
+    alwaysFloat: false,
 
     tpl: new Ext.XTemplate(
         '<span>',
         '    <tpl if="label"><label>{label}</label></tpl> ',
         '    <span class="percentage"></span>%',
-        '    <tpl if="unit"> of {max}{unit}</tpl>',
+        '    of {[values._getMaxForDisplay()]}<tpl if="unit">{unit}</tpl>',
         '</span>',
         '<div class="bar"><div></div></div>'
     ),
@@ -71,5 +72,11 @@ Ext.define('Onc.widgets.Gauge', {
             var color = new Ext.draw.Color(redFactor, 0, 255 - redFactor);
             this.el.down('.bar div').applyStyles({'background-color': color});
         }
+    },
+
+    _getMaxForDisplay: function() {
+        return (this.alwaysFloat && this.max % 1 === 0 ?
+                "" + this.max + ".0"
+                : this.max);
     }
 });
