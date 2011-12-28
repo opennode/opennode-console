@@ -246,6 +246,13 @@ Number.prototype.constrain = function(a, b) {
     return Math.min(b, Math.max(a, this));
 };
 
+Number.prototype.round = function(precision) {
+    if (precision === undefined)
+        return Math.round(this);
+    else
+        return Math.round(this * Math.pow(10, precision)) / Math.pow(10, precision);
+};
+
 
 Array.prototype.clear = function() { return this.splice(); };
 
