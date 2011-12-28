@@ -23,8 +23,8 @@ Ext.define('Onc.widgets.Gauge', {
     tpl: new Ext.XTemplate(
         '<span>',
         '    <tpl if="label"><label>{label}</label></tpl> ',
-        '    <span class="percentage"></span>%',
-        '    / <span class="value"></span> of {[values._formatValue(values.max)]}<tpl if="unit">{unit}</tpl>',
+        '    <tpl if="max"><span class="percentage"></span>% /</tpl>',
+        '    <span class="value"></span><tpl if="max"> of {[values._formatValue(values.max)]}</tpl><tpl if="unit"><b>{unit}</b></tpl>',
         '</span>',
         '<div class="bar"><div></div></div>'
     ),
@@ -64,7 +64,8 @@ Ext.define('Onc.widgets.Gauge', {
 
             var ratioPercentage = (ratio * 100).round();
             this.el.down('.value').update(this._formatValue(this.value));
-            this.el.down('.percentage').update('' + ratioPercentage);
+            if (this.el.down('.percentage'))
+                this.el.down('.percentage').update('' + ratioPercentage);
             this.el.down('.bar div').setWidth('' + ratioPercentage + '%');
 
             this._doBgColor(ratio);
