@@ -157,6 +157,10 @@ String.prototype.format = function() {
     return Ext.String.format.apply(Ext.String, args);
 };
 
+String.prototype.capitalize = function() {
+    return this.substr(0, 1).toUpperCase() + this.substr(1);
+};
+
 
 Array.prototype.repeat = function(n) {
     ret = [];
