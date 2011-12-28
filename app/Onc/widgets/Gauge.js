@@ -12,13 +12,14 @@ Ext.define('Onc.widgets.Gauge', {
     unit: null,
     criticalLevel: 0.00,
     criticalCurve: 0.05,
-    alwaysFloat: false,
+    display: null,
+    defaultDisplay: ['fixed', 0],
 
     tpl: new Ext.XTemplate(
         '<span>',
         '    <tpl if="label"><label>{label}</label></tpl> ',
         '    <span class="percentage"></span>%',
-        '    of {[values._getMaxForDisplay()]}<tpl if="unit">{unit}</tpl>',
+        '    / <span class="value"></span> of {[values._formatValue(values.max)]}<tpl if="unit">{unit}</tpl>',
         '</span>',
         '<div class="bar"><div></div></div>'
     ),
@@ -57,6 +58,7 @@ Ext.define('Onc.widgets.Gauge', {
             }
 
             var ratioPercentage = (ratio * 100).round();
+            this.el.down('.value').update(this._formatValue(this.value));
             this.el.down('.percentage').update('' + ratioPercentage);
             this.el.down('.bar div').setWidth('' + ratioPercentage + '%');
 
@@ -74,9 +76,8 @@ Ext.define('Onc.widgets.Gauge', {
         }
     },
 
-    _getMaxForDisplay: function() {
-        return (this.alwaysFloat && this.max % 1 === 0 ?
-                "" + this.max + ".0"
-                : this.max);
+    _formatValue: function(value) {
+        var display = this.display || this.defaultDisplay;
+        return value['to' + display[0].capitalize()](display[1]);
     }
 });

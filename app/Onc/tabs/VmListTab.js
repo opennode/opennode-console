@@ -98,7 +98,7 @@ Ext.define('Onc.tabs.VmListTab', {
                             border: false,
                             max: max,
                             unit: unit,
-                            alwaysFloat: name === 'cpu'
+                            display: name === 'cpu' ? ['precision', 2] : undefined
                         });
 
                         var url = rec.get('url') + '/metrics/{0}_usage'.format(name);
