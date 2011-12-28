@@ -15,7 +15,7 @@ Ext.define('Onc.widgets.Gauge', {
 
     tpl: new Ext.XTemplate(
         '<span>',
-        '    <label>{label}</label> ',
+        '    <tpl if="label"><label>{label}</label></tpl> ',
         '    <span class="percentage"></span>%',
         '    <tpl if="unit"> of {max}{unit}</tpl>',
         '</span>',
