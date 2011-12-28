@@ -59,13 +59,17 @@ Ext.define('Onc.widgets.Gauge', {
             this.el.down('.percentage').update('' + ratioPercentage);
             this.el.down('.bar div').setWidth('' + ratioPercentage + '%');
 
-            var redMax = 1.0 - this.criticalLevel;
-            var redLevel = ratio - this.criticalLevel;
-            if (redLevel > 0) {
-                var redFactor = Math.pow(redLevel / redMax, 100 * this.criticalCurve) * 255;
-                var color = new Ext.draw.Color(redFactor, 0, 255 - redFactor);
-                this.el.down('.bar div').applyStyles({'background-color': color});
-            }
+            this._doBgColor(ratio);
+        }
+    },
+
+    _doBgColor: function(ratio) {
+        var redMax = 1.0 - this.criticalLevel;
+        var redLevel = ratio - this.criticalLevel;
+        if (redLevel > 0) {
+            var redFactor = Math.pow(redLevel / redMax, 100 * this.criticalCurve) * 255;
+            var color = new Ext.draw.Color(redFactor, 0, 255 - redFactor);
+            this.el.down('.bar div').applyStyles({'background-color': color});
         }
     }
 });
