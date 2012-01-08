@@ -14,5 +14,6 @@ setup(
     entry_points = {'oms.plugins': ['onc = opennode.onc.main:ONCPlugin']},
     install_requires = [
         "setuptools", # Redundant but removes a warning
+        "opennode.oms.core",
         ],
 )

@@ -4,3 +4,8 @@ ext-4.0
 *.egg-info
 *.pyc
 RELEASE-VERSION
+bin
+.installed.cfg
+develop-eggs
+eggs
+parts
