@@ -9,3 +9,10 @@ bin
 develop-eggs
 eggs
 parts
+docs/Makefile
+docs/make.bat
+docs/html
+docs/doctrees
+docs/source/gen
+docs/source/jsdoc
+docs/source/jsdocapp

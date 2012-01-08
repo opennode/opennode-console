@@ -20,6 +20,8 @@ import shutil
 shutil.rmtree('gen', True)
 sphinx.apidoc.main('sphinx-api -o gen ../../opennode'.split())
 
+# XXX: execute 'jsdoc --template=docs/source/_templates/jsdoc-for-sphinx --directory=docs/source/jsdoc -r 4 app')
+
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
