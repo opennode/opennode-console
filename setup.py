@@ -15,5 +15,6 @@ setup(
     install_requires = [
         "setuptools", # Redundant but removes a warning
         "opennode.oms.core",
+        "opennode.oms.knot",
         ],
 )
