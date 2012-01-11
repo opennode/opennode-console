@@ -11,6 +11,7 @@ setup(
     packages = find_packages(),
     package_data={'opennode.onc': ['../../index.html', '../../app/**/*.*']},
     namespace_packages = ['opennode'],
+    zip_safe=False, # we need to serve real files
     entry_points = {'oms.plugins': ['onc = opennode.onc.main:ONCPlugin']},
     install_requires = [
         "setuptools", # Redundant but removes a warning
