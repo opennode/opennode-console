@@ -41,6 +41,7 @@ Ext.define('Onc.view.Viewport', {
             url: 'bin/omsh/webterm'
         }, {
             title: "VM Map",
+            iconCls: 'icon-vmmap',
             closable: false,
             xtype: 'computevmmaptab'
         }]

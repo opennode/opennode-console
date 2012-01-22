@@ -3,7 +3,7 @@ Ext.define('Onc.controller.MainController', {
 
     models: ['Base', 'Compute', 'IpRoute', 'Storage', 'Template', 'VirtualizationContainer', 'Hangar',
              'Templates', 'SearchResult', 'NetworkInterface', 'NetworkInterfaces'],
-    stores: ['ComputesStore', 'TemplatesStore', 'SearchResultsStore'],
+    stores: ['ComputesStore', 'PhysicalComputesStore', 'TemplatesStore', 'SearchResultsStore'],
     views: ['SearchResultsView', 'compute.ComputeView'],
 
     refs: [{ref: 'searchResults', selector: '#search-results'},
