@@ -23,6 +23,7 @@ Ext.syncRequire([
     'Onc.tabs.TemplatesTab',
     'Onc.tabs.ShellTab',
     'Onc.tabs.VncTab',
+    'Onc.tabs.VmMapTab',
     'Onc.polymorphic.Reader',
     'Onc.polymorphic.Association',
 
