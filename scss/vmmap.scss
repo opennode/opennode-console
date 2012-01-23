@@ -1,0 +1,27 @@
+#vmmap {
+  .name  {
+	  font-decoration: italic;
+	  /* font-size: 70%; */
+	  overflow-y: hidden;
+	  word-wrap: break-word;
+	  height: 1.2em;
+	  margin-bottom: -3px;
+	}
+  .mem {
+    margin-top: 6px;
+	  margin-bottom: -6px;
+	  padding-left: 8px;
+	  color: #4e0e0e;
+	  text-align: center;
+	  font-size: 120%;
+  }
+  .uptime {
+	  color: #303030;
+	  opacity: 0.4;
+	  /* font-size: 80%; */
+	}
+	.cores {
+	  color: #6e6eae;
+	  /* font-size: 70%; */
+	}
+}

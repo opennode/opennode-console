@@ -26,22 +26,22 @@ Ext.define('Onc.tabs.VmMapTab', {
                                 width = parseInt(100 * (memory / totalMemory));
                             freeMemory -= memory;
                             vm_list += ["<td width=\"" + width + "%\">",
-                                "<div class=\"vmmap-name\">" + vm.get('hostname') + "</div>",
-                                "<div class=\"vmmap-mem\">" + parseInt(memory) + "</div>",
-                                "<div class=\"vmmap-uptime\">" + vm.getUptime() + "</div>",
-                                "<div class=\"vmmap-num-cores\">" + vm.get('num_cores') + "</div>",
+                                "<div class=\"name\">" + vm.get('hostname') + "</div>",
+                                "<div class=\"mem\">" + parseInt(memory) + "</div>",
+                                "<div class=\"uptime\">" + vm.getUptime() + "</div>",
+                                "<div class=\"cores\">" + vm.get('num_cores') + "</div>",
                                 "</td>"].join('\n');
                         });
 
                         if (freeMemory) {
                             var width = parseInt(100 * (freeMemory / totalMemory));
                             vm_list += ["<td width=\"" + width + "%\">",
-                                "<div class=\"vmmap-name\">free</div>",
-                                "<div class=\"vmmap-mem\">" + parseInt(freeMemory) + "</div>",
+                                "<div class=\"name\">free</div>",
+                                "<div class=\"mem\">" + parseInt(freeMemory) + "</div>",
                                 "</td>"].join('\n');
                         }
 
-                        return ["<table width=\"100%\"><tbody><tr>",
+                        return ["<table id=\"vmmap\" width=\"100%\"><tbody><tr>",
                         vm_list,
                         "</tr></tbody></table>"].join('\n');
                     }
