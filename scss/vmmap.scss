@@ -1,40 +1,40 @@
 #vmmap {
-	.node-cell {
-    border-left: 1px solid #DDD;
-    padding-left: 5px;
-    /*padding: 3px 6px;
-    background-color: #E0F0FF;
-    opacity: 0.8;*/
-	}
-	.free {
-    border-left: 1px solid #CCC;
-    padding-left: 5px;
-    background-color: #D0F8D0;
-    opacity: 0.6;
-	}
-  .name {
-	  font-decoration: italic;
-	  overflow-y: hidden;
-	  word-wrap: break-word;
-	  height: 1.2em;
-	  margin-bottom: -3px;
-	}
-  .mem {
-    margin-top: 6px;
-	  margin-bottom: -6px;
-	  padding-left: 8px;
-	  color: #4e0e0e;
-	  text-align: center;
-	  font-size: 120%;
-  }
-  .uptime {
-	  color: #303030;
-	  opacity: 0.1;
-	}
-	.node-cell:hover .uptime {
-	 opacity: 0.4;
-	}
-	.cores {
-	  color: #6e6eae;
-	}
+    .node-cell {
+        border-left: 1px solid #DDD;
+        padding-left: 5px;
+    }
+    .x-grid-cell-inner {
+        overflow-x: auto;
+    }
+    .free {
+        border-left: 1px solid #CCC;
+        padding-left: 5px;
+        background-color: #D0F8D0;
+        opacity: 0.6;
+    }
+    .name {
+        font-decoration: italic;
+        overflow-y: hidden;
+        word-wrap: break-word;
+        height: 1.2em;
+        margin-bottom: -3px;
+    }
+    .mem {
+        margin-top: 6px;
+        margin-bottom: -6px;
+        padding-left: 8px;
+        color: #4e0e0e;
+        text-align: center;
+        font-size: 120%;
+    }
+    .uptime {
+        color: #303030;
+        opacity: 0.1;
+    }
+    .node-cell:hover .uptime {
+       opacity: 0.4;
+    }
+    .cores {
+        color: #6e6eae;
+    }
 }
