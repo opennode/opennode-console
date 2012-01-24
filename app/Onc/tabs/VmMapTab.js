@@ -25,17 +25,17 @@ Ext.define('Onc.tabs.VmMapTab', {
                             var memory = vm.get('memory_usage'),
                                 width = parseInt(100 * (memory / totalMemory));
                             freeMemory -= memory;
-                            vm_list += ["<td width=\"" + width + "%\">",
+                            vm_list += ["<td class=\"node-cell\" width=\"" + width + "%\">",
                                 "<div class=\"name\">" + vm.get('hostname') + "</div>",
                                 "<div class=\"mem\">" + parseInt(memory) + "</div>",
-                                "<div class=\"uptime\">" + vm.getUptime() + "</div>",
-                                "<div class=\"cores\">" + vm.get('num_cores') + "</div>",
+                                "<span class=\"uptime\">" + vm.getUptime() + "</span>",
+                                "<span class=\"cores\">" + vm.get('num_cores') + "</span>",
                                 "</td>"].join('\n');
                         });
 
                         if (freeMemory) {
                             var width = parseInt(100 * (freeMemory / totalMemory));
-                            vm_list += ["<td width=\"" + width + "%\">",
+                            vm_list += ["<td class=\"free\" width=\"" + width + "%\">",
                                 "<div class=\"name\">free</div>",
                                 "<div class=\"mem\">" + parseInt(freeMemory) + "</div>",
                                 "</td>"].join('\n');
