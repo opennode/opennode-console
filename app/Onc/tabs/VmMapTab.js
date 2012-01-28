@@ -30,10 +30,10 @@ Ext.define('Onc.tabs.VmMapTab', {
                                 '<div class="name">' + vm.get('hostname') + '</div>',
                                 //'<div class="name">' + vm.get('ipv4_address') + '</div>',
                                 '<div class="mem">' + parseInt(memory) + '</div>',
-                                '<span class="uptime">' + vm.getUptime() + '</span>',
+                                '<span class="uptime">' + this.getUptime(rec) + '</span>',
                                 '<span class="cores">' + vm.get('num_cores') + '</span>',
                                 '</div>'].join('\n');
-                        });
+                        }, this);
 
                         if (freeMemory) {
                             var width = parseInt(200 * (freeMemory / totalMemory));
@@ -46,7 +46,22 @@ Ext.define('Onc.tabs.VmMapTab', {
                         return vm_list;
                     }
                 }
-            ]
+            ],
+
+            getUptime: function(rec) {
+                if (rec.get('state') === 'inactive')
+                    return 'inactive';
+                var timestamp = new Date(Date.parse(rec.get('startup_timestamp')));
+
+                var s = Math.round((+(new Date()) - +timestamp) / 1000);
+
+                var days = Math.floor(s / 86400);
+                s -= days * 86400;
+
+                var hours = Math.floor(s / 3600);
+
+                return '' + days + 'd ' + (hours ? (hours + 'h ') : '');
+            }
         }];
 
         this.callParent(arguments);
@@ -66,7 +81,7 @@ Ext.define('Onc.tabs.VmMapTab', {
             if (el) {
                 el.child('div.name', true).innerHTML = rec.get('hostname');
                 el.child('div.mem', true).innerHTML = rec.get('memory');
-                el.child('span.uptime', true).innerHTML = rec.getUptime();
+                el.child('span.uptime', true).innerHTML = Ext.getCmp('vmmap').getUptime(rec);
                 el.child('span.cores', true).innerHTML = rec.get('num_cores');
             }
         }
