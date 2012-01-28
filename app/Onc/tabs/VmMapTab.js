@@ -25,7 +25,8 @@ Ext.define('Onc.tabs.VmMapTab', {
                             var memory = vm.get('memory'),
                                 width = parseInt(200 * (memory / totalMemory));
                             freeMemory -= memory;
-                            vm_list += ['<div class="node-cell" style="min-width:' + width + 'px">',
+                            vm_list += ['<div class="node-cell" id="vmmap-' + vm.get('id') + '"',
+                                ' style="min-width:' + width + 'px">',
                                 '<div class="name">' + vm.get('hostname') + '</div>',
                                 //'<div class="name">' + vm.get('ipv4_address') + '</div>',
                                 '<div class="mem">' + parseInt(memory) + '</div>',
@@ -49,5 +50,25 @@ Ext.define('Onc.tabs.VmMapTab', {
         }];
 
         this.callParent(arguments);
-    }
+    },
+
+    afterRender: function() {
+        var me = this;
+        me.mon(Ext.getCmp('vmmap').getStore(), {
+            scope: me,
+            update: me.updateCell
+        });
+    },
+
+    updateCell: function(store, rec, action) {
+        if (action === 'edit') {
+            var el = Ext.get('vmmap-' + rec.get('id'));
+            if (el) {
+                el.child('div.name', true).innerHTML = rec.get('hostname');
+                el.child('div.mem', true).innerHTML = rec.get('memory');
+                el.child('span.uptime', true).innerHTML = rec.getUptime();
+                el.child('span.cores', true).innerHTML = rec.get('num_cores');
+            }
+        }
+    },
 });
