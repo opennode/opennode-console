@@ -23,28 +23,26 @@ Ext.define('Onc.tabs.VmMapTab', {
 
                         vms.each( function(vm) {
                             var memory = vm.get('memory'),
-                                width = parseInt(100 * (memory / totalMemory));
+                                width = parseInt(200 * (memory / totalMemory));
                             freeMemory -= memory;
-                            vm_list += ["<td class=\"node-cell\" width=\"" + width + "%\">",
-                                "<div class=\"name\">" + vm.get('hostname') + "</div>",
-                                "<div class=\"name\">" + vm.get('ipv4_address') + "</div>",
-                                "<div class=\"mem\">" + parseInt(memory) + "</div>",
-                                "<span class=\"uptime\">" + vm.getUptime() + "</span>",
-                                "<span class=\"cores\">" + vm.get('num_cores') + "</span>",
-                                "</td>"].join('\n');
+                            vm_list += ['<div class="node-cell" style="min-width:' + width + 'px">',
+                                '<div class="name">' + vm.get('hostname') + '</div>',
+                                //'<div class="name">' + vm.get('ipv4_address') + '</div>',
+                                '<div class="mem">' + parseInt(memory) + '</div>',
+                                '<span class="uptime">' + vm.getUptime() + '</span>',
+                                '<span class="cores">' + vm.get('num_cores') + '</span>',
+                                '</div>'].join('\n');
                         });
 
                         if (freeMemory) {
-                            var width = parseInt(100 * (freeMemory / totalMemory));
-                            vm_list += ["<td class=\"free\" width=\"" + width + "%\">",
-                                "<div class=\"name\">free</div>",
-                                "<div class=\"mem\">" + parseInt(freeMemory) + "</div>",
-                                "</td>"].join('\n');
+                            var width = parseInt(200 * (freeMemory / totalMemory));
+                            vm_list += ['<div class="node-cell free" style="min-width:"' + width + 'px">',
+                                '<div class="name">free</div>',
+                                '<div class="mem">' + parseInt(freeMemory) + '</div>',
+                                '</div>'].join('\n');
                         }
 
-                        return ["<table width=\"100%\"><tbody><tr>",
-                        vm_list,
-                        "</tr></tbody></table>"].join('\n');
+                        return vm_list;
                     }
                 }
             ]

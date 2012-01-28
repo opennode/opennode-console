@@ -1,16 +1,19 @@
 #vmmap {
     .node-cell {
-        border-left: 1px solid #DDD;
-        padding-left: 5px;
+        border: 1px solid #CCC;
+        padding: 5px;
+        float: left; 
+        &:hover .uptime {
+            opacity: 0.4;
+        }
+        &.free {
+            background-color: #D0F8D0;
+            opacity: 0.6;
+            padding-bottom: 18px;
+        }
     }
     .x-grid-cell-inner {
         overflow-x: auto;
-    }
-    .free {
-        border-left: 1px solid #CCC;
-        padding-left: 5px;
-        background-color: #D0F8D0;
-        opacity: 0.6;
     }
     .name {
         font-decoration: italic;
@@ -30,9 +33,6 @@
     .uptime {
         color: #303030;
         opacity: 0.1;
-    }
-    .node-cell:hover .uptime {
-       opacity: 0.4;
     }
     .cores {
         color: #6e6eae;
