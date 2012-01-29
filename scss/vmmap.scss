@@ -11,6 +11,9 @@
             opacity: 0.6;
             padding-bottom: 18px;
         }
+        &.selected {
+            background-color: #D0F8F0;
+        }
     }
     .x-grid-cell-inner {
         overflow-x: auto;

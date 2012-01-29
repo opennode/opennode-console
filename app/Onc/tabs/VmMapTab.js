@@ -1,6 +1,7 @@
 Ext.define('Onc.tabs.VmMapTab', {
     extend: 'Onc.tabs.Tab',
     alias: 'widget.computevmmaptab',
+    requires: 'Ext.util.MixedCollection',
 
     layout: 'fit',
 
@@ -64,15 +65,22 @@ Ext.define('Onc.tabs.VmMapTab', {
             }
         }];
 
+        this.selectedCells = Ext.create('Ext.util.MixedCollection');
+
         this.callParent(arguments);
     },
 
     afterRender: function() {
-        var me = this;
-        me.mon(Ext.getCmp('vmmap').getStore(), {
+        var me = this,
+            vmmap = Ext.getCmp('vmmap');
+
+        me.callParent(arguments);
+
+        me.mon(vmmap.getStore(), {
             scope: me,
             update: me.updateCell
         });
+        me.mon(vmmap.getEl(), 'click', me.onMouseClick, me);
     },
 
     updateCell: function(store, rec, action) {
@@ -86,4 +94,31 @@ Ext.define('Onc.tabs.VmMapTab', {
             }
         }
     },
+
+    onMouseClick: function(e, el) {
+        el = Ext.get(el);
+        if (!el) {
+            return;
+        }
+        if (!el.hasCls('node-cell')) {
+            el = el.up('div.node-cell');
+            if (!el) {
+                return;
+            }
+        }
+
+        if (e.shiftKey) {
+        } else if (e.ctrlKey) {
+            el.toggleCls('selected');
+        } else {
+            this.selectedCells.each(function(cell) {
+                if (cell !== el) {
+                    cell.removeCls('selected');
+                }
+            });
+            this.selectedCells.removeAll();
+            this.selectedCells.add(el);
+            el.addCls('selected');
+        }
+    }
 });

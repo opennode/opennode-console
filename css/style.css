@@ -67,6 +67,8 @@
     background-color: #D0F8D0;
     opacity: 0.6;
     padding-bottom: 18px; }
+  #vmmap .node-cell.selected {
+    background-color: #D0F8F0; }
 #vmmap .x-grid-cell-inner {
   overflow-x: auto; }
 #vmmap .name {
