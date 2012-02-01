@@ -13,6 +13,26 @@ Ext.define('Onc.tabs.VmMapTab', {
             id: 'vmmap',
             store: 'PhysicalComputesStore',
 
+            dockedItems: [
+                {xtype: 'toolbar',
+                itemId: 'toolbar',
+                items: [{
+                    iconCls: 'icon-resize',
+                    itemId: 'resize',
+                    text: 'Resize',
+                    disabled: true,
+                    scope: this,
+                    handler: this.onResizeClick
+                }, {
+                    iconCls: 'icon-group',
+                    itemId: 'group',
+                    text: 'Group',
+                    disabled: true,
+                    scope: this,
+                    handler: this.onGroupClick
+                }]}
+            ],
+
             columns: [
                 {header: 'Name', dataIndex: 'hostname', width: 100},
                 //{header: 'Disk pool size', dataIndex: 'diskspace', width: 15},
@@ -106,19 +126,47 @@ Ext.define('Onc.tabs.VmMapTab', {
                 return;
             }
         }
+        if (el.hasCls('free')) {
+            return;
+        }
 
         if (e.shiftKey) {
         } else if (e.ctrlKey) {
-            el.toggleCls('selected');
+            if (el.hasCls('selected')) {
+                el.removeCls('selected');
+                this.selectedCells.remove(el);
+            } else {
+                el.addCls('selected');
+                this.selectedCells.add(el);
+            }
         } else {
             this.selectedCells.each(function(cell) {
                 if (cell !== el) {
                     cell.removeCls('selected');
                 }
             });
-            this.selectedCells.removeAll();
+            this.selectedCells.clear();
             this.selectedCells.add(el);
             el.addCls('selected');
         }
+        
+        var toolbar = Ext.getCmp('vmmap').getDockedComponent('toolbar'),
+            group = toolbar.getComponent('group');
+        if (this.selectedCells.getCount() > 0) {
+            group.enable();
+        } else {
+            group.disable();
+        }
+    },
+
+    onGroupClick: function() {
+        this.cellList = "";
+        this.selectedCells.each(function(cell) {
+            this.cellList += cell.id + '<br>';
+        }, this);
+        Ext.Msg.alert('Group', this.cellList);
+    },
+
+    onResizeClick: function() {
     }
 });
