@@ -51,7 +51,7 @@ Ext.define('Onc.tabs.VmMapTab', {
                                 '<div class="name">' + vm.get('hostname') + '</div>',
                                 //'<div class="name">' + vm.get('ipv4_address') + '</div>',
                                 '<div class="mem">' + parseInt(memory) + '</div>',
-                                '<span class="uptime">' + this.getUptime(rec) + '</span>',
+                                '<span class="uptime">' + this.getUptime(vm) + '</span>',
                                 '<span class="cores">' + vm.get('num_cores') + '</span>',
                                 '</div>'].join('\n');
                         }, this);
@@ -120,17 +120,46 @@ Ext.define('Onc.tabs.VmMapTab', {
         if (!el) {
             return;
         }
-        if (!el.hasCls('node-cell')) {
-            el = el.up('div.node-cell');
+        if (el.hasCls('node-cell')) {
+            if (el.hasCls('free')) {
+                return;
+            }
+        } else {
+            el = el.up('div.node-cell:not(.free)');
             if (!el) {
                 return;
             }
         }
-        if (el.hasCls('free')) {
-            return;
-        }
 
         if (e.shiftKey) {
+            var from = this.lastSelectedCell || this.el.down('div.node-cell:not(.free)'),
+                allCells = Ext.select('div.node-cell:not(.free)', true, this.el.dom),
+                to = allCells.indexOf(el);
+
+            from = allCells.indexOf(from);
+            if (from > to) {
+                var temp = from;
+                from = to;
+                to = temp;
+            }
+
+            if (!e.ctrlKey) {
+                this.selectedCells.each(function(cell) {
+                    var i = allCells.indexOf(cell);
+                    if (i < from || i > to) {
+                        cell.removeCls('selected');
+                    }
+                });
+                this.selectedCells.clear();
+            }
+
+            var i, item;
+            for (i = from; i <= to; i++) {
+                item = allCells.item(i);
+                this.selectedCells.add(item);
+                item.addCls('selected');
+            }
+
         } else if (e.ctrlKey) {
             if (el.hasCls('selected')) {
                 el.removeCls('selected');
@@ -139,6 +168,9 @@ Ext.define('Onc.tabs.VmMapTab', {
                 el.addCls('selected');
                 this.selectedCells.add(el);
             }
+
+            this.lastSelectedCell = el;
+
         } else {
             this.selectedCells.each(function(cell) {
                 if (cell !== el) {
@@ -148,6 +180,8 @@ Ext.define('Onc.tabs.VmMapTab', {
             this.selectedCells.clear();
             this.selectedCells.add(el);
             el.addCls('selected');
+
+            this.lastSelectedCell = el;
         }
         
         var toolbar = Ext.getCmp('vmmap').getDockedComponent('toolbar'),
