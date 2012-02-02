@@ -12,6 +12,7 @@ Ext.define('Onc.tabs.VmMapTab', {
             columnLines: true,
             id: 'vmmap',
             store: 'PhysicalComputesStore',
+            selection: Ext.create('Ext.util.MixedCollection'),
 
             dockedItems: [
                 {xtype: 'toolbar',
@@ -50,9 +51,13 @@ Ext.define('Onc.tabs.VmMapTab', {
 
                         vms.each( function(vm) {
                             var memory = vm.get('memory'),
-                                width = parseInt(200 * (memory / totalMemory));
+                                id = 'vmmap-' + vm.get('id'),
+                                width = parseInt(200 * (memory / totalMemory)),
+                                selected = this.selection.contains(id) ? ' selected' : '';
+
                             freeMemory -= memory;
-                            vm_list += ['<div class="node-cell" id="vmmap-' + vm.get('id') + '"',
+                            vm_list += ['<div class="node-cell' + selected + '"' +
+                                ' id="' + id + '"',
                                 ' style="min-width:' + width + 'px">',
                                 '<div class="name">' + vm.get('hostname') + '</div>',
                                 //'<div class="name">' + vm.get('ipv4_address') + '</div>',
@@ -64,7 +69,7 @@ Ext.define('Onc.tabs.VmMapTab', {
 
                         if (freeMemory) {
                             var width = parseInt(200 * (freeMemory / totalMemory));
-                            vm_list += ['<div class="node-cell free" style="min-width:"' + width + 'px">',
+                            vm_list += ['<div class="node-cell-free" style="min-width:"' + width + 'px">',
                                 '<div class="name">free</div>',
                                 '<div class="mem">' + parseInt(freeMemory) + '</div>',
                                 '</div>'].join('\n');
@@ -88,10 +93,91 @@ Ext.define('Onc.tabs.VmMapTab', {
                 var hours = Math.floor(s / 3600);
 
                 return '' + days + 'd ' + (hours ? (hours + 'h ') : '');
+            },
+
+            updateCell: function(store, rec, action) {
+                if (action === 'edit') {
+                    var el = Ext.get('vmmap-' + rec.get('id'));
+                    if (el) {
+                        el.child('div.name', true).innerHTML = rec.get('hostname');
+                        el.child('div.mem', true).innerHTML = rec.get('memory');
+                        el.child('span.uptime', true).innerHTML = this.getUptime(rec);
+                        el.child('span.cores', true).innerHTML = rec.get('num_cores');
+                    }
+                }
+            },
+
+            onMouseClick: function(e, el) {
+                el = e.getTarget('div.node-cell');
+                el = Ext.get(el);
+                if (!el) {
+                    return;
+                }
+
+                if (e.shiftKey) {
+                    var from = this.lastSelectedCell || this.el.down('div.node-cell'),
+                        allCells = Ext.select('div.node-cell', true, this.el.dom),
+                        to = allCells.indexOf(el);
+
+                    from = allCells.indexOf(from);
+                    if (from > to) {
+                        var temp = from;
+                        from = to;
+                        to = temp;
+                    }
+
+                    var i, item;
+                    if (!e.ctrlKey) {
+                        for (i = 0; i < allCells.getCount(); i++) {
+                            if (i < from || i > to) {
+                                cell = allCells.item(i);
+                                if (this.selection.contains(cell.id)) {
+                                    cell.removeCls('selected');
+                                }
+                            }
+                        }
+                        this.selection.clear();
+                    }
+
+                    for (i = from; i <= to; i++) {
+                        cell = allCells.item(i);
+                        this.selection.add(cell.id);
+                        cell.addCls('selected');
+                    }
+
+                } else if (e.ctrlKey) {
+                    if (el.hasCls('selected')) {
+                        el.removeCls('selected');
+                        this.selection.remove(el.id);
+                    } else {
+                        el.addCls('selected');
+                        this.selection.add(el.id);
+                    }
+
+                    this.lastSelectedCell = el;
+
+                } else {
+                    this.selection.each(function(id) {
+                        if (id !== el.id) {
+                            Ext.get(id).removeCls('selected');
+                        }
+                    });
+                    this.selection.clear();
+                    this.selection.add(el.id);
+                    el.addCls('selected');
+
+                    this.lastSelectedCell = el;
+                }
+                
+                var toolbar = this.getDockedComponent('toolbar'),
+                    group = toolbar.getComponent('group');
+                if (this.selection.getCount() > 0) {
+                    group.enable();
+                } else {
+                    group.disable();
+                }
             }
         }];
-
-        this.selectedCells = Ext.create('Ext.util.MixedCollection');
 
         this.callParent(arguments);
     },
@@ -103,106 +189,16 @@ Ext.define('Onc.tabs.VmMapTab', {
         me.callParent(arguments);
 
         me.mon(vmmap.getStore(), {
-            scope: me,
-            update: me.updateCell
+            scope: vmmap,
+            update: vmmap.updateCell
         });
-        me.mon(vmmap.getEl(), 'click', me.onMouseClick, me);
-    },
-
-    updateCell: function(store, rec, action) {
-        if (action === 'edit') {
-            var el = Ext.get('vmmap-' + rec.get('id'));
-            if (el) {
-                el.child('div.name', true).innerHTML = rec.get('hostname');
-                el.child('div.mem', true).innerHTML = rec.get('memory');
-                el.child('span.uptime', true).innerHTML = Ext.getCmp('vmmap').getUptime(rec);
-                el.child('span.cores', true).innerHTML = rec.get('num_cores');
-            }
-        }
-    },
-
-    onMouseClick: function(e, el) {
-        el = Ext.get(el);
-        if (!el) {
-            return;
-        }
-        if (el.hasCls('node-cell')) {
-            if (el.hasCls('free')) {
-                return;
-            }
-        } else {
-            el = el.up('div.node-cell:not(.free)');
-            if (!el) {
-                return;
-            }
-        }
-
-        if (e.shiftKey) {
-            var from = this.lastSelectedCell || this.el.down('div.node-cell:not(.free)'),
-                allCells = Ext.select('div.node-cell:not(.free)', true, this.el.dom),
-                to = allCells.indexOf(el);
-
-            from = allCells.indexOf(from);
-            if (from > to) {
-                var temp = from;
-                from = to;
-                to = temp;
-            }
-
-            if (!e.ctrlKey) {
-                this.selectedCells.each(function(cell) {
-                    var i = allCells.indexOf(cell);
-                    if (i < from || i > to) {
-                        cell.removeCls('selected');
-                    }
-                });
-                this.selectedCells.clear();
-            }
-
-            var i, item;
-            for (i = from; i <= to; i++) {
-                item = allCells.item(i);
-                this.selectedCells.add(item);
-                item.addCls('selected');
-            }
-
-        } else if (e.ctrlKey) {
-            if (el.hasCls('selected')) {
-                el.removeCls('selected');
-                this.selectedCells.remove(el);
-            } else {
-                el.addCls('selected');
-                this.selectedCells.add(el);
-            }
-
-            this.lastSelectedCell = el;
-
-        } else {
-            this.selectedCells.each(function(cell) {
-                if (cell !== el) {
-                    cell.removeCls('selected');
-                }
-            });
-            this.selectedCells.clear();
-            this.selectedCells.add(el);
-            el.addCls('selected');
-
-            this.lastSelectedCell = el;
-        }
-        
-        var toolbar = Ext.getCmp('vmmap').getDockedComponent('toolbar'),
-            group = toolbar.getComponent('group');
-        if (this.selectedCells.getCount() > 0) {
-            group.enable();
-        } else {
-            group.disable();
-        }
+        me.mon(vmmap.getEl(), 'click', vmmap.onMouseClick, vmmap);
     },
 
     onGroupClick: function() {
         this.cellList = "";
-        this.selectedCells.each(function(cell) {
-            this.cellList += cell.id + '<br>';
+        Ext.getCmp('vmmap').selection.each(function(id) {
+            this.cellList += id + '<br>';
         }, this);
         Ext.Msg.alert('Group', this.cellList);
     },
@@ -217,7 +213,7 @@ Ext.define('Onc.tabs.VmMapTab', {
         if (this.migrateMode) {
             this.dragZone = new Ext.dd.DragZone(this.getEl(), {
                 getDragData: function(e) {
-                    var cell = e.getTarget('div.node-cell:not(.free)');
+                    var cell = e.getTarget('div.node-cell');
                     if (cell) {
                         var clone = cell.cloneNode(true);
                         clone.id = Ext.id();
