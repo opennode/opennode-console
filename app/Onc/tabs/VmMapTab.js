@@ -30,6 +30,12 @@ Ext.define('Onc.tabs.VmMapTab', {
                     disabled: true,
                     scope: this,
                     handler: this.onGroupClick
+                }, {
+                    iconCls: 'icon-migrate',
+                    itemId: 'migrate',
+                    text: 'Migrate',
+                    scope: this,
+                    handler: this.onMigrateClick
                 }]}
             ],
 
@@ -202,5 +208,35 @@ Ext.define('Onc.tabs.VmMapTab', {
     },
 
     onResizeClick: function() {
+    },
+
+    onMigrateClick: function(button) {
+        this.migrateMode = !this.migrateMode;
+        button.setText(this.migrateMode ? 'Disable Migration' : 'Migrate');
+
+        if (this.migrateMode) {
+            this.dragZone = new Ext.dd.DragZone(this.getEl(), {
+                getDragData: function(e) {
+                    var cell = e.getTarget('div.node-cell:not(.free)');
+                    if (cell) {
+                        var clone = cell.cloneNode(true);
+                        clone.id = Ext.id();
+                        return {
+                            ddel: clone,
+                            sourceEl: cell,
+                            repairXY: Ext.fly(cell).getXY(),
+                            dragSource: this
+                        }
+                    }
+                },
+
+                getRepairXY: function() {
+                    return this.dragData.repairXY;
+                }
+            });
+        } else {
+            this.dragZone.unreg();
+            delete this.dragZone;
+        }
     }
 });
