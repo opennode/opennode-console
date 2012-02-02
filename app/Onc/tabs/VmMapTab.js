@@ -230,9 +230,33 @@ Ext.define('Onc.tabs.VmMapTab', {
                     return this.dragData.repairXY;
                 }
             });
+
+            this.dropZone = new Ext.dd.DropZone(this.getEl(), {
+                getTargetFromEvent: function(e) {
+                    //return e.getTarget(Ext.getCmp('vmmap').getView().rowSelector);
+                    //return e.getTarget('#vmmap tr.x-grid-row');
+                    return e.getTarget('tr.x-grid-row');
+                },
+
+                onNodeDrop: function(target, dd, e, data) {
+                    var id = data.sourceEl.id.substring(6),
+                        nodeRec = Ext.getStore('ComputesStore').findRecord('id', id);
+                        targetRec = Ext.getCmp('vmmap').getView().getRecord(target);
+                    Ext.Msg.show({
+                        msg: "Migrate " + nodeRec.get('hostname') +
+                            " to " + targetRec.get('hostname') + "?",
+                        buttons: Ext.Msg.OKCANCEL,
+                        icon: Ext.Msg.QUESTION
+                    });
+                    return true;
+                }
+            });
+
         } else {
             this.dragZone.unreg();
             delete this.dragZone;
+            this.dropZone.unreg();
+            delete this.dropZone;
         }
     }
 });
