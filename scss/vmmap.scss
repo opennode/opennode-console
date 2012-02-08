@@ -4,9 +4,9 @@
         padding: 5px;
         margin-right: -1px;
         margin-top: -1px;
-        float: left; 
+        float: left;
         &:hover .uptime {
-            opacity: 0.4;
+            opacity: 0.5;
         }
         &.selected {
             background-color: #D0F8F0;
@@ -31,11 +31,10 @@
         overflow-y: hidden;
         word-wrap: break-word;
         height: 1.2em;
-        margin-bottom: -3px;
+        margin-left: 2px;
     }
     .mem {
-        margin-top: 6px;
-        margin-bottom: -6px;
+        margin-top: 2px;
         padding-left: 8px;
         color: #4e0e0e;
         text-align: center;
@@ -43,7 +42,7 @@
     }
     .uptime {
         color: #303030;
-        opacity: 0.1;
+        opacity: 0.25;
     }
     .cores {
         color: #6e6eae;

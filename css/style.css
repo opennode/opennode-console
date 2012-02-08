@@ -64,7 +64,7 @@
   margin-top: -1px;
   float: left; }
   #vmmap .node-cell:hover .uptime {
-    opacity: 0.4; }
+    opacity: 0.5; }
   #vmmap .node-cell.selected {
     background-color: #D0F8F0; }
   #vmmap .node-cell.inactive {
@@ -83,17 +83,16 @@
   overflow-y: hidden;
   word-wrap: break-word;
   height: 1.2em;
-  margin-bottom: -3px; }
+  margin-left: 2px; }
 #vmmap .mem {
-  margin-top: 6px;
-  margin-bottom: -6px;
+  margin-top: 2px;
   padding-left: 8px;
   color: #4e0e0e;
   text-align: center;
   font-size: 120%; }
 #vmmap .uptime {
   color: #303030;
-  opacity: 0.1; }
+  opacity: 0.25; }
 #vmmap .cores {
   color: #6e6eae; }
 

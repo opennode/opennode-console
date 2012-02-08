@@ -24,14 +24,14 @@ Ext.define('Onc.tabs.VmMapTab', {
                     disabled: true,
                     scope: this,
                     handler: this.onResizeClick
-                }, {
+                },/* {
                     iconCls: 'icon-group',
                     itemId: 'group',
                     text: 'Group',
                     disabled: true,
                     scope: this,
                     handler: this.onGroupClick
-                }, {
+                },*/ {
                     iconCls: 'icon-migrate',
                     itemId: 'migrate',
                     text: 'Migrate',
@@ -196,7 +196,7 @@ Ext.define('Onc.tabs.VmMapTab', {
         });
         me.mon(vmmap.getEl(), 'click', vmmap.onMouseClick, vmmap);
     },
-
+/*
     onGroupClick: function() {
         this.cellList = "";
         Ext.getCmp('vmmap').selection.each(function(id) {
@@ -204,7 +204,7 @@ Ext.define('Onc.tabs.VmMapTab', {
         }, this);
         Ext.Msg.alert('Group', this.cellList);
     },
-
+*/
     onResizeClick: function() {
     },
 
