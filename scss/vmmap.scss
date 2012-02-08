@@ -11,6 +11,9 @@
         &.selected {
             background-color: #D0F8F0;
         }
+        &.inactive {
+            background-color: #FEDEDE;
+        }
     }
     .node-cell-free {
         border: 1px solid #CCC;

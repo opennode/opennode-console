@@ -52,17 +52,19 @@ Ext.define('Onc.tabs.VmMapTab', {
                         vms.each( function(vm) {
                             var memory = vm.get('memory'),
                                 id = 'vmmap-' + vm.get('id'),
+                                uptime = this.getUptime(vm),
                                 width = parseInt(200 * (memory / totalMemory)),
                                 selected = this.selection.contains(id) ? ' selected' : '';
 
                             freeMemory -= memory;
-                            vm_list += ['<div class="node-cell' + selected + '"' +
+                            vm_list += ['<div class="node-cell' + selected +
+                                ((uptime === 'inactive') ? ' inactive' : '') + '"' +
                                 ' id="' + id + '"',
                                 ' style="min-width:' + width + 'px">',
                                 '<div class="name">' + vm.get('hostname') + '</div>',
                                 //'<div class="name">' + vm.get('ipv4_address') + '</div>',
                                 '<div class="mem">' + parseInt(memory) + '</div>',
-                                '<span class="uptime">' + this.getUptime(vm) + '</span>',
+                                '<span class="uptime">' + uptime + '</span>',
                                 '<span class="cores">' + vm.get('num_cores') + '</span>',
                                 '</div>'].join('\n');
                         }, this);

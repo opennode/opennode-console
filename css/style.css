@@ -67,6 +67,8 @@
     opacity: 0.4; }
   #vmmap .node-cell.selected {
     background-color: #D0F8F0; }
+  #vmmap .node-cell.inactive {
+    background-color: #FEDEDE; }
 #vmmap .node-cell-free {
   border: 1px solid #CCC;
   padding: 5px 5px 18px;
