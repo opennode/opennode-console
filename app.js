@@ -10,6 +10,8 @@ Ext.Loader.setConfig({enabled: true, disableCaching: false})
 Ext.syncRequire([
     'Ext.window.MessageBox',
     'Ext.XTemplate',
+    'Ext.form.*',
+
     'Onc.widgets.Gauge',
     'Onc.widgets.Shell',
     'Onc.widgets.Vnc',
@@ -308,6 +310,19 @@ Ext.data.Association.create = function(association){
     }
     return association;
 };
+
+
+Ext.apply(Ext.form.field.VTypes, {
+    password: function(val, field) {
+        if (field.initialPassField) {
+            var pwd = field.up('form').down('#' + field.initialPassField);
+            return (val == pwd.getValue());
+        }
+        return true;
+    },
+
+    passwordText: 'Passwords do not match'
+});
 
 
 function dict(kvs) {
