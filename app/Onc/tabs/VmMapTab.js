@@ -184,10 +184,15 @@ Ext.define('Onc.tabs.VmMapTab', {
             onMouseDoubleClick: function(e, el) {
                 el = e.getTarget('div.node-cell');
                 el = Ext.get(el);
-                if (!el) {
+                if (el) {
+                    this.fireEvent('showvmdetails', el.id.substring(6));
                     return;
                 }
-                this.fireEvent('showvmdetails', el.id.substring(6));
+
+                el = e.getTarget('tr.x-grid-row');
+                if (el) {
+                    this.fireEvent('showvmdetails', this.getView().getRecord(el).get('id'));
+                }
             }
         }];
 
