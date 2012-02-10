@@ -6,6 +6,8 @@ Ext.define('Onc.tabs.VmMapTab', {
     layout: 'fit',
 
     initComponent: function() {
+        this.addEvents('showvmdetails');
+
         this.items = [{
             xtype: 'gridpanel',
             hideHeaders: true,
@@ -24,14 +26,15 @@ Ext.define('Onc.tabs.VmMapTab', {
                     disabled: true,
                     scope: this,
                     handler: this.onResizeClick
-                },/* {
+                }, {
                     iconCls: 'icon-group',
                     itemId: 'group',
                     text: 'Group',
                     disabled: true,
+                    hidden: true,
                     scope: this,
                     handler: this.onGroupClick
-                },*/ {
+                }, {
                     iconCls: 'icon-migrate',
                     itemId: 'migrate',
                     text: 'Migrate',
@@ -178,6 +181,18 @@ Ext.define('Onc.tabs.VmMapTab', {
                 } else {
                     group.disable();
                 }
+            },
+
+            onMouseDoubleClick: function(e, el) {
+                el = e.getTarget('div.node-cell');
+                el = Ext.get(el);
+                if (!el) {
+                    return;
+                }
+
+                var vmmap = Ext.getCmp('vmmap'),
+                    vm = Ext.getStore('ComputesStore').findRecord('id', el.id.substring(6));
+                vmmap.fireEvent('showvmdetails', vm);
             }
         }];
 
@@ -195,8 +210,9 @@ Ext.define('Onc.tabs.VmMapTab', {
             update: vmmap.updateCell
         });
         me.mon(vmmap.getEl(), 'click', vmmap.onMouseClick, vmmap);
+        me.mon(vmmap.getEl(), 'dblclick', vmmap.onMouseDoubleClick, vmmap);
     },
-/*
+
     onGroupClick: function() {
         this.cellList = "";
         Ext.getCmp('vmmap').selection.each(function(id) {
@@ -204,7 +220,7 @@ Ext.define('Onc.tabs.VmMapTab', {
         }, this);
         Ext.Msg.alert('Group', this.cellList);
     },
-*/
+
     onResizeClick: function() {
     },
 
