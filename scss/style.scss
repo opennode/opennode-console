@@ -106,6 +106,9 @@ $state-icon-margin: 5px;
     &.icon-vmlist {
         background-image: url(ico("vmlist-16x16"));
     }
+    &.icon-vmmap {
+        background-image: url(ico("map-16x16"));
+    }
 }
 
 .x-action-col-icon {

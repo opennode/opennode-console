@@ -159,6 +159,8 @@
   background-image: url("../img/icon/template-16x16.png"); }
 .x-tab-icon.icon-vmlist {
   background-image: url("../img/icon/vmlist-16x16.png"); }
+.x-tab-icon.icon-vmmap {
+  background-image: url("../img/icon/map-16x16.png"); }
 
 .x-action-col-icon {
   opacity: 0.7; }
