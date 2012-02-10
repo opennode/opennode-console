@@ -16,7 +16,7 @@ Ext.define('Onc.controller.ComputeController', {
                     }).show();
                 }
             },
-            'computeview computevmlisttab computevmmaptab': {
+            'computeview computevmlisttab': {
                 showvmdetails: function(vm) {
                     var computeId = vm.get('id');
                     this.getController('MainController').openComputeInTab(computeId);

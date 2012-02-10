@@ -6,8 +6,6 @@ Ext.define('Onc.tabs.VmMapTab', {
     layout: 'fit',
 
     initComponent: function() {
-        this.addEvents('showvmdetails');
-
         this.items = [{
             xtype: 'gridpanel',
             hideHeaders: true,
@@ -189,10 +187,7 @@ Ext.define('Onc.tabs.VmMapTab', {
                 if (!el) {
                     return;
                 }
-
-                var vmmap = Ext.getCmp('vmmap'),
-                    vm = Ext.getStore('ComputesStore').findRecord('id', el.id.substring(6));
-                vmmap.fireEvent('showvmdetails', vm);
+                this.fireEvent('showvmdetails', el.id.substring(6));
             }
         }];
 
@@ -211,6 +206,8 @@ Ext.define('Onc.tabs.VmMapTab', {
         });
         me.mon(vmmap.getEl(), 'click', vmmap.onMouseClick, vmmap);
         me.mon(vmmap.getEl(), 'dblclick', vmmap.onMouseDoubleClick, vmmap);
+
+        vmmap.addEvents('showvmdetails', 'startvms', 'stopvms');
     },
 
     onGroupClick: function() {

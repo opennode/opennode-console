@@ -54,6 +54,11 @@ Ext.define('Onc.controller.MainController', {
                     else
                         selModel.deselect(selModel.getSelection());
                 }
+            },
+            '#vmmap': {
+                showvmdetails: function(computeId) {
+                    this.getController('MainController').openComputeInTab(computeId);
+                },
             }
         });
     }
