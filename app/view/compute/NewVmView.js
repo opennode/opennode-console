@@ -174,16 +174,29 @@ Ext.define('Onc.view.compute.NewVmView', {
                 },
                 items: [{
                     fieldLabel: "Root Password",
-                    name: 'root_password'
+                    name: 'root_password',
+                    id: 'root_password'
                 }, {
                     fieldLabel: "Root Password (repeat)",
-                    name: 'root_password_repeat'
+                    name: 'root_password_repeat',
+                    vtype: 'password',
+                    initialPassField: 'root_password'
                 }]
             }, {
-                xtype: 'checkbox',
-                name: 'start_on_boot',
-                fieldLabel: "Start on boot"
-            }],
+            	xtype: 'fieldset',
+                title: "Boot parameters",
+                layout: {
+                    type: 'table',
+                    columns: 2
+                },
+                items: [{
+                        xtype: 'checkbox',
+                        name: 'start_on_boot',
+                        fieldLabel: "Start on boot"
+                 }]
+                
+            }
+            ],
 
             buttons: [{
                 text: 'Cancel' , handler: function() {
