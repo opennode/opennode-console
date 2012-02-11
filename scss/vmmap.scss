@@ -8,11 +8,11 @@
         &:hover .uptime {
             opacity: 0.5;
         }
-        &.selected {
-            background-color: #D0F8F0;
-        }
         &.inactive {
             background-color: #FEDEDE;
+        }
+        &.selected {
+            background-color: #D0F8F0;
         }
     }
     .node-cell-free {
@@ -28,7 +28,7 @@
     }
     .name {
         font-decoration: italic;
-        overflow-y: hidden;
+        text-overflow: ellipsis;
         word-wrap: break-word;
         height: 1.2em;
         margin-left: 2px;

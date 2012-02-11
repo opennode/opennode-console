@@ -65,10 +65,10 @@
   float: left; }
   #vmmap .node-cell:hover .uptime {
     opacity: 0.5; }
-  #vmmap .node-cell.selected {
-    background-color: #D0F8F0; }
   #vmmap .node-cell.inactive {
     background-color: #FEDEDE; }
+  #vmmap .node-cell.selected {
+    background-color: #D0F8F0; }
 #vmmap .node-cell-free {
   border: 1px solid #CCC;
   padding: 5px 5px 18px;
@@ -80,7 +80,7 @@
   overflow-x: auto; }
 #vmmap .name {
   font-decoration: italic;
-  overflow-y: hidden;
+  text-overflow: ellipsis;
   word-wrap: break-word;
   height: 1.2em;
   margin-left: 2px; }
