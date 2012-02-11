@@ -95,6 +95,16 @@
   opacity: 0.25; }
 #vmmap .cores {
   color: #6e6eae; }
+#vmmap .resize-container {
+  display: inline-block;
+  float: left; }
+#vmmap .resizer {
+  margin-top: -1px;
+  cursor: w-resize;
+  float: left;
+  width: 18px;
+  background-color: #444;
+  opacity: 0.25; }
 
 #search-results {
   width: 215px;

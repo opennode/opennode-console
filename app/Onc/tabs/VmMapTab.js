@@ -26,7 +26,6 @@ Ext.define('Onc.tabs.VmMapTab', {
                     icon: 'img/icon/resize.png',
                     itemId: 'resize',
                     text: 'Resize',
-                    disabled: true,
                     scope: this,
                     handler: this.onResizeClick
                 }, {
@@ -241,7 +240,37 @@ Ext.define('Onc.tabs.VmMapTab', {
         Ext.Msg.alert('Group', cellList);
     },
 
-    onResizeClick: function() {
+    onResizeClick: function(button) {
+        this.resizeMode = !this.resizeMode;
+        button.setText(this.resizeMode ? 'Disable Resizing' : 'Resize');
+
+        if (this.resizeMode) {
+            var allCells = Ext.select('div.node-cell', true, this.el.dom);
+            for (i = 0; i < allCells.getCount(); i++) {
+                var cellEl = allCells.item(i);
+                var cell = cellEl.dom;
+                var resizeContainer = document.createElement("div");
+                var resizer = document.createElement("div");
+                resizeContainer.className = 'resize-container';
+                resizer.className = 'resizer';
+                Ext.fly(resizer).setHeight(cellEl.getHeight());
+                cell.parentNode.insertBefore(resizeContainer, cell.nextSibling);
+                cell.parentNode.removeChild(cell);
+                resizeContainer.appendChild(cell);
+                resizeContainer.appendChild(resizer);
+            }
+        } else {
+            var resizers = Ext.select('div.resizer', true, this.el.dom);
+            for (i = 0; i < resizers.getCount(); i++) {
+                var resizer = resizers.item(i);
+                var resizeContainer = resizer.dom.parentNode;
+                var cell = resizeContainer.firstChild;
+                resizeContainer.removeChild(cell);
+                resizeContainer.parentNode.insertBefore(cell, resizeContainer.nextSibling);
+                resizeContainer.parentNode.removeChild(resizeContainer);
+                resizer.remove();
+            }
+        }
     },
 
     onMigrateClick: function(button) {

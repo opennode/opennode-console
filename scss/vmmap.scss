@@ -47,4 +47,16 @@
     .cores {
         color: #6e6eae;
     }
+    .resize-container {
+        display: inline-block;
+        float: left;
+    }
+    .resizer {
+        margin-top: -1px;
+        cursor: w-resize;
+        float: left;
+        width: 18px;
+        background-color: #444;
+        opacity: 0.25;
+    }
 }
