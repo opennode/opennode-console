@@ -18,7 +18,12 @@ Ext.define('Onc.tabs.VmMapTab', {
                 {xtype: 'toolbar',
                 itemId: 'toolbar',
                 items: [{
-                    iconCls: 'icon-resize',
+                    icon: 'img/icon/refresh.png',
+                    text: 'Refresh',
+                    scope: this,
+                    handler: this.updateAll
+                }, {
+                    icon: 'img/icon/resize.png',
                     itemId: 'resize',
                     text: 'Resize',
                     disabled: true,
@@ -33,7 +38,7 @@ Ext.define('Onc.tabs.VmMapTab', {
                     scope: this,
                     handler: this.onGroupClick
                 }, {
-                    iconCls: 'icon-migrate',
+                    icon: 'img/icon/migrate.png',
                     itemId: 'migrate',
                     text: 'Migrate',
                     scope: this,
@@ -98,15 +103,19 @@ Ext.define('Onc.tabs.VmMapTab', {
                 return '' + days + 'd ' + (hours ? (hours + 'h ') : '');
             },
 
-            updateCell: function(store, rec, action) {
+            updateCell: function(store, rec) {
+                var el = Ext.get('vmmap-' + rec.get('id'));
+                if (el) {
+                    el.child('div.name', true).innerHTML = rec.get('hostname');
+                    el.child('div.mem', true).innerHTML = rec.get('memory');
+                    el.child('span.uptime', true).innerHTML = this.getUptime(rec);
+                    el.child('span.cores', true).innerHTML = rec.get('num_cores');
+                }
+            },
+
+            updateCellEvent: function(store, rec, action) {
                 if (action === 'edit') {
-                    var el = Ext.get('vmmap-' + rec.get('id'));
-                    if (el) {
-                        el.child('div.name', true).innerHTML = rec.get('hostname');
-                        el.child('div.mem', true).innerHTML = rec.get('memory');
-                        el.child('span.uptime', true).innerHTML = this.getUptime(rec);
-                        el.child('span.cores', true).innerHTML = rec.get('num_cores');
-                    }
+                    this.updateCell(store, rec);
                 }
             },
 
@@ -202,12 +211,13 @@ Ext.define('Onc.tabs.VmMapTab', {
     afterRender: function() {
         var me = this,
             vmmap = Ext.getCmp('vmmap');
+        me.vmmap = vmmap;
 
         me.callParent(arguments);
 
         me.mon(vmmap.getStore(), {
             scope: vmmap,
-            update: vmmap.updateCell
+            update: vmmap.updateCellEvent
         });
         me.mon(vmmap.getEl(), 'click', vmmap.onMouseClick, vmmap);
         me.mon(vmmap.getEl(), 'dblclick', vmmap.onMouseDoubleClick, vmmap);
@@ -215,12 +225,20 @@ Ext.define('Onc.tabs.VmMapTab', {
         vmmap.addEvents('showvmdetails', 'startvms', 'stopvms');
     },
 
+    updateAll: function() {
+        var vmmap = this.vmmap,
+            store = vmmap.store;
+        store.each(function(record) {
+            vmmap.updateCell(store, record);
+        });
+    },
+
     onGroupClick: function() {
-        this.cellList = "";
-        Ext.getCmp('vmmap').selection.each(function(id) {
-            this.cellList += id + '<br>';
-        }, this);
-        Ext.Msg.alert('Group', this.cellList);
+        var cellList = "";
+        this.vmmap.selection.each(function(id) {
+            cellList += id + '<br>';
+        });
+        Ext.Msg.alert('Group', cellList);
     },
 
     onResizeClick: function() {
