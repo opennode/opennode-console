@@ -48,11 +48,14 @@ Ext.define('Onc.tabs.VmMapTab', {
             columns: [
                 {header: 'Name', dataIndex: 'hostname', width: 100},
                 //{header: 'Disk pool size', dataIndex: 'diskspace', width: 15},
-                {header: 'Map', dataIndex: 'memory_usage', flex: 1,
+                {header: 'Map', dataIndex: 'memory', flex: 1,
                     renderer: function(totalMemory, meta, rec) {
                         var freeMemory = totalMemory,
                             vms = rec.getChild('vms').children(),
                             vm_list = "";
+
+                        // FIXME: 'memory' is 0
+                        totalMemory = rec.get('memory_usage') * 2;
 
                         vms.each( function(vm) {
                             var memory = vm.get('memory'),
@@ -118,7 +121,37 @@ Ext.define('Onc.tabs.VmMapTab', {
                 }
             },
 
+            onResizeStart: function(e, el) {
+                el = e.getTarget('div.resizer');
+                if (!el) {
+                    return;
+                }
+
+                this.resizingCell = el.parentNode.firstChild;
+                this.resizingWidth = parseInt(this.resizingCell.style.getPropertyValue('width'));
+                this.resizeAnchor = [e.getX(), e.getY()];
+                this.resizing = true;
+            },
+
+            onResize: function(e, el) {
+                if (this.resizing) {
+                    var pos = e.getXY();
+                    var delta = [pos[0] - this.resizeAnchor[0], pos[1] - this.resizeAnchor[1]]
+                    this.resizingCell.style.setProperty('width', (Math.max(this.resizingWidth + delta[0], 1)) + 'px');
+                    console.log(delta);
+                    e.stopEvent();
+                }
+            },
+
+            onResizeEnd: function(e, el) {
+                this.resizing = false;
+            },
+
             onMouseClick: function(e, el) {
+                if (this.resizeMode) {
+                    return;
+                }
+
                 el = e.getTarget('div.node-cell');
                 el = Ext.get(el);
                 if (!el) {
@@ -179,7 +212,7 @@ Ext.define('Onc.tabs.VmMapTab', {
 
                     this.lastSelectedCell = el;
                 }
-                
+
                 var toolbar = this.getDockedComponent('toolbar'),
                     group = toolbar.getComponent('group');
                 if (this.selection.getCount() > 0) {
@@ -190,6 +223,10 @@ Ext.define('Onc.tabs.VmMapTab', {
             },
 
             onMouseDoubleClick: function(e, el) {
+                if (this.resizeMode || this.migrateMode) {
+                    return;
+                }
+
                 el = e.getTarget('div.node-cell');
                 el = Ext.get(el);
                 if (el) {
@@ -230,6 +267,7 @@ Ext.define('Onc.tabs.VmMapTab', {
         store.each(function(record) {
             vmmap.updateCell(store, record);
         });
+        vmmap.getView().refresh();
     },
 
     onGroupClick: function() {
@@ -241,14 +279,23 @@ Ext.define('Onc.tabs.VmMapTab', {
     },
 
     onResizeClick: function(button) {
-        this.resizeMode = !this.resizeMode;
-        button.setText(this.resizeMode ? 'Disable Resizing' : 'Resize');
+        var vmmap = this.vmmap,
+            vmmapEl = vmmap.getEl();
+        vmmap.resizeMode = !vmmap.resizeMode;
+        button.setText(vmmap.resizeMode ? 'Disable Resizing' : 'Resize');
 
-        if (this.resizeMode) {
+        if (vmmap.resizeMode) {
             var allCells = Ext.select('div.node-cell', true, this.el.dom);
             for (i = 0; i < allCells.getCount(); i++) {
                 var cellEl = allCells.item(i);
                 var cell = cellEl.dom;
+                var cellStyle = cell.style;
+
+                var width = Math.max(parseInt(cellStyle.getPropertyValue('min-width')), 1);
+                cellStyle.removeProperty('min-width');
+                cellStyle.setProperty('width', width + 'px');
+                cellStyle.setProperty('overflow-x', 'hidden');
+
                 var resizeContainer = document.createElement("div");
                 var resizer = document.createElement("div");
                 resizeContainer.className = 'resize-container';
@@ -259,17 +306,31 @@ Ext.define('Onc.tabs.VmMapTab', {
                 resizeContainer.appendChild(cell);
                 resizeContainer.appendChild(resizer);
             }
+
+            this.mon(vmmapEl, 'mousedown', vmmap.onResizeStart, vmmap);
+            this.mon(vmmapEl, 'mousemove', vmmap.onResize, vmmap);
+            Ext.EventManager.on(document, 'mouseup', vmmap.onResizeEnd, vmmap);
         } else {
             var resizers = Ext.select('div.resizer', true, this.el.dom);
             for (i = 0; i < resizers.getCount(); i++) {
                 var resizer = resizers.item(i);
                 var resizeContainer = resizer.dom.parentNode;
                 var cell = resizeContainer.firstChild;
+                var cellStyle = cell.style;
+
+                cellStyle.setProperty('min-width', cellStyle.getPropertyValue('width'));
+                cellStyle.removeProperty('overflow-x');
+                cellStyle.removeProperty('width');
+
                 resizeContainer.removeChild(cell);
                 resizeContainer.parentNode.insertBefore(cell, resizeContainer.nextSibling);
                 resizeContainer.parentNode.removeChild(resizeContainer);
                 resizer.remove();
             }
+
+            this.mun(vmmapEl, 'mousedown', vmmap.onResizeStart, vmmap);
+            this.mun(vmmapEl, 'mousemove', vmmap.onResize, vmmap);
+            Ext.EventManager.un(document, 'mouseup', vmmap.onResizeEnd, vmmap);
         }
     },
 
