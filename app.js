@@ -5,6 +5,8 @@ Ext.Loader.setConfig('paths', {
     'Onc': './app/Onc'
 });
 
+Ext.Ajax.timeout = 200000;
+
 Ext.Loader.setConfig({enabled: true, disableCaching: false})
 
 Ext.syncRequire([
