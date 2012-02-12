@@ -183,7 +183,7 @@ Ext.define('Onc.view.compute.NewVmView', {
                     initialPassField: 'root_password'
                 }]
             }, {
-            	xtype: 'fieldset',
+                xtype: 'fieldset',
                 title: "Boot parameters",
                 layout: {
                     type: 'table',
@@ -194,9 +194,7 @@ Ext.define('Onc.view.compute.NewVmView', {
                         name: 'start_on_boot',
                         fieldLabel: "Start on boot"
                  }]
-                
-            }
-            ],
+            }],
 
             buttons: [{
                 text: 'Cancel' , handler: function() {
