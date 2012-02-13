@@ -317,7 +317,7 @@ Ext.define('Onc.tabs.VmMapTab', {
         var vmmap = this.vmmap,
             vmmapEl = vmmap.getEl();
 
-        vmmap.resizeMode = false;
+        vmmap.resizeMode = true;
         vmmap.getDockedComponent('toolbar').getComponent('resize').setText('Cancel Resize');
 
         var allCells = Ext.select('div.node-cell', true, this.el.dom);
