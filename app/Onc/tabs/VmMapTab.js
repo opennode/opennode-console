@@ -50,12 +50,12 @@ Ext.define('Onc.tabs.VmMapTab', {
                 //{header: 'Disk pool size', dataIndex: 'diskspace', width: 15},
                 {header: 'Map', dataIndex: 'memory', flex: 1,
                     renderer: function(totalMemory, meta, rec) {
+                        // FIXME: 'memory' is 0
+                        totalMemory = rec.get('memory_usage') * 2;
+
                         var freeMemory = totalMemory,
                             vms = rec.getChild('vms').children(),
                             vm_list = "";
-
-                        // FIXME: 'memory' is 0
-                        totalMemory = rec.get('memory_usage') * 2;
 
                         vms.each( function(vm) {
                             var memory = vm.get('memory'),
@@ -112,6 +112,9 @@ Ext.define('Onc.tabs.VmMapTab', {
                     el.child('div.mem', true).innerHTML = rec.get('memory');
                     el.child('span.uptime', true).innerHTML = this.getUptime(rec);
                     el.child('span.cores', true).innerHTML = rec.get('num_cores');
+                    if (rec.get('state') === 'inactive') {
+                        el.addCls('inactive');
+                    }
                 }
             },
 
@@ -128,23 +131,54 @@ Ext.define('Onc.tabs.VmMapTab', {
                 }
 
                 this.resizingCell = el.parentNode.firstChild;
-                this.resizingWidth = parseInt(this.resizingCell.style.getPropertyValue('width'));
+                this.originalWidth = parseInt(this.resizingCell.style.getPropertyValue('width'));
                 this.resizeAnchor = [e.getX(), e.getY()];
-                this.resizing = true;
+                this.originalSize = parseInt(Ext.get(this.resizingCell).child('div.mem', true).innerHTML);
             },
 
             onResize: function(e, el) {
-                if (this.resizing) {
-                    var pos = e.getXY();
-                    var delta = [pos[0] - this.resizeAnchor[0], pos[1] - this.resizeAnchor[1]]
-                    this.resizingCell.style.setProperty('width', (Math.max(this.resizingWidth + delta[0], 1)) + 'px');
-                    console.log(delta);
-                    e.stopEvent();
+                if (!this.resizingCell) {
+                    return;
                 }
+                var pos = e.getXY();
+                var delta = [pos[0] - this.resizeAnchor[0], pos[1] - this.resizeAnchor[1]];
+                this.resizingCell.style.setProperty('width', (Math.max(this.originalWidth + delta[0], 1)) + 'px');
+                this.newSize = this.originalSize + delta[0];
+                Ext.get(this.resizingCell).child('div.mem', true).innerHTML = this.newSize;
+                e.stopEvent();
             },
 
             onResizeEnd: function(e, el) {
-                this.resizing = false;
+                var me = this;
+                if (!this.resizingCell) {
+                    return;
+                }
+                Ext.Msg.show({
+                    title:'Resize',
+                    msg: 'Resize VM from ' + this.originalSize +
+                       ' MB to ' + this.newSize + 'MB?',
+                    buttons: Ext.Msg.YESNO,
+                    icon: Ext.Msg.QUESTION,
+                    scope: me,
+                    fn: function(buttonId) {
+                        if (buttonId === 'no') {
+                            Ext.get(this.resizingCell).child('div.mem', true).innerHTML = this.originalSize;
+                            this.resizingCell.style.setProperty('width', (Math.max(this.originalWidth, 1)) + 'px');
+                        } else {
+                            var id = this.resizingCell.id.substring(6);
+                            rec = Ext.getStore('ComputesStore').findRecord('id', id);
+                            rec.set('memory', this.newSize);
+                            rec.save();
+                        }
+
+                        this.vmmapTab.disableResizing();
+                        delete this.resizingCell;
+                        delete this.originalWidth;
+                        delete this.resizeAnchor;
+                        delete this.originalSize;
+                        delete this.newSize;
+                    }
+                });
             },
 
             onMouseClick: function(e, el) {
@@ -248,6 +282,7 @@ Ext.define('Onc.tabs.VmMapTab', {
         var me = this,
             vmmap = Ext.getCmp('vmmap');
         me.vmmap = vmmap;
+        vmmap.vmmapTab = me;
 
         me.callParent(arguments);
 
@@ -258,7 +293,7 @@ Ext.define('Onc.tabs.VmMapTab', {
         me.mon(vmmap.getEl(), 'click', vmmap.onMouseClick, vmmap);
         me.mon(vmmap.getEl(), 'dblclick', vmmap.onMouseDoubleClick, vmmap);
 
-        vmmap.addEvents('showvmdetails', 'startvms', 'stopvms');
+        vmmap.addEvents('showvmdetails');//, 'startvms', 'stopvms');
     },
 
     updateAll: function() {
@@ -278,65 +313,80 @@ Ext.define('Onc.tabs.VmMapTab', {
         Ext.Msg.alert('Group', cellList);
     },
 
-    onResizeClick: function(button) {
+    enableResizing: function() {
         var vmmap = this.vmmap,
             vmmapEl = vmmap.getEl();
-        vmmap.resizeMode = !vmmap.resizeMode;
-        button.setText(vmmap.resizeMode ? 'Disable Resizing' : 'Resize');
 
-        if (vmmap.resizeMode) {
-            var allCells = Ext.select('div.node-cell', true, this.el.dom);
-            for (i = 0; i < allCells.getCount(); i++) {
-                var cellEl = allCells.item(i);
-                var cell = cellEl.dom;
-                var cellStyle = cell.style;
+        vmmap.resizeMode = false;
+        vmmap.getDockedComponent('toolbar').getComponent('resize').setText('Cancel Resize');
 
-                var width = Math.max(parseInt(cellStyle.getPropertyValue('min-width')), 1);
-                cellStyle.removeProperty('min-width');
-                cellStyle.setProperty('width', width + 'px');
-                cellStyle.setProperty('overflow-x', 'hidden');
+        var allCells = Ext.select('div.node-cell', true, this.el.dom);
+        for (i = 0; i < allCells.getCount(); i++) {
+            var cellEl = allCells.item(i);
+            var cell = cellEl.dom;
+            var cellStyle = cell.style;
 
-                var resizeContainer = document.createElement("div");
-                var resizer = document.createElement("div");
-                resizeContainer.className = 'resize-container';
-                resizer.className = 'resizer';
-                Ext.fly(resizer).setHeight(cellEl.getHeight());
-                cell.parentNode.insertBefore(resizeContainer, cell.nextSibling);
-                cell.parentNode.removeChild(cell);
-                resizeContainer.appendChild(cell);
-                resizeContainer.appendChild(resizer);
-            }
+            var width = Math.max(parseInt(cellStyle.getPropertyValue('min-width')), 1);
+            cellStyle.removeProperty('min-width');
+            cellStyle.setProperty('width', width + 'px');
+            cellStyle.setProperty('overflow-x', 'hidden');
 
-            this.mon(vmmapEl, 'mousedown', vmmap.onResizeStart, vmmap);
-            this.mon(vmmapEl, 'mousemove', vmmap.onResize, vmmap);
-            Ext.EventManager.on(document, 'mouseup', vmmap.onResizeEnd, vmmap);
+            var resizeContainer = document.createElement("div");
+            var resizer = document.createElement("div");
+            resizeContainer.className = 'resize-container';
+            resizer.className = 'resizer';
+            Ext.fly(resizer).setHeight(cellEl.getHeight());
+            cell.parentNode.insertBefore(resizeContainer, cell.nextSibling);
+            cell.parentNode.removeChild(cell);
+            resizeContainer.appendChild(cell);
+            resizeContainer.appendChild(resizer);
+        }
+
+        this.mon(vmmapEl, 'mousedown', vmmap.onResizeStart, vmmap);
+        this.mon(vmmapEl, 'mousemove', vmmap.onResize, vmmap);
+        Ext.EventManager.on(document, 'mouseup', vmmap.onResizeEnd, vmmap);
+    },
+
+    disableResizing: function() {
+        var vmmap = this.vmmap,
+            vmmapEl = vmmap.getEl();
+
+        vmmap.resizeMode = false;
+        vmmap.getDockedComponent('toolbar').getComponent('resize').setText('Resize');
+
+        var resizers = Ext.select('div.resizer', true, vmmap.el.dom);
+        for (i = 0; i < resizers.getCount(); i++) {
+            var resizer = resizers.item(i);
+            var resizeContainer = resizer.dom.parentNode;
+            var cell = resizeContainer.firstChild;
+            var cellStyle = cell.style;
+
+            cellStyle.setProperty('min-width', cellStyle.getPropertyValue('width'));
+            cellStyle.removeProperty('overflow-x');
+            cellStyle.removeProperty('width');
+
+            resizeContainer.removeChild(cell);
+            resizeContainer.parentNode.insertBefore(cell, resizeContainer.nextSibling);
+            resizeContainer.parentNode.removeChild(resizeContainer);
+            resizer.remove();
+        }
+
+        this.mun(vmmapEl, 'mousedown', vmmap.onResizeStart, vmmap);
+        this.mun(vmmapEl, 'mousemove', vmmap.onResize, vmmap);
+        Ext.EventManager.un(document, 'mouseup', vmmap.onResizeEnd, vmmap);
+    },
+
+    onResizeClick: function(button) {
+        if (this.vmmap.resizeMode) {
+            this.disableResizing()
         } else {
-            var resizers = Ext.select('div.resizer', true, this.el.dom);
-            for (i = 0; i < resizers.getCount(); i++) {
-                var resizer = resizers.item(i);
-                var resizeContainer = resizer.dom.parentNode;
-                var cell = resizeContainer.firstChild;
-                var cellStyle = cell.style;
-
-                cellStyle.setProperty('min-width', cellStyle.getPropertyValue('width'));
-                cellStyle.removeProperty('overflow-x');
-                cellStyle.removeProperty('width');
-
-                resizeContainer.removeChild(cell);
-                resizeContainer.parentNode.insertBefore(cell, resizeContainer.nextSibling);
-                resizeContainer.parentNode.removeChild(resizeContainer);
-                resizer.remove();
-            }
-
-            this.mun(vmmapEl, 'mousedown', vmmap.onResizeStart, vmmap);
-            this.mun(vmmapEl, 'mousemove', vmmap.onResize, vmmap);
-            Ext.EventManager.un(document, 'mouseup', vmmap.onResizeEnd, vmmap);
+            this.enableResizing();
         }
     },
 
     onMigrateClick: function(button) {
         this.migrateMode = !this.migrateMode;
-        button.setText(this.migrateMode ? 'Disable Migration' : 'Migrate');
+        button.setText(this.migrateMode ? 'Cancel Migration' : 'Migrate');
 
         if (this.migrateMode) {
             this.dragZone = new Ext.dd.DragZone(this.getEl(), {
