@@ -16,3 +16,5 @@ docs/doctrees
 docs/source/gen
 docs/source/jsdoc
 docs/source/jsdocapp
+
+config.js
