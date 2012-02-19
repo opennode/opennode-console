@@ -8,8 +8,6 @@ Ext.Loader.setConfig('paths', {
 Ext.Loader.setConfig({enabled: true, disableCaching: false})
 
 Ext.syncRequire([
-    'Onc.ConfigLoader',
-
     'Ext.window.MessageBox',
     'Ext.XTemplate',
     'Ext.form.*',
@@ -35,9 +33,6 @@ Ext.syncRequire([
     'Onc.hub.Hub',
     'Onc.hub.Sync'
 ]);
-
-Onc.ConfigLoader.load('conf-default.js');
-Onc.ConfigLoader.load('config.js')
 
 Ext.application({
     name: 'Onc',
