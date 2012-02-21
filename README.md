@@ -13,11 +13,10 @@ Setup
 
 1. `git clone git://github.com/opennode/opennode-console-exp.git`.
 
-2. Download and unpack ExtJS 4 GPL library:
-       bootstrap.sh
+2. Download and unpack ExtJS 4 GPL library: `bootstrap.sh`
 
 License
 -------
 
-OpenNode Console is released open-source under GPLv3 license. Commercial licensing is possible, please contact <info@opennodecloud.com>
+OpenNode Console is released under an open-source GPLv3 license. Commercial licensing is possible, please contact <info@opennodecloud.com>
 for more information.
