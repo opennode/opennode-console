@@ -53,20 +53,24 @@ Ext.define('Onc.tabs.VmMapTab', {
                         // FIXME: 'memory' is 0
                         totalMemory = rec.get('memory_usage') * 2;
 
-                        var freeMemory = totalMemory,
-                            vms = rec.getChild('vms').children(),
-                            vm_list = "";
+                        var freeMemory = totalMemory;
+                        var vm_list = "";
 
-                        vms.each( function(vm) {
-                            var memory = vm.get('memory'),
-                                id = 'vmmap-' + vm.get('id'),
-                                uptime = this.getUptime(vm),
-                                width = parseInt(200 * (memory / totalMemory)),
-                                selected = this.selection.contains(id) ? ' selected' : '';
+                        rec.getChild('vms').children().each( function(vm) {
+                            var memory = vm.get('memory');
+                            var id = 'vmmap-' + vm.get('id');
+                            var uptime = this.getUptime(vm);
+                            var width = parseInt(200 * (memory / totalMemory));
+                            var classNames = 'node-cell';
 
-                            freeMemory -= memory;
-                            vm_list += ['<div class="node-cell' + selected +
-                                ((uptime === 'inactive') ? ' inactive' : '') + '"' +
+                            if (this.selection.contains(id)) {
+                                classNames += ' selected';
+                            }
+                            if (uptime === 'inactive') {
+                                classNames += ' inactive';
+                            }
+
+                            vm_list += ['<div class="' + classNames + '"',
                                 ' id="' + id + '"',
                                 ' style="min-width:' + width + 'px">',
                                 '<div class="name">' + vm.get('hostname') + '</div>',
@@ -75,6 +79,8 @@ Ext.define('Onc.tabs.VmMapTab', {
                                 '<span class="uptime">' + uptime + '</span>',
                                 '<span class="cores">' + vm.get('num_cores') + '</span>',
                                 '</div>'].join('\n');
+
+                            freeMemory -= memory;
                         }, this);
 
                         if (freeMemory) {
@@ -89,6 +95,14 @@ Ext.define('Onc.tabs.VmMapTab', {
                     }
                 }
             ],
+
+            afterRender: function() {
+                this.mon(this.el, 'click', this.onMouseClick, this);
+                this.mon(this.el, 'dblclick', this.onMouseDoubleClick, this);
+                this.mon(this.store, {scope: this, update: this.updateCellEvent});
+
+                this.addEvents('showvmdetails');//, 'startvms', 'stopvms');
+            },
 
             getUptime: function(rec) {
                 if (rec.get('state') === 'inactive')
@@ -114,6 +128,8 @@ Ext.define('Onc.tabs.VmMapTab', {
                     el.child('span.cores', true).innerHTML = rec.get('num_cores');
                     if (rec.get('state') === 'inactive') {
                         el.addCls('inactive');
+                    } else {
+                        el.removeCls('inactive');
                     }
                 }
             },
@@ -193,9 +209,9 @@ Ext.define('Onc.tabs.VmMapTab', {
                 }
 
                 if (e.shiftKey) {
-                    var from = this.lastSelectedCell || this.el.down('div.node-cell'),
-                        allCells = Ext.select('div.node-cell', true, this.el.dom),
-                        to = allCells.indexOf(el);
+                    var from = this.lastSelectedCell || this.el.down('div.node-cell');
+                    var allCells = Ext.select('div.node-cell', true, this.el.dom);
+                    var to = allCells.indexOf(el);
 
                     from = allCells.indexOf(from);
                     if (from > to) {
@@ -247,8 +263,8 @@ Ext.define('Onc.tabs.VmMapTab', {
                     this.lastSelectedCell = el;
                 }
 
-                var toolbar = this.getDockedComponent('toolbar'),
-                    group = toolbar.getComponent('group');
+                var toolbar = this.getDockedComponent('toolbar');
+                var group = toolbar.getComponent('group');
                 if (this.selection.getCount() > 0) {
                     group.enable();
                 } else {
@@ -264,7 +280,7 @@ Ext.define('Onc.tabs.VmMapTab', {
                 el = e.getTarget('div.node-cell');
                 el = Ext.get(el);
                 if (el) {
-                    this.fireEvent('showvmdetails', el.id.substring(6));
+                    this.fireEvent('showvmdetails', this.getIdFromEl(el));
                     return;
                 }
 
@@ -272,6 +288,10 @@ Ext.define('Onc.tabs.VmMapTab', {
                 if (el) {
                     this.fireEvent('showvmdetails', this.getView().getRecord(el).get('id'));
                 }
+            },
+
+            getIdFromEl: function(el) {
+                return el.id.substring(6); // remove 'vmmap-' from the beginning
             }
         }];
 
@@ -279,26 +299,15 @@ Ext.define('Onc.tabs.VmMapTab', {
     },
 
     afterRender: function() {
-        var me = this,
-            vmmap = Ext.getCmp('vmmap');
-        me.vmmap = vmmap;
-        vmmap.vmmapTab = me;
+        this.vmmap = Ext.getCmp('vmmap');
+        this.vmmap.vmmapTab = this;
 
-        me.callParent(arguments);
-
-        me.mon(vmmap.getStore(), {
-            scope: vmmap,
-            update: vmmap.updateCellEvent
-        });
-        me.mon(vmmap.getEl(), 'click', vmmap.onMouseClick, vmmap);
-        me.mon(vmmap.getEl(), 'dblclick', vmmap.onMouseDoubleClick, vmmap);
-
-        vmmap.addEvents('showvmdetails');//, 'startvms', 'stopvms');
+        this.callParent(arguments);
     },
 
     updateAll: function() {
-        var vmmap = this.vmmap,
-            store = vmmap.store;
+        var vmmap = this.vmmap;
+        var store = vmmap.store;
         store.each(function(record) {
             vmmap.updateCell(store, record);
         });
@@ -314,8 +323,8 @@ Ext.define('Onc.tabs.VmMapTab', {
     },
 
     enableResizing: function() {
-        var vmmap = this.vmmap,
-            vmmapEl = vmmap.getEl();
+        var vmmap = this.vmmap;
+        var vmmapEl = vmmap.getEl();
 
         vmmap.resizeMode = true;
         vmmap.getDockedComponent('toolbar').getComponent('resize').setText('Cancel Resize');
@@ -348,8 +357,8 @@ Ext.define('Onc.tabs.VmMapTab', {
     },
 
     disableResizing: function() {
-        var vmmap = this.vmmap,
-            vmmapEl = vmmap.getEl();
+        var vmmap = this.vmmap;
+        var vmmapEl = vmmap.getEl();
 
         vmmap.resizeMode = false;
         vmmap.getDockedComponent('toolbar').getComponent('resize').setText('Resize');
@@ -378,7 +387,7 @@ Ext.define('Onc.tabs.VmMapTab', {
 
     onResizeClick: function(button) {
         if (this.vmmap.resizeMode) {
-            this.disableResizing()
+            this.disableResizing();
         } else {
             this.enableResizing();
         }
@@ -417,9 +426,10 @@ Ext.define('Onc.tabs.VmMapTab', {
                 },
 
                 onNodeDrop: function(target, dd, e, data) {
-                    var id = data.sourceEl.id.substring(6),
-                        nodeRec = Ext.getStore('ComputesStore').findRecord('id', id);
-                        targetRec = Ext.getCmp('vmmap').getView().getRecord(target);
+                    var vmmap = Ext.getCmp('vmmap');
+                    var id = vmmap.getIdFromEl(data.sourceEl);
+                    var nodeRec = Ext.getStore('ComputesStore').findRecord('id', id);
+                    var targetRec = vmmap.getView().getRecord(target);
                     Ext.Msg.show({
                         msg: "Migrate " + nodeRec.get('hostname') +
                             " to " + targetRec.get('hostname') + "?",
