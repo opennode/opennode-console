@@ -21,7 +21,7 @@ $state-icon-margin: 5px;
     overflow: hidden;
 
     .search-result {
-        padding: 10px $search-results-horizontal-padding;
+        padding: 0px $search-results-horizontal-padding;
         cursor: pointer;
 
         .hostname { font-weight: bold; }
