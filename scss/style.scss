@@ -9,6 +9,7 @@ $ICON-PREFIX: "../img/icon/";
 
 
 $state-icon-size: 24px;
+$state-icon-height: 30px;
 $state-icon-margin: 5px;
 
 #search-results {
@@ -49,14 +50,26 @@ $state-icon-margin: 5px;
 .compute {
     .state-icon {
         float: left;
-        margin: $state-icon-margin;
+        margin-top: $state-icon-margin;
+        margin-left: $state-icon-margin;
+        margin-right: $state-icon-margin;
+        margin-botton: 0px;
         width: $state-icon-size;
-        height: $state-icon-size;
+        height: $state-icon-height;
+        border-width: 1px;
+        background-color: #99FF66;
+        border-style: solid;
+        background-repeat: no-repeat;
+        background-position:center;
 
         background-image: url(ico("mainframe"));
     }
 
-    &.state-inactive .state-icon { opacity: 0.5; }
+    &.state-inactive .state-icon {
+        opacity: 0.5;
+        background-color: #FFFFFF;
+        border-color: #CCCCCC;
+     }
 }
 
 

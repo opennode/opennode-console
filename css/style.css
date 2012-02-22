@@ -79,12 +79,22 @@
 
 .compute .state-icon {
   float: left;
-  margin: 5px;
+  margin-top: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-botton: 0px;
   width: 24px;
-  height: 24px;
+  height: 30px;
+  border-width: 1px;
+  background-color: #99FF66;
+  border-style: solid;
+  background-repeat: no-repeat;
+  background-position: center;
   background-image: url("../img/icon/mainframe.png"); }
 .compute.state-inactive .state-icon {
-  opacity: 0.5; }
+  opacity: 0.5;
+  background-color: #FFFFFF;
+  border-color: #CCCCCC; }
 
 .icon-hd {
   background-image: url("../img/icon/hd.png"); }
