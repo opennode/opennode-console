@@ -400,15 +400,20 @@ Ext.define('Onc.tabs.VmMapTab', {
         if (this.migrateMode) {
             this.dragZone = new Ext.dd.DragZone(this.getEl(), {
                 getDragData: function(e) {
-                    var cell = e.getTarget('div.node-cell');
-                    if (cell) {
-                        var clone = cell.cloneNode(true);
+                    var nodeEl = e.getTarget('div.node-cell');
+                    if (nodeEl) {
+                        var vmmap = Ext.getCmp('vmmap');
+                        var clone = nodeEl.cloneNode(true);
                         clone.id = Ext.id();
+                        var sourceEl = Ext.fly(nodeEl).up('tr.x-grid-row');
+                        var sourceRec = vmmap.getView().getRecord(sourceEl);
                         return {
                             ddel: clone,
-                            sourceEl: cell,
-                            repairXY: Ext.fly(cell).getXY(),
-                            dragSource: this
+                            nodeEl: nodeEl,
+                            sourceRec: sourceRec,
+                            repairXY: Ext.fly(nodeEl).getXY(),
+                            dragSource: this,
+                            vmmap: vmmap
                         }
                     }
                 },
@@ -425,13 +430,23 @@ Ext.define('Onc.tabs.VmMapTab', {
                     return e.getTarget('tr.x-grid-row');
                 },
 
+                onNodeOver: function(target, dd, e, data) {
+                    var targetRec = data.vmmap.getView().getRecord(e.getTarget('tr.x-grid-row'));
+                    if (targetRec) {
+                        if (targetRec.get('id') !== data.sourceRec.get('id')) {
+                            return Ext.dd.DropZone.prototype.dropAllowed;
+                        }
+                    }
+                    return Ext.dd.DropZone.prototype.dropNotAllowed;
+                },
+
                 onNodeDrop: function(target, dd, e, data) {
-                    var vmmap = Ext.getCmp('vmmap');
-                    var id = vmmap.getIdFromEl(data.sourceEl);
-                    var nodeRec = Ext.getStore('ComputesStore').findRecord('id', id);
-                    var targetRec = vmmap.getView().getRecord(target);
+                    var nodeId = data.vmmap.getIdFromEl(data.nodeEl);
+                    var nodeRec = Ext.getStore('ComputesStore').findRecord('id', nodeId);
+                    var targetRec = data.vmmap.getView().getRecord(target);
                     Ext.Msg.show({
                         msg: "Migrate " + nodeRec.get('hostname') +
+                            " from " + data.sourceRec.get('hostname') +
                             " to " + targetRec.get('hostname') + "?",
                         buttons: Ext.Msg.OKCANCEL,
                         icon: Ext.Msg.QUESTION
