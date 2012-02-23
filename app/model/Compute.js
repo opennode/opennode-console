@@ -9,8 +9,7 @@ Ext.define('Onc.model.Compute', {
         {name: 'cpu_info', type: 'string'},
         {name: 'os_release', type: 'string'},
         {name: 'kernel', type: 'string'},
-        {name: 'disk_info', type: 'string'},
-        {name: 'memory_info', type: 'string'},
+        {name: 'template', type: 'string'},
 
         {name: 'hostname', type: 'string'},
         {name: 'ipv4_address', type: 'string', sortType: 'asIpv4'},
@@ -34,7 +33,7 @@ Ext.define('Onc.model.Compute', {
         {name: 'diskspace_usage', persist: false},
         {name: 'network_usage', type: 'float', persist: false},
 
-        {name: 'startup_timestamp', type: 'string', persist: false}
+        {name: 'uptime', type: 'string', persist: false}
     ],
 
     proxy: {
@@ -57,9 +56,8 @@ Ext.define('Onc.model.Compute', {
     getUptime: function() {
         if (this.get('state') === 'inactive')
             return null;
-        var timestamp = new Date(Date.parse(this.get('startup_timestamp')));
 
-        var s = Math.round((+(new Date()) - +timestamp) / 1000);
+        var s = Math.round(this.get('uptime'));
 
         var days = Math.floor(s / 86400);
         s -= days * 86400;
