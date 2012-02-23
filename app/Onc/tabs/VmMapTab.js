@@ -17,32 +17,32 @@ Ext.define('Onc.tabs.VmMapTab', {
             dockedItems: !ENABLE_VMMAP_TOOLBAR ? undefined : [
                 {xtype: 'toolbar',
                 itemId: 'toolbar',
-                items: [{
+                items: (!ENABLE_VMMAP_REFRESH ? [] : [{
                     icon: 'img/icon/refresh.png',
                     text: 'Refresh',
                     scope: this,
                     handler: this.updateAll
-                }, {
+                }]).concat(!ENABLE_VMMAP_RESIZE ? [] : [{
                     icon: 'img/icon/resize.png',
                     itemId: 'resize',
                     text: 'Resize',
                     scope: this,
                     handler: this.onResizeClick
-                }, {
-                    iconCls: 'icon-group',
-                    itemId: 'group',
-                    text: 'Group',
+                }]).concat(!ENABLE_VMMAP_TAG ? [] : [{
+                    iconCls: 'icon-tag',
+                    itemId: 'tag',
+                    text: 'Tag',
                     disabled: true,
                     hidden: true,
                     scope: this,
-                    handler: this.onGroupClick
-                }, {
+                    handler: this.onTagClick
+                }]).concat(!ENABLE_VMMAP_MIGRATE ? [] : [{
                     icon: 'img/icon/migrate.png',
                     itemId: 'migrate',
                     text: 'Migrate',
                     scope: this,
                     handler: this.onMigrateClick
-                }]}
+                }])}
             ],
 
             columns: [
@@ -268,11 +268,11 @@ Ext.define('Onc.tabs.VmMapTab', {
                 }
 
                 var toolbar = this.getDockedComponent('toolbar');
-                var group = toolbar.getComponent('group');
+                var tagbtn = toolbar.getComponent('tag');
                 if (this.selection.getCount() > 0) {
-                    group.enable();
+                    tagbtn.enable();
                 } else {
-                    group.disable();
+                    tagbtn.disable();
                 }
             },
 
@@ -318,12 +318,12 @@ Ext.define('Onc.tabs.VmMapTab', {
         vmmap.getView().refresh();
     },
 
-    onGroupClick: function() {
+    onTagClick: function() {
         var cellList = "";
         this.vmmap.selection.each(function(id) {
             cellList += id + '<br>';
         });
-        Ext.Msg.alert('Group', cellList);
+        Ext.Msg.alert('Tag', cellList);
     },
 
     enableResizing: function() {
