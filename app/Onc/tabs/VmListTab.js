@@ -126,7 +126,7 @@ Ext.define('Onc.tabs.VmListTab', {
             },
 
             tbar: tbarButtons,
-            plugins: Ext.create('Ext.grid.plugin.RowEditing'),
+            //plugins: Ext.create('Ext.grid.plugin.RowEditing'),
 
             columns: [
                 {header: 'State', xtype: 'templatecolumn', tpl: '<div class="state-icon" title="{state}"></div>', width: 40},
