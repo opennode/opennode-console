@@ -15,9 +15,9 @@ Ext.define('Onc.tabs.NetworkTab', {
             forceFit: true,
             multiSelect: true,
             store: rec.getList('interfaces'),
-            tbar: [{icon: 'img/icon/add.png'},
-                   {icon: 'img/icon/delete.png'}],
-            plugins: Ext.create('Ext.grid.plugin.RowEditing'),
+            //tbar: [{icon: 'img/icon/add.png'},
+            //       {icon: 'img/icon/delete.png'}],
+            //plugins: Ext.create('Ext.grid.plugin.RowEditing'),
 
             columns: [
                 {header: 'Name', dataIndex: 'id', width: 40, editor: {xtype: 'textfield', allowBlank: false }},
@@ -60,6 +60,7 @@ Ext.define('Onc.tabs.NetworkTab', {
         }, {
             xtype: 'gridpanel',
             flex: 2,
+            hidden: true, // till routing is fixed
             title: 'Kernel IP Routing Table',
             forceFit: true,
             multiSelect: true,
