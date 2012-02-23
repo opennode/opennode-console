@@ -14,7 +14,7 @@ Ext.define('Onc.tabs.VmMapTab', {
             store: 'PhysicalComputesStore',
             selection: Ext.create('Ext.util.MixedCollection'),
 
-            dockedItems: (typeof DISABLE_VMMAP_TOOLBAR !== 'undefined') ? undefined : [
+            dockedItems: !ENABLE_VMMAP_TOOLBAR ? undefined : [
                 {xtype: 'toolbar',
                 itemId: 'toolbar',
                 items: [{
@@ -141,6 +141,10 @@ Ext.define('Onc.tabs.VmMapTab', {
             },
 
             onResizeStart: function(e, el) {
+                if (e.button != 0) {
+                    return;
+                }
+
                 el = e.getTarget('div.resizer');
                 if (!el) {
                     return;

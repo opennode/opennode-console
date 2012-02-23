@@ -97,14 +97,14 @@
   color: #6e6eae; }
 #vmmap .resize-container {
   display: inline-block;
-  float: left; }
+  float: left;
+  margin-right: 4px; }
 #vmmap .resizer {
   margin-top: -1px;
   cursor: w-resize;
   float: left;
   width: 18px;
-  background-color: #444;
-  opacity: 0.25; }
+  background-color: #CCC; }
 
 #search-results {
   width: 215px;

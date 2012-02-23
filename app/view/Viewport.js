@@ -39,11 +39,11 @@ Ext.define('Onc.view.Viewport', {
             closable: false,
             xtype: 'shell',
             url: 'bin/omsh/webterm'
-        }, {
+        }].concat(!ENABLE_VMMAP ? [] : [{
             title: "VM Map",
             iconCls: 'icon-vmmap',
             closable: false,
             xtype: 'computevmmaptab'
-        }]
+        }])
     }]
 });

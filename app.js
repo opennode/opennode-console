@@ -25,7 +25,6 @@ Ext.syncRequire([
     'Onc.tabs.TemplatesTab',
     'Onc.tabs.ShellTab',
     'Onc.tabs.VncTab',
-    'Onc.tabs.VmMapTab',
     'Onc.polymorphic.Reader',
     'Onc.polymorphic.Association',
 
@@ -36,6 +35,10 @@ Ext.syncRequire([
     'Onc.hub.Hub',
     'Onc.hub.Sync'
 ]);
+
+if (ENABLE_VMMAP == true) {
+    Ext.syncRequire('Onc.tabs.VmMapTab');
+}
 
 Ext.application({
     name: 'Onc',
