@@ -24,8 +24,9 @@ Ext.define('Onc.view.compute.ComputeHeaderView', {
             {label: 'NET', itemId: 'network-gauge', iconCls: 'icon-network',
              value: 0, max: rec.get('network'), unit: 'Mbs', display: ['fixed', 2],
              convert: function(v) { return v * 8 / Math.pow(10, 6); }},
-            {label: 'DISK', itemId: 'diskspace-gauge', iconCls: 'icon-hd',
-             value: 0, max: rec.get('diskspace')['total'], unit: 'MB'}
+            {label: 'DISK (/)', itemId: 'diskspace-gauge', iconCls: 'icon-hd',
+             value: 0, max: rec.get('diskspace')['/'], unit: 'GB', display: ['fixed', 2],
+             convert: function(v) { return v / 1024; }}
         ];
 
         this.callParent(arguments);
