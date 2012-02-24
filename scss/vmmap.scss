@@ -1,0 +1,62 @@
+#vmmap {
+    .node-cell {
+        border: 1px solid #CCC;
+        padding: 5px;
+        margin-right: -1px;
+        margin-top: -1px;
+        float: left;
+        &:hover .uptime {
+            opacity: 0.5;
+        }
+        &.inactive {
+            background-color: #FEDEDE;
+        }
+        &.selected {
+            background-color: #D0F8F0;
+        }
+    }
+    .node-cell-free {
+        border: 1px solid #CCC;
+        padding: 5px 5px 18px;
+        margin-top: -1px;
+        float: left;
+        background-color: #D0F8D0;
+        opacity: 0.6;
+    }
+    .x-grid-cell-inner {
+        overflow-x: auto;
+    }
+    .name {
+        font-decoration: italic;
+        text-overflow: ellipsis;
+        word-wrap: break-word;
+        height: 1.2em;
+        margin-left: 2px;
+    }
+    .mem {
+        margin-top: 2px;
+        padding-left: 8px;
+        color: #4e0e0e;
+        text-align: center;
+        font-size: 120%;
+    }
+    .uptime {
+        color: #303030;
+        opacity: 0.25;
+    }
+    .cores {
+        color: #6e6eae;
+    }
+    .resize-container {
+        display: inline-block;
+        float: left;
+        margin-right: 4px;
+    }
+    .resizer {
+        margin-top: -1px;
+        cursor: w-resize;
+        float: left;
+        width: 18px;
+        background-color: #CCC;
+    }
+}

@@ -5,6 +5,8 @@ Ext.Loader.setConfig('paths', {
     'Onc': './app/Onc'
 });
 
+Ext.Ajax.timeout = 200000;
+
 Ext.Loader.setConfig({enabled: true, disableCaching: false})
 
 Ext.syncRequire([
@@ -33,6 +35,10 @@ Ext.syncRequire([
     'Onc.hub.Hub',
     'Onc.hub.Sync'
 ]);
+
+if (ENABLE_VMMAP == true) {
+    Ext.syncRequire('Onc.tabs.VmMapTab');
+}
 
 Ext.application({
     name: 'Onc',

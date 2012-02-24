@@ -1,6 +1,7 @@
 @import "utils";
 
 @import "gauge";
+@import "vmmap";
 
 $ICON-PREFIX: "../img/icon/";
 @function ico($name) {
@@ -104,6 +105,9 @@ $state-icon-margin: 5px;
     }
     &.icon-vmlist {
         background-image: url(ico("vmlist-16x16"));
+    }
+    &.icon-vmmap {
+        background-image: url(ico("map-16x16"));
     }
 }
 
