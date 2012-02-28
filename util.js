@@ -148,3 +148,16 @@ IPAddress = {
                 prefixLen: prefixLen};
     }
 };
+
+function makeColumnRenderer(fn) {
+    return function() {
+        var args = Array.prototype.slice.apply(arguments);
+        var domId = Ext.id();
+        setTimeout(function() {
+            if (!Ext.get(domId))
+                return;
+            fn.apply(window, [domId].concat(args));
+        }, 0);
+        return '<div id="{0}"></div>'.format(domId);
+    };
+}
