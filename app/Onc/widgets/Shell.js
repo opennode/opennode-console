@@ -13,7 +13,7 @@ Ext.define('Onc.widgets.Shell', {
         'afterrender': function() {
             var me = this;
             setTimeout(function() {
-                me._shell = new ShellInABox(BACKEND_PREFIX + me.url, me.el.dom);
+                me._shell = new ShellInABox(me.url, me.el.dom);
                 me._shell.indicateSize = true;
             }, 100);
         },
