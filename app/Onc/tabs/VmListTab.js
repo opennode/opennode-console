@@ -78,36 +78,24 @@ Ext.define('Onc.tabs.VmListTab', {
                 width: 80,
                 align: 'center',
                 dataIndex: 'id',
-                renderer: function(vmId, meta, rec) {
-                    var id = Ext.id();
-                    setTimeout(function() {
-                        // XXX: For some weird reason, when a new
-                        // Compute is added, a ghost row is created in
-                        // this grid for which this renderer will be
-                        // invoked. However, since the row is ghost,
-                        // the DOM element with that ID is not
-                        // available, causing Gauge to error out.
-                        if (!Ext.get(id)) return;
+                renderer: makeColumnRenderer(function(domId, _, _, rec) {
+                    var max = (name === 'cpu' ? rec.getMaxCpuLoad()
+                               : name === 'diskspace' ? rec.get('diskspace')['total']
+                               : rec.get(name));
 
-                        var max = (name === 'cpu' ? rec.getMaxCpuLoad()
-                                   : name === 'diskspace' ? rec.get('diskspace')['total']
-                                   : rec.get(name));
+                    var gauge = Ext.create('Onc.widgets.Gauge', {
+                        renderTo: domId,
+                        border: false,
+                        max: max,
+                        unit: unit,
+                        display: name === 'cpu' ? ['fixed', 2] : undefined
+                    });
 
-                        var gauge = Ext.create('Onc.widgets.Gauge', {
-                            renderTo: id,
-                            border: false,
-                            max: max,
-                            unit: unit,
-                            display: name === 'cpu' ? ['fixed', 2] : undefined
-                        });
+                    var url = rec.get('url') + '/metrics/{0}_usage'.format(name);
+                    var listener = function(data) { gauge.setValue(data[url]); };
 
-                        var url = rec.get('url') + '/metrics/{0}_usage'.format(name);
-                        var listener = function(data) { gauge.setValue(data[url]); };
-
-                        Onc.hub.Hub.subscribe(listener, [url], 'gauge');
-                    }, 0);
-                    return Ext.String.format('<div id="{0}"></div>', id);
-                }
+                    Onc.hub.Hub.subscribe(listener, [url], 'gauge');
+                })
             };
         }
 
