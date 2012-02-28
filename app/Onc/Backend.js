@@ -23,7 +23,7 @@ Ext.define('Onc.Backend', {
         }
 
         var opts = {
-            url: BACKEND_PREFIX + url,
+            url: '{0}/{1}'.format(BACKEND_PREFIX, url),
             method: method,
             withCredentials: true,
 
