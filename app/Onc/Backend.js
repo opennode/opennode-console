@@ -21,8 +21,9 @@ Ext.define('Onc.Backend', {
             callbackFn = options.callback || Ext.emptyFn;
             delete options.callback;
         }
+
         var opts = {
-            url: '{0}{1}'.format(BACKEND_PREFIX, url),
+            url: '{0}/{1}'.format(BACKEND_PREFIX, url),
             method: method,
             withCredentials: true,
 
