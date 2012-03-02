@@ -51,14 +51,14 @@ Ext.define('Onc.view.compute.ComputeView', {
             xtype: 'computeshelltab',
             iconCls: 'icon-shell',
             shellConfig: {
-                url: BACKEND_PREFIX + Ext.String.format('/computes/{0}/consoles/default/webterm', rec.get('id'))
+                url: Onc.Backend.url(Ext.String.format('/computes/{0}/consoles/default/webterm', rec.get('id')))
             	}
 	        }, {
 	            title: 'Vnc',
 	            xtype: 'computevnctab',
 	            iconCls: 'icon-shell',
 	            vncConfig: {
-	                url: BACKEND_PREFIX + Ext.String.format('/computes/{0}/consoles/vnc', rec.get('id'))
+	                url: Onc.Backend.url(Ext.String.format('/computes/{0}/consoles/vnc', rec.get('id')))
 	            }
 	        });
 

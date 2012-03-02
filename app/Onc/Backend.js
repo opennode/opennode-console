@@ -7,6 +7,10 @@ Ext.define('Onc.Backend', {
         this.addEvents('loginrequired');
     },
 
+    url: function(url) {
+        return BACKEND_PREFIX + url.replace(/^\//,'');
+    },
+
     request: function(method, url, options, request) {
         options = options || {};
         var successCodes = options.successCodes || [];
@@ -23,7 +27,7 @@ Ext.define('Onc.Backend', {
         }
 
         var opts = {
-            url: '{0}/{1}'.format(BACKEND_PREFIX, url),
+            url: this.url(url),
             method: method,
             withCredentials: true,
 

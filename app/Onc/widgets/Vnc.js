@@ -51,7 +51,7 @@ Ext.define('Onc.widgets.Vnc', {
     _connect: function() {
         var me = this;
         me._request = Ext.Ajax.request({
-            url: BACKEND_PREFIX + me.url,
+            url: Onc.Backend.url(me.url),
             success: function(result) {
                 var jsonData = Ext.JSON.decode(result.responseText);
                 var wsUri = $.url.parse(jsonData['ws_url']);
