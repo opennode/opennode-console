@@ -18,7 +18,7 @@ echo "* removing any previous files"
 rm -rf ext-$MAJOR_VERSION $ZIP $FOLDER
 
 echo "* downloading ExtJS $MINOR_VERSION"
-curl -O "${SERVER}${ZIP}" 2> /dev/null
+curl -# -O "${SERVER}${ZIP}"
 
 echo "* unpacking"
 unzip $ZIP > /dev/null
