@@ -4,7 +4,7 @@ Ext.define('Onc.controller.MainController', {
     models: ['Base', 'Compute', 'IpRoute', 'Storage', 'Template', 'VirtualizationContainer', 'Hangar',
              'Templates', 'SearchResult', 'NetworkInterface', 'NetworkInterfaces'],
     stores: ['ComputesStore', 'PhysicalComputesStore', 'TemplatesStore', 'SearchResultsStore'],
-    views: ['SearchResultsView', 'compute.ComputeView'],
+    views: ['SearchResultsView', 'compute.ComputeView', 'compute.NewVmView'],
 
     refs: [{ref: 'searchResults', selector: '#search-results'},
            {ref: 'tabs', selector: '#mainTabs'}],
@@ -59,6 +59,11 @@ Ext.define('Onc.controller.MainController', {
                 showvmdetails: function(computeId) {
                     this.getController('MainController').openComputeInTab(computeId);
                 },
+                newvm: function(parentCompute) {
+                    this.getView('compute.NewVmView').create({
+                        parentCompute: parentCompute
+                    }).show();
+                }
             }
         });
     }

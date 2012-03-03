@@ -185,8 +185,7 @@ Ext.define('Onc.tabs.VmMapTab', {
                             Ext.get(this.resizingCell).child('div.mem', true).innerHTML = this.originalSize;
                             this.resizingCell.style.setProperty('width', (Math.max(this.originalWidth, 1)) + 'px');
                         } else {
-                            var id = this.resizingCell.id.substring(6);
-                            rec = Ext.getStore('ComputesStore').findRecord('id', id);
+                            rec = this.getRecordFromId(this.getIdFromEl(this.resizingCell));
                             rec.set('memory', this.newSize);
                             rec.save();
                         }
@@ -267,12 +266,14 @@ Ext.define('Onc.tabs.VmMapTab', {
                     this.lastSelectedCell = el;
                 }
 
-                var toolbar = this.getDockedComponent('toolbar');
-                var tagbtn = toolbar.getComponent('tag');
-                if (this.selection.getCount() > 0) {
-                    tagbtn.enable();
-                } else {
-                    tagbtn.disable();
+                if (ENABLE_VMMAP_TAG) {
+                    var toolbar = this.getDockedComponent('toolbar');
+                    var tagbtn = toolbar.getComponent('tag');
+                    if (this.selection.getCount() > 0) {
+                        tagbtn.enable();
+                    } else {
+                        tagbtn.disable();
+                    }
                 }
             },
 
@@ -290,12 +291,20 @@ Ext.define('Onc.tabs.VmMapTab', {
 
                 el = e.getTarget('tr.x-grid-row');
                 if (el) {
-                    this.fireEvent('showvmdetails', this.getView().getRecord(el).get('id'));
+                    if (e.getTarget('div.node-cell-free')) {
+                        this.fireEvent('newvm', this.getView().getRecord(el));
+                    } else {
+                        this.fireEvent('showvmdetails', this.getView().getRecord(el).get('id'));
+                    }
                 }
             },
 
             getIdFromEl: function(el) {
                 return el.id.substring(6); // remove 'vmmap-' from the beginning
+            },
+
+            getRecordFromId: function(id) {
+                return Ext.getStore('ComputesStore').findRecord('id', id);
             }
         }];
 
@@ -445,9 +454,10 @@ Ext.define('Onc.tabs.VmMapTab', {
                 },
 
                 onNodeDrop: function(target, dd, e, data) {
-                    var nodeId = data.vmmap.getIdFromEl(data.nodeEl);
-                    var nodeRec = Ext.getStore('ComputesStore').findRecord('id', nodeId);
-                    var targetRec = data.vmmap.getView().getRecord(target);
+                    var vmmap = data.vmmap;
+                    var nodeId = vmmap.getIdFromEl(data.nodeEl);
+                    var nodeRec = vmmap.getRecordFromId(nodeId);
+                    var targetRec = vmmap.getView().getRecord(target);
                     Ext.Msg.show({
                         msg: "Migrate " + nodeRec.get('hostname') +
                             " from " + data.sourceRec.get('hostname') +
