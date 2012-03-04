@@ -45,6 +45,20 @@ Ext.define('Onc.tabs.VmMapTab', {
                 }])}
             ],
 
+            tpl: new Ext.XTemplate(
+                '<tpl for=".">',
+                    '<div class="{classes}" id="{id}" ',
+                        'style="min-width:{minwidth}px">',
+                        '<div class="name">{name}</div>',
+                        '<div class="mem">{mem}</div>',
+                        '<tpl if="values.id !== undefined">',
+                            '<span class="uptime">{uptime}</span>',
+                            '<span class="cores">{cores}</span>',
+                        '</tpl>',
+                    '</div>',
+                '</tpl>'
+            ),
+
             columns: [
                 {header: 'Name', dataIndex: 'hostname', width: 100},
                 //{header: 'Disk pool size', dataIndex: 'diskspace', width: 15},
@@ -52,45 +66,50 @@ Ext.define('Onc.tabs.VmMapTab', {
                     renderer: function(totalMemory, meta, rec) {
                         totalMemory = rec.get('memory');
 
-                        var freeMemory = totalMemory;
-                        var vm_list = "";
+                        // FIXME: 'memory' is 0
+                        if (!totalMemory) {
+                            totalMemory = 2048;
+                        }
 
+                        var freeMemory = totalMemory;
+
+                        var r = [];
                         rec.getChild('vms').children().each( function(vm) {
-                            var memory = vm.get('memory');
                             var id = 'vmmap-' + vm.get('id');
+                            var classes = 'node-cell';
+                            var memory = vm.get('memory');
                             var uptime = this.getUptime(vm);
-                            var width = parseInt(200 * (memory / totalMemory));
-                            var classNames = 'node-cell';
 
                             if (this.selection.contains(id)) {
-                                classNames += ' selected';
+                                classes += ' selected';
                             }
                             if (uptime === 'inactive') {
-                                classNames += ' inactive';
+                                classes += ' inactive';
                             }
-
-                            vm_list += ['<div class="' + classNames + '"',
-                                ' id="' + id + '"',
-                                ' style="min-width:' + width + 'px">',
-                                '<div class="name">' + vm.get('hostname') + '</div>',
-                                //'<div class="name">' + vm.get('ipv4_address') + '</div>',
-                                '<div class="mem">' + parseInt(memory) + '</div>',
-                                '<span class="uptime">' + uptime + '</span>',
-                                '<span class="cores">' + vm.get('num_cores') + '</span>',
-                                '</div>'].join('\n');
+                            r[r.length] = {
+                                id: id,
+                                name: vm.get('hostname'),
+                                classes: classes,
+                                mem: parseInt(memory),
+                                totalmem: totalMemory,
+                                uptime: uptime,
+                                cores: vm.get('num_cores'),
+                                minwidth: parseInt(200 * (memory / totalMemory))
+                            };
 
                             freeMemory -= memory;
                         }, this);
 
                         if (freeMemory) {
-                            var width = parseInt(200 * (freeMemory / totalMemory));
-                            vm_list += ['<div class="node-cell-free" style="min-width:"' + width + 'px">',
-                                '<div class="name">free</div>',
-                                '<div class="mem">' + parseInt(freeMemory) + '</div>',
-                                '</div>'].join('\n');
+                            r[r.length] = {
+                                name: 'free',
+                                classes: 'node-cell-free',
+                                mem: parseInt(freeMemory),
+                                minwidth: parseInt(200 * (freeMemory / totalMemory))
+                            };
                         }
 
-                        return vm_list;
+                        return this.tpl.apply(r);
                     }
                 }
             ],
