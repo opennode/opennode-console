@@ -105,6 +105,23 @@
   float: left;
   width: 18px;
   background-color: #CCC; }
+#vmmap .bar {
+  margin-top: 3px;
+  background-color: lightgray; }
+  #vmmap .bar div {
+    background-color: blue;
+    transition: width 0.25s ease-out;
+    -ms-transition: width 0.25s ease-out;
+    -webkit-transition: width 0.25s ease-out;
+    -moz-transition: width 0.25s ease-out; }
+  #vmmap .bar, #vmmap .bar div {
+    height: 5px;
+    border-radius: 2.5px; }
+  #vmmap .bar.overload {
+    animation: blink 0.5s infinite alternate;
+    -ms-animation: blink 0.5s infinite alternate;
+    -webkit-animation: blink 0.5s infinite alternate;
+    -moz-animation: blink 0.5s infinite alternate; }
 
 #search-results {
   width: 215px;

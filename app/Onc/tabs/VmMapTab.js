@@ -54,6 +54,9 @@ Ext.define('Onc.tabs.VmMapTab', {
                         '<tpl if="values.id !== undefined">',
                             '<span class="uptime">{uptime}</span>',
                             '<span class="cores">{cores}</span>',
+                            '<div class="bar cpubar"><div style="width:0px"></div></div>',
+                            '<div class="bar memorybar"><div style="width:0px"></div></div>',
+                            '<div class="bar diskspacebar"><div style="width:0px"></div></div>',
                         '</tpl>',
                     '</div>',
                 '</tpl>'
@@ -98,6 +101,11 @@ Ext.define('Onc.tabs.VmMapTab', {
                             };
 
                             freeMemory -= memory;
+
+                            var url = vm.get('url');
+                            this.subscribeGauge(url, 'cpu', id, vm.getMaxCpuLoad());
+                            this.subscribeGauge(url, 'memory', id, vm.get('memory'));
+                            this.subscribeGauge(url, 'diskspace', id, vm.get('diskspace')['total']);
                         }, this);
 
                         if (freeMemory) {
@@ -113,6 +121,18 @@ Ext.define('Onc.tabs.VmMapTab', {
                     }
                 }
             ],
+
+            subscribeGauge: function(url, name, id, maxValue) {
+                url += '/metrics/{0}_usage'.format(name);
+                Onc.hub.Hub.subscribe(function(data) {
+                    var el = Ext.get(id);
+                    if (el) {
+                        var value = (data[url] / maxValue) * 100;
+                        value = (isNaN(value) ? 0 : value.round());
+                        el.down('.bar.{0}bar div'.format(name)).setWidth('' + value + '%');
+                    }
+                }, [url], 'gauge');
+            },
 
             afterRender: function() {
                 this.mon(this.el, 'click', this.onMouseClick, this);

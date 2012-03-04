@@ -59,4 +59,24 @@
         width: 18px;
         background-color: #CCC;
     }
+    .bar {
+        margin-top: 3px;
+        background-color: lightgray;
+
+        div {
+            background-color: blue;
+            @include xbrowser(transition, width 0.25s ease-out);
+        }
+
+        &, div {
+            $height: 5px;
+
+            height: $height;
+            border-radius: $height / 2;
+        }
+
+        &.overload {
+            @include xbrowser(animation, blink 0.5s infinite alternate);
+        }
+    }
 }
