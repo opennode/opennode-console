@@ -107,16 +107,26 @@ Ext.define('Onc.tabs.VmMapTab', {
             getUptime: function(rec) {
                 if (rec.get('state') === 'inactive')
                     return 'inactive';
-                var timestamp = new Date(Date.parse(rec.get('startup_timestamp')));
 
-                var s = Math.round((+(new Date()) - +timestamp) / 1000);
+                var s = Math.round(rec.get('uptime'));
 
                 var days = Math.floor(s / 86400);
                 s -= days * 86400;
 
                 var hours = Math.floor(s / 3600);
+                s -= hours * 3600;
 
-                return '' + days + 'd ' + (hours ? (hours + 'h ') : '');
+                var mins = Math.floor(s / 60);
+
+                if (days) {
+                    return '' + days + 'd ' + hours + 'h';
+                }
+                if (hours) {
+                    return '' + hours + 'h ' + mins + 'm';
+                }
+
+                s -= mins * 60;
+                return '' + mins + 'm ' + s + 's';
             },
 
             updateCell: function(store, rec) {
