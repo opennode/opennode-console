@@ -15,10 +15,23 @@ FOLDER="ext-${MINOR_VERSION}-gpl"
 
 
 echo "* removing any previous files"
-rm -rf ext-$MAJOR_VERSION $ZIP $FOLDER
+rm -rf ext-$MAJOR_VERSION $FOLDER
 
-echo "* downloading ExtJS $MINOR_VERSION"
-curl -# -O "${SERVER}${ZIP}"
+if [ -f "$ZIP" ]; then
+    INCOMPLETE=$(zipinfo -h "$ZIP" 2>&1 | grep "extra bytes at beginning or within zipfile")
+fi
+
+if ! zipinfo -h "$ZIP" >/dev/null 2>&1 ; then
+    INCOMPLETE=1
+fi
+
+if [ ! -f "$ZIP" -o ! -z "$INCOMPLETE" ]; then
+    echo "* downloading ExtJS $MINOR_VERSION"
+    curl -# -C- -O "${SERVER}${ZIP}" || {
+        echo "Failed to download ${SERVER}${ZIP}"
+        exit 1
+    }
+fi
 
 echo "* unpacking"
 unzip $ZIP > /dev/null
