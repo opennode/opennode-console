@@ -9,6 +9,8 @@ bin
 develop-eggs
 eggs
 parts
+dist
+build
 docs/Makefile
 docs/make.bat
 docs/html
@@ -18,3 +20,4 @@ docs/source/jsdoc
 docs/source/jsdocapp
 
 config.js
+ext-4.0.7-gpl.zip
