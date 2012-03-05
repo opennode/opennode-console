@@ -71,7 +71,7 @@
     background-color: #D0F8F0; }
 #vmmap .node-cell-free {
   border: 1px solid #CCC;
-  padding: 5px 5px 18px;
+  padding: 5px 5px 42px;
   margin-top: -1px;
   float: left;
   background-color: #D0F8D0;
@@ -109,14 +109,26 @@
   margin-top: 3px;
   background-color: lightgray; }
   #vmmap .bar div {
-    background-color: blue;
+    width: 0px;
     transition: width 0.25s ease-out;
     -ms-transition: width 0.25s ease-out;
     -webkit-transition: width 0.25s ease-out;
     -moz-transition: width 0.25s ease-out; }
+  #vmmap .bar.cpubar div {
+    background-color: #007FF6; }
+  #vmmap .bar.memorybar div {
+    background-color: #80A050; }
+  #vmmap .bar.diskspacebar div {
+    background-color: #FFD838; }
   #vmmap .bar, #vmmap .bar div {
     height: 5px;
     border-radius: 2.5px; }
+  #vmmap .bar.cpubar, #vmmap .bar div {
+    background-color: #B0C0C8; }
+  #vmmap .bar.memorybar, #vmmap .bar div {
+    background-color: #B0C0A8; }
+  #vmmap .bar.diskspacebar, #vmmap .bar div {
+    background-color: #C8C098; }
   #vmmap .bar.overload {
     animation: blink 0.5s infinite alternate;
     -ms-animation: blink 0.5s infinite alternate;
@@ -213,6 +225,15 @@
     .bridge-interface-members div:hover {
       border: 2px solid #bdbdff;
       background-color: #d7d7ff; }
+
+.cpu-legend {
+  background: url("../img/icon/cpu-legend.png"); }
+
+.memory-legend {
+  background: url("../img/icon/memory-legend.png"); }
+
+.disk-legend {
+  background: url("../img/icon/disk-legend.png"); }
 
 .computestatecontrol .x-btn {
   border-width: 0;

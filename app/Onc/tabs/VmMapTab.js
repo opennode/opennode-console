@@ -42,6 +42,26 @@ Ext.define('Onc.tabs.VmMapTab', {
                     text: 'Migrate',
                     scope: this,
                     handler: this.onMigrateClick
+                }]).concat([{
+                    xtype: 'tbseparator'
+                }, {
+                    xtype: 'button',
+                    text: 'CPU',
+                    iconCls: 'cpu-legend',
+                    enableToggle: true,
+                    pressed: true
+                }, {
+                    xtype: 'button',
+                    text: 'MEM',
+                    iconCls: 'memory-legend',
+                    enableToggle: true,
+                    pressed: true
+                }, {
+                    xtype: 'button',
+                    text: 'DISK',
+                    iconCls: 'disk-legend',
+                    enableToggle: true,
+                    pressed: true
                 }])}
             ],
 
@@ -54,9 +74,9 @@ Ext.define('Onc.tabs.VmMapTab', {
                         '<tpl if="values.id !== undefined">',
                             '<span class="uptime">{uptime}</span>',
                             '<span class="cores">{cores}</span>',
-                            '<div class="bar cpubar"><div style="width:0px"></div></div>',
-                            '<div class="bar memorybar"><div style="width:0px"></div></div>',
-                            '<div class="bar diskspacebar"><div style="width:0px"></div></div>',
+                            '<div class="bar cpubar"><div></div></div>',
+                            '<div class="bar memorybar"><div></div></div>',
+                            '<div class="bar diskspacebar"><div></div></div>',
                         '</tpl>',
                     '</div>',
                 '</tpl>'
@@ -94,10 +114,9 @@ Ext.define('Onc.tabs.VmMapTab', {
                                 name: vm.get('hostname'),
                                 classes: classes,
                                 mem: parseInt(memory),
-                                totalmem: totalMemory,
                                 uptime: uptime,
                                 cores: vm.get('num_cores'),
-                                minwidth: parseInt(200 * (memory / totalMemory))
+                                minwidth: parseInt(300 * (memory / totalMemory))
                             };
 
                             freeMemory -= memory;
@@ -113,7 +132,7 @@ Ext.define('Onc.tabs.VmMapTab', {
                                 name: 'free',
                                 classes: 'node-cell-free',
                                 mem: parseInt(freeMemory),
-                                minwidth: parseInt(200 * (freeMemory / totalMemory))
+                                minwidth: parseInt(300 * (freeMemory / totalMemory))
                             };
                         }
 
@@ -314,7 +333,7 @@ Ext.define('Onc.tabs.VmMapTab', {
                     this.lastSelectedCell = el;
                 }
 
-                if (ENABLE_VMMAP_TAG) {
+                if (ENABLE_VMMAP_TOOLBAR && ENABLE_VMMAP_TAG) {
                     var toolbar = this.getDockedComponent('toolbar');
                     var tagbtn = toolbar.getComponent('tag');
                     if (this.selection.getCount() > 0) {

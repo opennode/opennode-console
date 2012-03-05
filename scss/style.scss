@@ -148,6 +148,17 @@ $state-icon-margin: 5px;
     }
 }
 
+
+// VMMAP tab
+.cpu-legend {
+    background: url(ico("cpu-legend"));
+}
+.memory-legend {
+    background: url(ico("memory-legend"));
+}
+.disk-legend {
+    background: url(ico("disk-legend"));
+}
 .computestatecontrol {
     .x-btn {
         border-width: 0;

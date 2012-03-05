@@ -17,7 +17,7 @@
     }
     .node-cell-free {
         border: 1px solid #CCC;
-        padding: 5px 5px 18px;
+        padding: 5px 5px 42px;
         margin-top: -1px;
         float: left;
         background-color: #D0F8D0;
@@ -64,8 +64,17 @@
         background-color: lightgray;
 
         div {
-            background-color: blue;
+            width: 0px;
             @include xbrowser(transition, width 0.25s ease-out);
+        }
+        &.cpubar div {
+            background-color: #007FF6;
+        }
+        &.memorybar div {
+            background-color: #80A050;
+        }
+        &.diskspacebar div {
+            background-color: #FFD838;
         }
 
         &, div {
@@ -73,6 +82,15 @@
 
             height: $height;
             border-radius: $height / 2;
+        }
+        &.cpubar, div {
+            background-color: #B0C0C8;
+        }
+        &.memorybar, div {
+            background-color: #B0C0A8;
+        }
+        &.diskspacebar, div {
+            background-color: #C8C098;
         }
 
         &.overload {
