@@ -106,6 +106,7 @@
   width: 18px;
   background-color: #CCC; }
 #vmmap .bar {
+  max-width: 40px;
   margin-top: 3px;
   background-color: lightgray; }
   #vmmap .bar div {
