@@ -2,6 +2,7 @@ from __future__ import absolute_import
 
 import os
 import pkg_resources
+import re
 
 from grokcore.component import context, name, implements, Adapter
 from grokcore.security import require
@@ -53,6 +54,26 @@ class ONCView(object):
         return NOT_DONE_YET
 
 
+class ONCConfigView(object):
+    implements(IHttpRestView)
+    require('oms.nothing')
+
+    def __init__(self, path):
+        self.path = path
+
+    def render(self, request):
+        cfg = ''
+        if os.path.exists(self.path):
+            cfg = open(self.path, 'r').read()
+        if not re.match('^BACKEND_PREFIX =', cfg, re.MULTILINE):
+            cfg += "BACKEND_PREFIX='/'"
+
+        request.write(cfg)
+        request.finish()
+
+        return NOT_DONE_YET
+
+
 class ONCViewFactory(Adapter):
     implements(IHttpRestSubViewFactory)
     context(ONCRootView)
@@ -63,6 +84,10 @@ class ONCViewFactory(Adapter):
 
         relative_path = os.path.join(*(['../..'] + path))
         filename = pkg_resources.resource_filename(__name__, relative_path)
+
+        if os.path.join(*path) == 'config.js':
+            return ONCConfigView(filename)
+
         resource = File(filename)
         if not resource.exists():
             return False

@@ -8,6 +8,6 @@ Ext.define('Onc.store.SearchResultsStore', {
             type: 'json',
             root: 'children'
         },
-        url: BACKEND_PREFIX + 'search/?depth=1'
+        url: Onc.Backend.url('search/?depth=1')
     }
 });
