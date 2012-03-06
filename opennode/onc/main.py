@@ -12,30 +12,30 @@ from opennode.oms.endpoint.httprest.base import IHttpRestView, HttpRestView, IHt
 from opennode.oms.model.model.plugins import IPlugin, PluginInfo
 
 
-class ONCPlugin(PluginInfo):
+class OncPlugin(PluginInfo):
     implements(IPlugin)
 
     def initialize(self):
-        print "[ONCPlugin] initializing plugin"
+        print "[OncPlugin] initializing plugin"
 
 
-class ONCRootView(HttpRestView):
-    """This view will never render, it's just used to attach the ONCViewFactory
-    which will create a new ONCView depending on the sub-path.
+class OncRootView(HttpRestView):
+    """This view will never render, it's just used to attach the OncViewFactory
+    which will create a new OncView depending on the sub-path.
 
     """
 
-    context(ONCPlugin)
+    context(OncPlugin)
     name('root')
 
     # html and js have to be open.
     # We'll be able to close some parts of javascripts
     # but core stuff has to be open otherwise we cannot render
-    # the ONC loging window
+    # the Onc login window
     require('oms.nothing')
 
 
-class ONCView(object):
+class OncView(object):
     implements(IHttpRestView)
     require('oms.nothing')
 
@@ -54,7 +54,7 @@ class ONCView(object):
         return NOT_DONE_YET
 
 
-class ONCConfigView(object):
+class OncConfigView(object):
     implements(IHttpRestView)
     require('oms.nothing')
 
@@ -74,9 +74,9 @@ class ONCConfigView(object):
         return NOT_DONE_YET
 
 
-class ONCViewFactory(Adapter):
+class OncViewFactory(Adapter):
     implements(IHttpRestSubViewFactory)
-    context(ONCRootView)
+    context(OncRootView)
 
     def resolve(self, path):
         if path == []:
@@ -86,10 +86,10 @@ class ONCViewFactory(Adapter):
         filename = pkg_resources.resource_filename(__name__, relative_path)
 
         if os.path.join(*path) == 'config.js':
-            return ONCConfigView(filename)
+            return OncConfigView(filename)
 
         resource = File(filename)
         if not resource.exists():
             return False
 
-        return ONCView(resource)
+        return OncView(resource)

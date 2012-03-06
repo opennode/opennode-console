@@ -30,7 +30,7 @@ setup(
     package_data=package_data,
     namespace_packages = ['opennode'],
     zip_safe=False, # we need to serve real files
-    entry_points = {'oms.plugins': ['onc = opennode.onc.main:ONCPlugin']},
+    entry_points = {'oms.plugins': ['onc = opennode.onc.main:OncPlugin']},
     install_requires = [
         "setuptools", # Redundant but removes a warning
         "opennode.oms.core",
