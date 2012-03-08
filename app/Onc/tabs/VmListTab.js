@@ -8,12 +8,12 @@ Ext.define('Onc.tabs.VmListTab', {
         var me = this;
         var rec = this.record;
 
-        this.addEvents('showvmdetails', 'startvms', 'stopvms');
+        this.addEvents('vmsshowdetails', 'vmsstart', 'vmsstop', 'vmssuspend', 'vmsgraceful');
 
         var actions = [
             {text: 'Start', icon: 'Start', handler: function(vms) {
                 me.down('grid').setLoading(true, true);
-                me.fireEvent('startvms', vms, function() {
+                me.fireEvent('vmsstart', vms, function() {
                     me.down('grid').setLoading(false);
                 });
             }},
@@ -25,13 +25,13 @@ Ext.define('Onc.tabs.VmListTab', {
             // }},
             {text: 'Shut Down', icon: 'Standby', handler: function(vms) {
                 me.down('grid').setLoading(true, true);
-                me.fireEvent('stopvms', vms, function() {
+                me.fireEvent('vmsstop', vms, function() {
                     me.down('grid').setLoading(false);
                 });
             }},
             {text: 'Show Details', icon: 'ZoomIn', handler: function(vms) {
                 console.assert(vms.length === 1);
-                me.fireEvent('showvmdetails', vms[0]);
+                me.fireEvent('showdetails', vms[0]);
             }}
         ];
 
@@ -123,6 +123,22 @@ Ext.define('Onc.tabs.VmListTab', {
                 {header: 'Inet6', dataIndex: 'ipv6_address', editor: {xtype: 'textfield', allowBlank: true}},
 
                 {xtype: 'actioncolumn', sortable: false, width: 3 * (20 + 2), items: rowActions, align: 'center'},
+                {header: 'actions', renderer: makeColumnRenderer(function(domId, _, _, vmRec) {
+                    Ext.widget('computestatecontrol', {
+                        initialState: (vmRec.get('state') === 'active' ?
+                                       'running' :
+                                       vmRec.get('state') === 'suspended' ?
+                                       'suspended' :
+                                       'stopped'),
+                        renderTo: domId,
+                        listeners: {
+                            'start': function(_, cb) { me.fireEvent('vmsstart', [vmRec], cb); },
+                            'suspend': function(_, cb) { me.fireEvent('vmssuspend', [vmRec], cb); },
+                            'graceful': function(_, cb) { me.fireEvent('vmsgraceful', [vmRec], cb); },
+                            'stop': function(_, cb) { me.fireEvent('vmsstop', [vmRec], cb); }
+                        }
+                    });
+                })},
                 _makeGaugeColumn('CPU usage', 'cpu'),
                 _makeGaugeColumn('Memory usage', 'memory', 'MB'),
                 _makeGaugeColumn('Disk usage', 'diskspace', 'MB'),
