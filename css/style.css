@@ -196,3 +196,12 @@
     .bridge-interface-members div:hover {
       border: 2px solid #bdbdff;
       background-color: #d7d7ff; }
+
+.computestatecontrol .x-btn {
+  border-width: 0;
+  background: transparent;
+  opacity: 0.75; }
+  .computestatecontrol .x-btn:hover {
+    opacity: 1.0; }
+  .computestatecontrol .x-btn.x-btn-disabled {
+    opacity: 0.35 !important; }

@@ -148,3 +148,16 @@ $state-icon-margin: 5px;
     }
 }
 
+.computestatecontrol {
+    .x-btn {
+        border-width: 0;
+        background: transparent;
+
+        opacity: 0.75;
+        &:hover { opacity: 1.0; }
+
+        &.x-btn-disabled {
+            opacity: 0.35 !important;
+        }
+    }
+}
