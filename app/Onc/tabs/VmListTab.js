@@ -122,8 +122,7 @@ Ext.define('Onc.tabs.VmListTab', {
                 {header: 'Inet4', dataIndex: 'ipv4_address', editor: {xtype: 'textfield', allowBlank: true}},
                 {header: 'Inet6', dataIndex: 'ipv6_address', editor: {xtype: 'textfield', allowBlank: true}},
 
-                {xtype: 'actioncolumn', sortable: false, width: 3 * (20 + 2), items: rowActions, align: 'center'},
-                {header: 'actions', renderer: makeColumnRenderer(function(domId, _, _, vmRec) {
+                {header: '', renderer: makeColumnRenderer(function(domId, _, _, vmRec) {
                     Ext.widget('computestatecontrol', {
                         initialState: (vmRec.get('state') === 'active' ?
                                        'running' :
