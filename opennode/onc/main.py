@@ -18,8 +18,6 @@ from opennode.oms.model.model.plugins import IPlugin, PluginInfo
 from opennode.oms.config import IRequiredConfigurationFiles, gen_config_file_names, get_config
 
 
-conf = get_config()
-
 class OncRequiredConfigurationFiles(Subscription):
     implements(IRequiredConfigurationFiles)
     context(object)
@@ -33,11 +31,21 @@ class OncPlugin(PluginInfo):
 
     def initialize(self):
         print "[OncPlugin] initializing plugin"
+        try:
+            symlink_target = get_config().get('onc', 'symlink_target')
+            relative_path = os.path.join(*(['../..']))
+            symlink_source = pkg_resources.resource_filename(__name__, relative_path)
+            if not os.path.exists(symlink_target):
+                os.symlink(symlink_source, symlink_target)
+            else:
+                print "[OncPlugin] symlinking of ONC root has failed as the target already exists '%s'" % symlink_target
+        except ConfigKeyError:
+            pass
 
 
 class OncRootView(HttpRestView):
     """This view will never render, it's just used to attach the ONCViewFactory
-    which will create a new ONCView depending on the sub-path.
+    which will create a new OncView depending on the sub-path.
 
     """
 
@@ -93,20 +101,6 @@ class OncConfigView(object):
 class OncViewFactory(Adapter):
     implements(IHttpRestSubViewFactory)
     context(OncRootView)
-
-    def __init__(self, *args, **kw):
-        super(Adapter, self).__init__()
-        # setup symlink if defined in the configuration File
-        try:
-            symlink_target = conf.get('onc', 'symlink_target')
-            relative_path = os.path.join(*(['../..']))
-            symlink_source = pkg_resources.resource_filename(__name__, relative_path)
-            if not os.path.exists(symlink_target):
-                os.symlink(symlink_source, symlink_target)
-            else:
-                print "symlinking failed as target already exists '%s'" % symlink_target
-        except ConfigKeyError:
-            pass
 
     def resolve(self, path):
         if path == []:
