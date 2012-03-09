@@ -3,13 +3,29 @@ from __future__ import absolute_import
 import os
 import pkg_resources
 import re
+from ConfigParser import Error as ConfigKeyError
 
-from grokcore.component import context, name, implements, Adapter
+import opennode.onc
+
+from grokcore.component import context, name, implements, Adapter, Subscription
 from grokcore.security import require
+
 from twisted.web.server import NOT_DONE_YET
 from twisted.web.static import File
+
 from opennode.oms.endpoint.httprest.base import IHttpRestView, HttpRestView, IHttpRestSubViewFactory
 from opennode.oms.model.model.plugins import IPlugin, PluginInfo
+from opennode.oms.config import IRequiredConfigurationFiles, gen_config_file_names, get_config
+
+
+conf = get_config()
+
+class OncRequiredConfigurationFiles(Subscription):
+    implements(IRequiredConfigurationFiles)
+    context(object)
+
+    def config_file_names(self):
+        return gen_config_file_names(opennode.onc, 'onc')
 
 
 class OncPlugin(PluginInfo):
@@ -20,8 +36,8 @@ class OncPlugin(PluginInfo):
 
 
 class OncRootView(HttpRestView):
-    """This view will never render, it's just used to attach the OncViewFactory
-    which will create a new OncView depending on the sub-path.
+    """This view will never render, it's just used to attach the ONCViewFactory
+    which will create a new ONCView depending on the sub-path.
 
     """
 
@@ -77,6 +93,20 @@ class OncConfigView(object):
 class OncViewFactory(Adapter):
     implements(IHttpRestSubViewFactory)
     context(OncRootView)
+
+    def __init__(self, *args, **kw):
+        super(Adapter, self).__init__()
+        # setup symlink if defined in the configuration File
+        try:
+            symlink_target = conf.get('onc', 'symlink_target')
+            relative_path = os.path.join(*(['../..']))
+            symlink_source = pkg_resources.resource_filename(__name__, relative_path)
+            if not os.path.exists(symlink_target):
+                os.symlink(symlink_source, symlink_target)
+            else:
+                print "symlinking failed as target already exists '%s'" % symlink_target
+        except ConfigKeyError:
+            pass
 
     def resolve(self, path):
         if path == []:
