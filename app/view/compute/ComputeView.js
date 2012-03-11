@@ -53,7 +53,7 @@ Ext.define('Onc.view.compute.ComputeView', {
             shellConfig: {
                 url: Onc.Backend.url(Ext.String.format('/computes/{0}/consoles/default/webterm', rec.get('id')))
             	}
-	        }, {
+	        }, !ENABLE_VNC ? [] :{
 	            title: 'Vnc',
 	            xtype: 'computevnctab',
 	            iconCls: 'icon-shell',
