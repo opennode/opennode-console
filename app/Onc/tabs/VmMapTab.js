@@ -11,7 +11,8 @@ Ext.define('Onc.tabs.VmMapTab', {
             hideHeaders: true,
             columnLines: true,
             id: 'vmmap',
-            store: 'PhysicalComputesStore',
+            store: 'ComputesStore',
+            viewType: 'vmmapview',
             selection: Ext.create('Ext.util.MixedCollection'),
 
             dockedItems: !ENABLE_VMMAP_TOOLBAR ? undefined : [
@@ -252,7 +253,7 @@ Ext.define('Onc.tabs.VmMapTab', {
                             Ext.get(this.resizingCell).child('div.mem', true).innerHTML = this.originalSize;
                             this.resizingCell.style.setProperty('width', (Math.max(this.originalWidth, 1)) + 'px');
                         } else {
-                            var rec = this.getVMRecordFromEl(this.resizingCell);
+                            var rec = this.getVmRecordFromEl(this.resizingCell);
                             rec.set('memory', this.newSize);
                             rec.save();
                         }
@@ -370,10 +371,8 @@ Ext.define('Onc.tabs.VmMapTab', {
                 return el.id.substring(6); // remove 'vmmap-' from the beginning
             },
 
-            getVMRecordFromEl: function(el) {
-                var physicalEl = Ext.fly(el).up('tr.x-grid-row');
-                var physicalRec = this.getView().getRecord(physicalEl);
-                return physicalRec.getChild('vms').children().getById(this.getIdFromEl(el));
+            getVmRecordFromEl: function(el) {
+                return this.store.getById(this.getIdFromEl(el));
             }
         }];
 
@@ -390,9 +389,6 @@ Ext.define('Onc.tabs.VmMapTab', {
     updateAll: function() {
         var vmmap = this.vmmap;
         var store = vmmap.store;
-        store.each(function(record) {
-            vmmap.updateCell(store, record);
-        });
         vmmap.getView().refresh();
     },
 
@@ -524,7 +520,7 @@ Ext.define('Onc.tabs.VmMapTab', {
 
                 onNodeDrop: function(target, dd, e, data) {
                     var vmmap = data.vmmap;
-                    var nodeRec = vmmap.getVMRecordFromEl(data.nodeEl);
+                    var nodeRec = vmmap.getVmRecordFromEl(data.nodeEl);
                     var targetRec = vmmap.getView().getRecord(target);
                     Ext.Msg.show({
                         msg: "Migrate " + nodeRec.get('hostname') +

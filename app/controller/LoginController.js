@@ -41,7 +41,6 @@ Ext.define('Onc.controller.LoginController', {
     _onAuth: function() {
         Onc.hub.Hub.run();
         Ext.getStore('ComputesStore').load();
-        Ext.getStore('PhysicalComputesStore').load();
         this._viewport = this.getView('Viewport').create();
     }
 });
