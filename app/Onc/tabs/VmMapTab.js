@@ -50,8 +50,7 @@ Ext.define('Onc.tabs.VmMapTab', {
                 //{header: 'Disk pool size', dataIndex: 'diskspace', width: 15},
                 {header: 'Map', dataIndex: 'memory', flex: 1,
                     renderer: function(totalMemory, meta, rec) {
-                        // FIXME: 'memory' is 0
-                        totalMemory = rec.get('memory_usage') * 2;
+                        totalMemory = rec.get('memory');
 
                         var freeMemory = totalMemory;
                         var vm_list = "";
