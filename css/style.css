@@ -135,6 +135,12 @@
     -ms-animation: blink 0.5s infinite alternate;
     -webkit-animation: blink 0.5s infinite alternate;
     -moz-animation: blink 0.5s infinite alternate; }
+#vmmap .tags {
+  float: right; }
+#vmmap .tag {
+  width: 16px;
+  height: 16px;
+  opacity: 0.25; }
 
 #search-results {
   width: 215px;

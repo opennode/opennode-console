@@ -98,4 +98,12 @@
             @include xbrowser(animation, blink 0.5s infinite alternate);
         }
     }
+    .tags {
+        float: right;
+    }
+    .tag {
+        width: 16px;
+        height: 16px;
+        opacity: 0.25;
+    }
 }

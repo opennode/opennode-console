@@ -66,10 +66,23 @@ Ext.define('Onc.tabs.VmMapTab', {
                 }])}
             ],
 
+            tagColors: {
+                'label:production' : 'red',
+                'label:development' : 'green',
+                'label:testing' : 'blue'
+            },
+
             tpl: new Ext.XTemplate(
                 '<tpl for=".">',
                     '<div class="{classes}" id="{id}" ',
                         'style="min-width:{minwidth}px">',
+                        '<tpl if="values.tags !== undefined">',
+                            '<div class="tags">',
+                                '<tpl for="tags">',
+                                    '<div class="tag" title={name} style="background-color: {color}"></div>',
+                                '</tpl>',
+                            '</div>',
+                        '</tpl>',
                         '<div class="name">{name}</div>',
                         '<div class="mem">{mem}</div>',
                         '<tpl if="values.id !== undefined">',
@@ -103,6 +116,8 @@ Ext.define('Onc.tabs.VmMapTab', {
                             var classes = 'node-cell';
                             var memory = vm.get('memory');
                             var uptime = this.getUptime(vm);
+                            var tags = vm.get('tags');
+                            var usedtags;
 
                             if (this.selection.contains(id)) {
                                 classes += ' selected';
@@ -110,6 +125,15 @@ Ext.define('Onc.tabs.VmMapTab', {
                             if (uptime === 'inactive') {
                                 classes += ' inactive';
                             }
+
+                            Ext.each(tags, function(tag) {
+                                var color = this.tagColors[tag];
+                                if (color) {
+                                    usedtags = usedtags || [];
+                                    usedtags[usedtags.length] = {name: tag, color: color};
+                                }
+                            }, this);
+
                             r[r.length] = {
                                 id: id,
                                 name: vm.get('hostname'),
@@ -117,7 +141,8 @@ Ext.define('Onc.tabs.VmMapTab', {
                                 mem: parseInt(memory),
                                 uptime: uptime,
                                 cores: vm.get('num_cores'),
-                                minwidth: parseInt(300 * (memory / totalMemory))
+                                minwidth: parseInt(300 * (memory / totalMemory)),
+                                tags: usedtags
                             };
 
                             freeMemory -= memory;
@@ -190,10 +215,10 @@ Ext.define('Onc.tabs.VmMapTab', {
             updateCell: function(store, rec) {
                 var el = Ext.get('vmmap-' + rec.getId());
                 if (el) {
-                    el.child('div.name', true).innerHTML = rec.get('hostname');
-                    el.child('div.mem', true).innerHTML = rec.get('memory');
-                    el.child('span.uptime', true).innerHTML = this.getUptime(rec);
-                    el.child('span.cores', true).innerHTML = rec.get('num_cores');
+                    el.down('div.name', true).innerHTML = rec.get('hostname');
+                    el.down('div.mem', true).innerHTML = rec.get('memory');
+                    el.down('span.uptime', true).innerHTML = this.getUptime(rec);
+                    el.down('span.cores', true).innerHTML = rec.get('num_cores');
                     if (rec.get('state') === 'inactive') {
                         el.addCls('inactive');
                     } else {
@@ -221,7 +246,7 @@ Ext.define('Onc.tabs.VmMapTab', {
                 this.resizingCell = el.parentNode.firstChild;
                 this.originalWidth = parseInt(this.resizingCell.style.getPropertyValue('width'));
                 this.resizeAnchor = [e.getX(), e.getY()];
-                this.originalSize = parseInt(Ext.get(this.resizingCell).child('div.mem', true).innerHTML);
+                this.originalSize = parseInt(Ext.get(this.resizingCell).down('div.mem', true).innerHTML);
             },
 
             onResize: function(e, el) {
@@ -232,7 +257,7 @@ Ext.define('Onc.tabs.VmMapTab', {
                 var delta = [pos[0] - this.resizeAnchor[0], pos[1] - this.resizeAnchor[1]];
                 this.resizingCell.style.setProperty('width', (Math.max(this.originalWidth + delta[0], 1)) + 'px');
                 this.newSize = this.originalSize + delta[0];
-                Ext.get(this.resizingCell).child('div.mem', true).innerHTML = this.newSize;
+                Ext.get(this.resizingCell).down('div.mem', true).innerHTML = this.newSize;
                 e.stopEvent();
             },
 
