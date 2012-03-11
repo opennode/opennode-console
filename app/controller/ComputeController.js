@@ -26,28 +26,28 @@ Ext.define('Onc.controller.ComputeController', {
                         vm.set('state', 'active');
                         vm.save();
                     });
-                    setTimeout(callback, 1000 + Math.random() * 150);
+                    setTimeout(callback, 5000 + Math.random() * 150);
                 },
                 vmsstop: function(vms, callback) {
                     Ext.each(vms, function(vm) {
                         vm.set('state', 'inactive');
                         vm.save();
                     });
-                    setTimeout(callback, 1000 + Math.random() * 150);
+                    setTimeout(callback, 5000 + Math.random() * 150);
                 },
                 vmssuspend: function(vms, callback) {
                     Ext.each(vms, function(vm) {
                         vm.set('state', 'inactive');
                         vm.save();
                     });
-                    setTimeout(callback, 1000 + Math.random() * 150);
+                    setTimeout(callback, 5000 + Math.random() * 150);
                 },
                 vmsgraceful: function(vms, callback) {
                     Ext.each(vms, function(vm) {
                         vm.set('state', 'inactive');
                         vm.save();
                     });
-                    setTimeout(callback, 1000 + Math.random() * 150);
+                    setTimeout(callback, 5000 + Math.random() * 150);
                 }
             }
         });
