@@ -53,7 +53,8 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
     _makeTransform: function(eventName, transientState, finalState) {
         var me = this;
         return function() {
-            me._setState(transientState);
+            //XXX: setting transient states screws up precheck logic i
+            //me._setState(transientState);
             me.fireEvent(eventName, me, function() { me._setState(finalState); });
         };
     },

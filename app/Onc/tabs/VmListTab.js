@@ -93,6 +93,19 @@ Ext.define('Onc.tabs.VmListTab', {
             };
         }
 
+        function _changeStateWithConfirmation(confirmTitle, confirmText, eventName, target, cb) {
+            Ext.Msg.confirm(confirmTitle, confirmText,
+                function(choice) {
+                    if (choice === 'yes') {
+                        me.down('grid').setLoading(true, true);
+                        me.fireEvent(eventName, target, function() {
+                                    cb();
+                                    me.down('grid').setLoading(false);
+                                    });
+                    }
+                });
+        }
+
         this.items = [{
             xtype: 'gridpanel',
             title: "Virtual Machines",
@@ -125,9 +138,20 @@ Ext.define('Onc.tabs.VmListTab', {
                                        'stopped'),
                         renderTo: domId,
                         listeners: {
-                            'start': function(_, cb) { me.fireEvent('vmsstart', [vmRec], cb); },
+                            'start': function(_, cb) { _changeStateWithConfirmation('Starting a VM',
+                                       'Are you sure you want to boot this VM?',
+                                       'vmsstart',
+                                       [vmRec],
+                                       cb);
+                            },
                             'suspend': function(_, cb) { me.fireEvent('vmssuspend', [vmRec], cb); },
-                            'graceful': function(_, cb) { me.fireEvent('vmsgraceful', [vmRec], cb); },
+                            'graceful': function(_, cb) {
+                                _changeStateWithConfirmation('Shutting down a VM',
+                                       'Are you sure? All of the processes inside a VM will be stoppped',
+                                       'vmsgraceful',
+                                       [vmRec],
+                                       cb);
+                            },
                             'stop': function(_, cb) { me.fireEvent('vmsstop', [vmRec], cb); },
                             'details': function(_, cb) { me.fireEvent('showdetails', vmRec, cb); }
                         }
