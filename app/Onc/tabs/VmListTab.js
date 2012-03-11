@@ -8,7 +8,7 @@ Ext.define('Onc.tabs.VmListTab', {
         var me = this;
         var rec = this.record;
 
-        this.addEvents('vmsshowdetails', 'vmsstart', 'vmsstop', 'vmssuspend', 'vmsgraceful');
+        this.addEvents('showdetails', 'vmsstart', 'vmsstop', 'vmssuspend', 'vmsgraceful');
 
         var actions = [
             {text: 'Start', icon: 'Start', handler: function(vms) {
@@ -17,12 +17,6 @@ Ext.define('Onc.tabs.VmListTab', {
                     me.down('grid').setLoading(false);
                 });
             }},
-            // {text: 'Pause', icon: 'Sleep', handler: function(vms) {
-            //     Ext.each(vms, function(vm) {
-            //         vm.set('state', 'suspended');
-            //         vm.save();
-            //     });
-            // }},
             {text: 'Shut Down', icon: 'Standby', handler: function(vms) {
                 me.down('grid').setLoading(true, true);
                 me.fireEvent('vmsstop', vms, function() {
@@ -134,7 +128,8 @@ Ext.define('Onc.tabs.VmListTab', {
                             'start': function(_, cb) { me.fireEvent('vmsstart', [vmRec], cb); },
                             'suspend': function(_, cb) { me.fireEvent('vmssuspend', [vmRec], cb); },
                             'graceful': function(_, cb) { me.fireEvent('vmsgraceful', [vmRec], cb); },
-                            'stop': function(_, cb) { me.fireEvent('vmsstop', [vmRec], cb); }
+                            'stop': function(_, cb) { me.fireEvent('vmsstop', [vmRec], cb); },
+                            'details': function(_, cb) { me.fireEvent('showdetails', vmRec, cb); }
                         }
                     });
                 })},

@@ -7,7 +7,7 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
     initComponent: function() {
         var me = this;
 
-        this.addEvents('start', 'suspend', 'graceful', 'stop');
+        this.addEvents('start', 'suspend', 'graceful', 'stop', 'details');
 
         function makeButton(name, transientState, finalState) {
             return {
@@ -23,7 +23,14 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
             makeButton('start', 'starting', 'running'),
             makeButton('suspend', 'suspending', 'suspended'),
             makeButton('graceful', 'shutting-down', 'stopped'),
-            makeButton('stop', 'force-stopping', 'stopped')
+            makeButton('stop', 'force-stopping', 'stopped'),
+            {
+                name: 'details',
+                attrs: {
+                    hidden: false,
+                    handler: function() {me.fireEvent('details', me, false)}
+                }
+            }
         ];
 
         this.items = buttons.map(function(i) {
@@ -67,7 +74,7 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
             }
         }
         function visible(btnName) { _set(btnName, true); }
-        function disabled(btnName) { _set(btnName, true, false); }
+        function disabled(btnName) { _set(btnName, false, false); }
 
         if (name === 'suspended') {
             visible('start');
@@ -76,14 +83,14 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
             visible('start');
             disabled('stop');
         } else if (name === 'running') {
-            visible('suspend');
+            disabled('suspend');
             visible('graceful');
         } else if (name === 'starting') {
             disabled('start');
-            visible('stop');
+            disabled('stop');
         } else if (name === 'shutting-down') {
             disabled('start');
-            visible('stop');
+            disabled('stop');
         } else if (name === 'suspending') {
             visible('start');
             visible('stop');
