@@ -5,8 +5,59 @@ Ext.define('Onc.view.compute.ComputeView', {
         'Onc.view.compute.ComputeHeaderView'
     ],
 
-    iconCls: 'icon-mainframe',
+    iconCls: 'icon-system',
     layout: {type: 'vbox', align: 'stretch'},
+
+    _makeTab: function(title, type) {
+        var tab = {
+                title: title,
+                xtype: 'compute{0}tab'.format(type),
+                itemId: '{0}tab'.format(type),
+                iconCls: 'icon-{0}'.format(type) // iconCls
+            };
+        if (type === 'shell') {
+            tab['shellConfig'] = {
+                    url: Onc.Backend.url(Ext.String.format('/computes/{0}/consoles/default/webterm', this.record.get('id')))
+            };
+            tab['iconCls'] = 'icon-shell';
+        }
+        if (type === 'vnc') {
+            tab['vncConfig'] = {
+                    url: Onc.Backend.url(Ext.String.format('/computes/{0}/consoles/vnc', this.record.get('id')))
+            };
+            tab['iconCls'] = 'icon-shell';
+        }
+        return tab;
+    },
+
+    _adjustTab: function(title, tabType, shouldAdd) {
+        var tabs = this.down('#tabs');
+        var tab = tabs.down('#{0}tab'.format(tabType));
+
+        if (!tab && shouldAdd) {
+            tabs.add(this._makeTab(title, tabType));
+
+            // a special case for convinience
+            if (tabType === 'vmlist') { tabs.setActiveTab(tabs.child('#vmlisttab')); }
+        }
+        if (tab && !shouldAdd) { tabs.remove(tab); }
+    },
+
+    updateTabs: function() {
+    	var me = this;
+    	var rec = this.record;
+        me._adjustTab('System', 'system', true);
+
+        var isHn = rec.getChild('vms');
+        me._adjustTab('VMs', 'vmlist', isHn);
+        me._adjustTab('Network', 'network', isHn);
+        me._adjustTab('Templates', 'templates', isHn);
+
+        var isActive = rec.data['state'] === 'active';
+        me._adjustTab('Shell', 'shell', isActive);
+        me._adjustTab('VNC', 'vnc', isActive && ENABLE_VNC);
+        return true;
+    },
 
     initComponent: function() {
         var rec = this.record;
@@ -18,59 +69,15 @@ Ext.define('Onc.view.compute.ComputeView', {
                       rec.get('type'))
         };
 
-        var tabs = [{
-            title: 'System',
-            xtype: 'computesystemtab',
-            iconCls: 'icon-mainframe'
-        }];
-
-        if (rec.getChild('vms')) {
-            tabs.unshift({
-                title: 'VMs',
-                xtype: 'computevmlisttab',
-                iconCls: 'icon-vmlist'
-            });
-            tabs.push({
-                title: 'Network',
-                xtype: 'computenetworktab',
-                iconCls: 'icon-network'
-            // }, {
-            //     title: 'Storage',
-            //     xtype: 'computestoragetab',
-            //     iconCls: 'icon-hd'
-            }, {
-                title: 'Templates',
-                xtype: 'computetemplatestab',
-                iconCls: 'icon-template'
-            });
-        }
-
-       	if (rec.data['state'] == 'active')
-            tabs.push({
-            title: 'Shell',
-            xtype: 'computeshelltab',
-            iconCls: 'icon-shell',
-            shellConfig: {
-                url: Onc.Backend.url(Ext.String.format('/computes/{0}/consoles/default/webterm', rec.get('id')))
-            	}
-	        }, !ENABLE_VNC ? [] :{
-	            title: 'Vnc',
-	            xtype: 'computevnctab',
-	            iconCls: 'icon-shell',
-	            vncConfig: {
-	                url: Onc.Backend.url(Ext.String.format('/computes/{0}/consoles/vnc', rec.get('id')))
-	            }
-	        });
-
         this.items = [{
             xtype: 'computeheader',
             record: rec
         }, {
             flex: 1,
             xtype: 'tabpanel',
-            activeTab: 0,
+            itemId: 'tabs',
             defaults: {record: rec},
-            items: tabs
+            items: []
         }];
 
         this.callParent(arguments);

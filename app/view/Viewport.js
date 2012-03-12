@@ -29,6 +29,13 @@ Ext.define('Onc.view.Viewport', {
         region: 'center',
         itemId: 'mainTabs',
         xtype: 'tabpanel',
+        listeners: {
+                'beforetabchange': function(tp, newTab, currentTab)  {
+                    if (newTab.id.startswith('computeview')) {
+                        newTab.updateTabs();
+                    }
+                }
+        },
         preventHeader: true,
         defaults: {
             closable: true
