@@ -119,6 +119,7 @@ Ext.define('Onc.hub.Hub', {
 
         r.failure(function(response) {
             console.error("Failed to poll %s", this.URL);
+            d.errback();
         }.bind(this));
 
         var d = new Onc.util.Deferred();
