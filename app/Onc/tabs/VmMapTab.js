@@ -293,8 +293,28 @@ Ext.define('Onc.tabs.VmMapTab', {
                 });
             },
 
+            highlightTag: function(tag) {
+                var tags = Ext.select('div.tag', false, this.el.dom);
+                var i, len = tags.getCount();
+                for (i = 0; i < len; i++) {
+                    Ext.fly(tags.item(i)).removeCls('tag-highlight');
+                }
+            
+                tags = Ext.select('div.tag[title="' + tag + '"]', false, this.el.dom);
+                len = tags.getCount();
+                for (i = 0; i < len; i++) {
+                    Ext.fly(tags.item(i)).addCls('tag-highlight');
+                }
+            },
+
             onMouseClick: function(e, el) {
                 if (this.resizeMode) {
+                    return;
+                }
+
+                el = e.getTarget('div.tag');
+                if (el) {
+                    this.highlightTag(el.title);
                     return;
                 }
 
@@ -318,7 +338,8 @@ Ext.define('Onc.tabs.VmMapTab', {
 
                     var i, item;
                     if (!e.ctrlKey) {
-                        for (i = 0; i < allCells.getCount(); i++) {
+                        var count = allCells.getCount();
+                        for (i = 0; i < count; i++) {
                             if (i < from || i > to) {
                                 cell = allCells.item(i);
                                 if (this.selection.contains(cell.id)) {

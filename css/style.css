@@ -141,6 +141,8 @@
   width: 16px;
   height: 16px;
   opacity: 0.25; }
+#vmmap .tag-highlight {
+  border: 2px solid black; }
 
 #search-results {
   width: 215px;
