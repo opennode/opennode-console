@@ -67,9 +67,15 @@ Ext.define('Onc.tabs.VmMapTab', {
             ],
 
             tagColors: {
-                'label:production' : 'red',
-                'label:development' : 'green',
-                'label:testing' : 'blue'
+                'label:production' : 'green',
+                'label:development' : 'red',
+                'label:staging' : 'blue'
+            },
+
+            tagShortened: {
+                'label:production': 'P',
+                'label:development' : 'D',
+                'label:staging' : 'S'
             },
 
             tpl: new Ext.XTemplate(
@@ -79,7 +85,7 @@ Ext.define('Onc.tabs.VmMapTab', {
                         '<tpl if="values.tags !== undefined">',
                             '<div class="tags">',
                                 '<tpl for="tags">',
-                                    '<div class="tag" title={name} style="background-color: {color}"></div>',
+                                    '<div class="tag" title={name} style="background-color: {color}">{tagShortened}</div>',
                                 '</tpl>',
                             '</div>',
                         '</tpl>',
@@ -128,9 +134,10 @@ Ext.define('Onc.tabs.VmMapTab', {
 
                             Ext.each(tags, function(tag) {
                                 var color = this.tagColors[tag];
+                                var shortened = this.tagShortened[tag];
                                 if (color) {
                                     usedtags = usedtags || [];
-                                    usedtags[usedtags.length] = {name: tag, color: color};
+                                    usedtags[usedtags.length] = {name: tag, color: color, tagShortened: shortened};
                                 }
                             }, this);
 

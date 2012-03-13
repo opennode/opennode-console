@@ -70,7 +70,7 @@
   #vmmap .node-cell.selected {
     background-color: #D0F8F0; }
   #vmmap .node-cell.tag-highlight {
-    border: 1px solid #90B0E0;
+    border: 2px solid #333399;
     margin-right: 0px; }
 #vmmap .node-cell-free {
   border: 1px solid #CCC;
@@ -141,9 +141,13 @@
 #vmmap .tags {
   float: right; }
 #vmmap .tag {
+  text-align: center;
+  color: #000000;
   width: 16px;
   height: 16px;
   opacity: 0.25; }
+  #vmmap .tag:hover {
+    opacity: 0.5; }
 
 #search-results {
   width: 215px;
