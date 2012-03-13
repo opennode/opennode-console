@@ -297,14 +297,21 @@ Ext.define('Onc.tabs.VmMapTab', {
                 var tags = Ext.select('div.tag', false, this.el.dom);
                 var i, len = tags.getCount();
                 for (i = 0; i < len; i++) {
-                    Ext.fly(tags.item(i)).removeCls('tag-highlight');
+                    Ext.fly(tags.item(i)).up('div.node-cell').removeCls('tag-highlight');
                 }
-            
+
+                if (this.isTagHighlighted) {
+                    this.isTagHighlighted = false;
+                    return;
+                }
+
                 tags = Ext.select('div.tag[title="' + tag + '"]', false, this.el.dom);
                 len = tags.getCount();
                 for (i = 0; i < len; i++) {
-                    Ext.fly(tags.item(i)).addCls('tag-highlight');
+                    Ext.fly(tags.item(i)).up('div.node-cell').addCls('tag-highlight');
                 }
+
+                this.isTagHighlighted = true;
             },
 
             onMouseClick: function(e, el) {

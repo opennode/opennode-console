@@ -69,6 +69,9 @@
     background-color: #FEDEDE; }
   #vmmap .node-cell.selected {
     background-color: #D0F8F0; }
+  #vmmap .node-cell.tag-highlight {
+    border: 1px solid #90B0E0;
+    margin-right: 0px; }
 #vmmap .node-cell-free {
   border: 1px solid #CCC;
   padding: 5px 5px 42px;
@@ -141,8 +144,6 @@
   width: 16px;
   height: 16px;
   opacity: 0.25; }
-#vmmap .tag-highlight {
-  border: 2px solid black; }
 
 #search-results {
   width: 215px;
