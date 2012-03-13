@@ -2,13 +2,18 @@ Ext.define('Onc.tabs.SystemTab', {
     extend: 'Onc.tabs.Tab',
     alias: 'widget.computesystemtab',
 
+    defaults: {
+        margin: '0 0 10px 0',
+    },
+    autoScroll: true,
+
     initComponent: function() {
         var rec = this.record;
+        var tags = rec.get('tags');
 
         this.items = [{
             layout: {type: 'table', columns: 2},
             frame: true,
-            margin: '0 0 10px 0',
             defaults: {
                 xtype: 'box',
                 padding: 5
@@ -38,6 +43,33 @@ Ext.define('Onc.tabs.SystemTab', {
                 {itemId: 'ram-gauge', label: 'Physical Memory', value: 0, max: rec.get('memory'), unit: 'MB'},
                 {itemId: 'diskspace-vz-gauge', label: 'VZ Partition', value: rec.get('diskspace_usage')['/vz'],
                                                             max: rec.get('diskspace')['/vz'], unit: 'MB'},
+            ]
+        }, {
+            itemId: 'label-tags',
+            layout: {type: 'table'},
+            frame: true,
+            defaults: {
+                xtype: 'checkboxfield',
+                margin: 10
+            },
+            items: [{
+                    itemId: 'label:production',
+                    boxLabel: 'Production',
+                    checked: Ext.Array.contains(tags, 'label:production'),
+                }, {
+                    itemId: 'label:staging',
+                    boxLabel: 'Staging',
+                    checked: Ext.Array.contains(tags, 'label:staging'),
+                }, {
+                    itemId: 'label:development',
+                    boxLabel: 'Development',
+                    checked: Ext.Array.contains(tags, 'label:development'),
+                }, {
+                    xtype: 'button',
+                    text: 'Save',
+                    handler: this.saveTags,
+                    scope: this
+                }
             ]
         }];
 
@@ -81,5 +113,26 @@ Ext.define('Onc.tabs.SystemTab', {
         delete this._uptimeUpdateInterval;
 
         this._streamUnsubscribe();
+    },
+
+    setTag: function(labelTags, tags, tag) {
+        if (labelTags.getComponent(tag).getValue()) {
+            Ext.Array.include(tags, tag);
+        } else {
+            Ext.Array.remove(tags, tag);
+        }
+    },
+
+    saveTags: function() {
+        var rec = this.record;
+        var tags = rec.get('tags');
+        var labelTags = this.getComponent('label-tags');
+
+        this.setTag(labelTags, tags, 'label:production');
+        this.setTag(labelTags, tags, 'label:staging');
+        this.setTag(labelTags, tags, 'label:development');
+
+        rec.set('tags', tags);
+        rec.save();
     }
 });

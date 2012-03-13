@@ -78,15 +78,19 @@ Ext.define('Onc.tabs.VmMapTab', {
                 'label:staging' : 'S'
             },
 
+            tagTpl: new Ext.XTemplate(
+                '<tpl for=".">',
+                    '<div class="tag" title={name} style="background-color: {color}">{tagShortened}</div>',
+               '</tpl>'
+            ),
+
             tpl: new Ext.XTemplate(
                 '<tpl for=".">',
                     '<div class="{classes}" id="{id}" ',
                         'style="min-width:{minwidth}px">',
                         '<tpl if="values.tags !== undefined">',
                             '<div class="tags">',
-                                '<tpl for="tags">',
-                                    '<div class="tag" title={name} style="background-color: {color}">{tagShortened}</div>',
-                                '</tpl>',
+                                '{[ this.tab.vmmap.tagTpl.apply(values.tags) ]}',
                             '</div>',
                         '</tpl>',
                         '<div class="name">{name}</div>',
@@ -99,7 +103,8 @@ Ext.define('Onc.tabs.VmMapTab', {
                             '<div class="bar diskspacebar"><div></div></div>',
                         '</tpl>',
                     '</div>',
-                '</tpl>'
+                '</tpl>',
+                { tab: this }
             ),
 
             columns: [
@@ -231,6 +236,31 @@ Ext.define('Onc.tabs.VmMapTab', {
                     } else {
                         el.removeCls('inactive');
                     }
+
+                    var tags = rec.get('tags');
+                    var usedTags = [];
+                    Ext.each(tags, function(tag) {
+                        var color = this.tagColors[tag];
+                        var shortened = this.tagShortened[tag];
+                        if (color) {
+                            usedTags[usedTags.length] = {name: tag, color: color, tagShortened: shortened};
+                        }
+                    }, this);
+
+                    var tagsEl = el.down('div.tags');
+                    if (usedTags.length == 0) {
+                        if (tagsEl) {
+                            tagsEl.remove();
+                        }
+                        return;
+                    }
+
+                    if (!tagsEl) {
+                        tagsEl = Ext.get(document.createElement("div"));
+                        tagsEl.addCls('tags');
+                        el.insertFirst(tagsEl);
+                    }
+                    tagsEl.update(this.tagTpl.apply(usedTags));
                 }
             },
 
