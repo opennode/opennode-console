@@ -65,6 +65,9 @@ class OncView(object):
     def __init__(self, resource):
         self.resource = resource
 
+    def rw_transaction(self, request):
+        return False
+
     def render(self, request):
         res = self.resource.render(request)
 
@@ -83,6 +86,9 @@ class OncConfigView(object):
 
     def __init__(self, path):
         self.path = path
+
+    def rw_transaction(self, request):
+        return False
 
     def render(self, request):
         cfg = ''
