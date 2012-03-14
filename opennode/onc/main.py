@@ -35,12 +35,12 @@ class OncPlugin(PluginInfo):
             symlink_target = get_config().get('onc', 'symlink_target')
             relative_path = os.path.join(*(['../..']))
             symlink_source = pkg_resources.resource_filename(__name__, relative_path)
-            if os.path.exists(symlink_target):
-                if os.path.islink(symlink_target):
+            if not os.path.exists(symlink_target) or os.path.islink(symlink_target):
+                if os.path.exists(symlink_target):
                     os.unlink(symlink_target)
                 os.symlink(symlink_source, symlink_target)
             else:
-                print "[OncPlugin] symlinking of ONC root has failed as the target already exists '%s'" % symlink_target
+                print "[OncPlugin] symlinking of ONC root has failed as the target '%s' exists and it's not a symlink" % symlink_target
         except ConfigKeyError:
             pass
 
