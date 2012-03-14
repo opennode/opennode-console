@@ -95,7 +95,7 @@ Ext.define('Onc.hub.Sync', {
                 if (update['event'] === 'change')
                     attrChanges[update['name']] = update['value'];
                 else
-                    console.warn("Unsupported update type %s", update['type']);
+                    console.warn("Unsupported update type %s", update['event']);
             }
             var records = this._byUrl.massoc(url);
             records.forEach(function(rec) {
