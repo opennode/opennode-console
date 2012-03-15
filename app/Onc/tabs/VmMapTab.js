@@ -67,15 +67,17 @@ Ext.define('Onc.tabs.VmMapTab', {
             ],
 
             tagColors: {
-                'label:production' : 'green',
-                'label:development' : 'red',
-                'label:staging' : 'blue'
+                'env:production' : 'green',
+                'env:development' : 'red',
+                'env:staging' : 'blue',
+                'env:infrastructure' : 'gold'
             },
 
             tagShortened: {
-                'label:production': 'P',
-                'label:development' : 'D',
-                'label:staging' : 'S'
+                'env:production': 'P',
+                'env:development' : 'D',
+                'env:staging' : 'S',
+                'env:infrastructure' : 'I'
             },
 
             tagTpl: new Ext.XTemplate(
@@ -84,7 +86,7 @@ Ext.define('Onc.tabs.VmMapTab', {
                '</tpl>'
             ),
 
-            tpl: new Ext.XTemplate(
+            vmTpl: new Ext.XTemplate(
                 '<tpl for=".">',
                     '<div class="{classes}" id="{id}" ',
                         'style="min-width:{minwidth}px">',
@@ -107,6 +109,19 @@ Ext.define('Onc.tabs.VmMapTab', {
                 { tab: this }
             ),
 
+            getUsedTags: function(allTags) {
+                var usedtags;
+                Ext.each(allTags, function(tag) {
+                    var color = this.tagColors[tag];
+                    var shortened = this.tagShortened[tag];
+                    if (color && shortened) {
+                        usedtags = usedtags || [];
+                        usedtags[usedtags.length] = {name: tag, color: color, tagShortened: shortened};
+                    }
+                }, this);
+                return usedtags;
+            },
+
             columns: [
                 {header: 'Name', dataIndex: 'hostname', width: 100},
                 //{header: 'Disk pool size', dataIndex: 'diskspace', width: 15},
@@ -128,7 +143,7 @@ Ext.define('Onc.tabs.VmMapTab', {
                             var memory = vm.get('memory');
                             var uptime = this.getUptime(vm);
                             var tags = vm.get('tags');
-                            var usedtags;
+                            var usedtags = this.getUsedTags(tags);
 
                             if (this.selection.contains(id)) {
                                 classes += ' selected';
@@ -137,15 +152,6 @@ Ext.define('Onc.tabs.VmMapTab', {
                                 classes += ' inactive';
                             }
 
-                            Ext.each(tags, function(tag) {
-                                var color = this.tagColors[tag];
-                                var shortened = this.tagShortened[tag];
-                                if (color) {
-                                    usedtags = usedtags || [];
-                                    usedtags[usedtags.length] = {name: tag, color: color, tagShortened: shortened};
-                                }
-                            }, this);
-
                             r[r.length] = {
                                 id: id,
                                 name: vm.get('hostname'),
@@ -153,7 +159,7 @@ Ext.define('Onc.tabs.VmMapTab', {
                                 mem: parseInt(memory),
                                 uptime: uptime,
                                 cores: vm.get('num_cores'),
-                                minwidth: parseInt(300 * (memory / totalMemory)),
+                                minwidth: parseInt(300 * (memory / totalMemory)) + 30,
                                 tags: usedtags
                             };
 
@@ -174,7 +180,7 @@ Ext.define('Onc.tabs.VmMapTab', {
                             };
                         }
 
-                        return this.tpl.apply(r);
+                        return this.vmTpl.apply(r);
                     }
                 }
             ],

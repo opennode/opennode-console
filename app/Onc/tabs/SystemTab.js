@@ -53,17 +53,21 @@ Ext.define('Onc.tabs.SystemTab', {
                 margin: 10
             },
             items: [{
-                    itemId: 'label:production',
+                    itemId: 'env:production',
                     boxLabel: 'Production',
-                    checked: Ext.Array.contains(tags, 'label:production'),
+                    checked: Ext.Array.contains(tags, 'env:production'),
                 }, {
-                    itemId: 'label:staging',
+                    itemId: 'env:staging',
                     boxLabel: 'Staging',
-                    checked: Ext.Array.contains(tags, 'label:staging'),
+                    checked: Ext.Array.contains(tags, 'env:staging'),
                 }, {
-                    itemId: 'label:development',
+                    itemId: 'env:development',
                     boxLabel: 'Development',
-                    checked: Ext.Array.contains(tags, 'label:development'),
+                    checked: Ext.Array.contains(tags, 'env:development'),
+                }, {
+                    itemId: 'env:infrastructure',
+                    boxLabel: 'Infrastructure',
+                    checked: Ext.Array.contains(tags, 'env:infrastructure'),
                 }, {
                     xtype: 'button',
                     text: 'Save',
@@ -128,9 +132,11 @@ Ext.define('Onc.tabs.SystemTab', {
         var tags = rec.get('tags');
         var labelTags = this.getComponent('label-tags');
 
-        this.setTag(labelTags, tags, 'label:production');
-        this.setTag(labelTags, tags, 'label:staging');
-        this.setTag(labelTags, tags, 'label:development');
+        this.setTag(labelTags, tags, 'env:production');
+        this.setTag(labelTags, tags, 'env:staging');
+        this.setTag(labelTags, tags, 'env:development');
+        this.setTag(labelTags, tags, 'env:infrastructure');
+
 
         rec.set('tags', tags);
         rec.save();
