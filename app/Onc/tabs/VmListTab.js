@@ -67,9 +67,6 @@ Ext.define('Onc.tabs.VmListTab', {
         });
 
         function _makeGaugeColumn(label, name, unit) {
-            var lastData = undefined;
-            var unsubscribe = undefined;
-
             return {
                 header: label,
                 width: 80,
@@ -89,18 +86,9 @@ Ext.define('Onc.tabs.VmListTab', {
                     });
 
                     var url = rec.get('url') + '/metrics/{0}_usage'.format(name);
-                    var listener = function(data) { gauge.setValue(data[url]); lastData = data; };
+                    var listener = function(data) { gauge.setValue(data[url]); };
+
                     Onc.hub.Hub.subscribe(listener, [url], 'gauge');
-
-                    if(lastData)
-                        listener(lastData);
-
-                    if(unsubscribe)
-                        unsubscribe();
-
-                    unsubscribe = function() {
-                        Onc.hub.Hub.subscribe(listener, [url], 'gauge', true);
-                    }
                 })
             };
         }
