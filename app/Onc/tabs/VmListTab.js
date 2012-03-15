@@ -73,22 +73,34 @@ Ext.define('Onc.tabs.VmListTab', {
                 align: 'center',
                 dataIndex: 'id',
                 renderer: makeColumnRenderer(function(domId, _, _, rec) {
+                    if(!rec.gaugeMetadata)
+                        rec.gaugeMetadata = {};
+                    if(!rec.gaugeMetadata[label])
+                        rec.gaugeMetadata[label] = {};
+                    var metadata = rec.gaugeMetadata[label];
+
                     var max = (name === 'cpu' ? rec.getMaxCpuLoad()
                                : name === 'diskspace' ? rec.get('diskspace')['total']
                                : rec.get(name));
 
-                    var gauge = Ext.create('Onc.widgets.Gauge', {
+                    metadata.gauge = Ext.create('Onc.widgets.Gauge', {
                         renderTo: domId,
                         border: false,
                         max: max,
                         unit: unit,
-                        display: name === 'cpu' ? ['fixed', 2] : undefined
+                        display: name === 'cpu' ? ['fixed', 2] : undefined,
+                        value: metadata.lastValue
                     });
 
                     var url = rec.get('url') + '/metrics/{0}_usage'.format(name);
-                    var listener = function(data) { gauge.setValue(data[url]); };
 
-                    Onc.hub.Hub.subscribe(listener, [url], 'gauge');
+                    if (!metadata.listener) {
+                        metadata.listener = function(data) {
+                            this.gauge.setValue(data[url]);
+                            this.lastValue = data[url];
+                        }.bind(metadata);
+                        Onc.hub.Hub.subscribe(metadata.listener, [url], 'gauge');
+                    }
                 })
             };
         }
