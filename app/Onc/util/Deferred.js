@@ -48,5 +48,27 @@ Ext.define('Onc.util.Deferred', {
         this.finalizers.forEach(function(c) { c.apply(this, [false].concat(this._exArgs)); }.bind(this));
         delete this.errbacks;
         delete this.finalizers;
+    },
+
+    trigger: function(fn) {
+        return function() {
+            try {
+                this.callback(fn.apply(null, arguments));
+            } catch(err) {
+                console.log("Got unhandled exception while asynchrnously triggering a deferred callback", fn, err);
+                this.errback(err);
+            }
+        }.bind(this);
+    },
+
+    triggerErrback: function(fn) {
+        return function() {
+            try {
+                this.errback(fn.apply(null, arguments));
+            } catch(err) {
+                console.log("Got unhandled exception while asynchrnously triggering a deferred errback", fn, err);
+                this.errback(err);
+            }
+        }.bind(this);
     }
 });

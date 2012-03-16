@@ -79,6 +79,8 @@ Ext.define('Onc.hub.Hub', {
     },
 
     _poll: function() {
+        var d = new Onc.util.Deferred();
+
         var urls = this._reg.massocKeys();
         if (urls.length === 0) return succeed();
 
@@ -87,7 +89,7 @@ Ext.define('Onc.hub.Hub', {
             jsonData: urls
         });
 
-        r.success(function(result, response) {
+        r.success(d.trigger(function(result, response) {
             this._relativisticToken = result[0];
             var streamData = result[1];
 
@@ -113,16 +115,12 @@ Ext.define('Onc.hub.Hub', {
                 console.assert(!empty(dataAsObj));
                 this._deliverReply(subscriber, dataAsObj);
             }.bind(this));
+        }.bind(this)));
 
-            d.callback();
-        }.bind(this));
-
-        r.failure(function(response) {
+        r.failure(d.triggerErrback(function(response) {
             console.error("Failed to poll %s", this.URL);
-            d.errback();
-        }.bind(this));
+        }.bind(this)));
 
-        var d = new Onc.util.Deferred();
         return d;
     },
 
