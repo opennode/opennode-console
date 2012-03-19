@@ -140,6 +140,7 @@
     -webkit-animation: blink 0.5s infinite alternate;
     -moz-animation: blink 0.5s infinite alternate; }
 #vmmap .tags {
+  margin-top: 15px;
   float: right; }
 #vmmap .tag {
   text-align: center;
@@ -148,7 +149,7 @@
   height: 16px;
   opacity: 0.25; }
   #vmmap .tag:hover {
-    opacity: 0.5; }
+    opacity: 0.7; }
 
 #search-results {
   width: 215px;

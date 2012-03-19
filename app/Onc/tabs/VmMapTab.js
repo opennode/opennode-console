@@ -165,7 +165,7 @@ Ext.define('Onc.tabs.VmMapTab', {
                                 uptime: uptime,
                                 cores: vm.get('num_cores'),
                                 minwidth: Math.max(parseInt(300 * (memory / totalMemory)) + 30,
-                                                   parseInt(hn.length * 5.5) + 20),
+                                                   parseInt(hn.length * 5.5) + 30),
                                 tags: usedtags
                             };
 
