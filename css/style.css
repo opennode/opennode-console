@@ -97,6 +97,7 @@
   color: #303030;
   opacity: 0.25; }
 #vmmap .cores {
+  margin-left: 3px;
   color: #6e6eae; }
 #vmmap .resize-container {
   display: inline-block;
