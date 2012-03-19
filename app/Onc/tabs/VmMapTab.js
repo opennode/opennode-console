@@ -152,14 +152,20 @@ Ext.define('Onc.tabs.VmMapTab', {
                                 classes += ' inactive';
                             }
 
+                            var hn = vm.get('hostname');
+                            // wrap too long host names
+                            if (hn.length > 22)
+                                hn = hn.substr(0,20) + '..';
+
                             r[r.length] = {
                                 id: id,
-                                name: vm.get('hostname'),
+                                name: hn,
                                 classes: classes,
                                 mem: parseInt(memory),
                                 uptime: uptime,
                                 cores: vm.get('num_cores'),
-                                minwidth: parseInt(300 * (memory / totalMemory)) + 30,
+                                minwidth: Math.max(parseInt(300 * (memory / totalMemory)) + 30,
+                                                   parseInt(hn.length * 5.5) + 20),
                                 tags: usedtags
                             };
 
