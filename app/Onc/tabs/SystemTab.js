@@ -11,8 +11,7 @@ Ext.define('Onc.tabs.SystemTab', {
         'env:production' : 'Production',
         'env:staging' : 'Staging',
         'env:development' : 'Development',
-        'env:infrastructure' : 'Infrastructure',
-        'env:support' : 'Support'
+        'env:infrastructure' : 'Infrastructure'
     },
 
     initComponent: function() {
