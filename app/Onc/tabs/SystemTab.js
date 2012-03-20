@@ -7,9 +7,32 @@ Ext.define('Onc.tabs.SystemTab', {
     },
     autoScroll: true,
 
+    tags: {
+        'env:production' : 'Production',
+        'env:staging' : 'Staging',
+        'env:development' : 'Development',
+        'env:infrastructure' : 'Infrastructure',
+        'env:support' : 'Support'
+    },
+
     initComponent: function() {
         var rec = this.record;
-        var tags = rec.get('tags');
+        var tagsRec = rec.get('tags');
+
+        var tagItems = [];
+        for (tag in this.tags) {
+            tagItems[tagItems.length] = {
+                itemId: tag,
+                boxLabel: this.tags[tag],
+                checked: Ext.Array.contains(tagsRec, tag),
+            }
+        }
+        tagItems[tagItems.length] = {
+            xtype: 'button',
+            text: 'Save',
+            handler: this.saveTags,
+            scope: this
+        };
 
         this.items = [{
             layout: {type: 'table', columns: 2},
@@ -52,29 +75,7 @@ Ext.define('Onc.tabs.SystemTab', {
                 xtype: 'checkboxfield',
                 margin: 10
             },
-            items: [{
-                    itemId: 'env:production',
-                    boxLabel: 'Production',
-                    checked: Ext.Array.contains(tags, 'env:production'),
-                }, {
-                    itemId: 'env:staging',
-                    boxLabel: 'Staging',
-                    checked: Ext.Array.contains(tags, 'env:staging'),
-                }, {
-                    itemId: 'env:development',
-                    boxLabel: 'Development',
-                    checked: Ext.Array.contains(tags, 'env:development'),
-                }, {
-                    itemId: 'env:infrastructure',
-                    boxLabel: 'Infrastructure',
-                    checked: Ext.Array.contains(tags, 'env:infrastructure'),
-                }, {
-                    xtype: 'button',
-                    text: 'Save',
-                    handler: this.saveTags,
-                    scope: this
-                }
-            ]
+            items: tagItems
         }];
 
         var me = this;
@@ -119,26 +120,20 @@ Ext.define('Onc.tabs.SystemTab', {
         this._streamUnsubscribe();
     },
 
-    setTag: function(labelTags, tags, tag) {
-        if (labelTags.getComponent(tag).getValue()) {
-            Ext.Array.include(tags, tag);
-        } else {
-            Ext.Array.remove(tags, tag);
-        }
-    },
-
     saveTags: function() {
         var rec = this.record;
-        var tags = rec.get('tags');
+        var tagsRec = rec.get('tags');
         var labelTags = this.getComponent('label-tags');
 
-        this.setTag(labelTags, tags, 'env:production');
-        this.setTag(labelTags, tags, 'env:staging');
-        this.setTag(labelTags, tags, 'env:development');
-        this.setTag(labelTags, tags, 'env:infrastructure');
+        for (tag in this.tags) {
+            if (labelTags.getComponent(tag).getValue()) {
+                Ext.Array.include(tagsRec, tag);
+            } else {
+                Ext.Array.remove(tagsRec, tag);
+            }
+        }
 
-
-        rec.set('tags', tags);
+        rec.set('tags', tagsRec);
         rec.save();
     }
 });

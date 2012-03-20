@@ -70,14 +70,16 @@ Ext.define('Onc.tabs.VmMapTab', {
                 'env:production' : 'green',
                 'env:development' : 'red',
                 'env:staging' : 'blue',
-                'env:infrastructure' : 'gold'
+                'env:infrastructure' : 'gold',
+                'env:support' : 'yellow'
             },
 
             tagShortened: {
                 'env:production': 'P',
                 'env:development' : 'D',
                 'env:staging' : 'S',
-                'env:infrastructure' : 'I'
+                'env:infrastructure' : 'I',
+                'env:support' : 'S'
             },
 
             tagTpl: new Ext.XTemplate(
