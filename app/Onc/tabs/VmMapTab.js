@@ -11,8 +11,7 @@ Ext.define('Onc.tabs.VmMapTab', {
             hideHeaders: true,
             columnLines: true,
             id: 'vmmap',
-            store: 'ComputesStore',
-            viewType: 'vmmapview',
+            store: 'PhysicalComputesStore',
             selection: Ext.create('Ext.util.MixedCollection'),
 
             dockedItems: !ENABLE_VMMAP_TOOLBAR ? undefined : [
