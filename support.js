@@ -74,6 +74,13 @@ Array.prototype.delassoc = function(k) {
     }
 };
 
+Array.prototype.delkey = function(k) {
+    var d = this[0];
+    var o = d[0];
+    var keys = d[1];
+    console.log(d);
+};
+
 Array.prototype.setmassoc = function(k, v) {
     for (var i = this.length - 1; i >= 0; i -= 1) {
         var k1 = this[i][0];

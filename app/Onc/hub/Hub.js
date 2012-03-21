@@ -11,7 +11,12 @@ Ext.define('Onc.hub.Hub', {
     // State
     _running: false,
     _relativisticToken: +(new Date),
-
+    
+    deleteSubscription: function(url) {
+    	console.log(url, this._reg, this._mappings);
+    	this._mappings.delkey(url);
+    	console.log('after', this._reg, this._mappings);
+    },
     /**
      *  Subscribes the given objects to the specified resources.
      *

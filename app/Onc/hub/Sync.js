@@ -56,6 +56,11 @@ Ext.define('Onc.hub.Sync', {
         }.bind(this));
     },
 
+    _deleteSubscriptions: function(url) {
+    	console.log('deleting', url);
+        Onc.hub.Hub.deleteSubscription(url);
+    },
+
     recordDestroyed: function(rec) {
         this._reg.delassoc(rec);
     },
@@ -85,22 +90,40 @@ Ext.define('Onc.hub.Sync', {
         }
     },
 
+    _deleteRecords: function(rec, deletions) {
+        for (var i = 0; i < deletions.length; i++) {
+            console.log('About to delete: ', rec, deletions);
+            var store = Ext.getStore('ComputesStore');
+            store.remove(store.findRecord('id', deletions[i]));
+    	}
+    },
+
     _onDataFromHub: function(data) {
         for (var url in data) {
             var updates = data[url];
-
             var attrChanges = {}
+            var deletions = new Array();
             for (var i = 0; i < updates.length; i += 1) {
                 var update = updates[i][1];
                 if (update['event'] === 'change')
                     attrChanges[update['name']] = update['value'];
-                else
+               else if (update['event'] === 'remove')
+                    deletions.push(update['name']);
+                else if (update['event'] === 'delete') {
+                    console.log('in sync: datafromhub: delete', update);
+                    this._deleteSubscriptions(update['url']);
+               }
+               else {
                     console.warn("Unsupported update type %s", update['event']);
+                    console.log(update);
+               }
             }
             var records = this._byUrl.massoc(url);
             records.forEach(function(rec) {
                 this._syncRecord(rec, attrChanges);
+                this._deleteRecords(rec, deletions);
             }.bind(this));
+            
         }
     },
 
