@@ -99,6 +99,14 @@ Array.prototype.delmassoc = function(k) {
     }
 };
 
+Array.prototype.delmassocRegexp = function(k) {
+    for (var i = this.length - 1; i >= 0; i -= 1) {
+        if (this[i][0].match(k)) {
+            this.splice(i, 1);
+        }
+    }
+};
+
 Array.prototype.massocKeys = function() {
     return Ext.Array.unique(this.map(function(kv) { return kv[0]; }));
 };
