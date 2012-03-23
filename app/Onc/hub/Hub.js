@@ -78,7 +78,11 @@ Ext.define('Onc.hub.Hub', {
         });
     },
 
-    _poll: function() {
+    deleteSubscription: function(url) {
+        this._reg.delmassoc(url);
+    },
+
+_poll: function() {
         var d = new Onc.util.Deferred();
 
         var urls = this._reg.massocKeys();

@@ -60,6 +60,21 @@ Ext.define('Onc.hub.Sync', {
         this._reg.delassoc(rec);
     },
 
+    
+    _deleteSubscriptions: function(urls) {
+        for (var i = 0; i < urls.length; i++) {
+            Onc.hub.Hub.deleteSubscription(urls[i]);
+        }
+    },
+
+    _removeRecords: function(removals) {
+        for (var i = 0; i < removals.length; i++) {
+        	// TODO: assumption that we only remove VMs is a strong one and won't hold for too long
+            var store = Ext.getStore('ComputesStore');
+            store.remove(store.findRecord('id', removals[i]));
+        }
+    },
+
     _syncRecord: function(rec, changes) {
         if (this._doppelganger)
             throw new Error("Attempt to sync a record while another one is already being synced");
@@ -90,10 +105,17 @@ Ext.define('Onc.hub.Sync', {
             var updates = data[url];
 
             var attrChanges = {}
+            var removals = new Array();
+            var deletions = new Array();
             for (var i = 0; i < updates.length; i += 1) {
                 var update = updates[i][1];
                 if (update['event'] === 'change')
                     attrChanges[update['name']] = update['value'];
+                else if (update['event'] === 'remove')
+                    removals.push(update['name']);
+                else if (update['event'] === 'delete') {
+                	deletions.push(update['url']);
+               }
                 else
                     console.warn("Unsupported update type %s", update['event']);
             }
@@ -101,6 +123,13 @@ Ext.define('Onc.hub.Sync', {
             records.forEach(function(rec) {
                 this._syncRecord(rec, attrChanges);
             }.bind(this));
+
+            // remove records entries
+            if (removals)
+                this._removeRecords(removals);
+            // remove deleted elements from the subscription list
+            if (deletions)
+                this._deleteSubscriptions(deletions);
         }
     },
 
