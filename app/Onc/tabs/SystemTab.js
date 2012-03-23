@@ -50,38 +50,16 @@ Ext.define('Onc.tabs.SystemTab', {
         }
 
         this.items = [{
-            layout: {type: 'table', columns: 2},
+            layout: {type: 'table', columns: 3},
             frame: true,
             defaults: {
                 xtype: 'box',
                 padding: 5
             },
-            items: [{html: 'CPU info'}, {style: "font-weight: bold", html: rec.get('cpu_info')},
-                    {html: 'Memory'}, {style: "font-weight: bold", html: rec.get('memory') + 'MB'},
-                    {html: 'Swap'}, {style: "font-weight: bold", html: rec.get('swap_size') + 'MB'},
-                    {html: 'OS Release'}, {style: "font-weight: bold", html: rec.get('os_release')},
-                    {html: 'Kernel'}, {style: "font-weight: bold", html: rec.get('kernel')},
-                    {html: 'Template'}, {style: "font-weight: bold", html: rec.get('template')},
-                    {html: 'Uptime'}, {itemId: 'uptime', style: "font-weight: bold", html: rec.getUptime()}]
-        }, {
-            layout: {type: 'table', columns: 2},
-            frame: true,
-            defaults: {
-                xtype: 'gauge',
-                width: 250,
-                margin: 10
-            },
             items: [
-
-                {itemId: 'diskspace-root-gauge', label: 'Root Partition', value: rec.get('diskspace_usage')['/'],
-                                                            max: rec.get('diskspace')['/'], unit: 'MB'},
-                {itemId: 'diskspace-storage-gauge', label: 'Storage Partition', value: rec.get('diskspace_usage')['/storage'],
-                                                            max: rec.get('diskspace')['/storage'], unit: 'MB'},
-
-                {itemId: 'ram-gauge', label: 'Physical Memory', value: 0, max: rec.get('memory'), unit: 'MB'},
-                {itemId: 'diskspace-vz-gauge', label: 'VZ Partition', value: rec.get('diskspace_usage')['/vz'],
-                                                            max: rec.get('diskspace')['/vz'], unit: 'MB'},
+                {html: 'CPU info'}, {style: "font-weight: bold", html: rec.get('cpu_info')},
                 Ext.widget('computestatecontrol', {
+                    rowspan: 8,
                     initialState: (rec.get('state') === 'active' ?
                                    'running' :
                                    rec.get('state') === 'suspended' ?
@@ -104,8 +82,32 @@ Ext.define('Onc.tabs.SystemTab', {
                                    cb);
                         },
                         'stop': function(_, cb) { me.fireEvent('vmsstop', [rec], cb); },
-                    }
-                })
+                }}),
+                {html: 'Memory'}, {style: "font-weight: bold", html: rec.get('memory') + 'MB'},
+                {html: 'Swap'}, {style: "font-weight: bold", html: rec.get('swap_size') + 'MB'},
+                {html: 'OS Release'}, {style: "font-weight: bold", html: rec.get('os_release')},
+                {html: 'Kernel'}, {style: "font-weight: bold", html: rec.get('kernel')},
+                {html: 'Template'}, {style: "font-weight: bold", html: rec.get('template')},
+                {html: 'Uptime'}, {itemId: 'uptime', style: "font-weight: bold", html: rec.getUptime()},
+                {html: 'ID'}, {style: "font-weight: bold", html: rec.getId()}]
+        }, {
+            layout: {type: 'table', columns: 2},
+            frame: true,
+            defaults: {
+                xtype: 'gauge',
+                width: 250,
+                margin: 10
+            },
+            items: [
+
+                {itemId: 'diskspace-root-gauge', label: 'Root Partition', value: rec.get('diskspace_usage')['/'],
+                                                            max: rec.get('diskspace')['/'], unit: 'MB'},
+                {itemId: 'diskspace-storage-gauge', label: 'Storage Partition', value: rec.get('diskspace_usage')['/storage'],
+                                                            max: rec.get('diskspace')['/storage'], unit: 'MB'},
+
+                {itemId: 'ram-gauge', label: 'Physical Memory', value: 0, max: rec.get('memory'), unit: 'MB'},
+                {itemId: 'diskspace-vz-gauge', label: 'VZ Partition', value: rec.get('diskspace_usage')['/vz'],
+                                                            max: rec.get('diskspace')['/vz'], unit: 'MB'}
             ]
         }, {
             itemId: 'label-tags',
