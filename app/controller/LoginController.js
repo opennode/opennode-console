@@ -35,13 +35,15 @@ Ext.define('Onc.controller.LoginController', {
     _login: function() {
         if (this._viewport)
             this._viewport.destroy();
-        this.getView('LoginWindow').create();
+        this._viewport = this.getView('LoginWindow').create();
     },
 
     _onAuth: function() {
         Onc.hub.Hub.run();
         Ext.getStore('ComputesStore').load();
         Ext.getStore('PhysicalComputesStore').load();
+        if (this._viewport)
+            this._viewport.destroy();
         this._viewport = this.getView('Viewport').create();
     }
 });
