@@ -24,14 +24,17 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
             makeButton('suspend', 'suspending', 'suspended'),
             makeButton('graceful', 'shutting-down', 'stopped'),
             makeButton('stop', 'force-stopping', 'stopped'),
-            {
+        ];
+
+        if (!me.disableDetails) {
+            buttons[buttons.length] = {
                 name: 'details',
                 attrs: {
                     hidden: false,
                     handler: function() {me.fireEvent('details', me, false)}
                 }
             }
-        ];
+        }
 
         this.items = buttons.map(function(i) {
             return Ext.apply({

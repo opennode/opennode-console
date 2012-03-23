@@ -8,6 +8,41 @@ Ext.define('Onc.controller.ComputeController', {
     ],
 
     init: function() {
+        var vmactions = {
+            showdetails: function(vm) {
+                var computeId = vm.get('id');
+                this.getController('MainController').openComputeInTab(computeId);
+            },
+            vmsstart: function(vms, callback) {
+                Ext.each(vms, function(vm) {
+                    vm.set('state', 'active');
+                    vm.save();
+                });
+                setTimeout(callback, 5000 + Math.random() * 150);
+            },
+            vmsstop: function(vms, callback) {
+                Ext.each(vms, function(vm) {
+                    vm.set('state', 'inactive');
+                    vm.save();
+                });
+                setTimeout(callback, 5000 + Math.random() * 150);
+            },
+            vmssuspend: function(vms, callback) {
+                Ext.each(vms, function(vm) {
+                    vm.set('state', 'inactive');
+                    vm.save();
+                });
+                setTimeout(callback, 5000 + Math.random() * 150);
+            },
+            vmsgraceful: function(vms, callback) {
+                Ext.each(vms, function(vm) {
+                    vm.set('state', 'inactive');
+                    vm.save();
+                });
+                setTimeout(callback, 5000 + Math.random() * 150);
+            }
+        };
+    
         this.control({
             'computeview computevmlisttab #new-vm-button': {
                 click: function() {
@@ -16,40 +51,8 @@ Ext.define('Onc.controller.ComputeController', {
                     }).show();
                 }
             },
-            'computeview computevmlisttab': {
-                showdetails: function(vm) {
-                    var computeId = vm.get('id');
-                    this.getController('MainController').openComputeInTab(computeId);
-                },
-                vmsstart: function(vms, callback) {
-                    Ext.each(vms, function(vm) {
-                        vm.set('state', 'active');
-                        vm.save();
-                    });
-                    setTimeout(callback, 5000 + Math.random() * 150);
-                },
-                vmsstop: function(vms, callback) {
-                    Ext.each(vms, function(vm) {
-                        vm.set('state', 'inactive');
-                        vm.save();
-                    });
-                    setTimeout(callback, 5000 + Math.random() * 150);
-                },
-                vmssuspend: function(vms, callback) {
-                    Ext.each(vms, function(vm) {
-                        vm.set('state', 'inactive');
-                        vm.save();
-                    });
-                    setTimeout(callback, 5000 + Math.random() * 150);
-                },
-                vmsgraceful: function(vms, callback) {
-                    Ext.each(vms, function(vm) {
-                        vm.set('state', 'inactive');
-                        vm.save();
-                    });
-                    setTimeout(callback, 5000 + Math.random() * 150);
-                }
-            }
+            'computeview computevmlisttab': vmactions,
+            'computeview computesystemtab': vmactions
         });
 
     }

@@ -15,10 +15,13 @@ Ext.define('Onc.tabs.SystemTab', {
     },
 
     initComponent: function() {
+        var me = this;
         var rec = this.record;
         var tagsRec = rec.get('tags');
-
         var tagItems = [];
+
+        this.addEvents('vmsstart', 'vmsstop', 'vmssuspend', 'vmsgraceful');
+
         for (tag in this.tags) {
             tagItems[tagItems.length] = {
                 itemId: tag,
@@ -32,6 +35,19 @@ Ext.define('Onc.tabs.SystemTab', {
             handler: this.saveTags,
             scope: this
         };
+
+        function _changeStateWithConfirmation(confirmTitle, confirmText, eventName, target, cb) {
+            Ext.Msg.confirm(confirmTitle, confirmText,
+                function(choice) {
+                    if (choice === 'yes') {
+                        me.setLoading(true, true);
+                        me.fireEvent(eventName, target, function() {
+                                    cb();
+                                    me.setLoading(false);
+                                    });
+                    }
+                });
+        }
 
         this.items = [{
             layout: {type: 'table', columns: 2},
@@ -65,6 +81,31 @@ Ext.define('Onc.tabs.SystemTab', {
                 {itemId: 'ram-gauge', label: 'Physical Memory', value: 0, max: rec.get('memory'), unit: 'MB'},
                 {itemId: 'diskspace-vz-gauge', label: 'VZ Partition', value: rec.get('diskspace_usage')['/vz'],
                                                             max: rec.get('diskspace')['/vz'], unit: 'MB'},
+                Ext.widget('computestatecontrol', {
+                    initialState: (rec.get('state') === 'active' ?
+                                   'running' :
+                                   rec.get('state') === 'suspended' ?
+                                   'suspended' :
+                                   'stopped'),
+                    disableDetails: true,
+                    listeners: {
+                        'start': function(_, cb) { _changeStateWithConfirmation('Starting a VM',
+                                   'Are you sure you want to boot this VM?',
+                                   'vmsstart',
+                                   [rec],
+                                   cb);
+                        },
+                        'suspend': function(_, cb) { me.fireEvent('vmssuspend', [rec], cb); },
+                        'graceful': function(_, cb) {
+                            _changeStateWithConfirmation('Shutting down a VM',
+                                   'Are you sure? All of the processes inside a VM will be stoppped',
+                                   'vmsgraceful',
+                                   [rec],
+                                   cb);
+                        },
+                        'stop': function(_, cb) { me.fireEvent('vmsstop', [rec], cb); },
+                    }
+                })
             ]
         }, {
             itemId: 'label-tags',
