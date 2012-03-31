@@ -49,6 +49,20 @@ Ext.define('Onc.tabs.SystemTab', {
                 });
         }
 
+        var gaugeItems = [
+            {itemId: 'diskspace-root-gauge', label: 'Root Partition', value: rec.get('diskspace_usage')['/'],
+                                                        max: rec.get('diskspace')['/'], unit: 'MB'},
+            {itemId: 'ram-gauge', label: 'Physical Memory', value: 0, max: rec.get('memory'), unit: 'MB'}
+        ];
+        if (rec.getChild('vms')) {
+            gaugeItems[gaugeItems.length] =
+                {itemId: 'diskspace-storage-gauge', label: 'Storage Partition', value: rec.get('diskspace_usage')['/storage'],
+                    max: rec.get('diskspace')['/storage'], unit: 'MB'},
+            gaugeItems[gaugeItems.length] =
+                {itemId: 'diskspace-vz-gauge', label: 'VZ Partition', value: rec.get('diskspace_usage')['/vz'],
+                    max: rec.get('diskspace')['/vz'], unit: 'MB'};
+        }
+
         this.items = [{
             layout: {type: 'table', columns: 3},
             frame: true,
@@ -98,17 +112,7 @@ Ext.define('Onc.tabs.SystemTab', {
                 width: 250,
                 margin: 10
             },
-            items: [
-
-                {itemId: 'diskspace-root-gauge', label: 'Root Partition', value: rec.get('diskspace_usage')['/'],
-                                                            max: rec.get('diskspace')['/'], unit: 'MB'},
-                {itemId: 'diskspace-storage-gauge', label: 'Storage Partition', value: rec.get('diskspace_usage')['/storage'],
-                                                            max: rec.get('diskspace')['/storage'], unit: 'MB'},
-
-                {itemId: 'ram-gauge', label: 'Physical Memory', value: 0, max: rec.get('memory'), unit: 'MB'},
-                {itemId: 'diskspace-vz-gauge', label: 'VZ Partition', value: rec.get('diskspace_usage')['/vz'],
-                                                            max: rec.get('diskspace')['/vz'], unit: 'MB'}
-            ]
+            items: gaugeItems
         }, {
             itemId: 'label-tags',
             layout: {type: 'table'},
