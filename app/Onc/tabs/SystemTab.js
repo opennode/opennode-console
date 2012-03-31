@@ -14,6 +14,13 @@ Ext.define('Onc.tabs.SystemTab', {
         'env:infrastructure' : 'Infrastructure'
     },
 
+    gauges: {
+        'ram': {resource: 'memory', label: 'Physical Memory', iconCls: 'icon-memory'},
+        'diskspace-root': {resource: '/', label: 'Root Partition', disk: true},
+        'diskspace-storage': {resource: '/storage', label: 'Storage Partition', disk: true},
+        'diskspace-vz': {resource: '/vz', label: 'VZ Partition', disk: true},
+    },
+
     initComponent: function() {
         var me = this;
         var rec = this.record;
@@ -26,8 +33,8 @@ Ext.define('Onc.tabs.SystemTab', {
             tagItems[tagItems.length] = {
                 itemId: tag,
                 boxLabel: this.tags[tag],
-                checked: Ext.Array.contains(tagsRec, tag),
-            }
+                checked: Ext.Array.contains(tagsRec, tag)
+            };
         }
         tagItems[tagItems.length] = {
             xtype: 'button',
@@ -49,18 +56,30 @@ Ext.define('Onc.tabs.SystemTab', {
                 });
         }
 
-        var gaugeItems = [
-            {itemId: 'diskspace-root-gauge', label: 'Root Partition', value: rec.get('diskspace_usage')['/'],
-                                                        max: rec.get('diskspace')['/'], unit: 'MB'},
-            {itemId: 'ram-gauge', label: 'Physical Memory', value: 0, max: rec.get('memory'), unit: 'MB'}
-        ];
-        if (rec.getChild('vms')) {
-            gaugeItems[gaugeItems.length] =
-                {itemId: 'diskspace-storage-gauge', label: 'Storage Partition', value: rec.get('diskspace_usage')['/storage'],
-                    max: rec.get('diskspace')['/storage'], unit: 'MB'},
-            gaugeItems[gaugeItems.length] =
-                {itemId: 'diskspace-vz-gauge', label: 'VZ Partition', value: rec.get('diskspace_usage')['/vz'],
-                    max: rec.get('diskspace')['/vz'], unit: 'MB'};
+        var diskspaceUsage = rec.get('diskspace_usage');
+        var diskspace = rec.get('diskspace');
+
+        var gaugeItems = [];
+        for (id in this.gauges) {
+            gauge = this.gauges[id];
+            if (gauge.disk && !diskspace[gauge.resource]) {
+                continue;
+            }
+            var item = {
+                itemId: id + '-gauge',
+                label: gauge.label,
+                unit: 'MB'
+            };
+            if (gauge.disk) {
+                item.max = diskspace[gauge.resource];
+                item.value = diskspaceUsage[gauge.resource];
+                item.iconCls = 'icon-hd';
+            } else {
+                item.value = rec.get(gauge.resource + '_usage');
+                item.max = rec.get(gauge.resource);
+                item.iconCls = gauge.iconCls;
+            }
+            gaugeItems[gaugeItems.length] = item;
         }
 
         this.items = [{
