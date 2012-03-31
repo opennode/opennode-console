@@ -115,7 +115,7 @@ Ext.define('Onc.tabs.SystemTab', {
             items: gaugeItems
         }, {
             itemId: 'label-tags',
-            layout: {type: 'table'},
+            layout: {type: 'table', columns: 4},
             frame: true,
             defaults: {
                 xtype: 'checkboxfield',
