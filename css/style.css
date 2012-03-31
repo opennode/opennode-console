@@ -83,6 +83,7 @@
   overflow-x: auto; }
 #vmmap .name {
   font-decoration: italic;
+  overflow: hidden;
   text-overflow: ellipsis;
   word-wrap: break-word;
   height: 1.2em;

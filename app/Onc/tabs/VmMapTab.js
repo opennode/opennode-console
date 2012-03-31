@@ -122,12 +122,13 @@ Ext.define('Onc.tabs.VmMapTab', {
             },
 
             columns: [
-                {header: 'Name', dataIndex: 'hostname', width: 100},
-                //{header: 'Disk pool size', dataIndex: 'diskspace', width: 15},
+                {header: 'Name', dataIndex: 'hostname', width: 100,
+                    renderer: function(name, meta, rec) {
+                        return '<div class="name">' + name + '</div>';
+                    }
+                },
                 {header: 'Map', dataIndex: 'memory', flex: 1,
                     renderer: function(totalMemory, meta, rec) {
-                        totalMemory = rec.get('memory');
-
                         // FIXME: 'memory' is 0
                         if (!totalMemory) {
                             totalMemory = 2048;
