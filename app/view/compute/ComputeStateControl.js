@@ -36,6 +36,14 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
             }
         }
 
+        var tooltips = {
+            'start' : 'Start machine',
+            'suspend' : 'Suspend machine',
+            'graceful' : 'Shut down machine',
+            'stop' : 'Force stop machine',
+            'details' : 'Machine details'
+        };
+
         this.items = buttons.map(function(i) {
             return Ext.apply({
                 xtype: 'button',
@@ -45,7 +53,8 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
                 width: 32, height: 32,
                 style: {
                     'background-image': 'url("img/icon/computestatecontrol/{0}.png")'.format(i.name),
-                }
+                },
+                tooltip: tooltips[i.name]
             }, i.attrs);
         });
         this.callParent(arguments);
