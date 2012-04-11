@@ -235,7 +235,7 @@
   cursor: default; }
 
 .template-picker-item:nth-child(odd) {
-  background: #F2F2FF; }
+  background: #E8E8FF; }
   .template-picker-item:nth-child(odd).x-boundlist-item-over {
     background: #DFE8F6; }
 
