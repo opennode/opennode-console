@@ -46,7 +46,10 @@ Ext.define('Onc.view.compute.NewVmView', {
                     displayField: 'name_and_base_type',
                     valueField: 'name',
                     typeAhead: true,
-                    queryMode: 'local'
+                    queryMode: 'local',
+                    listConfig: {
+                        itemCls: 'template-picker-item'
+                    }
                 }]
             }, {
                 xtype: 'fieldset',

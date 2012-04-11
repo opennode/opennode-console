@@ -234,6 +234,11 @@
   -moz-border-radius: 10px;
   cursor: default; }
 
+.template-picker-item:nth-child(odd) {
+  background: #F2F2FF; }
+  .template-picker-item:nth-child(odd).x-boundlist-item-over {
+    background: #DFE8F6; }
+
 .bridge-interface-members {
   min-height: 20px; }
   .bridge-interface-members div {

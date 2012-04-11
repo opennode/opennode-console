@@ -132,6 +132,13 @@ $state-icon-margin: 5px;
     cursor: default;
 }
 
+.template-picker-item:nth-child(odd) {
+    background: #F2F2FF;
+    &.x-boundlist-item-over {
+        background: #DFE8F6;
+    }
+}
+
 
 // NETWORK TAB
 .bridge-interface-members {
