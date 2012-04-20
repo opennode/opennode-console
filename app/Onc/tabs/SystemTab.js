@@ -3,7 +3,8 @@ Ext.define('Onc.tabs.SystemTab', {
     alias: 'widget.computesystemtab',
 
     defaults: {
-        margin: '0 0 10px 0',
+        xtype: 'fieldset',
+        margin: '0 0 10px 0'
     },
     autoScroll: true,
 
@@ -83,7 +84,35 @@ Ext.define('Onc.tabs.SystemTab', {
         }
 
         this.items = [{
-            layout: {type: 'table', columns: 3},
+            title: 'Power Control',
+            items: [Ext.widget('computestatecontrol', {
+                margin: 5,
+                initialState: (rec.get('state') === 'active' ?
+                               'running' :
+                               rec.get('state') === 'suspended' ?
+                               'suspended' :
+                               'stopped'),
+                disableDetails: true,
+                listeners: {
+                    'start': function(_, cb) { _changeStateWithConfirmation('Starting a VM',
+                               'Are you sure you want to boot this VM?',
+                               'vmsstart',
+                               [rec],
+                               cb);
+                    },
+                    'suspend': function(_, cb) { me.fireEvent('vmssuspend', [rec], cb); },
+                    'graceful': function(_, cb) {
+                        _changeStateWithConfirmation('Shutting down a VM',
+                               'Are you sure? All of the processes inside a VM will be stoppped',
+                               'vmsgraceful',
+                               [rec],
+                               cb);
+                    },
+                    'stop': function(_, cb) { me.fireEvent('vmsstop', [rec], cb); },
+            }})]
+        }, {
+            title: 'Info',
+            layout: {type: 'table', columns: 2},
             frame: true,
             defaults: {
                 xtype: 'box',
@@ -91,31 +120,6 @@ Ext.define('Onc.tabs.SystemTab', {
             },
             items: [
                 {html: 'CPU info'}, {style: "font-weight: bold", html: rec.get('cpu_info')},
-                Ext.widget('computestatecontrol', {
-                    rowspan: 8,
-                    initialState: (rec.get('state') === 'active' ?
-                                   'running' :
-                                   rec.get('state') === 'suspended' ?
-                                   'suspended' :
-                                   'stopped'),
-                    disableDetails: true,
-                    listeners: {
-                        'start': function(_, cb) { _changeStateWithConfirmation('Starting a VM',
-                                   'Are you sure you want to boot this VM?',
-                                   'vmsstart',
-                                   [rec],
-                                   cb);
-                        },
-                        'suspend': function(_, cb) { me.fireEvent('vmssuspend', [rec], cb); },
-                        'graceful': function(_, cb) {
-                            _changeStateWithConfirmation('Shutting down a VM',
-                                   'Are you sure? All of the processes inside a VM will be stoppped',
-                                   'vmsgraceful',
-                                   [rec],
-                                   cb);
-                        },
-                        'stop': function(_, cb) { me.fireEvent('vmsstop', [rec], cb); },
-                }}),
                 {html: 'Memory'}, {style: "font-weight: bold", html: rec.get('memory') + 'MB'},
                 {html: 'Swap'}, {style: "font-weight: bold", html: rec.get('swap_size') + 'MB'},
                 {html: 'OS Release'}, {style: "font-weight: bold", html: rec.get('os_release')},
@@ -124,6 +128,7 @@ Ext.define('Onc.tabs.SystemTab', {
                 {html: 'Uptime'}, {itemId: 'uptime', style: "font-weight: bold", html: rec.getUptime()},
                 {html: 'ID'}, {style: "font-weight: bold", html: rec.getId()}]
         }, {
+            title: "Metrics",
             layout: {type: 'table', columns: 2},
             frame: true,
             defaults: {
@@ -133,6 +138,7 @@ Ext.define('Onc.tabs.SystemTab', {
             },
             items: gaugeItems
         }, {
+            title: "Tags",
             itemId: 'label-tags',
             layout: {type: 'table', columns: 4},
             frame: true,
