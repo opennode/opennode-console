@@ -84,9 +84,10 @@ Ext.define('Onc.tabs.SystemTab', {
         }
 
         this.items = [{
-            title: 'Power Control',
+            title: 'System Control',
             items: [Ext.widget('computestatecontrol', {
                 margin: 5,
+                enableText: true,
                 initialState: (rec.get('state') === 'active' ?
                                'running' :
                                rec.get('state') === 'suspended' ?

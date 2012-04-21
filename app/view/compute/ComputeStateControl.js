@@ -43,17 +43,24 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
             'stop' : 'Force stop machine',
             'details' : 'Machine details'
         };
+        var texts = {
+            'start' : 'Start',
+            'suspend' : 'Suspend',
+            'graceful' : 'Shut down',
+            'stop' : 'Force stop',
+            'details' : 'Details'
+        };
 
         this.items = buttons.map(function(i) {
+            if (me.enableText) {
+                i.attrs.text = texts[i.name];
+            }
             return Ext.apply({
                 xtype: 'button',
                 itemId: '{0}-button'.format(i.name),
-                border: 0,
-                frame: false,
-                width: 32, height: 32,
-                style: {
-                    'background-image': 'url("img/icon/computestatecontrol/{0}.png")'.format(i.name),
-                },
+                scale: 'large',
+                icon: 'img/icon/computestatecontrol/{0}.png'.format(i.name),
+                iconAlign: 'top',
                 tooltip: tooltips[i.name]
             }, i.attrs);
         });
