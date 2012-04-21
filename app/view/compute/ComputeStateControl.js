@@ -9,73 +9,48 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
 
         this.addEvents('start', 'suspend', 'graceful', 'stop', 'details');
 
-        function makeButton(name, transientState, finalState) {
-            return {
-                name: name,
-                attrs: {
-                    hidden: true,
-                    handler: me._makeTransform(name, transientState, finalState)
-                }
+        function makeButton(name, text, tooltip, hidden, transientState, finalState) {
+            var button = {
+                xtype: 'button',
+                scale: 'large',
+                itemId: '{0}-button'.format(name),
+                scale: 'large',
+                icon: 'img/icon/computestatecontrol/{0}.png'.format(name),
+                iconAlign: 'top',
+                tooltip: tooltip,
+                hidden: hidden
             };
+            if (me.enableText) {
+                button.text = text;
+            }
+            if (transientState) {
+                button.handler = function() {
+                    //XXX: setting transient states screws up precheck logic i
+                    //me._setState(transientState);
+                    me.fireEvent(name, me, function() { me._setState(finalState); });
+                }
+            } else {
+                button.handler = function() {
+                    me.fireEvent(name, me, false);
+                }
+            }
+            return button;
         }
 
         var buttons = [
-            makeButton('start', 'starting', 'running'),
-            makeButton('suspend', 'suspending', 'suspended'),
-            makeButton('graceful', 'shutting-down', 'stopped'),
-            makeButton('stop', 'force-stopping', 'stopped'),
+            makeButton('start', "Start", "Start machine", true, 'starting', 'running'),
+            makeButton('suspend', "Suspend", "Suspend machine", true, 'suspending', 'suspended'),
+            makeButton('graceful', "Shut down", "Shut down machine", true, 'shutting-down', 'stopped'),
+            makeButton('stop', "Force stop", "Force stop machine", true, 'force-stopping', 'stopped')
         ];
-
-        if (!me.disableDetails) {
-            buttons[buttons.length] = {
-                name: 'details',
-                attrs: {
-                    hidden: false,
-                    handler: function() {me.fireEvent('details', me, false)}
-                }
-            }
+        if (!this.disableDetails) {
+            buttons[buttons.length] = makeButton('details', "Details", "Machine details", false);
         }
+        this.items = buttons;
 
-        var tooltips = {
-            'start' : 'Start machine',
-            'suspend' : 'Suspend machine',
-            'graceful' : 'Shut down machine',
-            'stop' : 'Force stop machine',
-            'details' : 'Machine details'
-        };
-        var texts = {
-            'start' : 'Start',
-            'suspend' : 'Suspend',
-            'graceful' : 'Shut down',
-            'stop' : 'Force stop',
-            'details' : 'Details'
-        };
-
-        this.items = buttons.map(function(i) {
-            if (me.enableText) {
-                i.attrs.text = texts[i.name];
-            }
-            return Ext.apply({
-                xtype: 'button',
-                itemId: '{0}-button'.format(i.name),
-                scale: 'large',
-                icon: 'img/icon/computestatecontrol/{0}.png'.format(i.name),
-                iconAlign: 'top',
-                tooltip: tooltips[i.name]
-            }, i.attrs);
-        });
         this.callParent(arguments);
 
         me._setState(me.initialState);
-    },
-
-    _makeTransform: function(eventName, transientState, finalState) {
-        var me = this;
-        return function() {
-            //XXX: setting transient states screws up precheck logic i
-            //me._setState(transientState);
-            me.fireEvent(eventName, me, function() { me._setState(finalState); });
-        };
     },
 
     _setState: function(name) {

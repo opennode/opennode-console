@@ -85,15 +85,15 @@ Ext.define('Onc.tabs.SystemTab', {
 
         this.items = [{
             title: 'System Control',
+            layout: 'fit',
             items: [Ext.widget('computestatecontrol', {
-                margin: 5,
                 enableText: true,
+                disableDetails: true,
                 initialState: (rec.get('state') === 'active' ?
                                'running' :
                                rec.get('state') === 'suspended' ?
                                'suspended' :
                                'stopped'),
-                disableDetails: true,
                 listeners: {
                     'start': function(_, cb) { _changeStateWithConfirmation('Starting a VM',
                                'Are you sure you want to boot this VM?',
