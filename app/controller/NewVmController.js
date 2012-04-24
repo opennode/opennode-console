@@ -18,9 +18,8 @@ Ext.define('Onc.controller.NewVmController', {
                     if (form.isValid()) {
                         var data = form.getFieldValues();
                         var virtualizationContainer = this.getWindow().parentCompute.getChild('vms');
-                        var url = Onc.Backend.url(virtualizationContainer.get('url'));
-                        Ext.Ajax.request({
-                            url: url,
+                        var url = virtualizationContainer.get('url');
+                        Onc.Backend.request('POST', url, {
                             jsonData: data,
                             success: function(response) {
                                 var ret = Ext.JSON.decode(response.responseText);
