@@ -38,6 +38,13 @@ Ext.define('Onc.controller.ComputeController', {
             },
             vmsgraceful: function(vms, callback) {
                 this._setStateAndWait(vms, callback, 'inactive');
+            },
+            vmedit: function(vm, callback) {
+              var computeId = vm.get('id');
+                this.getView('compute.EditVmView').create({
+                    parentCompute: this.getComputeInfo().record,
+                  compute: vm
+                }).show();
             }
         };
 

@@ -8,7 +8,7 @@ Ext.define('Onc.tabs.VmListTab', {
         var me = this;
         var rec = this.record;
 
-        this.addEvents('showdetails', 'vmsstart', 'vmsstop', 'vmssuspend', 'vmsgraceful');
+        this.addEvents('showdetails', 'vmsstart', 'vmsstop', 'vmssuspend', 'vmsgraceful', 'vmedit');
 
         var actions = [
             {text: 'Start', icon: 'Start', handler: function(vms) {
@@ -148,7 +148,7 @@ Ext.define('Onc.tabs.VmListTab', {
                 {header: 'Inet4', dataIndex: 'ipv4_address', editor: {xtype: 'textfield', allowBlank: true}},
                 {header: 'Inet6', dataIndex: 'ipv6_address', editor: {xtype: 'textfield', allowBlank: true}},
 
-                {header: '', renderer: makeColumnRenderer(function(domId, _, _, vmRec) {
+                {header: 'actions', renderer: makeColumnRenderer(function(domId, _, _, vmRec) {
                     Ext.widget('computestatecontrol', {
                         initialState: (vmRec.get('state') === 'active' ?
                                        'running' :
@@ -178,7 +178,8 @@ Ext.define('Onc.tabs.VmListTab', {
                                     'vmsdelete',
                                     vmRec,
                                     cb);
-                            }
+                            },
+                            'edit' : function(_, cb) { me.fireEvent('vmedit', vmRec, cb); }
                         }
                     });
                 })},

@@ -49,6 +49,7 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
         if(!this.disableDelete) {
             buttons[buttons.length] = makeButton('delete', "Delete", "Delete machine", false);
         }
+        buttons[buttons.length] = makeButton('edit', "Edit", "Edit machine", false);
         this.items = buttons;
 
         this.callParent(arguments);
