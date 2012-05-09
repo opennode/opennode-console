@@ -20,6 +20,45 @@ Ext.define('Onc.view.compute.NewVmView', {
      */
     parentCompute: null,
 
+    st: null,  // selected template
+
+    adjusted: function(cName, stDefName, multiplier){
+        var stdef = this.st.get(stDefName);
+        var comp = Ext.getCmp(cName);
+
+        // min max *with* multiplier
+        var min = comp.minValue;
+        var max = comp.maxValue;
+
+        if(stdef === undefined || stdef === null)
+            stdef = comp.value;
+        else
+            stdef *= multiplier === undefined || multiplier === null ? 1 : multiplier;
+
+        stdef = Math.min(Math.max(stdef, min), max);
+        comp.setValue(stdef);
+    },
+
+    setValue: function(cName, stValue){
+        var value = this.st.get(stValue);
+        if(value !== undefined && value !== null)
+            Ext.getCmp(cName).setValue(value);
+    },
+
+    setConstraints: function(componentName, stMax, stMin, multiplier){
+        var component = Ext.getCmp(componentName);
+
+        if(multiplier === undefined)
+            multiplier = 1;
+
+        var min = this.st.get(stMin);
+        var max = this.st.get(stMax);
+        if(min !== undefined && min !== null)
+            component.setMinValue(min * multiplier);
+        if(max !== undefined && max !== null)
+            component.setMaxValue(max * multiplier);
+    },
+
     initComponent: function() {
         this.items = {
             xtype: 'form',
@@ -49,6 +88,31 @@ Ext.define('Onc.view.compute.NewVmView', {
                     queryMode: 'local',
                     listConfig: {
                         itemCls: 'template-picker-item'
+                    },
+                    listeners : {
+                        'change': function(combo, records, eOpts) {
+                            this.st = combo.lastSelection[0];
+
+                            this.setConstraints('num_cores', 'cores_max', 'cores_min');
+                            this.setConstraints('num_cores_slider', 'cores_max', 'cores_min');
+                            this.setConstraints('cpu_limit', 'cpu_limit_max', 'cpu_limit_min', 0.01);
+                            this.setConstraints('cpu_limit_slider', 'cpu_limit_max', 'cpu_limit_min');
+                            this.setConstraints('memory', 'memory_max', 'memory_min', 1024);
+                            this.setConstraints('memory_slider', 'memory_max', 'memory_min', 1024);
+                            this.setConstraints('diskspace', 'disk_max', 'disk_min');
+                            this.setConstraints('diskspace_slider', 'disk_max', 'disk_min');
+
+                            this.adjusted('num_cores', 'cores_default');
+                            this.adjusted('cpu_limit', 'cpu_limit_default', 0.01);
+                            this.adjusted('memory', 'memory_default', 1024);
+                            this.adjusted('diskspace', 'disk_default');
+
+                            this.setValue('hostname', 'name');
+                            this.setValue('ipv4_address', 'ip');
+                            this.setValue('dns1', 'nameserver');
+                            this.setValue('dns2', 'nameserver');
+                            this.setValue('root_password', 'password');
+                        }.bind(this)
                     }
                 }]
             }, {
@@ -62,11 +126,13 @@ Ext.define('Onc.view.compute.NewVmView', {
                 items: [{
                     fieldLabel: "Number of Cores",
                     name: 'num_cores',
+                    id: 'num_cores',
                     xtype: 'numberfield',
                     value: 1,
                     width: 160
                 }, {
                     xtype: 'slider',
+                    id: 'num_cores_slider',
                     isFormField: false,
                     width: 100,
                     minValue: 1,
@@ -79,6 +145,7 @@ Ext.define('Onc.view.compute.NewVmView', {
                 }, {
                     fieldLabel: "CPU Limit",
                     name: 'cpu_limit',
+                    id: 'cpu_limit',
                     xtype: 'numberfield',
                     allowDecimals: true,
                     decimalPrecision: 2,
@@ -89,6 +156,7 @@ Ext.define('Onc.view.compute.NewVmView', {
                     width: 160
                 }, {
                     xtype: 'slider',
+                    id: 'cpu_limit_slider',
                     isFormField: false,
                     width: 100,
                     minValue: 5,
@@ -103,11 +171,13 @@ Ext.define('Onc.view.compute.NewVmView', {
                 }, {
                     fieldLabel: "Memory/MB",
                     name: 'memory',
+                    id: 'memory',
                     xtype: 'numberfield',
                     value: 256,
                     width: 160
                 }, {
                     xtype: 'slider',
+                    id: 'memory_slider',
                     isFormField: false,
                     width: 100,
                     minValue: 128,
@@ -122,11 +192,13 @@ Ext.define('Onc.view.compute.NewVmView', {
                 }, {
                     fieldLabel: "Disk Size/GB",
                     name: 'diskspace',
+                    id: 'diskspace',
                     xtype: 'numberfield',
                     value: 10,
                     width: 160
                 }, {
                     xtype: 'slider',
+                    id: 'diskspace_slider',
                     isFormField: false,
                     width: 100,
                     minValue: 2,
@@ -154,18 +226,22 @@ Ext.define('Onc.view.compute.NewVmView', {
                         {
                     fieldLabel: "Hostname",
                     name: 'hostname',
+                    id: 'hostname',
                     xtype: 'textfield'
                 }, {
                     fieldLabel: "IP Address",
                     name: 'ipv4_address',
+                    id: 'ipv4_address',
                     xtype: 'textfield'
                 }, {
                     fieldLabel: "DNS 1",
                     name: 'dns1',
+                    id: 'dns1',
                     xtype: 'textfield'
                 }, {
                     fieldLabel: "DNS 2",
                     name: 'dns2',
+                    id: 'dns2',
                     xtype: 'textfield'
                 }]
             }, {
