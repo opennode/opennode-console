@@ -75,6 +75,37 @@ Ext.define('Onc.hub.Sync', {
         }
     },
 
+    _addRecords: function(additions) {
+        for (var i = 0; i < additions.length; i++) {
+            // TODO: assumption that we only add VMs is a strong one and won't hold for too long
+            var store = Ext.getStore('ComputesStore');
+
+            store.load(function(records, operation, success) {
+                console.log('computes store refreshed');
+            });
+
+            // TODO: investigate why load callbacks have wrong record object (commented code below)
+/*            
+            var id = additions[i];
+            Onc.model.Compute.load(id, {
+                //scope: this,
+                failure: function(record, operation) {
+                    console.log(operation);
+                    //do something if the load failed
+                },
+                success: function(record, operation) {
+                    store.add(record);
+                    console.log(operation);
+                },
+                callback: function(record, operation) {
+                    //do something whether the load succeeded or failed
+                    console.log(operation);
+                }
+            });
+ */
+        }
+    },
+
     _syncRecord: function(rec, changes) {
         if (this._doppelganger)
             throw new Error("Attempt to sync a record while another one is already being synced");
@@ -107,6 +138,7 @@ Ext.define('Onc.hub.Sync', {
             var attrChanges = {}
             var removals = new Array();
             var deletions = new Array();
+            var additions = new Array();
             for (var i = 0; i < updates.length; i += 1) {
                 var update = updates[i][1];
                 if (update['event'] === 'change')
@@ -114,8 +146,11 @@ Ext.define('Onc.hub.Sync', {
                 else if (update['event'] === 'remove')
                     removals.push(update['name']);
                 else if (update['event'] === 'delete') {
-                	deletions.push(update['url']);
-               }
+                    deletions.push(update['url']);
+                }
+                else if (update['event'] === 'add') {
+                    additions.push(update['name']);
+                }
                 else
                     console.warn("Unsupported update type %s", update['event']);
             }
@@ -124,12 +159,16 @@ Ext.define('Onc.hub.Sync', {
                 this._syncRecord(rec, attrChanges);
             }.bind(this));
 
+            // TODO: following conditions always resolve to true. replace with arrname.length === 0
             // remove records entries
             if (removals)
                 this._removeRecords(removals);
             // remove deleted elements from the subscription list
             if (deletions)
                 this._deleteSubscriptions(deletions);
+            // add records entries
+            if (additions)
+                this._addRecords(additions);
         }
     },
 
