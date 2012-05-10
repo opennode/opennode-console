@@ -59,6 +59,14 @@ Ext.define('Onc.view.compute.NewVmView', {
             component.setMaxValue(max * multiplier);
     },
 
+    disableControls: function (boolValue){
+        var controls = ['num_cores', 'num_cores_slider', 'cpu_limit', 'cpu_limit_slider', 'memory', 'memory_slider', 'diskspace', 'diskspace_slider', 'hostname', 'ipv4_address', 'dns1', 'dns2', 'root_password', 'root_password_repeat', 'start_on_boot'];
+
+        Ext.Array.forEach(controls,function(control){
+            Ext.getCmp(control).setDisabled(boolValue);
+        });
+    },
+
     listeners: {
         'afterrender': function(){
             var tooltipMap = {
@@ -82,7 +90,7 @@ Ext.define('Onc.view.compute.NewVmView', {
 
                     'start_on_boot': 'Start VM on boot'
             };
-
+            this.disableControls(true);
             Ext.iterate(tooltipMap, function(controlName, tooltip) {
                 Ext.create('Ext.tip.ToolTip', {
                     target: controlName,
@@ -146,6 +154,8 @@ Ext.define('Onc.view.compute.NewVmView', {
                             this.setValue('dns1', 'nameserver');
                             this.setValue('dns2', 'nameserver');
                             this.setValue('root_password', 'password');
+
+                            this.disableControls(false);
                         }.bind(this)
                     }
                 }]
