@@ -59,6 +59,39 @@ Ext.define('Onc.view.compute.NewVmView', {
             component.setMaxValue(max * multiplier);
     },
 
+    listeners: {
+        'afterrender': function(){
+            var tooltipMap = {
+                    'template': 'Choose VM template',
+
+                    'num_cores': 'Maximum number of cores',
+                    'num_cores_slider': 'Maximum number of cores',
+                    'cpu_limit': 'Maximum CPU usage',
+                    'cpu_limit_slider': 'Maximum CPU usage',
+                    'memory': 'Maximum memory usage',
+                    'memory_slider': 'Maximum memory usage',
+                    'diskspace': 'Maximum disk space',
+                    'diskspace_slider': 'Maximum disk space',
+
+                    'hostname': 'Hostname',
+                    'ipv4_address': 'IP v4 adress',
+                    'dns1': 'Domain Name Server',
+                    'dns2': 'Alternative Domain Name Server',
+                    'root_password': 'OS root password',
+                    'root_password_repeat': 'Repeat OS root password',
+
+                    'start_on_boot': 'Start VM on boot'
+            };
+
+            Ext.iterate(tooltipMap, function(controlName, tooltip) {
+                Ext.create('Ext.tip.ToolTip', {
+                    target: controlName,
+                    html: tooltip
+                });
+            });
+        }
+    },
+
     initComponent: function() {
         this.items = {
             xtype: 'form',
@@ -77,6 +110,7 @@ Ext.define('Onc.view.compute.NewVmView', {
                         {
                     fieldLabel: 'Template',
                     name: 'template',
+                    id: 'template',
                     hiddenName: 'template',  // So that valueField would be respected when POSTing
                     xtype: 'combobox',
                     emptyText: 'Choose your template',
@@ -258,6 +292,7 @@ Ext.define('Onc.view.compute.NewVmView', {
                 }, {
                     fieldLabel: "Root Password (repeat)",
                     name: 'root_password_repeat',
+                    id: 'root_password_repeat',
                     vtype: 'password',
                     initialPassField: 'root_password'
                 }]
@@ -271,6 +306,7 @@ Ext.define('Onc.view.compute.NewVmView', {
                 items: [{
                         xtype: 'checkbox',
                         name: 'start_on_boot',
+                        id: 'start_on_boot',
                         fieldLabel: "Start on boot"
                  }]
             }],
