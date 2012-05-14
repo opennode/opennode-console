@@ -40,7 +40,9 @@ Ext.define('Onc.controller.LoginController', {
 
     _onAuth: function() {
         Onc.hub.Hub.run();
-        Ext.getStore('ComputesStore').load();
+        var cstore = Ext.getStore('ComputesStore');
+        cstore.getProxy().extraParams['q'] = 'virt:no';
+        cstore.load();
         Ext.getStore('PhysicalComputesStore').load();
         if (this._viewport)
             this._viewport.destroy();
