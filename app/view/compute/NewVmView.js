@@ -45,18 +45,31 @@ Ext.define('Onc.view.compute.NewVmView', {
             Ext.getCmp(cName).setValue(value);
     },
 
-    setConstraints: function(componentName, stMax, stMin, multiplier){
+    setConstraints: function(hostProperty, componentName, stMax, stMin, multiplier, hostMultiplier, hostPropertySpec){
         var component = Ext.getCmp(componentName);
 
         if(multiplier === undefined)
             multiplier = 1;
+        if(hostMultiplier === undefined)
+            hostMultiplier = 1;
+        if(hostPropertySpec === undefined)
+            hostPropertySpec = '';
+        else
+            hostPropertySpec = '.' + hostPropertySpec;
+        var parentValue = eval("this.parentCompute.get(hostProperty)" + hostPropertySpec) * hostMultiplier;
 
         var min = this.st.get(stMin);
         var max = this.st.get(stMax);
+
         if(min !== undefined && min !== null)
-            component.setMinValue(min * multiplier);
+            component.setMinValue(Math.min (min, parentValue) * multiplier);
+        else
+            component.setMinValue(parentValue * multiplier);
+
         if(max !== undefined && max !== null)
-            component.setMaxValue(max * multiplier);
+            component.setMaxValue(Math.min (max, parentValue) * multiplier);
+        else
+            component.setMaxValue(parentValue * multiplier);
     },
 
     disableControls: function (boolValue){
@@ -135,19 +148,22 @@ Ext.define('Onc.view.compute.NewVmView', {
                         'change': function(combo, records, eOpts) {
                             this.st = combo.lastSelection[0];
 
-                            this.setConstraints('num_cores', 'cores_max', 'cores_min');
-                            this.setConstraints('num_cores_slider', 'cores_max', 'cores_min');
-                            this.setConstraints('cpu_limit', 'cpu_limit_max', 'cpu_limit_min', 0.01);
-                            this.setConstraints('cpu_limit_slider', 'cpu_limit_max', 'cpu_limit_min');
-                            this.setConstraints('memory', 'memory_max', 'memory_min', 1024);
-                            this.setConstraints('memory_slider', 'memory_max', 'memory_min', 1024);
-                            this.setConstraints('diskspace', 'disk_max', 'disk_min');
-                            this.setConstraints('diskspace_slider', 'disk_max', 'disk_min');
+                            this.setConstraints('num_cores', 'num_cores', 'cores_max', 'cores_min');
+                            this.setConstraints('num_cores', 'num_cores_slider', 'cores_max', 'cores_min');
+                            this.setConstraints('num_cores', 'cpu_limit', 'cpu_limit_max', 'cpu_limit_min', 0.01, 100);
+                            this.setConstraints('num_cores', 'cpu_limit_slider', 'cpu_limit_max', 'cpu_limit_min', 1, 100);
+                            this.setConstraints('memory', 'memory', 'memory_max', 'memory_min', 1024);
+                            this.setConstraints('memory', 'memory_slider', 'memory_max', 'memory_min', 1024);
+                            this.setConstraints('diskspace', 'diskspace', 'disk_max', 'disk_min', 1, 1, 'total');
+                            this.setConstraints('diskspace', 'diskspace_slider', 'disk_max', 'disk_min', 1, 1/1024, 'total');
 
-                            this.adjusted('num_cores', 'cores_default');
+//                            this.adjusted('num_cores', 'cores_default');
                             this.adjusted('cpu_limit', 'cpu_limit_default', 0.01);
+                            this.adjusted('cpu_limit_slider', 'cpu_limit_default');
                             this.adjusted('memory', 'memory_default', 1024);
+                            this.adjusted('memory_slider', 'memory_default', 1024);
                             this.adjusted('diskspace', 'disk_default');
+                            this.adjusted('diskspace_slider', 'disk_default');
 
                             this.setValue('hostname', 'name');
                             this.setValue('ipv4_address', 'ip');
@@ -184,6 +200,17 @@ Ext.define('Onc.view.compute.NewVmView', {
                     listeners: {
                         'change': function(ev, newValue) {
                             this.previousSibling().setValue(newValue);
+                        },
+                        'changecomplete': function(ev, newValue) {
+                            newValue *= 100;
+                            cpuLimitSlider = Ext.getCmp('cpu_limit_slider');
+                            cpuLimit = Ext.getCmp('cpu_limit');
+                            cpuLimitSlider.setMaxValue(newValue);
+                            cpuLimit.setMaxValue(newValue/100);
+                            if (newValue < (cpuLimit.value*100)){
+                                cpuLimitSlider.setValue(newValue);
+                                cpuLimit.setValue(newValue/100);
+                            }
                         }
                     }
                 }, {
@@ -238,11 +265,17 @@ Ext.define('Onc.view.compute.NewVmView', {
                     name: 'diskspace',
                     id: 'diskspace',
                     xtype: 'numberfield',
+                    allowDecimals: true,
+                    decimalPrecision: 2,
+                    step: 0.5,
                     value: 10,
                     width: 160
                 }, {
                     xtype: 'slider',
                     id: 'diskspace_slider',
+                    allowDecimals: true,
+                    decimalPrecision: 2,
+                    increment: 0.5,
                     isFormField: false,
                     width: 100,
                     minValue: 2,
