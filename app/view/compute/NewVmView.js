@@ -30,7 +30,7 @@ Ext.define('Onc.view.compute.NewVmView', {
         var min = comp.minValue;
         var max = comp.maxValue;
 
-        if(stdef === undefined || stdef === null)
+        if(stdef === -1 || stdef === undefined || stdef === null)
             stdef = comp.value;
         else
             stdef *= multiplier === undefined || multiplier === null ? 1 : multiplier;
@@ -41,7 +41,7 @@ Ext.define('Onc.view.compute.NewVmView', {
 
     setValue: function(cName, stValue){
         var value = this.st.get(stValue);
-        if(value !== undefined && value !== null)
+        if(value !== -1 && value !== undefined && value !== null)
             Ext.getCmp(cName).setValue(value);
     },
 
@@ -61,12 +61,12 @@ Ext.define('Onc.view.compute.NewVmView', {
         var min = this.st.get(stMin);
         var max = this.st.get(stMax);
 
-        if(min !== undefined && min !== null)
+        if(min !== -1 && min !== undefined && min !== null)
             component.setMinValue(Math.min (min, parentValue) * multiplier);
         else
             component.setMinValue(parentValue * multiplier);
 
-        if(max !== undefined && max !== null)
+        if(min !== -1 && max !== undefined && max !== null)
             component.setMaxValue(Math.min (max, parentValue) * multiplier);
         else
             component.setMaxValue(parentValue * multiplier);
