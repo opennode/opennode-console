@@ -1,5 +1,12 @@
 Ext.BLANK_IMAGE_URL = 'ext-4.0/resources/themes/images/default/tree/s.gif';
 
+Ext.onReady(function() {
+  setTimeout(function(){
+    Ext.get('loading').remove();
+    Ext.get('loading-mask').fadeOut({remove:true});
+  }, 250);
+});
+
 Ext.Loader.setConfig('paths', {
     'Ext': 'ext-4.0/src',
     'Onc': './app/Onc'
