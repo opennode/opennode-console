@@ -2,7 +2,7 @@ Ext.define('Onc.view.SearchResultsView', {
     extend: 'Ext.view.View',
     alias: 'widget.searchresults',
 
-    store: 'ComputesStore',
+    store: 'SearchResultsStore',
     tpl: [
         '<tpl for=".">',
         // TODO: the content-type specific (`compute` and `state-_`)

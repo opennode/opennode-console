@@ -13,8 +13,20 @@ Ext.define('Onc.controller.MainController', {
         var tabPanel = this.getTabs();
         var tab = tabPanel.child('computeview[computeId=' + computeId + ']');
         if (!tab) {
-            if (!_compute)
-                _compute = this.getStore('ComputesStore').getById(computeId);
+            if (!_compute) {
+                Onc.model.Compute.load(computeId, {
+                    scope: this,
+                    failure: function(record, operation) {
+                        console.log("Error", record);
+                        return;
+                    },
+                    success: function(record, operation) {
+                        _compute = new Onc.model.Compute(record);
+                        console.log("Hurray!", _compute);
+                    }
+                });
+              this.getStore('ComputesStore').add(_compute);
+            }
             tab = Ext.widget('computeview', {
                 record: _compute,
                 computeId: computeId
@@ -35,7 +47,7 @@ Ext.define('Onc.controller.MainController', {
                     var selection = selections[0];
                     var computeId = selection.get('id');
 
-                    this.openComputeInTab(computeId, selection);
+                    this.openComputeInTab(computeId);
                 }
             },
             '#search-filter': {

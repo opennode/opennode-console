@@ -3,16 +3,25 @@ Ext.define('Onc.model.SearchResult', {
     fields: [
         {name: 'id', type: 'string'},
         {name: 'url', type: 'string'},
+        {name: 'hostname', type: 'string'},
+        {name: 'state', type: 'string'},
+        {name: 'ipv4_address', type: 'string'},
         {name: '__type__', type: 'string'}
+
     ],
 
-    getModel: function() {
-        // TODO: Parse `this.raw` and determine the right model to
-        // instantiate.  Also, how should we handle other stores? This
-        // might be a general question.  How do stores handle partial
-        // data?  I.e. how should be model the fact that a store at
-        // any given time will not probably contain all its model's
-        // instances.  This should be investigated further.
-        return null;
+proxy: {
+        type: 'onc',
+        reader: {
+            type: 'json',
+            root: 'children'
+        },
+        extraParams: {
+            'depth': 1,
+            'attrs': 'hostname,ipv4_address,state'
+        },
+        limitParam: null, pageParam: null, startParam: null,
+        url: 'computes'
     }
+
 });
