@@ -85,21 +85,21 @@ Ext.define('Onc.view.compute.NewVmView', {
             var tooltipMap = {
                     'template': 'Choose VM template',
 
-                    'num_cores': 'Maximum number of cores',
-                    'num_cores_slider': 'Maximum number of cores',
-                    'cpu_limit': 'Maximum CPU usage',
-                    'cpu_limit_slider': 'Maximum CPU usage',
-                    'memory': 'Maximum memory usage',
-                    'memory_slider': 'Maximum memory usage',
-                    'diskspace': 'Maximum disk space',
-                    'diskspace_slider': 'Maximum disk space',
+                    'num_cores': 'Number of cores',
+                    'num_cores_slider': 'Number of cores',
+                    'cpu_limit': 'CPU usage limit',
+                    'cpu_limit_slider': 'CPU usage limit',
+                    'memory': 'Assigned RAM',
+                    'memory_slider': 'Assigned RAM',
+                    'diskspace': 'Assigned disk space',
+                    'diskspace_slider': 'Assigned disk space',
 
                     'hostname': 'Hostname',
-                    'ipv4_address': 'IP v4 adress',
-                    'dns1': 'Domain Name Server',
+                    'ipv4_address': 'IPv4 address',
+                    'dns1': 'Main Domain Name Server',
                     'dns2': 'Alternative Domain Name Server',
-                    'root_password': 'OS root password',
-                    'root_password_repeat': 'Repeat OS root password',
+                    'root_password': 'Root password',
+                    'root_password_repeat': 'Repeat root password',
 
                     'start_on_boot': 'Start VM on boot'
             };
