@@ -39,6 +39,7 @@ Ext.syncRequire([
     'Onc.util.Deferred',
     'Onc.Backend',
     'Onc.Proxy',
+    'Onc.Store',
     'Onc.util.Scheduler',
     'Onc.hub.Hub',
     'Onc.hub.Subscription',
