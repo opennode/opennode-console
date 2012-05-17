@@ -21,6 +21,7 @@ Ext.syncRequire([
     'Ext.XTemplate',
     'Ext.form.*',
 
+    'Onc.widgets.Tagger',
     'Onc.widgets.Gauge',
     'Onc.widgets.Shell',
     'Onc.widgets.Vnc',

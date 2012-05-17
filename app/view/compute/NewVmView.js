@@ -5,7 +5,7 @@ Ext.define('Onc.view.compute.NewVmView', {
     title: 'New Virtual Machine',
     modal: true,
     border: false,
-    width: 300,
+    width: 500,
     resizable: false,
 
     defaults: {
@@ -351,6 +351,18 @@ Ext.define('Onc.view.compute.NewVmView', {
                         id: 'start_on_boot',
                         fieldLabel: "Start on boot"
                  }]
+            }, {
+                xtype: 'fieldset',
+                title: "Tags",
+                padding: 5,
+                items: [{
+                        id: 'tagger',
+                        itemId: 'tagger',
+                        xtype: 'tagger',
+                        suggestions:  ['infrastructure', 'staging', 'development', 'production'],
+                        tags: ['development']
+                 }]
+
             }],
 
             buttons: [{
