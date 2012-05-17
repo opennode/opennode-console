@@ -41,8 +41,7 @@ Ext.define('Onc.model.Compute', {
     proxy: {
         type: 'onc',
         reader: {
-            type: 'json',
-            root: 'children'
+            type: 'json'
         },
         extraParams: {
             'depth': 3

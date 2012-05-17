@@ -1,4 +1,5 @@
 Ext.define('Onc.store.ComputesStore', {
-    extend: 'Ext.data.Store',
+    extend: 'Onc.Store',
     model: 'Onc.model.Compute'
+
 });

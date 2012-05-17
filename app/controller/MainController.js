@@ -9,31 +9,27 @@ Ext.define('Onc.controller.MainController', {
     refs: [{ref: 'searchResults', selector: '#search-results'},
            {ref: 'tabs', selector: '#mainTabs'}],
 
-    openComputeInTab: function(computeId, _compute) {
+    openComputeInTab: function(computeId) {
         var tabPanel = this.getTabs();
         var tab = tabPanel.child('computeview[computeId=' + computeId + ']');
         if (!tab) {
-            if (!_compute) {
-                Onc.model.Compute.load(computeId, {
-                    scope: this,
-                    failure: function(record, operation) {
-                        console.log("Error", record);
-                        return;
-                    },
-                    success: function(record, operation) {
-                        _compute = new Onc.model.Compute(record);
-                        console.log("Hurray!", _compute);
-                    }
-                });
-              this.getStore('ComputesStore').add(_compute);
-            }
-            tab = Ext.widget('computeview', {
-                record: _compute,
-                computeId: computeId
-            });
-            tabPanel.add(tab);
+            this.getStore('ComputesStore').loadById(computeId,
+                function(compute) {
+                    tab = Ext.widget('computeview', {
+                        record: compute,
+                        computeId: computeId
+                    });
+                    tabPanel.add(tab);
+                    tabPanel.setActiveTab(tab);
+                },
+                function(error) {
+                    // TODO: visual display of the error
+                    return;
+                }
+            );
+        } else {
+            tabPanel.setActiveTab(tab);
         }
-        tabPanel.setActiveTab(tab);
     },
 
     init: function() {
