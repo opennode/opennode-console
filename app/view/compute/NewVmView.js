@@ -15,8 +15,7 @@ Ext.define('Onc.view.compute.NewVmView', {
     },
 
     /**
-     * The parent compte whose virtualization container to create the
-     * virtual machine in.
+     * The parent compute where the VM will be created.
      */
     parentCompute: null,
 
@@ -66,7 +65,7 @@ Ext.define('Onc.view.compute.NewVmView', {
         else
             component.setMinValue(parentValue * multiplier);
 
-        if(min !== -1 && max !== undefined && max !== null)
+        if(max !== -1 && max !== undefined && max !== null)
             component.setMaxValue(Math.min (max, parentValue) * multiplier);
         else
             component.setMaxValue(parentValue * multiplier);
