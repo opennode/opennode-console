@@ -292,3 +292,15 @@
     opacity: 1.0; }
   .computestatecontrol .x-btn.x-btn-disabled {
     opacity: 0.35 !important; }
+
+.tagger .tagcontainer div.x-box-inner {
+  overflow-x: auto;
+}
+
+.tagger .tagcontainer .tagbox .x-panel-header {
+  background-image: none;
+}
+
+.tagger .tagcontainer .tagbox .x-panel-header-text {
+  font-weight: normal;
+}

@@ -1,6 +1,7 @@
-Ext.define('Onc.widgets.Tag', {
+Ext.define('Onc.widgets.TagBox', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.tag',
+    cls: 'tagbox',
     width: 80,
     closable: true,
 });
@@ -15,82 +16,94 @@ Ext.define('Onc.widgets.TagModel', {
 
 
 Ext.define('Onc.widgets.Tagger', {
-    extend: 'Ext.panel.Panel',
+    extend: 'Ext.container.Container',
     alias: 'widget.tagger',
-    id: 'tagcontainer',
-    ui: '',
+    id: 'tagger',
+    cls: 'tagger',
     layout: {
         type: 'hbox',
         pack: 'start',
-        align: 'middle',
-        defaultMargins: {top: 0, right: 2, bottom: 0, left: 0}
+        align: 'top',
     },
     config: {
         tags: [],
         suggestions: [],
     },
     combo: null,
+    tagcontainer: null,
     onTagAdded: Ext.emptyFn,
+
+    items: [{
+        id: 'choose',
+        itemId: 'choose',
+        xtype: 'combo',
+        queryMode: 'local',
+        displayField: 'val',
+        valueField: 'val',
+        store: Ext.create('Ext.data.Store', {
+            model: 'Onc.widgets.TagModel'
+        }),
+        width: 100,
+        margin: 1,
+        emptyText: 'type tag',
+        autoSelect: false,
+        hideTrigger: true
+    }, {
+        id: 'tagcontainer',
+        xtype: 'container',
+        cls: 'tagcontainer',
+        flex: 1,
+        layout: {
+            type: 'hbox',
+            pack: 'start',
+            align: 'top',
+            defaultMargins: {top: 0, right: 2, bottom: 16, left: 0},
+        },
+    }],
+
 
     initComponent: function() {
         var me = this;
-        this.callParent(arguments);
+        me.callParent(arguments);
 
-        this.combo = this.createCombo();
-        this.load();
-        this.add(this.combo);
+        me.combo = me.child('#choose');
+        me.tagcontainer = me.child('#tagcontainer');
+        me.combo.on({
+            'select': function(source, eventObject){
+                this.addTag(eventObject[0].get('val'));
+            },
+            'specialkey': function(source, event, options){
+                picker = source.getPicker();
+                if(event.keyCode === event.ENTER){
+                    if(picker.highlightedItem !== undefined)
+                        return;
+                    if(this.addTag(source.getValue()))
+                        picker.clearHighlight();
+                }
+                else if (event.keyCode === event.ESC){
+                    picker.clearHighlight();
+                }
+            },
+            'focus': function(){
+                this.combo.expand();
+            },
+            'afterrender': function(){ this.getEl().addListener('click', function(){
+                    this.combo.expand();
+            }, this);},
+            scope: me
+        });
 
+        me.load();
         Ext.Array.forEach(me.tags, function(item){
             me.addTagComponent(item);
         });
-
-        this.addEvents('tagAdded', 'tagRemoved');
-    },
-
-    createCombo: function(){
-        var me = this;
-        var combo = Ext.create('Ext.form.field.ComboBox', {
-            id: 'choose',
-            queryMode: 'local',
-            displayField: 'val',
-            valueField: 'val',
-            store: Ext.create('Ext.data.Store', {
-                model: 'Onc.widgets.TagModel'
-            }),
-            width: 100,
-            listeners:{
-                'select': function(source, eventObject){
-                    me.addTag(eventObject[0].get('val'));
-                },
-                'specialkey': function(source, event, options){
-                    picker = source.getPicker();
-                    if(event.keyCode === event.ENTER){
-                        if(picker.highlightedItem !== undefined)
-                            return;
-                        picker.clearHighlight();
-                        me.addTag(source.getValue());
-                    }
-                    else if (event.keyCode === event.ESC){
-                        picker.clearHighlight();
-                    }
-                },
-                'focus': function(){
-                    this.expand();
-                },
-                'afterrender': function(){ me.combo.getEl().addListener('click', function(){
-                    if(!me.combo.isExpanded)
-                        me.combo.expand();
-                });}
-            },
-            emptyText: 'type tag',
-            autoSelect: false,
-            hideTrigger: true
-        });
-        return combo;
+        me.addEvents('tagAdded', 'tagRemoved');
     },
 
     addTag: function(val){
         var me = this;
+        if(Ext.Array.contains(me.tags, val))
+            return false;
         me.tags[me.tags.length] = val;
         me.onTagAdded(val);
         me.fireEvent('tagAdded', me, val);
@@ -100,11 +113,12 @@ Ext.define('Onc.widgets.Tagger', {
         me.combo.reset();
         me.combo.collapse();
         me.combo.store.clearFilter();
+        return true;
     },
 
     addTagComponent: function(val){
         var me = this;
-        var tc = Ext.create('Onc.widgets.Tag', {
+        var tc = Ext.create('Onc.widgets.TagBox', {
             title: val,
             listeners: { 'close': function() {me.removeTag(val);} }
         });
@@ -118,7 +132,7 @@ Ext.define('Onc.widgets.Tagger', {
                 tc.tools.close.hide();
             });
         });
-        me.add(tc);
+        me.tagcontainer.add(tc);
     },
 
     removeTag: function(val){
