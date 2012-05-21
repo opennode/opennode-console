@@ -18,7 +18,7 @@ Ext.define('Onc.widgets.TagModel', {
 Ext.define('Onc.widgets.Tagger', {
     extend: 'Ext.container.Container',
     alias: 'widget.tagger',
-    id: 'tagger',
+    itemId: 'tagger',
     cls: 'tagger',
     layout: {
         type: 'hbox',
@@ -34,7 +34,6 @@ Ext.define('Onc.widgets.Tagger', {
     onTagAdded: Ext.emptyFn,
 
     items: [{
-        id: 'choose',
         itemId: 'choose',
         xtype: 'combo',
         queryMode: 'local',
@@ -49,7 +48,7 @@ Ext.define('Onc.widgets.Tagger', {
         autoSelect: false,
         hideTrigger: true
     }, {
-        id: 'tagcontainer',
+        itemId: 'tagcontainer',
         xtype: 'container',
         cls: 'tagcontainer',
         flex: 1,
@@ -150,4 +149,8 @@ Ext.define('Onc.widgets.Tagger', {
         });
         this.combo.store.loadRecords(data, {addRecords: false});
     },
+
+    cloneTags: function(){
+        return Ext.clone(this.tags);
+    }
 });

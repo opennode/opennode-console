@@ -293,6 +293,10 @@
   .computestatecontrol .x-btn.x-btn-disabled {
     opacity: 0.35 !important; }
 
+.tagger {
+  height: 45px;
+}
+
 .tagger .tagcontainer div.x-box-inner {
   overflow-x: auto;
 }

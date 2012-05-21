@@ -25,6 +25,12 @@ Ext.define('Onc.controller.NewVmController', {
                     var form = this.getForm().getForm();
                     if (form.isValid()) {
                         var data = form.getFieldValues();
+
+                        // tags
+                        var tagger = this.getForm().child('#tags').child('tagger');
+                        var tags = tagger.cloneTags();
+                        data['tags'] = tags;
+
                         var virtualizationContainer = this.getWindow().parentCompute.getChild('vms');
                         var url = virtualizationContainer.get('url');
                         Onc.Backend.request('POST', url, {

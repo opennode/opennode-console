@@ -354,13 +354,13 @@ Ext.define('Onc.view.compute.NewVmView', {
             }, {
                 xtype: 'fieldset',
                 title: "Tags",
+                id: "tags",
                 padding: 5,
                 items: [{
                         id: 'tagger',
-                        itemId: 'tagger',
                         xtype: 'tagger',
-                        suggestions:  ['infrastructure', 'staging', 'development', 'production'],
-                        tags: ['development']
+                        suggestions:  ['Infrastructure', 'Staging', 'Development', 'Production'],
+                        tags: ['Development']
                  }]
 
             }],

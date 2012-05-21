@@ -8,12 +8,7 @@ Ext.define('Onc.tabs.SystemTab', {
     },
     autoScroll: true,
 
-    tags: {
-        'env:production' : 'Production',
-        'env:staging' : 'Staging',
-        'env:development' : 'Development',
-        'env:infrastructure' : 'Infrastructure'
-    },
+    envTags: ['Infrastructure', 'Staging', 'Development', 'Production'],
 
     gauges: {
         'memory': {id: 'ram', label: 'Physical Memory', iconCls: 'icon-memory'},
@@ -26,23 +21,11 @@ Ext.define('Onc.tabs.SystemTab', {
         var me = this;
         var rec = this.record;
         var tagsRec = rec.get('tags');
-        var tagItems = [];
 
         this.addEvents('vmsstart', 'vmsstop', 'vmssuspend', 'vmsgraceful');
 
-        for (tag in this.tags) {
-            tagItems[tagItems.length] = {
-                itemId: tag,
-                boxLabel: this.tags[tag],
-                checked: Ext.Array.contains(tagsRec, tag)
-            };
-        }
-        tagItems[tagItems.length] = {
-            xtype: 'button',
-            text: 'Save',
-            handler: this.saveTags,
-            scope: this
-        };
+        // environment tags not present in record
+        var displayTags = Ext.Array.intersect(me.envTags, tagsRec);
 
         function _changeStateWithConfirmation(confirmTitle, confirmText, eventName, target, cb) {
             Ext.Msg.confirm(confirmTitle, confirmText,
@@ -151,13 +134,20 @@ Ext.define('Onc.tabs.SystemTab', {
         }, {
             title: "Tags",
             itemId: 'label-tags',
-            layout: {type: 'table', columns: 4},
             frame: true,
-            defaults: {
-                xtype: 'checkboxfield',
-                margin: 10
-            },
-            items: tagItems
+            items: [{
+                id: 'systagger',
+                itemId: 'tagger',
+                xtype: 'tagger',
+                suggestions: this.envTags,
+                tags: displayTags
+            }, {
+                xtype: 'button',
+                text: 'Save',
+                handler: this.saveTags,
+                scope: this,
+                margin: 5
+            }]
         }];
 
         var me = this;
@@ -199,15 +189,15 @@ Ext.define('Onc.tabs.SystemTab', {
     saveTags: function() {
         var rec = this.record;
         var tagsRec = rec.get('tags');
-        var labelTags = this.getComponent('label-tags');
+        var tagger = this.getComponent('label-tags').getComponent('tagger');
 
-        for (tag in this.tags) {
-            if (labelTags.getComponent(tag).getValue()) {
+        Ext.Array.forEach(this.envTags, function(tag){
+            if (Ext.Array.contains(tagger.tags, tag)) {
                 Ext.Array.include(tagsRec, tag);
             } else {
                 Ext.Array.remove(tagsRec, tag);
             }
-        }
+        });
 
         rec.set('tags', tagsRec);
         rec.save();
