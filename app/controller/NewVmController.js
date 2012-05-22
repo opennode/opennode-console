@@ -31,6 +31,13 @@ Ext.define('Onc.controller.NewVmController', {
                         var tags = tagger.cloneTags();
                         data['tags'] = tags;
 
+                        // cleanup for auto-generated properties from form input fields
+                        // TODO: figure out how to exclude input field from Tagger widget to generate properties in form.getFieldValues() call
+                        for (var key in data) {
+                            if (key.indexOf('ext-') === 0)
+                                delete data[key];
+                         }
+
                         var virtualizationContainer = this.getWindow().parentCompute.getChild('vms');
                         var url = virtualizationContainer.get('url');
                         Onc.Backend.request('POST', url, {
