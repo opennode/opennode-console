@@ -12,14 +12,6 @@ Ext.define('Onc.controller.NewVmController', {
     init: function() {
         var me = this;
         this.control({
-            '#tagger': {
-                tagAdded: function(source, eventObject){
-                    console.log('tagAdded event');
-                },
-                'tagRemoved': function(source, eventObject){
-                    console.log('tagRemoved event');
-                }
-            },
             '#create-new-vm-button': {
                 click: function(sender) {
                     var form = this.getForm().getForm();
