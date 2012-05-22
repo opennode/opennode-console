@@ -62,12 +62,12 @@ Ext.define('Onc.widgets.Tagger', {
 
 
     initComponent: function() {
-        var me = this;
-        me.callParent(arguments);
+        this.callParent(arguments);
 
-        me.combo = me.child('#choose');
-        me.tagcontainer = me.child('#tagcontainer');
-        me.combo.on({
+        this.combo = this.child('#choose');
+        this.tagcontainer = this.child('#tagcontainer');
+
+        this.combo.on({
             'select': function(source, eventObject){
                 this.addTag(eventObject[0].get('val'));
             },
@@ -89,37 +89,35 @@ Ext.define('Onc.widgets.Tagger', {
             'afterrender': function(){ this.getEl().addListener('click', function(){
                     this.combo.expand();
             }, this);},
-            scope: me
+            scope: this
         });
 
-        me.load();
-        Ext.Array.forEach(me.tags, function(item){
-            me.addTagComponent(item);
-        });
-        me.addEvents('tagAdded', 'tagRemoved');
+        this.load();
+        Ext.Array.forEach(this.tags, function(item){
+            this.addTagComponent(item);
+        }, this);
+        this.addEvents('tagAdded', 'tagRemoved');
     },
 
     addTag: function(val){
-        var me = this;
-        if(Ext.Array.contains(me.tags, val))
+        if(Ext.Array.contains(this.tags, val))
             return false;
-        me.tags[me.tags.length] = val;
-        me.onTagAdded(val);
-        me.fireEvent('tagAdded', me, val);
+        this.tags[this.tags.length] = val;
+        this.onTagAdded(val);
+        this.fireEvent('tagAdded', this, val);
 
-        me.addTagComponent(val);
-        me.load();
-        me.combo.reset();
-        me.combo.collapse();
-        me.combo.store.clearFilter();
+        this.addTagComponent(val);
+        this.load();
+        this.combo.reset();
+        this.combo.collapse();
+        this.combo.store.clearFilter();
         return true;
     },
 
     addTagComponent: function(val){
-        var me = this;
         var tc = Ext.create('Onc.widgets.TagBox', {
             title: val,
-            listeners: { 'close': function() {me.removeTag(val);} }
+            listeners: { 'close': function() {this.removeTag(val);}.bind(this) }
         });
 
         tc.on('afterrender', function(){
@@ -131,14 +129,13 @@ Ext.define('Onc.widgets.Tagger', {
                 tc.tools.close.hide();
             });
         });
-        me.tagcontainer.add(tc);
+        this.tagcontainer.add(tc);
     },
 
     removeTag: function(val){
-        var me = this;
-        Ext.Array.remove(me.tags, val);
-        me.fireEvent('tagRemoved', me, val);
-        me.load();
+        Ext.Array.remove(this.tags, val);
+        this.fireEvent('tagRemoved', this, val);
+        this.load();
     },
 
     load: function(){
