@@ -140,14 +140,20 @@ Ext.define('Onc.tabs.SystemTab', {
                 itemId: 'tagger',
                 xtype: 'tagger',
                 suggestions: this.envTags,
-                tags: displayTags
-            }, {
-                xtype: 'button',
-                text: 'Save',
-                handler: this.saveTags,
-                scope: this,
-                margin: 5
-            }]
+                tags: displayTags,
+                listeners: {
+                    'tagAdded': function(source, tag){
+                        var rec = this.record;
+                        Ext.Array.include(rec.get('tags'), tag);
+                        rec.save();
+                    }.bind(this),
+                    'tagRemoved': function(source, tag){
+                        var rec = this.record;
+                        Ext.Array.remove(rec.get('tags'), tag);
+                        rec.save();
+                    }.bind(this)
+                }
+            }],
         }];
 
         var me = this;
@@ -185,21 +191,4 @@ Ext.define('Onc.tabs.SystemTab', {
         console.assert(this.subscription);
         this.subscription.unsubscribe();
     },
-
-    saveTags: function() {
-        var rec = this.record;
-        var tagsRec = rec.get('tags');
-        var tagger = this.getComponent('label-tags').getComponent('tagger');
-
-        Ext.Array.forEach(this.envTags, function(tag){
-            if (Ext.Array.contains(tagger.tags, tag)) {
-                Ext.Array.include(tagsRec, tag);
-            } else {
-                Ext.Array.remove(tagsRec, tag);
-            }
-        });
-
-        rec.set('tags', tagsRec);
-        rec.save();
-    }
 });
