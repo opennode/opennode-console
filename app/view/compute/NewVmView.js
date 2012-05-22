@@ -72,7 +72,7 @@ Ext.define('Onc.view.compute.NewVmView', {
     },
 
     disableControls: function (boolValue){
-        var controls = ['num_cores', 'num_cores_slider', 'cpu_limit', 'cpu_limit_slider', 'memory', 'memory_slider', 'diskspace', 'diskspace_slider', 'hostname', 'ipv4_address', 'dns1', 'dns2', 'root_password', 'root_password_repeat', 'start_on_boot'];
+        var controls = ['num_cores', 'num_cores_slider', 'cpu_limit', 'cpu_limit_slider', 'memory', 'memory_slider', 'diskspace', 'diskspace_slider', 'hostname', 'ipv4_address', 'dns1', 'dns2', 'root_password', 'root_password_repeat', 'start_on_boot', 'newvm_tagger'];
 
         Ext.Array.forEach(controls,function(control){
             Ext.getCmp(control).setDisabled(boolValue);
@@ -357,12 +357,11 @@ Ext.define('Onc.view.compute.NewVmView', {
                 id: "tags",
                 padding: 5,
                 items: [{
-                        id: 'tagger',
+                        id: 'newvm_tagger',
                         xtype: 'tagger',
                         suggestions:  ['Infrastructure', 'Staging', 'Development', 'Production'],
                         tags: ['Development']
                  }]
-
             }],
 
             buttons: [{
