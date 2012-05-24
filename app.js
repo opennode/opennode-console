@@ -9,7 +9,8 @@ Ext.onReady(function() {
 
 Ext.Loader.setConfig('paths', {
     'Ext': 'ext-4.0/src',
-    'Onc': './app/Onc'
+    'Onc': './app/Onc',
+    'Ext.ux': 'ext-4.0/examples/ux'
 });
 
 Ext.Ajax.timeout = 200000;
@@ -54,7 +55,7 @@ Ext.application({
     name: 'Onc',
 
     appFolder: 'app',
-    controllers: ['LoginController', 'MainController', 'ComputeController', 'NewVmController', 'EditVmController', 'TasksController', 'InfrastructureJoinController']
+    controllers: ['LoginController', 'MainController', 'ComputeController', 'NewVmController', 'EditVmController', 'TasksController', 'InfrastructureJoinController', 'ZabbixRegistrationController']
 });
 
 Ext.override(Ext.Base, {

@@ -82,7 +82,7 @@ Ext.define('Onc.tabs.SystemTab', {
 
         this.items = [{
             title: 'System Control',
-            layout: 'fit',
+            layout: 'hbox',
             items: [Ext.widget('computestatecontrol', {
                 enableText: true,
                 disableDetails: true,
@@ -109,8 +109,21 @@ Ext.define('Onc.tabs.SystemTab', {
                                cb);
                     },
                     'stop': function(_, cb) { me.fireEvent('vmsstop', [rec], cb); },
-                    'edit' : function(_, cb) { me.fireEvent('vmedit', rec, cb); }
-            }})]
+                    'edit' : function(_, cb) { me.fireEvent('vmedit', rec, cb); },
+                }}), {
+                xtype: 'container',
+                cls: 'computestatecontrol',
+                items: {
+                    xtype: 'button',
+                    itemId: 'zabbix-button',
+                    scale: 'large',
+                    icon: 'img/icon/zabbix.png',
+                    iconAlign: 'top',
+                    tooltip: 'Zabbix registration',
+                    text: 'Zabbix',
+                    frame: false
+                }
+            }]
         }, {
             title: 'Info',
             layout: {type: 'table', columns: 2},
