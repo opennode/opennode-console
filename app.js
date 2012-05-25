@@ -14,7 +14,7 @@ Ext.Loader.setConfig('paths', {
 
 Ext.Ajax.timeout = 200000;
 
-Ext.Loader.setConfig({enabled: true, disableCaching: false})
+Ext.Loader.setConfig({enabled: true, disableCaching: false});
 
 Ext.syncRequire([
     'Ext.window.MessageBox',
