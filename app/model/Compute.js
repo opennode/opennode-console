@@ -33,7 +33,9 @@ Ext.define('Onc.model.Compute', {
         {name: 'diskspace_usage', persist: false},
         {name: 'network_usage', type: 'float', persist: false},
 
-        {name: 'uptime', type: 'string', persist: false}
+        {name: 'uptime', type: 'string', persist: false},
+
+        {name: 'features'}
     ],
 
     proxy: {
