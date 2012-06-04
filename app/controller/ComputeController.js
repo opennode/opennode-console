@@ -14,16 +14,16 @@ Ext.define('Onc.controller.ComputeController', {
                 this.getController('MainController').openComputeInTab(computeId);
             },
             vmsstart: function(vms, callback) {
-                this._streamSubscribe(vms, callback, 'active');
+                this._setStateAndWait(vms, callback, 'active');
             },
             vmsstop: function(vms, callback) {
-                this._streamSubscribe(vms, callback, 'inactive');
+                this._setStateAndWait(vms, callback, 'inactive');
             },
             vmssuspend: function(vms, callback) {
-                this._streamSubscribe(vms, callback, 'inactive');
+                this._setStateAndWait(vms, callback, 'inactive');
             },
             vmsgraceful: function(vms, callback) {
-                this._streamSubscribe(vms, callback, 'inactive');
+                this._setStateAndWait(vms, callback, 'inactive');
             }
         };
 
@@ -41,93 +41,73 @@ Ext.define('Onc.controller.ComputeController', {
 
     },
 
-    _streamSubscribe: function(vms, callback, desiredState){
+    _setStateAndWait: function(vms, callback, desiredState) {
         var observers = [];
-        var stateChangeCount = 0;
 
         var timerId = setTimeout(function() {
             console.log('* timedout');
-            // disconnect still connected observers
+            // signal connected observers that we are done
             Ext.each(observers, function(observer) {
-                observer.disconnect();
+                observer.finished();
             });
-            onCompleted();
+
         }, 30000);
 
-        function onVMStateChanged() {
-            console.log('# enter onVMStateChanged');
-            stateChangeCount++;
-            if(stateChangeCount === observers.length){
-                console.log('* all vms changed status');
-                onCompleted();
+        function checkCompleted() {
+            if(observers.length == 0) {
+                console.log('* no more computes to wait for');
+                clearTimeout(timerId);
+                callback();
             }
-        };
+        }
 
-        function onCompleted() {
-            console.log('# enter onCompleted');
-            clearTimeout(timerId);
-            callback();
-        };
+        function onVMStateChanged(observer) {
+            console.log('# enter onVMStateChanged', observer);
+            observers.remove(observer);
+            checkCompleted()
+        }
 
         Ext.each(vms, function(vm) {
             if(vm.get('state') === desiredState) {
                 console.log(vm.get('hostname') + ': compute already in ' + desiredState + ' state - skipping');
             } else {
-                var vmObserver = this._createObserver(vm, desiredState, onVMStateChanged);
+                var vmObserver = new this._createObserver(vm, desiredState, onVMStateChanged);
                 observers.push(vmObserver);
                 vmObserver.changeState();
             }
         }, this);
 
-        if(observers.length == 0) {
-            console.log('* 0 computes scheduled for state change - canceling');
-            onCompleted();
-        }
+        checkCompleted();
     },
 
     _createObserver: function(vm, desiredState, vmStateChangedCallback) {
-        return {
-            compute: vm,
-            hubListener: null,
-
+        this.__proto__ = {
             changeState: function() {
                 vm.set('state', desiredState);
                 vm.save();
                 this.log('start state change to ' + desiredState);
-                this.connect();
-            },
-
-            onDataFromHub: function(values) {
-                var i = 0;
-                var cnt = values.compute.length;
-                for(i = 0; i < cnt; i++){
-                    var eo = (values.compute[i])[1];
-                    this.log ('  event -- ' + eo.event + ', ' + eo.name + ', ' + eo.old_value + ', ' + eo.value);
-                    if(eo.name === 'effective_state' && eo.value === desiredState){
-                        this.log('state changed to ' + desiredState);
-                        this.disconnect();
-                        vmStateChangedCallback();
-                        break;
-                    };
-                }
-            },
-
-            connect: function() {
-                this.hubListener = this.onDataFromHub.bind(this);
-                Onc.hub.Hub.subscribe(this.hubListener, {'compute': this.compute.get('url')}, 'state_change');
+                Onc.hub.Hub.subscribe(this.onDataFromHub, {'compute': vm.get('url')}, 'state_change');
                 this.log('subscribed');
             },
 
-            disconnect: function() {
-                if(this.hubListener !== null){
-                    Onc.hub.Hub.unsubscribe(this.hubListener);
-                    this.hubListener = null;
-                    this.log('unsubscribed');
-                }
-            },
+            onDataFromHub: function(values) {
+                values.compute.forEach(function(el) {
+                    var eo = el[1];
+                    this.log ('  event -- ' + eo.event + ', ' + eo.name + ', ' + eo.old_value + ', ' + eo.value);
+                    if(eo.name === 'effective_state' && eo.value === desiredState){
+                        this.log('state changed to ' + desiredState);
+                        this.finished();
+                    };
+                }, this);
+            }.bind(this),
 
-            log: function(msg){
-                console.log('  ' + this.compute.get('hostname') + ': ' + msg);
+            finished: function() {
+                Onc.hub.Hub.unsubscribe(this.onDataFromHub);
+                vmStateChangedCallback(this);
+            }
+
+            log: function(msg) {
+                console.log('  ' + vm.get('hostname') + ': ' + msg);
             }
         };
     }
