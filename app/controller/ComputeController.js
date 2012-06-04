@@ -45,7 +45,7 @@ Ext.define('Onc.controller.ComputeController', {
         var observers = [];
         var stateChangeCount = 0;
 
-        var timerId = setTimeout(function(){
+        var timerId = setTimeout(function() {
             console.log('* timedout');
             // disconnect still connected observers
             Ext.each(observers, function(observer) {
@@ -54,7 +54,7 @@ Ext.define('Onc.controller.ComputeController', {
             onCompleted();
         }, 30000);
 
-        var onVMStateChanged = function(){
+        function onVMStateChanged() {
             console.log('# enter onVMStateChanged');
             stateChangeCount++;
             if(stateChangeCount === observers.length){
@@ -63,42 +63,41 @@ Ext.define('Onc.controller.ComputeController', {
             }
         };
 
-        var onCompleted = function(){
+        function onCompleted() {
             console.log('# enter onCompleted');
             clearTimeout(timerId);
             callback();
         };
 
         Ext.each(vms, function(vm) {
-            if(vm.get('state') === desiredState){
+            if(vm.get('state') === desiredState) {
                 console.log(vm.get('hostname') + ': compute already in ' + desiredState + ' state - skipping');
-            }
-            else {
+            } else {
                 var vmObserver = this._createObserver(vm, desiredState, onVMStateChanged);
                 observers.push(vmObserver);
                 vmObserver.changeState();
             }
         }, this);
 
-        if(observers.length == 0){
+        if(observers.length == 0) {
             console.log('* 0 computes scheduled for state change - canceling');
             onCompleted();
         }
     },
 
-    _createObserver: function(vm, desiredState, vmStateChangedCallback){
+    _createObserver: function(vm, desiredState, vmStateChangedCallback) {
         return {
             compute: vm,
             hubListener: null,
 
-            changeState: function(){
+            changeState: function() {
                 vm.set('state', desiredState);
                 vm.save();
                 this.log('start state change to ' + desiredState);
                 this.connect();
             },
 
-            onDataFromHub: function(values){
+            onDataFromHub: function(values) {
                 var i = 0;
                 var cnt = values.compute.length;
                 for(i = 0; i < cnt; i++){
@@ -115,7 +114,7 @@ Ext.define('Onc.controller.ComputeController', {
 
             connect: function() {
                 this.hubListener = this.onDataFromHub.bind(this);
-                Onc.hub.Hub.subscribe(this.hubListener, {'compute': this.compute.get('url')}, 'features2');
+                Onc.hub.Hub.subscribe(this.hubListener, {'compute': this.compute.get('url')}, 'state_change');
                 this.log('subscribed');
             },
 
