@@ -149,3 +149,9 @@ Number.prototype.round = function(precision) {
 
 
 Array.prototype.clear = function() { return this.splice(); };
+
+Array.prototype.remove = function(el) {
+    var idx = this.indexOf(el);
+    if(idx != -1)
+        this.splice(idx, 1);
+}
