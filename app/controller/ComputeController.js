@@ -66,7 +66,7 @@ Ext.define('Onc.controller.ComputeController', {
 
         Ext.each(vms, function(vm) {
             if(vm.get('state') != desiredState) {
-                var vmObserver = new this._createObserver(vm, desiredState, onVMStateChanged);
+                var vmObserver = this._createObserver(vm, desiredState, onVMStateChanged);
                 observers.push(vmObserver);
                 vmObserver.changeState();
             }
@@ -76,12 +76,12 @@ Ext.define('Onc.controller.ComputeController', {
     },
 
     _createObserver: function(vm, desiredState, vmStateChangedCallback) {
-        this.__proto__ = {
+        return {
             changeState: function() {
                 vm.set('state', desiredState);
                 vm.save();
 
-                Onc.hub.Hub.subscribe(this.onDataFromHub, {'compute': vm.get('url')}, 'state_change');
+                this.subscription = Onc.hub.Hub.subscribe(this.onDataFromHub.bind(this), {'compute': vm.get('url')}, 'state_change');
             },
 
             onDataFromHub: function(values) {
@@ -90,11 +90,13 @@ Ext.define('Onc.controller.ComputeController', {
                     if(eo.name === 'effective_state' && eo.value === desiredState)
                         this.finished();
                 }, this);
-            }.bind(this),
+            },
 
             finished: function() {
-                Onc.hub.Hub.unsubscribe(this.onDataFromHub);
-                vmStateChangedCallback(this);
+                if(this.subscription.subscribed) {
+                    this.subscription.unsubscribe();
+                    vmStateChangedCallback(this);
+                }
             }
         };
     }
