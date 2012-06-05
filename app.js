@@ -41,6 +41,7 @@ Ext.syncRequire([
     'Onc.Proxy',
     'Onc.util.Scheduler',
     'Onc.hub.Hub',
+    'Onc.hub.Subscription',
     'Onc.hub.Sync'
 ]);
 

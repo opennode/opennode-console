@@ -50,6 +50,8 @@ Ext.define('Onc.hub.Hub', {
             console.assert(newReg.length !== this._reg.length, "Registry should shrink after unsubscription");
             this._reg = newReg;
         }
+
+        return Ext.create('Onc.hub.Subscription', subscriber, resources);
     },
 
     /**
