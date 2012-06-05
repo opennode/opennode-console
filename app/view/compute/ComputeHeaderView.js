@@ -34,24 +34,17 @@ Ext.define('Onc.view.compute.ComputeHeaderView', {
 
     onRender: function() {
         this.callParent(arguments);
-        this.__streamSubscribe();
+        this._streamSubscribe();
     },
 
-    __streamSubscribe: function() {
-        console.assert(!this._hubListener);
-        this._hubListener = this._onDataFromHub.bind(this);
-
+    _streamSubscribe: function() {
         var baseUrl= this.record.get('url');
-        Onc.hub.Hub.subscribe(this._hubListener, {
+        this.subscription = Onc.hub.Hub.subscribe(this._onDataFromHub.bind(this), {
             'cpu': baseUrl + 'metrics/{0}_usage'.format('cpu'),
             'memory': baseUrl + 'metrics/{0}_usage'.format('memory'),
             'network': baseUrl + 'metrics/{0}_usage'.format('network'),
             'diskspace': baseUrl + 'metrics/{0}_usage'.format('diskspace'),
         }, 'gauge');
-    },
-
-    __streamUnsubscribe: function() {
-        Onc.hub.Hub.unsubscribe(this._hubListener);
     },
 
     _onDataFromHub: function(values) {
@@ -62,6 +55,6 @@ Ext.define('Onc.view.compute.ComputeHeaderView', {
 
     onDestroy: function() {
         this.callParent(arguments);
-        this.__streamUnsubscribe();
+        this.subscription.unsubscribe();
     }
 });

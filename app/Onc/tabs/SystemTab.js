@@ -165,18 +165,11 @@ Ext.define('Onc.tabs.SystemTab', {
     },
 
     _streamSubscribe: function() {
-        console.assert(!this._hubListener);
-        this._hubListener = this._onDataFromHub.bind(this);
-
         var baseUrl= this.record.get('url');
-        Onc.hub.Hub.subscribe(this._hubListener, {
+        this.subscription = Onc.hub.Hub.subscribe(this._onDataFromHub.bind(this), {
             'memory': baseUrl + 'metrics/{0}_usage'.format('memory'),
             'diskspace': baseUrl + 'metrics/{0}_usage'.format('diskspace'),
         }, 'gauge');
-    },
-
-    _streamUnsubscribe: function() {
-        Onc.hub.Hub.unsubscribe(this._hubListener);
     },
 
     _onDataFromHub: function(values) {
@@ -189,7 +182,8 @@ Ext.define('Onc.tabs.SystemTab', {
         clearInterval(this._uptimeUpdateInterval);
         delete this._uptimeUpdateInterval;
 
-        this._streamUnsubscribe();
+        console.assert(this.subscription);
+        this.subscription.unsubscribe();
     },
 
     saveTags: function() {
