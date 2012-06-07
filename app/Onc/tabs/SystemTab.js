@@ -16,10 +16,10 @@ Ext.define('Onc.tabs.SystemTab', {
     },
 
     gauges: {
-        'ram': {resource: 'memory', label: 'Physical Memory', iconCls: 'icon-memory'},
-        'diskspace-root': {resource: '/', label: 'Root Partition', disk: true},
-        'diskspace-storage': {resource: '/storage', label: 'Storage Partition', disk: true},
-        'diskspace-vz': {resource: '/vz', label: 'VZ Partition', disk: true},
+        'memory': {id: 'ram', label: 'Physical Memory', iconCls: 'icon-memory'},
+        '/': {id: 'diskspace-root', label: 'Root', disk: true},
+        '/storage': {id: 'diskspace-storage', label: 'Storage', disk: true},
+        '/vz': {id: 'diskspace-vz', label: 'VZ', disk: true},
     },
 
     initComponent: function() {
@@ -59,28 +59,37 @@ Ext.define('Onc.tabs.SystemTab', {
 
         var diskspaceUsage = rec.get('diskspace_usage');
         var diskspace = rec.get('diskspace');
-
         var gaugeItems = [];
-        for (id in this.gauges) {
-            gauge = this.gauges[id];
-            if (gauge.disk && !diskspace[gauge.resource]) {
+
+        // non-disk gauges
+        for (resource in this.gauges) {
+            gauge = this.gauges[resource];
+            if(gauge.disk)
                 continue;
-            }
-            var item = {
-                itemId: id + '-gauge',
+            gaugeItems[gaugeItems.length] = {
+                itemId: gauge.id + '-gauge',
                 label: gauge.label,
-                unit: 'MB'
+                unit: 'MB',
+                value: rec.get(resource + '_usage'),
+                max: rec.get(resource),
+                iconCls: gauge.iconCls
             };
-            if (gauge.disk) {
-                item.max = diskspace[gauge.resource];
-                item.value = diskspaceUsage[gauge.resource];
-                item.iconCls = 'icon-hd';
-            } else {
-                item.value = rec.get(gauge.resource + '_usage');
-                item.max = rec.get(gauge.resource);
-                item.iconCls = gauge.iconCls;
-            }
-            gaugeItems[gaugeItems.length] = item;
+        }
+
+        // disk gauges
+        for (partition in diskspace){
+            gauge = this.gauges[partition];
+            // display only partitions (without total, etc.)
+            if(partition.indexOf('/') !== 0)
+                continue;
+            gaugeItems[gaugeItems.length] = {
+                itemId: (gauge !== undefined ? gauge.id : partition.replace('/', '_')) + '-gauge',
+                label: (gauge !== undefined ? gauge.label : partition) + ' Partition',
+                unit: 'MB',
+                max: diskspace[partition],
+                value: diskspaceUsage[partition],
+                iconCls: 'icon-hd'
+            };
         }
 
         this.items = [{
