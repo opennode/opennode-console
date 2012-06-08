@@ -8,7 +8,7 @@ Ext.define('Onc.tabs.SystemTab', {
     },
     autoScroll: true,
 
-    envTags: ['Infrastructure', 'Staging', 'Development', 'Production'],
+    envTags: ['label:Infrastructure', 'label:Staging', 'label:Development', 'label:Production'],
 
     gauges: {
         'memory': {id: 'ram', label: 'Physical Memory', iconCls: 'icon-memory'},
@@ -24,8 +24,13 @@ Ext.define('Onc.tabs.SystemTab', {
 
         this.addEvents('vmsstart', 'vmsstop', 'vmssuspend', 'vmsgraceful');
 
-        // environment tags not present in record
-        var displayTags = Ext.Array.intersect(me.envTags, tagsRec);
+        // display only custom tags from record (start with 'label:')
+        var displayTags = [];
+        Ext.Array.forEach(tagsRec, function(item){
+            if(item.indexOf('label:') === 0) {
+                displayTags.push(item);
+            }
+        }, this);
 
         function _changeStateWithConfirmation(confirmTitle, confirmText, eventName, target, cb) {
             Ext.Msg.confirm(confirmTitle, confirmText,
@@ -141,6 +146,7 @@ Ext.define('Onc.tabs.SystemTab', {
                 xtype: 'tagger',
                 suggestions: this.envTags,
                 tags: displayTags,
+                prefix: 'label:',
                 listeners: {
                     'tagAdded': function(source, tag){
                         var rec = this.record;

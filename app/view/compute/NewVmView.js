@@ -359,8 +359,9 @@ Ext.define('Onc.view.compute.NewVmView', {
                 items: [{
                         id: 'newvm_tagger',
                         xtype: 'tagger',
-                        suggestions:  ['Infrastructure', 'Staging', 'Development', 'Production'],
-                        tags: ['Development']
+                        suggestions:  ['label:Infrastructure', 'label:Staging', 'label:Development', 'label:Production'],
+                        tags: ['label:Development'],
+                        prefix: 'label:'
                  }]
             }],
 
