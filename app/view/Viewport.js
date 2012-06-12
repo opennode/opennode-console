@@ -21,6 +21,11 @@ Ext.define('Onc.view.Viewport', {
             xtype: 'button',
             text: 'Log out',
             style: 'position: absolute; top: 0px; right: 0px'
+        }, {
+            id: 'infrastructurejoin-button',
+            xtype: 'button',
+            text: 'Host management',
+            style: 'position: absolute; top: 0px; right: 55px'
         }]
     }, {
         region: 'west',
