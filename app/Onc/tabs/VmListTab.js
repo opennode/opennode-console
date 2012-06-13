@@ -99,7 +99,14 @@ Ext.define('Onc.tabs.VmListTab', {
                             this.gauge.setValue(data[url]);
                             this.lastValue = data[url];
                         }.bind(metadata);
-                        Onc.hub.Hub.subscribe(metadata.listener, [url], 'gauge');
+
+                        Onc.hub.Hub.subscribe(metadata.listener, [url], 'gauge', function() {
+                            var active = rec.get('state') == 'active';
+                            if (!active)
+                                metadata.gauge.setValue(0);
+                            // TODO: also change here widget active/inactive class if we want differenty visualization
+                            return active;
+                        });
                     }
                 })
             };
