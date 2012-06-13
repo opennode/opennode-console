@@ -1,12 +1,10 @@
-Ext.Loader.setConfig({enabled: true});
 Ext.require([
-    '*',
     'Ext.ux.form.MultiSelect'
 ]);
 
 Ext.define('Onc.view.compute.ZabbixRegistrationView', {
     extend: 'Ext.window.Window',
-    alias: 'widget.zabbix2',
+    alias: 'widget.zabbix',
 
     title: 'Zabbix registration',
     modal: true,
@@ -26,6 +24,8 @@ Ext.define('Onc.view.compute.ZabbixRegistrationView', {
 
     initComponent: function(){
         this.items = [{
+            xtype: 'form',
+            id: 'formZabbix',
             items: [{
                 xtype: 'fieldset',
                 title: 'Host group',
@@ -53,9 +53,9 @@ Ext.define('Onc.view.compute.ZabbixRegistrationView', {
                     items: [{
                         defaultType: 'textfield',
                         items: [
-                                {width:215, fieldLabel: "DNS Name", id: 'zabixx_dns_name',  name: 'dns_name'},
-                                {width:215, fieldLabel: "IP Address", id: 'zabixx_ipv4_address', name: 'ipv4_address', disabled:true},
-                                {width:215, fieldLabel: "Agent port", id: 'zabixx_agent_port', name: 'agent_port'}
+                                {width:215, fieldLabel: "DNS Name", id: 'zabbix_dns_name',  name: 'dns_name', vtype: 'IPAddress'},
+                                {width:215, fieldLabel: "IP Address", id: 'zabbix_ipv4_address', name: 'ipv4_address', disabled:true, vtype: 'IPAddress'},
+                                {width:215, fieldLabel: "Agent port", id: 'zabbix_agent_port', name: 'agent_port', xtype: 'numberfield', minValue: 0}
                         ]
                         }, {
                         defaultType: 'radiofield',
@@ -67,8 +67,8 @@ Ext.define('Onc.view.compute.ZabbixRegistrationView', {
                             padding: '0 0 5 5',
                             listeners: {
                                 'change': function(th, newValue){
-                                    Ext.getCmp('zabixx_dns_name').setDisabled(!newValue);
-                                    Ext.getCmp('zabixx_ipv4_address').setDisabled(newValue);
+                                    Ext.getCmp('zabbix_dns_name').setDisabled(!newValue);
+                                    Ext.getCmp('zabbix_ipv4_address').setDisabled(newValue);
                                 }
                             }
                         }, {
