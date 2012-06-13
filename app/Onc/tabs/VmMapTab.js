@@ -172,9 +172,9 @@ Ext.define('Onc.tabs.VmMapTab', {
                             freeMemory -= memory;
 
                             var url = vm.get('url');
-                            this.subscribeGauge(url, 'cpu', id, vm.getMaxCpuLoad());
-                            this.subscribeGauge(url, 'memory', id, vm.get('memory'));
-                            this.subscribeGauge(url, 'diskspace', id, vm.get('diskspace')['total']);
+                            this.subscribeGauge(vm, url, 'cpu', id, vm.getMaxCpuLoad());
+                            this.subscribeGauge(vm, url, 'memory', id, vm.get('memory'));
+                            this.subscribeGauge(vm, url, 'diskspace', id, vm.get('diskspace')['total']);
                         }, this);
 
                         if (freeMemory) {
@@ -191,7 +191,7 @@ Ext.define('Onc.tabs.VmMapTab', {
                 }
             ],
 
-            subscribeGauge: function(url, name, id, maxValue) {
+            subscribeGauge: function(rec, url, name, id, maxValue) {
                 url += '/metrics/{0}_usage'.format(name);
                 Onc.hub.Hub.subscribe(function(data) {
                     var el = Ext.get(id);
@@ -200,7 +200,15 @@ Ext.define('Onc.tabs.VmMapTab', {
                         value = (isNaN(value) ? 0 : value.round());
                         el.down('.bar.{0}bar div'.format(name)).setWidth('' + value + '%');
                     }
-                }, [url], 'gauge');
+                }, [url], 'gauge', function() {
+                    var active = rec.get('state') == 'active';
+                    if (!active) {
+                        var el = Ext.get(id);
+                        if (el)
+                            el.down('.bar.{0}bar div'.format(name)).setWidth('' + 0 + '%');
+                    }
+                    return active;
+                });
             },
 
             afterRender: function() {
