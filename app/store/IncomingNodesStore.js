@@ -4,7 +4,14 @@ Ext.define('Onc.store.IncomingNodesStore', {
 
     proxy: {
         type: 'onc',
-        reader: 'json',
-        url: '/machine/incoming'
+        reader: {
+            type: 'json',
+            root: 'children'
+        },
+
+        extraParams: {
+            'depth': 3
+        },
+        url: '/machines/incoming'
     }
 });

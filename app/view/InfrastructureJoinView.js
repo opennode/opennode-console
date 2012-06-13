@@ -44,7 +44,7 @@ Ext.define('Onc.view.InfrastructureJoinView', {
                         altText: 'Accept',
                         tooltip: 'Accept',
                         handler: function(grid, rowIndex, colIndex){
-                            this.acceptHost(grid.store.data.items[rowIndex].raw[0]);
+                            this.acceptHost(grid.store.getAt(rowIndex).get('hostname'));
                         }.bind(this)
                     },{
                         icon: 'img/icon/delete.png',
@@ -52,7 +52,7 @@ Ext.define('Onc.view.InfrastructureJoinView', {
                         altText: 'Reject',
                         tooltip: 'Reject',
                         handler: function(grid, rowIndex, colIndex){
-                            this.rejectHost(grid.store.data.items[rowIndex].raw[0]);
+                            this.rejectHost(grid.store.getAt(rowIndex).get('hostname'));
                         }.bind(this)
                     }]
                 }],
@@ -79,7 +79,7 @@ Ext.define('Onc.view.InfrastructureJoinView', {
                         altText: 'Delete',
                         tooltip: 'Delete',
                         handler: function(grid, rowIndex, colIndex){
-                            this.deleteHost(grid.store.data.items[rowIndex].raw[0]);
+                            this.deleteHost(grid.store.getAt(rowIndex).get('hostname'));
                         }.bind(this)
                     }]
                 }],
@@ -88,13 +88,15 @@ Ext.define('Onc.view.InfrastructureJoinView', {
                 }
             }],
             buttons:[{
-                text: 'Cancel', handler: function(){
+                text: 'Close', handler: function(){
                     this.up('window').destroy();
                 }
             }]
         }];
         this.callParent(arguments);
         this.addEvents('hostAccept', 'hostReject', 'hostDelete');
+        this.incomingNodesStore.load();
+        this.registeredNodesStore.load();
     },
     acceptHost: function(val){
         this.fireEvent('hostAccept', this, val);
