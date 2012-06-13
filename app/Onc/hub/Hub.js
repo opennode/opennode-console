@@ -23,8 +23,9 @@ Ext.define('Onc.hub.Hub', {
      *  @param {Array|Object} resources The list or dict of resources.
      *  @param {Function} subscriber The function to pass incoming data to.
      *  @param {String} type The type of the subscription, either 'gauge' or 'chart'.
+     *  @param {Function} function should return true if the subscription is enabled
      */
-    subscribe: function(subscriber, resources, type, _remove) {
+    subscribe: function(subscriber, resources, type, isEnabled, _remove) {
         if (!(subscriber instanceof Function))
             throw new Error("Subscriber must be callable");
 
@@ -35,6 +36,12 @@ Ext.define('Onc.hub.Hub', {
         } else {
             urls = Ext.Object.getValues(resources);
         }
+
+        // TODO: for now we piggy back the enabler function on the subscriber function instead
+        // we should refactor the subscription registry so that we register compound objects
+        // instead of raw subscriber functions
+        if (subscriber instanceof Function)
+            subscriber.isEnabled = isEnabled;
 
         if (!_remove)
             this._registerMapping(subscriber, resources, type);
@@ -61,7 +68,7 @@ Ext.define('Onc.hub.Hub', {
      * @param {Function} subscriber The function instance that was used to create the subscription.
      */
     unsubscribe: function(subscriber, resources) {
-        this.subscribe(subscriber, resources, undefined, true);
+        this.subscribe(subscriber, resources, undefined, undefined, true);
         if (!this._reg.massocValues().contains(subscriber))
             this._mappings.delassoc(subscriber);
     },
@@ -84,10 +91,25 @@ Ext.define('Onc.hub.Hub', {
         this._reg.delmassoc(url);
     },
 
-_poll: function() {
+    _poll: function() {
         var d = new Onc.util.Deferred();
 
-        var urls = this._reg.massocKeys();
+        var enabledReg = this._reg.filter(function(reg) {
+            var isEnabled = reg[1].isEnabled;
+            if (isEnabled) {
+                try {
+                    var res = isEnabled();
+                    return res;
+                } catch (e) {
+                    console.log("Error checking whether subscription is enabled", e);
+                    return false;
+                }
+            }
+            return true;
+        });
+
+        var urls = enabledReg.massocKeys();
+
         if (urls.length === 0) return succeed();
 
         var r = Onc.Backend.request(this.METHOD, this.URL, {
