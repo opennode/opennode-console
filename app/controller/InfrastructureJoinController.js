@@ -37,9 +37,9 @@ Ext.define('Onc.controller.InfrastructureJoinController', {
                    });
                 },
                 'hostDelete': function(source, eventObject){
-                    var url = '/machines/by-name/{0}/actions/delete'.format(hostname);
+                    var url = '/machines/by-name/{0}'.format(eventObject);
 
-                    Onc.Backend.request('PUT', url, {
+                    Onc.Backend.request('DELETE', url, {
                        success: function(response) {
                            console.log('Host Deleted ('+response.responseText+')');
                        },
