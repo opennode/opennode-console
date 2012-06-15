@@ -118,7 +118,7 @@ Ext.define('Onc.tabs.VmListTab', {
                     if (choice === 'yes') {
                         me.down('grid').setLoading(true, true);
                         me.fireEvent(eventName, target, function() {
-                                    cb();
+                                    if(cb) {cb();}
                                     me.down('grid').setLoading(false);
                                     });
                     }
@@ -172,7 +172,13 @@ Ext.define('Onc.tabs.VmListTab', {
                                        cb);
                             },
                             'stop': function(_, cb) { me.fireEvent('vmsstop', [vmRec], cb); },
-                            'details': function(_, cb) { me.fireEvent('showdetails', vmRec, cb); }
+                            'details': function(_, cb) { me.fireEvent('showdetails', vmRec, cb); },
+                            'delete': function(_, cb) { _changeStateWithConfirmation('Deleting a VM',
+                                    'Are you sure you want to delete this VM?',
+                                    'vmsdelete',
+                                    vmRec,
+                                    cb);
+                            }
                         }
                     });
                 })},

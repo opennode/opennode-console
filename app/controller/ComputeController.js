@@ -13,6 +13,21 @@ Ext.define('Onc.controller.ComputeController', {
                 var computeId = vm.get('id');
                 this.getController('MainController').openComputeInTab(computeId);
             },
+            vmsdelete: function(vm, callback) {
+                var computeId = vm.get('id');
+                var url = '/computes/{0}/actions/delete'.format(computeId);
+
+                Onc.Backend.request('DELETE', url, {
+                    success: function(response) {
+                        console.log('Host Deleted ('+response.responseText+')');
+                        callback();
+                    },
+                    failure: function(response) {
+                        console.error(response.responseText);
+                        callback();
+                    }
+                });
+            },
             vmsstart: function(vms, callback) {
                 this._setStateAndWait(vms, callback, 'active');
             },
@@ -61,7 +76,7 @@ Ext.define('Onc.controller.ComputeController', {
 
         function onVMStateChanged(observer) {
             observers.remove(observer);
-            checkCompleted()
+            checkCompleted();
         }
 
         Ext.each(vms, function(vm) {

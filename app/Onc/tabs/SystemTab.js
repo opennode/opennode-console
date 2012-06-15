@@ -98,6 +98,7 @@ Ext.define('Onc.tabs.SystemTab', {
             items: [Ext.widget('computestatecontrol', {
                 enableText: true,
                 disableDetails: true,
+                disableDelete: true,
                 initialState: (rec.get('state') === 'active' ?
                                'running' :
                                rec.get('state') === 'suspended' ?
