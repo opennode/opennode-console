@@ -14,8 +14,7 @@ Ext.define('Onc.controller.ComputeController', {
                 this.getController('MainController').openComputeInTab(computeId);
             },
             vmsdelete: function(vm, callback) {
-                var computeId = vm.get('id');
-                var url = '/computes/{0}/actions/delete'.format(computeId);
+                var url = vm.get('url');
 
                 Onc.Backend.request('DELETE', url, {
                     success: function(response) {
