@@ -141,7 +141,6 @@ Ext.define('Onc.tabs.SystemTab', {
             itemId: 'label-tags',
             frame: true,
             items: [{
-                id: 'systagger',
                 itemId: 'tagger',
                 xtype: 'tagger',
                 suggestions: this.envTags,
