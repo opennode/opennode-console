@@ -1,4 +1,4 @@
-Ext.define('Onc.model.TaskAction', {
+Ext.define('Onc.model.Command', {
     extend: 'Onc.model.Base',
 
     fields: [

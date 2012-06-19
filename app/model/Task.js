@@ -20,7 +20,7 @@ Ext.define('Onc.model.Task', {
 
     hasMany: [
         {
-            model: 'Onc.model.TaskAction',
+            model: 'Onc.model.Command',
             name: 'actions',
         }
     ],

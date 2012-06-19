@@ -3,7 +3,7 @@ Ext.define('Onc.controller.TasksController', {
 
     views: ['TasksView', 'Viewport'],
     stores: ['TasksStore'],
-    models: ['Base', 'Task', 'TaskAction'],
+    models: ['Base', 'Task', 'Command'],
 
     refs: [{ref: 'tasks', selector: '#tasks'}],
 
