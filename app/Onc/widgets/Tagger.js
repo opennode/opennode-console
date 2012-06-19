@@ -42,9 +42,6 @@ Ext.define('Onc.widgets.Tagger', {
         queryMode: 'local',
         displayField: 'val',
         valueField: 'id',
-        store: Ext.create('Ext.data.Store', {
-            model: 'Onc.widgets.TagModel'
-        }),
         width: 100,
         margin: 1,
         emptyText: 'type tag',
@@ -69,6 +66,10 @@ Ext.define('Onc.widgets.Tagger', {
 
         this.combo = this.child('#choose');
         this.tagcontainer = this.child('#tagcontainer');
+
+        this.combo.store = Ext.create('Ext.data.Store', {
+            model: 'Onc.widgets.TagModel'
+        });
 
         this.combo.on({
             'select': function(source, eventObject){
