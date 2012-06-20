@@ -5,31 +5,44 @@ Ext.define('Onc.controller.TasksController', {
     stores: ['TasksStore'],
     models: ['Base', 'Task', 'Command', 'ActionsContainer'],
 
-    refs: [{ref: 'tasks', selector: '#tasks'}],
-
-    _viewport: null,
+    view: null,
 
     init: function() {
         this.control({
             '#tasks-button': {
                 click: function() {
-                    var tasksStore = this.getStore('TasksStore');
-
-                    taskView = this.getView('TasksView').create({
-                        tasksStore: tasksStore
-                    });
-                    taskView.show();
-                    taskView.setLoading(true);
-
-                    tasksStore.load({
-                        scope   : this,
-                        callback: function(records, operation, success) {
-                            console.log(records);
-                            taskView.setLoading(false);
+                    this.view = this.getView('TasksView').create();
+                    this.view.show();
+                    this._load();
+                }
+            },
+            'tasksView': {
+                'taskActionPerformed': function(record, action){
+                    var url = record.get('url') + 'actions/' + action.get('id');
+                    Onc.Backend.request('PUT', url, {
+                        success: function(response) {
+                            this._load();
+                        }.bind(this),
+                        failure: function(response) {
+                            console.error('action ' + url + ' failed: ' + response.responseText);
                         }
                     });
+                },
+                'reload': function(){
+                   this._load();
                 }
             }
         });
     },
+
+    _load: function(){
+        this.view.setLoading(true);
+        var tasksStore = this.getStore('TasksStore');
+        tasksStore.load({
+            scope: this,
+            callback: function(records, operation, success) {
+                this.view.setLoading(false);
+            }
+        });
+    }
 });
