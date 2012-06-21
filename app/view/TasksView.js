@@ -18,7 +18,7 @@ Ext.define('Onc.view.TasksView', {
        xtype: 'grid',
        columns: [
            {header: 'Id', dataIndex: 'id', width: 50},
-           {header: 'Url', dataIndex: 'url', flex: 1},
+           {header: 'Command', dataIndex: 'cmdline', flex: 1},
            {header: 'Actions', dataIndex: 'url', flex: 3},
        ],
        store: 'TasksStore'
