@@ -2,7 +2,7 @@ Ext.define('Onc.model.Task', {
     extend: 'Onc.model.Base',
 
     fields: [
-        {name: 'id', type: 'string'},
+        {name: 'id', type: 'integer'},
         {name: '__type__', type: 'string'},
         {name: 'url', type: 'string'},
     ],
@@ -24,4 +24,18 @@ Ext.define('Onc.model.Task', {
             name: 'actions',
         }
     ],
+
+
+    getChild: function(name) {
+        return this.children().findRecord('id', name);
+    },
+
+    getList: function(name) {
+        var child = this.getChild(name);
+        return child ? child.children() : null;
+    },
+
+    getActions: function() {
+        return this.getList('actions');
+    }
 });

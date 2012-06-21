@@ -23,14 +23,25 @@ Ext.define('Onc.view.TasksView', {
        xtype: 'grid',
        itemId: 'tasksList',
        height: 300,
+       bodyPadding: 0,
        columns: [
            {header: 'Id', dataIndex: 'id'},
            {header: 'Type', dataIndex: '__type__'},
            {header: 'Url', dataIndex: 'url'},
            {header: 'Actions', dataIndex: 'url',
                renderer: function(value, metadata, record){
-                   return record.actions().count();
-               }
+                   var actions = record.getActions();
+                   if (actions){
+                       cnt = actions.count();
+                       cmds = '';
+                       for(var i = 0; i < cnt; i++){
+                           action = actions.getAt(i);
+                           cmds += action.get('id') + ' ';
+                       }
+                       return cmds;
+                   }
+                   return '--';
+               }, flex: 2
            }
        ],
        store: 'TasksStore'

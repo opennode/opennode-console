@@ -13,5 +13,13 @@ Ext.define('Onc.store.TasksStore', {
             exclude: 'completed'
         },
         url: 'proc'
-    }
+    },
+
+    sorters: [
+        {
+            property : 'id',
+            direction: 'ASC'
+        }
+    ]
+
 });
