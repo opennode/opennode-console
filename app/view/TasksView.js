@@ -19,7 +19,7 @@ Ext.define('Onc.view.TasksView', {
        columns: [
            {header: 'Id', dataIndex: 'id', width: 50},
            {header: 'Command', dataIndex: 'cmdline', flex: 1},
-           {header: 'Actions', dataIndex: 'url', flex: 3},
+           {header: 'Actions', dataIndex: 'url', width: 180},
        ],
        store: 'TasksStore'
     }],
