@@ -22,7 +22,7 @@ Ext.define('Onc.tabs.SystemTab', {
         var rec = this.record;
         var tagsRec = rec.get('tags');
 
-        this.addEvents('vmsstart', 'vmsstop', 'vmssuspend', 'vmsgraceful');
+        this.addEvents('vmsstart', 'vmsstop', 'vmssuspend', 'vmsgraceful', 'vmedit');
 
         // display only custom tags from record (start with 'label:')
         var displayTags = [];
@@ -87,6 +87,7 @@ Ext.define('Onc.tabs.SystemTab', {
                 enableText: true,
                 disableDetails: true,
                 disableDelete: true,
+                disableEdit: rec.isPhysical(),
                 initialState: (rec.get('state') === 'active' ?
                                'running' :
                                rec.get('state') === 'suspended' ?
@@ -108,6 +109,7 @@ Ext.define('Onc.tabs.SystemTab', {
                                cb);
                     },
                     'stop': function(_, cb) { me.fireEvent('vmsstop', [rec], cb); },
+                    'edit' : function(_, cb) { me.fireEvent('vmedit', rec, cb); }
             }})]
         }, {
             title: 'Info',

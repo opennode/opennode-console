@@ -113,5 +113,14 @@ Ext.define('Onc.model.Compute', {
 
     toString: function() {
         return '<Compute {0}>'.format(this.getRepr());
+    },
+
+    isPhysical: function() {
+        var features = this.get('features');
+        for(var i = 0; i < features.length; i++){
+            if(features[i] === 'IVirtualCompute')
+                return false;
+        };
+        return true;
     }
 });

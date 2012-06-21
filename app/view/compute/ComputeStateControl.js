@@ -7,7 +7,7 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
     initComponent: function() {
         var me = this;
 
-        this.addEvents('start', 'suspend', 'graceful', 'stop', 'details');
+        this.addEvents('start', 'suspend', 'graceful', 'stop', 'details', 'edit');
 
         function makeButton(name, text, tooltip, hidden, transientState, finalState) {
             var button = {
@@ -49,7 +49,9 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
         if(!this.disableDelete) {
             buttons[buttons.length] = makeButton('delete', "Delete", "Delete machine", false);
         }
-        buttons[buttons.length] = makeButton('edit', "Edit", "Edit machine", false);
+        if (!this.disableEdit) {
+            buttons[buttons.length] = makeButton('edit', "Edit", "Edit machine", false);
+        }
         this.items = buttons;
 
         this.callParent(arguments);
