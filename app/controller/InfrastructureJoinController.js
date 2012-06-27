@@ -4,21 +4,32 @@ Ext.define('Onc.controller.InfrastructureJoinController', {
     views: ['InfrastructureJoinView'],
     models: ['ManagedNode'],
     stores: ['RegisteredNodesStore', 'IncomingNodesStore'],
+
     refs: [
-           {ref: 'window', selector: 'window.infrastructurejoin'},
-           {ref: 'form', selector: 'window.infrastructurejoin form'}
-          ],
+        {ref: 'window', selector: 'window.infrastructurejoin'},
+        {ref: 'form', selector: 'window.infrastructurejoin form'}
+    ],
+
+    view: null,
 
     init: function(){
         this.control({
+            '#infrastructurejoin-button':{
+                click: function() {
+                    this.view = this.getView('InfrastructureJoinView').create();
+                    this.view.show();
+                    this._load();
+                }
+            },
+
             '#infrastructureJoin':{
                 'hostAccept': function(source, eventObject){
                     var url = '/machines/incoming/{0}/actions/accept'.format(hostname);
 
                     Onc.Backend.request('PUT', url, {
                        success: function(response) {
-                           console.log('Host Accepted ('+response.responseText+')');
-                       },
+                           this._load();
+                       }.bind(this),
                        failure: function(response) {
                            console.error(response.responseText);
                        }
@@ -30,7 +41,8 @@ Ext.define('Onc.controller.InfrastructureJoinController', {
                     Onc.Backend.request('PUT', url, {
                        success: function(response) {
                            console.log('Host Rejected ('+response.responseText+')');
-                       },
+                           this._load();
+                       }.bind(this),
                        failure: function(response) {
                            console.error(response.responseText);
                        }
@@ -42,22 +54,19 @@ Ext.define('Onc.controller.InfrastructureJoinController', {
                     Onc.Backend.request('DELETE', url, {
                        success: function(response) {
                            console.log('Host Deleted ('+response.responseText+')');
-                       },
+                           this._load();
+                       }.bind(this),
                        failure: function(response) {
                            console.error(response.responseText);
                        }
                    });
                 }
-            },
-
-            '#infrastructurejoin-button':{
-                click: function() {
-                    this.getView('InfrastructureJoinView').create({
-                        incomingNodesStore: Ext.getStore('IncomingNodesStore'),
-                        registeredNodesStore: Ext.getStore('RegisteredNodesStore')
-                    }).show();
-                }
             }
         });
+    },
+
+    _load: function(){
+        this.getStore('IncomingNodesStore').load();
+        this.getStore('RegisteredNodesStore').load();
     }
 });

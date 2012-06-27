@@ -25,15 +25,15 @@ Ext.define('Onc.view.InfrastructureJoinView', {
             xtype: 'form',
             itemId: 'formInfrastructureJoin',
             items: [{
-                store: this.incomingNodesStore,
                 xtype: 'grid',
+                store: 'IncomingNodesStore',
                 title: 'Requests',
                 height: 160,
                 autoScroll: true,
                 columns: [{
-                    text     : 'Hostname',
-                    flex     : 1,
-                    sortable : false,
+                    text: 'Hostname',
+                    flex: 1,
+                    sortable: false,
                     dataIndex: 'hostname'
                 }, {
                     xtype: 'actioncolumn',
@@ -60,15 +60,15 @@ Ext.define('Onc.view.InfrastructureJoinView', {
                     stripeRows: true
                 }
             },{
-                store: this.registeredNodesStore,
                 xtype: 'grid',
+                store: 'RegisteredNodesStore',
                 title: 'Registered hosts',
                 height: 160,
                 autoScroll: true,
                 columns: [{
-                    text     : 'Hostname',
-                    flex     : 1,
-                    sortable : false,
+                    text: 'Hostname',
+                    flex: 1,
+                    sortable: false,
                     dataIndex: 'hostname'
                 }, {
                     xtype: 'actioncolumn',
@@ -93,17 +93,20 @@ Ext.define('Onc.view.InfrastructureJoinView', {
                 }
             }]
         }];
+
         this.callParent(arguments);
+
         this.addEvents('hostAccept', 'hostReject', 'hostDelete');
-        this.incomingNodesStore.load();
-        this.registeredNodesStore.load();
     },
+
     acceptHost: function(val){
         this.fireEvent('hostAccept', this, val);
     },
+
     rejectHost: function(val){
         this.fireEvent('hostReject', this, val);
     },
+
     deleteHost: function(val){
         this.fireEvent('hostDelete', this, val);
     }
