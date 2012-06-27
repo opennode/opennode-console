@@ -58,6 +58,9 @@ Ext.define('Onc.controller.InfrastructureJoinController', {
                            console.error('Delete host action failed: ' + response.responseText);
                        }
                    });
+                },
+                'reload': function(source){
+                    this._load();
                 }
             }
         });

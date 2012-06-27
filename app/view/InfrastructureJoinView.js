@@ -88,6 +88,10 @@ Ext.define('Onc.view.InfrastructureJoinView', {
                 }
             }],
             buttons:[{
+                text: 'Reload', handler: function(){
+                    this.fireEvent('reload', this);
+                }.bind(this),
+            }, {
                 text: 'Close', handler: function(){
                     this.up('window').destroy();
                 }
@@ -96,7 +100,7 @@ Ext.define('Onc.view.InfrastructureJoinView', {
 
         this.callParent(arguments);
 
-        this.addEvents('hostAccept', 'hostReject', 'hostDelete');
+        this.addEvents('hostAccept', 'hostReject', 'hostDelete', 'reload');
     },
 
     acceptHost: function(hostname){
