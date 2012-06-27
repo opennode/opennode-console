@@ -105,8 +105,9 @@ Ext.define('Onc.controller.ZabbixRegistrationController', {
 
 Ext.apply(Ext.form.field.VTypes, {
          IPAddress:  function(v) {
-             return /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/.test(v);
+           var ValidIpAddressRegex = /(^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$)|(^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])$)/;
+             return ValidIpAddressRegex.test(v);
          },
-         IPAddressText: 'Must be a numeric IP address',
-         IPAddressMask: /[\d\.]/i
+         IPAddressText: 'Invalid Hostname or IP address',
+         IPAddressMask: /[-.a-zA-Z0-9]/
  });
