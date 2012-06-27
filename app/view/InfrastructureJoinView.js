@@ -44,7 +44,7 @@ Ext.define('Onc.view.InfrastructureJoinView', {
                         altText: 'Accept',
                         tooltip: 'Accept',
                         handler: function(grid, rowIndex, colIndex){
-                            this.acceptHost(grid.store.getAt(rowIndex).get('hostname'));
+                            this._acceptHost(grid.store.getAt(rowIndex).get('hostname'));
                         }.bind(this)
                     },{
                         icon: 'img/icon/delete.png',
@@ -52,7 +52,7 @@ Ext.define('Onc.view.InfrastructureJoinView', {
                         altText: 'Reject',
                         tooltip: 'Reject',
                         handler: function(grid, rowIndex, colIndex){
-                            this.rejectHost(grid.store.getAt(rowIndex).get('hostname'));
+                            this._rejectHost(grid.store.getAt(rowIndex).get('hostname'));
                         }.bind(this)
                     }]
                 }],
@@ -79,7 +79,7 @@ Ext.define('Onc.view.InfrastructureJoinView', {
                         altText: 'Delete',
                         tooltip: 'Delete',
                         handler: function(grid, rowIndex, colIndex){
-                            this.deleteHost(grid.store.getAt(rowIndex).get('hostname'));
+                            this._deleteHost(grid.store.getAt(rowIndex).get('hostname'));
                         }.bind(this)
                     }]
                 }],
@@ -103,15 +103,32 @@ Ext.define('Onc.view.InfrastructureJoinView', {
         this.addEvents('hostAccept', 'hostReject', 'hostDelete', 'reload');
     },
 
-    acceptHost: function(hostname){
+
+    _acceptHost: function(hostname){
         this.fireEvent('hostAccept', this, hostname);
     },
 
-    rejectHost: function(hostname){
-        this.fireEvent('hostReject', this, hostname);
+    _rejectHost: function(hostname){
+        this._performActionWithConfirmation(
+                'Reject Host',
+                'Are you sure you want to reject host <b>{0}<b>'.format(hostname),
+                'hostReject', hostname);
     },
 
-    deleteHost: function(hostname){
-        this.fireEvent('hostDelete', this, hostname);
+    _deleteHost: function(hostname){
+        this._performActionWithConfirmation(
+                'Delete Host',
+                'Are you sure you want to delete host <b>{0}<b>'.format(hostname),
+                'hostDelete', hostname);
+    },
+
+    _performActionWithConfirmation: function(confirmTitle, confirmText, eventName, hostname) {
+        Ext.Msg.confirm(confirmTitle, confirmText,
+            function(choice) {
+                if (choice === 'yes') {
+                    this.fireEvent(eventName, this, hostname);
+                };
+            }.bind(this)
+        );
     }
 });
