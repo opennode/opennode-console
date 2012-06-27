@@ -37,7 +37,9 @@ Ext.define('Onc.view.compute.ZabbixRegistrationView', {
                     id: 'multiselect-field',
                     allowBlank: false,
                     height: 200,
-                    store: this.hostGroupStore
+                    store: 'ZabbixHostgroupsStore',
+                    displayField: 'id',
+                    valueField: 'id'
                 }]
             }, {
                 xtype: 'fieldset',

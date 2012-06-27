@@ -4,23 +4,18 @@ Ext.define('Onc.controller.ZabbixRegistrationController', {
     views: ['compute.ZabbixRegistrationView'],
 
     refs: [
-           {ref: 'zbwindow', selector: 'window.zabbix'},
-           {ref: 'form', selector: 'window.zabbix form'},
-           {ref: 'computesystemtab', selector: '#systemtab'}
-       ],
+        {ref: 'zbwindow', selector: 'window.zabbix'},
+        {ref: 'form', selector: 'window.zabbix form'},
+        {ref: 'computesystemtab', selector: '#systemtab'}
+    ],
 
     init: function() {
         this.control({
             'computesystemtab #zabbix-button': {
                 click: function() {
-                    this.getView('compute.ZabbixRegistrationView').create({
-                        // TODO: remove example store
-                        hostGroupStore: [
-                           ['1', 'One'], ['2', 'Two'], ['3', 'Three'], ['4', 'Four'],
-                           ['5', 'Five'], ['6', 'Six'], ['7', 'Seven'], ['8', 'Eight']
-                       ]
-                    }).show();
-                    ;
+                  var zabbixStore = this.getStore('ZabbixHostgroupsStore');
+                  zabbixStore.load();
+                    this.getView('compute.ZabbixRegistrationView').create().show();
                 }
             },
             '#save-zabbix-regitration-button': {
@@ -68,7 +63,7 @@ Ext.define('Onc.controller.ZabbixRegistrationController', {
                             }
                         });
                     }
-                }//.bind(this)
+                }
             }
         });
     },
