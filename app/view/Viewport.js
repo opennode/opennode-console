@@ -12,20 +12,26 @@ Ext.define('Onc.view.Viewport', {
         html: '<img src="img/onc_logo.png" alt="OpenNode Console" width="436px" height="59px" />',
         frame: true,
         items: [{
-            id: 'tasks-button',
-            xtype: 'button',
-            text: 'Tasks',
-            style: 'position: absolute; top: 0px; right: 53px'
-        }, {
-            id: 'logout-button',
-            xtype: 'button',
-            text: 'Log out',
-            style: 'position: absolute; top: 0px; right: 0px'
-        }, {
-            id: 'infrastructurejoin-button',
-            xtype: 'button',
-            text: 'Host management',
-            style: 'position: absolute; top: 0px; right: 55px'
+            xtype: 'container',
+            border: false,
+            style: 'position: absolute; top: 2px; right: 0px',
+            bodyStyle: 'background: inherit',
+            defaults: {
+                margin: '0 0 0 2'
+            },
+            items: [{
+                id: 'tasks-button',
+                xtype: 'button',
+                text: 'Tasks',
+            }, {
+                id: 'infrastructurejoin-button',
+                xtype: 'button',
+                text: 'Host management',
+            }, {
+                id: 'logout-button',
+                xtype: 'button',
+                text: 'Log out',
+            }]
         }]
     }, {
         region: 'west',
