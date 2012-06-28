@@ -17,7 +17,6 @@ Ext.define('Onc.view.InfrastructureJoinView', {
     defaults: {
         border: false,
         bodyStyle: 'background: inherit',
-        bodyPadding: 4
     },
 
     initComponent: function(){
@@ -29,6 +28,7 @@ Ext.define('Onc.view.InfrastructureJoinView', {
                 store: 'IncomingNodesStore',
                 title: 'Requests',
                 height: 160,
+                margin: '0 0 5 0',
                 autoScroll: true,
                 columns: [{
                     text: 'Hostname',
