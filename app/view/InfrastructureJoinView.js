@@ -99,15 +99,15 @@ Ext.define('Onc.view.InfrastructureJoinView', {
         this.addEvents('hostAccept', 'hostReject', 'hostDelete');
     },
 
-    acceptHost: function(val){
-        this.fireEvent('hostAccept', this, val);
+    acceptHost: function(hostname){
+        this.fireEvent('hostAccept', this, hostname);
     },
 
-    rejectHost: function(val){
-        this.fireEvent('hostReject', this, val);
+    rejectHost: function(hostname){
+        this.fireEvent('hostReject', this, hostname);
     },
 
-    deleteHost: function(val){
-        this.fireEvent('hostDelete', this, val);
+    deleteHost: function(hostname){
+        this.fireEvent('hostDelete', this, hostname);
     }
 });

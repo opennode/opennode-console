@@ -23,7 +23,7 @@ Ext.define('Onc.controller.InfrastructureJoinController', {
             },
 
             '#infrastructureJoin':{
-                'hostAccept': function(source, eventObject){
+                'hostAccept': function(source, hostname){
                     var url = '/machines/incoming/{0}/actions/accept'.format(hostname);
 
                     Onc.Backend.request('PUT', url, {
@@ -31,33 +31,31 @@ Ext.define('Onc.controller.InfrastructureJoinController', {
                            this._load();
                        }.bind(this),
                        failure: function(response) {
-                           console.error(response.responseText);
+                           console.error('Accept host action failed: ' + response.responseText);
                        }
                    });
                 },
-                'hostReject': function(source, eventObject){
+                'hostReject': function(source, hostname){
                     var url = '/machines/incoming/{0}/actions/reject'.format(hostname);
 
                     Onc.Backend.request('PUT', url, {
                        success: function(response) {
-                           console.log('Host Rejected ('+response.responseText+')');
                            this._load();
                        }.bind(this),
                        failure: function(response) {
-                           console.error(response.responseText);
+                           console.error('Reject host action failed: ' + response.responseText);
                        }
                    });
                 },
-                'hostDelete': function(source, eventObject){
-                    var url = '/machines/by-name/{0}'.format(eventObject);
+                'hostDelete': function(source, hostname){
+                    var url = '/machines/by-name/{0}'.format(hostname);
 
                     Onc.Backend.request('DELETE', url, {
                        success: function(response) {
-                           console.log('Host Deleted ('+response.responseText+')');
                            this._load();
                        }.bind(this),
                        failure: function(response) {
-                           console.error(response.responseText);
+                           console.error('Delete host action failed: ' + response.responseText);
                        }
                    });
                 }
