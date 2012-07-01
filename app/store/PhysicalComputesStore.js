@@ -2,10 +2,19 @@ Ext.define('Onc.store.PhysicalComputesStore', {
     extend: 'Ext.data.Store',
     model: 'Onc.model.Compute',
 
-    filters: new Ext.util.Filter({
-        filterFn: function(item) {
-            return item.getChild('vms');
-        }
-    })
+    proxy: {
+        type: 'onc',
+        reader: {
+            type: 'json',
+            root: 'children'
+        },
+
+        extraParams: {
+            'exclude': 'incoming',
+            'depth': 3
+        },
+
+        url: 'machines/'
+    }
 });
 
