@@ -26,6 +26,10 @@ Ext.define('Onc.tabs.VmListTab', {
             {text: 'Show Details', icon: 'ZoomIn', handler: function(vms) {
                 console.assert(vms.length === 1);
                 me.fireEvent('showdetails', vms[0]);
+            }},
+            {text: 'Edit', icon: 'Edit', handler: function(vms) {
+                console.assert(vms.length === 1);
+                me.fireEvent('vmedit', vms[0]);
             }}
         ];
 
