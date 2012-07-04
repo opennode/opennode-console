@@ -22,13 +22,13 @@ Ext.app.Controller.override({
 
 
 Ext.app.Controller.implement({
-    fireBusEvent: function(eventName, args){
+    fireBusEvent: function(eventName, args) {
         Onc.EventBus.fireEvent(eventName, args);
     },
 
-    registerBusListeners: function(listeners){
+    registerBusListeners: function(listeners) {
         if(listeners !== undefined){
-            Ext.Object.each(listeners, function(ev, listener){
+            Ext.Object.each(listeners, function(ev, listener) {
                 Onc.EventBus.addListener(ev, listener, this);
             }.bind(this));
         };
