@@ -30,7 +30,7 @@ Ext.app.Controller.implement({
         if(listeners !== undefined){
             Ext.Object.each(listeners, function(ev, listener){
                 Onc.EventBus.addListener(ev, listener, this);
-            });
+            }.bind(this));
         };
     },
 });
