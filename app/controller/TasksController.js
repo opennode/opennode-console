@@ -7,15 +7,15 @@ Ext.define('Onc.controller.TasksController', {
 
     view: null,
 
-    init: function() {
-        this.registerBusListeners({
-            displayTaskManager: function(){
-                this.view = this.getView('TasksView').create();
-                this.view.show();
-                this._load();
-            }.bind(this)
-        }),
+    busListeners: {
+        displayTaskManager: function(ev) {
+            this.view = this.getView('TasksView').create();
+            this.view.show();
+            this._load();
+        }
+    },
 
+    init: function() {
         this.control({
             'tasksView': {
                 'taskActionPerformed': function(record, action){
