@@ -12,15 +12,16 @@ Ext.define('Onc.controller.InfrastructureJoinController', {
 
     view: null,
 
-    init: function(){
-        this.registerBusListeners({
-            displayHostManager: function(){
-                this.view = this.getView('InfrastructureJoinView').create();
-                this.view.show();
-                this._load();
-            }.bind(this)
-        }),
 
+    busListeners: {
+        displayHostManager: function(){
+            this.view = this.getView('InfrastructureJoinView').create();
+            this.view.show();
+            this._load();
+        }
+    },
+
+    init: function(){
         this.control({
             '#infrastructureJoin':{
                 'hostAccept': function(source, hostname){
