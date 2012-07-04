@@ -14,7 +14,7 @@ Ext.define('Onc.controller.InfrastructureJoinController', {
 
 
     busListeners: {
-        displayHostManager: function(){
+        displayHostManager: function() {
             this.view = this.getView('InfrastructureJoinView').create();
             this.view.show();
             this._load();
