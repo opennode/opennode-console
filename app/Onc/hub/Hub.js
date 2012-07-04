@@ -12,6 +12,9 @@ Ext.define('Onc.hub.Hub', {
     _running: false,
     _relativisticToken: +(new Date),
 
+    _last_hash: "",
+    _last_urls: [],
+
     /**
      *  Subscribes the given objects to the specified resources.
      *
@@ -112,14 +115,27 @@ Ext.define('Onc.hub.Hub', {
 
         if (urls.length === 0) return succeed();
 
-        var r = Onc.Backend.request(this.METHOD, this.URL, {
-            params: {'after': this._relativisticToken || 0},
-            jsonData: urls
-        });
+        // hackish array equality check
+        if (this._last_hash && !(urls < this._last_urls && urls > this._last_urls)) {
+            var r = Onc.Backend.request(this.METHOD, this.URL, {
+                params: {'after': this._relativisticToken || 0, 'subscription_hash': this._last_hash},
+                jsonData: []
+            });
+        } else {
+            var r = Onc.Backend.request(this.METHOD, this.URL, {
+                params: {'after': this._relativisticToken || 0},
+                jsonData: urls
+            });
+        }
 
         r.success(d.trigger(function(result, response) {
             this._relativisticToken = result[0];
             var streamData = result[1];
+
+            if(response.getResponseHeader('X-OMS-Subscription-Hash')) {
+                this._last_urls = urls;
+                this._last_hash = response.getResponseHeader('X-OMS-Subscription-Hash');
+            }
 
             var replies = [];
             Ext.Object.each(streamData, function(urlIx, updates) {
@@ -146,6 +162,7 @@ Ext.define('Onc.hub.Hub', {
         }.bind(this)));
 
         r.failure(d.triggerErrback(function(response) {
+            this._last_hash = "";
             console.error("Failed to poll %s", this.URL);
         }.bind(this)));
 
