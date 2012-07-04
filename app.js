@@ -44,7 +44,8 @@ Ext.syncRequire([
     'Onc.util.Scheduler',
     'Onc.hub.Hub',
     'Onc.hub.Subscription',
-    'Onc.hub.Sync'
+    'Onc.hub.Sync',
+    'Onc.EventBus'
 ]);
 
 if (ENABLE_VMMAP == true) {
