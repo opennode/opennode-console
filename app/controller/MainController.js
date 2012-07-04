@@ -72,6 +72,16 @@ Ext.define('Onc.controller.MainController', {
                         parentCompute: parentCompute
                     }).show();
                 }
+            },
+            '#tasks-button': {
+                click: function() {
+                    this.fireBusEvent('displayTaskManager');
+                }
+            },
+            '#infrastructurejoin-button':{
+                click: function() {
+                    this.fireBusEvent('displayHostManager');
+                }
             }
         });
     }

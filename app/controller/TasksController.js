@@ -8,14 +8,15 @@ Ext.define('Onc.controller.TasksController', {
     view: null,
 
     init: function() {
+        this.registerBusListeners({
+            displayTaskManager: function(){
+                this.view = this.getView('TasksView').create();
+                this.view.show();
+                this._load();
+            }.bind(this)
+        }),
+
         this.control({
-            '#tasks-button': {
-                click: function() {
-                    this.view = this.getView('TasksView').create();
-                    this.view.show();
-                    this._load();
-                }
-            },
             'tasksView': {
                 'taskActionPerformed': function(record, action){
                     var url = record.get('url') + 'actions/' + action.get('id');
@@ -29,7 +30,7 @@ Ext.define('Onc.controller.TasksController', {
                     });
                 },
                 'reload': function(){
-                   this._load();
+                    this._load();
                 }
             }
         });
