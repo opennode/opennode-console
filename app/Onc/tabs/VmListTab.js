@@ -5,58 +5,9 @@ Ext.define('Onc.tabs.VmListTab', {
     layout: 'fit',
 
     initComponent: function() {
-        var me = this;
         var rec = this.record;
 
-        this.addEvents('showdetails', 'vmsstart', 'vmsstop', 'vmssuspend', 'vmsgraceful', 'vmedit');
-
-        var actions = [
-            {text: 'Start', icon: 'Start', handler: function(vms) {
-                me.down('grid').setLoading(true, true);
-                me.fireEvent('vmsstart', vms, function() {
-                    me.down('grid').setLoading(false);
-                });
-            }},
-            {text: 'Shut Down', icon: 'Standby', handler: function(vms) {
-                me.down('grid').setLoading(true, true);
-                me.fireEvent('vmsstop', vms, function() {
-                    me.down('grid').setLoading(false);
-                });
-            }},
-            {text: 'Show Details', icon: 'ZoomIn', handler: function(vms) {
-                console.assert(vms.length === 1);
-                me.fireEvent('showdetails', vms[0]);
-            }},
-            {text: 'Edit', icon: 'Edit', handler: function(vms) {
-                console.assert(vms.length === 1);
-                me.fireEvent('vmedit', vms[0]);
-            }}
-        ];
-
-        var tbarButtons = actions.map(function(action) {
-            return {
-                icon: 'img/icon/' + action.icon + '16.png',
-                listeners: {
-                    'click': function() {
-                        var selectedItems = me.child('gridpanel').getSelectionModel().getSelection();
-                        if (selectedItems.length === 0)
-                            Ext.Msg.show({title: "Error", msg: "Please select a VM from the list.",
-                                          buttons: Ext.Msg.OK, icon: Ext.Msg.ERROR});
-                        else
-                            action.handler(selectedItems);
-                    }
-                }
-            };
-        });
-
-        tbarButtons.pop();  // Don't want the 'Show Details' button for multiple VMs
-
-        tbarButtons.unshift({xtype: 'tbseparator'});
-        tbarButtons.unshift({
-            itemId: 'new-vm-button', text: 'New', icon: 'img/icon/add.png', tooltip: 'Add a new virtual machine'
-        }, !ENABLE_VMLIST_DELETE ? [] : {
-            itemId: 'delete-vm-button', text: 'Delete', icon: 'img/icon/delete.png', tooltip: 'Delete the selected virtual machines'
-        });
+        this.addEvents('groupStop', 'groupStart');
 
         this.items = [{
             xtype: 'gridpanel',
@@ -72,7 +23,7 @@ Ext.define('Onc.tabs.VmListTab', {
                 }
             },
 
-            tbar: tbarButtons,
+            tbar: this._createTbarButtons(),
             //plugins: Ext.create('Ext.grid.plugin.RowEditing'),
 
             columns: [
@@ -99,45 +50,60 @@ Ext.define('Onc.tabs.VmListTab', {
 
     // Helper methods
 
+    _createTbarButtons: function(){
+        var actions = [{
+            text: 'Start',
+            icon: 'Start',
+            handler: function(vms) {
+                this.fireEvent('groupStart', vms);
+            }.bind(this)
+        }, {
+            text: 'Shut Down',
+            icon: 'Standby',
+            handler: function(vms) {
+                this.fireEvent('groupStop', vms);
+            }.bind(this)
+        }];
+
+        var tbarButtons = actions.map(function(action) {
+            return {
+                icon: 'img/icon/' + action.icon + '16.png',
+                listeners: {
+                    'click': function() {
+                        var selectedItems = this.child('gridpanel').getSelectionModel().getSelection();
+                        if (selectedItems.length === 0)
+                            Ext.Msg.show({title: "Error", msg: "Please select a VM from the list.",
+                                buttons: Ext.Msg.OK, icon: Ext.Msg.ERROR});
+                        else
+                            action.handler(selectedItems);
+                    }.bind(this)
+                }
+            };
+        }.bind(this));
+
+        tbarButtons.unshift({xtype: 'tbseparator'});
+        tbarButtons.unshift({
+            itemId: 'new-vm-button',
+            text: 'New',
+            icon: 'img/icon/add.png',
+            tooltip: 'Add a new virtual machine'
+        },
+        !ENABLE_VMLIST_DELETE ? [] : {
+            itemId: 'delete-vm-button',
+            text: 'Delete',
+            icon: 'img/icon/delete.png',
+            tooltip: 'Delete the selected virtual machines'
+        });
+
+        return tbarButtons;
+    },
+
     _createComputeStateControl: function(domId, vmRec, _){
         return Ext.widget('computestatecontrol', {
+            compute: vmRec,
             initialState: (vmRec.get('state') === 'active' ? 'running' :
                     vmRec.get('state') === 'suspended' ? 'suspended' : 'stopped'),
             renderTo: domId,
-            listeners: {
-                'start': function(_, cb) {
-                    this._changeStateWithConfirmation('Starting a VM',
-                            'Are you sure you want to boot this VM?', 'vmsstart', [vmRec], cb);
-                }.bind(this),
-
-                'suspend': function(_, cb) {
-                    this.fireEvent('vmssuspend', [vmRec], cb);
-                }.bind(this),
-
-                'graceful': function(_, cb) {
-                    this._changeStateWithConfirmation('Shutting down a VM',
-                           'Are you sure? All of the processes inside a VM will be stoppped',
-                           'vmsgraceful', [vmRec], cb);
-                }.bind(this),
-
-                'stop': function(_, cb) {
-                    this.fireEvent('vmsstop', [vmRec], cb);
-                }.bind(this),
-
-                'details': function(_, cb) {
-                    this.fireEvent('showdetails', vmRec, cb);
-                }.bind(this),
-
-                'delete': function(_, cb) {
-                    this._changeStateWithConfirmation('Deleting a VM',
-                            'Are you sure you want to delete this VM?',
-                            'vmsdelete', vmRec, cb);
-                }.bind(this),
-
-                'edit' : function(_, cb) {
-                    this.fireEvent('vmedit', vmRec, cb);
-                }.bind(this)
-            }
         });
     },
 
@@ -185,19 +151,5 @@ Ext.define('Onc.tabs.VmListTab', {
                 }
             })
         };
-    },
-
-    _changeStateWithConfirmation: function(confirmTitle, confirmText, eventName, target, cb) {
-        Ext.Msg.confirm(confirmTitle, confirmText,
-            function(choice) {
-                if (choice === 'yes') {
-                    this.down('grid').setLoading(true, true);
-                    this.fireEvent(eventName, target, function() {
-                        if(cb) {cb();}
-                        this.down('grid').setLoading(false);
-                    }.bind(this));
-                }
-            }.bind(this)
-        );
     }
 });
