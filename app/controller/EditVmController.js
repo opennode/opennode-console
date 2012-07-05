@@ -9,6 +9,15 @@ Ext.define('Onc.controller.EditVmController', {
         {ref: 'form', selector: 'window.editvm form'}
     ],
 
+    busListeners: {
+        displayEditVMDialog: function(event){
+            this.getView('compute.EditVmView').create({
+                parentCompute: event.hn,
+                compute: event.compute
+            }).show();
+        }
+    },
+
     init: function() {
         var me = this;
         this.control({

@@ -1,7 +1,7 @@
 Ext.define('Onc.controller.ComputeController', {
     extend: 'Ext.app.Controller',
 
-    views: ['compute.NewVmView', 'compute.ComputeStateControl'],
+    views: ['compute.ComputeStateControl'],
 
     refs: [
         {ref: 'computeInfo', selector: 'computeview'}
@@ -9,16 +9,12 @@ Ext.define('Onc.controller.ComputeController', {
 
     init: function() {
         var vmactions = {
-            showdetails: function(vm) {
-                var computeId = vm.get('id');
-                this.getController('MainController').openComputeInTab(computeId);
-            },
             vmsdelete: function(vm, callback) {
                 var url = vm.get('url');
 
                 Onc.Backend.request('DELETE', url, {
                     success: function(response) {
-                        console.log('Host Deleted ('+response.responseText+')');
+                        console.log('Host Deleted (' + response.responseText + ')');
                         callback();
                     },
                     failure: function(response) {
@@ -40,24 +36,21 @@ Ext.define('Onc.controller.ComputeController', {
                 this._setStateAndWait(vms, callback, 'inactive');
             },
             vmedit: function(vm, callback) {
-              var computeId = vm.get('id');
-                this.getView('compute.EditVmView').create({
-                    parentCompute: this.getComputeInfo().record,
-                  compute: vm
-                }).show();
+                this.fireBusEvent('displayEditVMDialog', {hn: this.getComputeInfo().record, compute: vm});
+            },
+            showdetails: function(vm) {
+                this.fireBusEvent('openCompute', vm.get('id'));
             }
         };
 
         this.control({
-            'computeview computevmlisttab #new-vm-button': {
-                click: function() {
-                    this.getView('compute.NewVmView').create({
-                        parentCompute: this.getComputeInfo().record
-                    }).show();
-                }
-            },
             'computeview computevmlisttab': vmactions,
-            'computeview computesystemtab': vmactions
+            'computeview computesystemtab': vmactions,
+            'computeview computevmlisttab #new-vm-button': {
+                click: function(sender) {
+                    this.fireBusEvent('displayNewVMDialog', this.getComputeInfo().record);
+                }
+            }
         });
 
     },

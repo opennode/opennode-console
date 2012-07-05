@@ -9,6 +9,14 @@ Ext.define('Onc.controller.NewVmController', {
         {ref: 'form', selector: 'window.newvm form'}
     ],
 
+    busListeners: {
+        displayNewVMDialog: function(hn){
+            this.getView('compute.NewVmView').create({
+                parentCompute: hn
+            }).show();
+        }
+    },
+
     init: function() {
         var me = this;
         this.control({
