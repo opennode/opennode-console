@@ -93,24 +93,8 @@ Ext.define('Onc.tabs.SystemTab', {
                                rec.get('state') === 'suspended' ?
                                'suspended' :
                                'stopped'),
-                listeners: {
-                    'start': function(_, cb) { _changeStateWithConfirmation('Starting a VM',
-                               'Are you sure you want to boot this VM?',
-                               'vmsstart',
-                               [rec],
-                               cb);
-                    },
-                    'suspend': function(_, cb) { me.fireEvent('vmssuspend', [rec], cb); },
-                    'graceful': function(_, cb) {
-                        _changeStateWithConfirmation('Shutting down a VM',
-                               'Are you sure? All of the processes inside a VM will be stoppped',
-                               'vmsgraceful',
-                               [rec],
-                               cb);
-                    },
-                    'stop': function(_, cb) { me.fireEvent('vmsstop', [rec], cb); },
-                    'edit' : function(_, cb) { me.fireEvent('vmedit', rec, cb); },
-                }}), {
+                compute: rec,
+            }), {
                 xtype: 'container',
                 cls: 'computestatecontrol',
                 items: {

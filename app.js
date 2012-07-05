@@ -45,7 +45,8 @@ Ext.syncRequire([
     'Onc.hub.Hub',
     'Onc.hub.Subscription',
     'Onc.hub.Sync',
-    'Onc.EventBus'
+    'Onc.EventBus',
+    'Onc.manager.ComputeManager'
 ]);
 
 if (ENABLE_VMMAP == true) {
@@ -56,7 +57,7 @@ Ext.application({
     name: 'Onc',
 
     appFolder: 'app',
-    controllers: ['LoginController', 'MainController', 'ComputeController', 'NewVmController', 'EditVmController', 'TasksController', 'InfrastructureJoinController', 'ZabbixRegistrationController']
+    controllers: ['LoginController', 'MainController', 'ComputeController', 'NewVmController', 'EditVmController', 'TasksController', 'InfrastructureJoinController', 'ZabbixRegistrationController', 'ComputeStateController']
 });
 
 Ext.override(Ext.Base, {
