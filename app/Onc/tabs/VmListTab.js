@@ -58,77 +58,6 @@ Ext.define('Onc.tabs.VmListTab', {
             itemId: 'delete-vm-button', text: 'Delete', icon: 'img/icon/delete.png', tooltip: 'Delete the selected virtual machines'
         });
 
-        var rowActions = actions.map(function(action) {
-            return {
-                tooltip: action.text,
-                altText: action.text,
-                icon: 'img/icon/' + action.icon + '.png',
-                handler: function(actionName, rowIndex) {
-                    var compute = me.child('gridpanel').getStore().getAt(rowIndex);
-                    action.handler([compute]);
-                }
-            };
-        });
-
-        function _makeGaugeColumn(label, name, unit) {
-            return {
-                header: label,
-                width: 80,
-                align: 'center',
-                dataIndex: 'id',
-                renderer: makeColumnRenderer(function(domId, _, _, rec) {
-                    if(!rec.gaugeMetadata)
-                        rec.gaugeMetadata = {};
-                    if(!rec.gaugeMetadata[label])
-                        rec.gaugeMetadata[label] = {};
-                    var metadata = rec.gaugeMetadata[label];
-
-                    var max = (name === 'cpu' ? rec.getMaxCpuLoad()
-                               : name === 'diskspace' ? rec.get('diskspace')['total']
-                               : rec.get(name));
-
-                    metadata.gauge = Ext.create('Onc.widgets.Gauge', {
-                        renderTo: domId,
-                        border: false,
-                        max: max,
-                        unit: unit,
-                        display: name === 'cpu' ? ['fixed', 2] : undefined,
-                        value: metadata.lastValue
-                    });
-
-                    var url = rec.get('url') + '/metrics/{0}_usage'.format(name);
-
-                    if (!metadata.listener) {
-                        metadata.listener = function(data) {
-                            this.gauge.setValue(data[url]);
-                            this.lastValue = data[url];
-                        }.bind(metadata);
-
-                        Onc.hub.Hub.subscribe(metadata.listener, [url], 'gauge', function() {
-                            var active = rec.get('state') == 'active';
-                            if (!active)
-                                metadata.gauge.setValue(0);
-                            // TODO: also change here widget active/inactive class if we want differenty visualization
-                            return active;
-                        });
-                    }
-                })
-            };
-        }
-
-        function _changeStateWithConfirmation(confirmTitle, confirmText, eventName, target, cb) {
-            Ext.Msg.confirm(confirmTitle, confirmText,
-                function(choice) {
-                    if (choice === 'yes') {
-                        me.down('grid').setLoading(true, true);
-                        me.fireEvent(eventName, target, function() {
-                                    if(cb) {cb();}
-                                    me.down('grid').setLoading(false);
-                                    });
-                    }
-                });
-        }
-
         this.items = [{
             xtype: 'gridpanel',
             title: "Virtual Machines",
@@ -153,48 +82,122 @@ Ext.define('Onc.tabs.VmListTab', {
                 {header: 'Inet6', dataIndex: 'ipv6_address', editor: {xtype: 'textfield', allowBlank: true}},
 
                 {header: 'actions', renderer: makeColumnRenderer(function(domId, _, _, vmRec) {
-                    Ext.widget('computestatecontrol', {
-                        initialState: (vmRec.get('state') === 'active' ?
-                                       'running' :
-                                       vmRec.get('state') === 'suspended' ?
-                                       'suspended' :
-                                       'stopped'),
-                        renderTo: domId,
-                        listeners: {
-                            'start': function(_, cb) { _changeStateWithConfirmation('Starting a VM',
-                                       'Are you sure you want to boot this VM?',
-                                       'vmsstart',
-                                       [vmRec],
-                                       cb);
-                            },
-                            'suspend': function(_, cb) { me.fireEvent('vmssuspend', [vmRec], cb); },
-                            'graceful': function(_, cb) {
-                                _changeStateWithConfirmation('Shutting down a VM',
-                                       'Are you sure? All of the processes inside a VM will be stoppped',
-                                       'vmsgraceful',
-                                       [vmRec],
-                                       cb);
-                            },
-                            'stop': function(_, cb) { me.fireEvent('vmsstop', [vmRec], cb); },
-                            'details': function(_, cb) { me.fireEvent('showdetails', vmRec, cb); },
-                            'delete': function(_, cb) { _changeStateWithConfirmation('Deleting a VM',
-                                    'Are you sure you want to delete this VM?',
-                                    'vmsdelete',
-                                    vmRec,
-                                    cb);
-                            },
-                            'edit' : function(_, cb) { me.fireEvent('vmedit', vmRec, cb); }
-                        }
-                    });
-                })},
-                _makeGaugeColumn('CPU usage', 'cpu'),
-                _makeGaugeColumn('Memory usage', 'memory', 'MB'),
-                _makeGaugeColumn('Disk usage', 'diskspace', 'MB'),
+                    this._createComputeStateControl(domId, vmRec, _);
+                }.bind(this))},
+
+                this._makeGaugeColumn('CPU usage', 'cpu'),
+                this._makeGaugeColumn('Memory usage', 'memory', 'MB'),
+                this._makeGaugeColumn('Disk usage', 'diskspace', 'MB'),
 
                 {header: 'ID', dataIndex: 'id', width: 130, hidden: true}
             ]
         }];
 
         this.callParent(arguments);
+    },
+
+
+    // Helper methods
+
+    _createComputeStateControl: function(domId, vmRec, _){
+        return Ext.widget('computestatecontrol', {
+            initialState: (vmRec.get('state') === 'active' ? 'running' :
+                    vmRec.get('state') === 'suspended' ? 'suspended' : 'stopped'),
+            renderTo: domId,
+            listeners: {
+                'start': function(_, cb) {
+                    this._changeStateWithConfirmation('Starting a VM',
+                            'Are you sure you want to boot this VM?', 'vmsstart', [vmRec], cb);
+                }.bind(this),
+
+                'suspend': function(_, cb) {
+                    this.fireEvent('vmssuspend', [vmRec], cb);
+                }.bind(this),
+
+                'graceful': function(_, cb) {
+                    this._changeStateWithConfirmation('Shutting down a VM',
+                           'Are you sure? All of the processes inside a VM will be stoppped',
+                           'vmsgraceful', [vmRec], cb);
+                }.bind(this),
+
+                'stop': function(_, cb) {
+                    this.fireEvent('vmsstop', [vmRec], cb);
+                }.bind(this),
+
+                'details': function(_, cb) {
+                    this.fireEvent('showdetails', vmRec, cb);
+                }.bind(this),
+
+                'delete': function(_, cb) {
+                    this._changeStateWithConfirmation('Deleting a VM',
+                            'Are you sure you want to delete this VM?',
+                            'vmsdelete', vmRec, cb);
+                }.bind(this),
+
+                'edit' : function(_, cb) {
+                    this.fireEvent('vmedit', vmRec, cb);
+                }.bind(this)
+            }
+        });
+    },
+
+    _makeGaugeColumn: function(label, name, unit) {
+        return {
+            header: label,
+            width: 80,
+            align: 'center',
+            dataIndex: 'id',
+            renderer: makeColumnRenderer(function(domId, _, _, rec) {
+                if(!rec.gaugeMetadata)
+                    rec.gaugeMetadata = {};
+                if(!rec.gaugeMetadata[label])
+                    rec.gaugeMetadata[label] = {};
+                var metadata = rec.gaugeMetadata[label];
+
+                var max = (name === 'cpu' ? rec.getMaxCpuLoad()
+                           : name === 'diskspace' ? rec.get('diskspace')['total']
+                           : rec.get(name));
+
+                metadata.gauge = Ext.create('Onc.widgets.Gauge', {
+                    renderTo: domId,
+                    border: false,
+                    max: max,
+                    unit: unit,
+                    display: name === 'cpu' ? ['fixed', 2] : undefined,
+                    value: metadata.lastValue
+                });
+
+                var url = rec.get('url') + '/metrics/{0}_usage'.format(name);
+
+                if (!metadata.listener) {
+                    metadata.listener = function(data) {
+                        this.gauge.setValue(data[url]);
+                        this.lastValue = data[url];
+                    }.bind(metadata);
+
+                    Onc.hub.Hub.subscribe(metadata.listener, [url], 'gauge', function() {
+                        var active = rec.get('state') == 'active';
+                        if (!active)
+                            metadata.gauge.setValue(0);
+                        // TODO: also change here widget active/inactive class if we want differenty visualization
+                        return active;
+                    });
+                }
+            })
+        };
+    },
+
+    _changeStateWithConfirmation: function(confirmTitle, confirmText, eventName, target, cb) {
+        Ext.Msg.confirm(confirmTitle, confirmText,
+            function(choice) {
+                if (choice === 'yes') {
+                    this.down('grid').setLoading(true, true);
+                    this.fireEvent(eventName, target, function() {
+                        if(cb) {cb();}
+                        this.down('grid').setLoading(false);
+                    }.bind(this));
+                }
+            }.bind(this)
+        );
     }
 });

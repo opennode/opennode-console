@@ -32,6 +32,12 @@ Ext.define('Onc.controller.MainController', {
         }
     },
 
+    busListeners: {
+        openCompute: function(computeId){
+          this.openComputeInTab(computeId);
+        }
+    },
+
     init: function() {
         this.control({
             '#search-results': {
@@ -65,12 +71,10 @@ Ext.define('Onc.controller.MainController', {
             },
             '#vmmap': {
                 showvmdetails: function(computeId) {
-                    this.getController('MainController').openComputeInTab(computeId);
+                    this.openComputeInTab(computeId);
                 },
                 newvm: function(parentCompute) {
-                    this.getView('compute.NewVmView').create({
-                        parentCompute: parentCompute
-                    }).show();
+                    this.fireBusEvent('displayNewVMDialog', parentCompute);
                 }
             },
             '#tasks-button': {
