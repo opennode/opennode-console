@@ -27,8 +27,14 @@ Ext.define('Onc.controller.ComputeStateController', {
                 },
 
                 edit: function(sender, vm) {
-                 // NOTE: this will fail, we have to implement getParent method to obtain HN from VM
-                    this.fireBusEvent('displayEditVMDialog', {hn: vm.getParent(), compute: vm});
+                    vm.loadParent(
+                        function(hn){
+                            this.fireBusEvent('displayEditVMDialog', {hn: hn, compute: vm});
+                        }.bind(this),
+                        function(operation){
+                            console.error('Error while loading parent: ', operation);
+                        }.bind(this)
+                    );
                 },
                 'delete': function(sender, vm) {
                     computeManager.destroy(vm);

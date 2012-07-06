@@ -18,7 +18,6 @@ Ext.define('Onc.tabs.SystemTab', {
     },
 
     initComponent: function() {
-        var me = this;
         var rec = this.record;
         var tagsRec = rec.get('tags');
 
@@ -31,19 +30,6 @@ Ext.define('Onc.tabs.SystemTab', {
                 displayTags.push(item);
             }
         }, this);
-
-        function _changeStateWithConfirmation(confirmTitle, confirmText, eventName, target, cb) {
-            Ext.Msg.confirm(confirmTitle, confirmText,
-                function(choice) {
-                    if (choice === 'yes') {
-                        me.setLoading(true, true);
-                        me.fireEvent(eventName, target, function() {
-                                    cb();
-                                    me.setLoading(false);
-                                    });
-                    }
-                });
-        }
 
         var diskspaceUsage = rec.get('diskspace_usage');
         var diskspace = rec.get('diskspace');
@@ -86,13 +72,8 @@ Ext.define('Onc.tabs.SystemTab', {
             items: [Ext.widget('computestatecontrol', {
                 enableText: true,
                 disableDetails: true,
-                disableDelete: true,
-                disableEdit: rec.isPhysical(),
-                initialState: (rec.get('state') === 'active' ?
-                               'running' :
-                               rec.get('state') === 'suspended' ?
-                               'suspended' :
-                               'stopped'),
+                initialState: (rec.get('state') === 'active' ? 'running' :
+                        rec.get('state') === 'suspended' ? 'suspended' : 'stopped'),
                 compute: rec,
             }), {
                 xtype: 'container',
