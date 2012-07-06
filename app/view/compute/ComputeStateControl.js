@@ -4,6 +4,9 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
 
     cls: 'computestatecontrol',
 
+    config: {
+        compute: null
+    },
 
     initComponent: function() {
         this.addEvents('start', 'suspend', 'graceful', 'stop', 'details', 'edit');
@@ -21,17 +24,14 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
             this._makeButton('stop', "Force stop", "Force stop machine", true)
         ];
 
-        // TODO: show/hide buttons according to model's properties, and remove external configurations where possible
         if (!this.disableDetails) {
             buttons[buttons.length] = this._makeButton('details', "Details", "Machine details", false);
         }
-        if(!this.disableDelete) {
+        if(!this.compute.isPhysical()){
             buttons[buttons.length] = this._makeButton('delete', "Delete", "Delete machine", false, {
                 title: 'Deleting a VM',
                 text: 'Are you sure you want to delete this VM?'
             });
-        }
-        if (!this.disableEdit) {
             buttons[buttons.length] = this._makeButton('edit', "Edit", "Edit machine", false);
         }
         this.items = buttons;
