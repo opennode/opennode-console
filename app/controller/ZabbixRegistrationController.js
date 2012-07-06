@@ -1,23 +1,24 @@
 Ext.define('Onc.controller.ZabbixRegistrationController', {
     extend: 'Ext.app.Controller',
 
+    stores: ['ZabbixHostgroupsStore'],
     views: ['compute.ZabbixRegistrationView'],
 
     refs: [
         {ref: 'zbwindow', selector: 'window.zabbix'},
-        {ref: 'form', selector: 'window.zabbix form'},
-        {ref: 'computesystemtab', selector: '#systemtab'}
+        {ref: 'form', selector: 'window.zabbix form'}
     ],
+
+    busListeners: {
+        displayZabbixDialog: function(vms){
+            var zabbixStore = this.getStore('ZabbixHostgroupsStore');
+            zabbixStore.load();
+            this.getView('compute.ZabbixRegistrationView').create().show();
+        }
+    },
 
     init: function() {
         this.control({
-            'computesystemtab #zabbix-button': {
-                click: function() {
-                  var zabbixStore = this.getStore('ZabbixHostgroupsStore');
-                  zabbixStore.load();
-                    this.getView('compute.ZabbixRegistrationView').create().show();
-                }
-            },
             '#save-zabbix-regitration-button': {
                 click: function(sender) {
                     var win = this.getZbwindow();
