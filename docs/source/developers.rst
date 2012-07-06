@@ -62,3 +62,20 @@ To get ONC development up and running:
     $ echo "BACKEND_PREFIX = 'http://localhost:10100/';" > config.js
 
  5. Serve that directory via an HTTP server -- a simple one is present in the repository: run 'python mini-server.py'.
+
+Remote debugging
+================
+
+In order to get assistance from somebody remote, often the easiest is to give a direct access to a VM with the installation.
+To achieve that the easiest is to create an SSH tunnel to a server, where both you and your remote assistance have access to.
+
+ .. code-block:: sh
+
+    $ ssh -R 10000:localhost:22 user@remote-common.com
+
+Note that '10000' is an example port, it should be free on the remote-common-server. For connecting to your VM the remote
+assistant could do the following:
+
+ .. code-block:: sh
+
+    [remote-common] $ ssh -p 10000 root@localhost
