@@ -130,6 +130,8 @@ Ext.define('Onc.model.Compute', {
             var computeStore = Ext.data.StoreManager.lookup('ComputesStore');
             var parentId = this.get('url').split('/')[2];
             computeStore.loadById(parentId, successCb, failureCb);
+        } else {
+            console.error('Loading of a parent of a physical machine is not supported.');
         }
     }
 });
