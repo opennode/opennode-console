@@ -68,10 +68,13 @@ Ext.define('Onc.hub.Sync', {
     },
 
     _removeRecords: function(removals) {
-        for (var i = 0; i < removals.length; i++) {
-        	// TODO: assumption that we only remove VMs is a strong one and won't hold for too long
+        for (var itemId in removals) {
+            // TODO: assumption that we only remove VMs is a strong one and won't hold for too long
+            // Use removals[Id] for detecting the actual object type once we have >1 authoritive stores
             var store = Ext.getStore('ComputesStore');
-            store.remove(store.findRecord('id', removals[i]));
+            var item = store.findRecord('id', itemId);
+            store.remove(item);
+            Onc.EventBus.fireEvent('compute-remove', item);
         }
     },
 
@@ -105,17 +108,19 @@ Ext.define('Onc.hub.Sync', {
             var updates = data[url];
 
             var attrChanges = {}
-            var removals = new Array();
+            var removals = {};
             var deletions = new Array();
+            var additions = {};
             for (var i = 0; i < updates.length; i += 1) {
                 var update = updates[i][1];
                 if (update['event'] === 'change')
                     attrChanges[update['name']] = update['value'];
                 else if (update['event'] === 'remove')
-                    removals.push(update['name']);
-                else if (update['event'] === 'delete') {
-                	deletions.push(update['url']);
-               }
+                    removals[update['name']] = update['url'];
+                else if (update['event'] === 'delete')
+                    deletions.push(update['url']);
+                else if (update['event'] === 'add')
+                    additions[update['name']] = update['url'];
                 else
                     console.warn("Unsupported update type %s", update['event']);
             }
@@ -130,6 +135,10 @@ Ext.define('Onc.hub.Sync', {
             // remove deleted elements from the subscription list
             if (deletions)
                 this._deleteSubscriptions(deletions);
+            // handle addition of new items
+            if (additions)
+                this._addRecords(additions);
+
         }
     },
 
@@ -137,5 +146,21 @@ Ext.define('Onc.hub.Sync', {
         if (!this._hubListener)
             this._hubListener = this._onDataFromHub.bind(this);
         return this._hubListener;
+    },
+
+    _addRecords: function(additions) {
+        for (var itemId in additions) {
+            // TODO: use additions[itemId] for detecting type of the model/store from url
+            // currently only Computes are handled
+            Onc.model.Compute.load(itemId, {
+                    failure: function(record, operation) {
+                        console.error(operation);
+                    },
+                    success: function(record, operation) {
+                        Ext.getStore('ComputesStore').add(record);
+                        Onc.EventBus.fireEvent('compute-add', record);
+                    }
+            });
+        }
     }
 });
