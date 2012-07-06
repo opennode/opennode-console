@@ -4,9 +4,8 @@ Ext.define('Onc.controller.ComputeController', {
     views: ['compute.ComputeStateControl'],
 
     refs: [
-        {ref: 'computeInfo', selector: 'computeview'}
+        {ref: 'computeInfo', selector: 'computeview'},
     ],
-
 
     busListeners: {
         // TODO:
@@ -22,6 +21,23 @@ Ext.define('Onc.controller.ComputeController', {
         },
         computeDeleteCompleted: function(vm){
             this.getComputeInfo().down('grid').setLoading(false);
+        },
+        computeAdd: function(vm){
+            vm.loadParent(
+                function(hn){
+                    var vmListCmps = Ext.ComponentQuery.query('computeview[computeId=' + hn.get('id') +
+                            '] computevmlisttab gridpanel');
+                    if(vmListCmps && vmListCmps.length > 0){
+                        vmListCmps[0].getStore().add(vm);
+                    }
+                },
+                function(operation){
+                    console.error('Error while loading parent: ', operation);
+                }.bind(this)
+            );
+        },
+        computeRemove: function(vm){
+
         }
     },
 
