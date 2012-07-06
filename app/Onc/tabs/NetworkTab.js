@@ -11,7 +11,7 @@ Ext.define('Onc.tabs.NetworkTab', {
         this.items = [{
             xtype: 'gridpanel',
             flex: 3,
-            title: 'Bridge Interfaces',
+            title: 'Interfaces',
             forceFit: true,
             multiSelect: true,
             store: rec.getList('interfaces'),
@@ -23,7 +23,7 @@ Ext.define('Onc.tabs.NetworkTab', {
                 {header: 'Name', dataIndex: 'id', width: 40, editor: {xtype: 'textfield', allowBlank: false }},
                 {header: 'Inet4', dataIndex: 'ipv4_address', width: 75, editor: {xtype: 'textfield', allowBlank: true }},
                 {header: 'Inet6', dataIndex: 'ipv6_address', width: 150, editor: {xtype: 'textfield', allowBlank: true }},
-                {header: 'Members', dataIndex: 'members', width: 150,
+                {header: 'Bridge members', dataIndex: 'members', width: 150,
                  renderer: function (members, _, rec) {
                      if (!members) return '';
 
