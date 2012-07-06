@@ -31,6 +31,6 @@ Ext.define('Onc.view.SearchFilterView', {
                 }
             },
             buffer: 300
-        })
+        });
     }
 });
