@@ -93,11 +93,6 @@ Ext.define('Onc.model.Compute', {
     ],
     hasMany: [
         {
-            model: 'Onc.model.VirtualBridge',
-            name: 'bridgeInterfaces',
-            associationKey: 'bridge_interfaces'
-        },
-        {
             model: 'Onc.model.IpRoute',
             name: 'routes'
         },
