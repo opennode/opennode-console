@@ -14,7 +14,7 @@ Ext.define('Onc.tabs.NetworkTab', {
             title: 'Interfaces',
             forceFit: true,
             multiSelect: true,
-            store: rec.getList('interfaces'),
+            store: this.makeInterfaceStore(),
             //tbar: [{icon: 'img/icon/add.png'},
             //       {icon: 'img/icon/delete.png'}],
             //plugins: Ext.create('Ext.grid.plugin.RowEditing'),
@@ -141,6 +141,27 @@ Ext.define('Onc.tabs.NetworkTab', {
             });
 
         }
+    },
+
+    makeInterfaceStore: function() {
+        var interfaceStore = this.record.getList('interfaces');
+
+        // we need to copy the store in order to apply a filtering only here
+        var filteredStore = new Ext.data.Store({
+            model: interfaceStore.model,
+            proxy: interfaceStore.proxy,
+            data: interfaceStore.getRange().map(function(el) { return el.copy(); })
+        });
+
+        // filter out those interfaces which are contained as bridge members in another interface
+        // feature discussed in (ON-177)
+        filteredStore.filterBy(function(el) {
+            return interfaceStore.data.items.filter(function(bridge) {
+                return  bridge.get('members') && bridge.get('members').contains(el.get('name'));
+            }).length == 0;
+        });
+
+        return filteredStore;
     }
 });
 
