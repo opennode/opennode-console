@@ -67,17 +67,6 @@ Ext.define('Onc.hub.Sync', {
         }
     },
 
-    _removeRecords: function(removals) {
-        for (var itemId in removals) {
-            // TODO: assumption that we only remove VMs is a strong one and won't hold for too long
-            // Use removals[Id] for detecting the actual object type once we have >1 authoritive stores
-            var store = Ext.getStore('ComputesStore');
-            var item = store.findRecord('id', itemId);
-            store.remove(item);
-            Onc.EventBus.fireEvent('compute-remove', item);
-        }
-    },
-
     _syncRecord: function(rec, changes) {
         if (this._doppelganger)
             throw new Error("Attempt to sync a record while another one is already being synced");
@@ -147,6 +136,18 @@ Ext.define('Onc.hub.Sync', {
             this._hubListener = this._onDataFromHub.bind(this);
         return this._hubListener;
     },
+    
+    
+    _removeRecords: function(removals) {
+        for (var itemId in removals) {
+            // TODO: assumption that we only remove VMs is a strong one and won't hold for too long
+            // Use removals[Id] for detecting the actual object type once we have >1 authoritive stores
+            var store = Ext.getStore('ComputesStore');
+            var item = store.findRecord('id', itemId);
+            store.remove(item);
+            Onc.EventBus.fireEvent('computeRemove', item);
+        }
+    },
 
     _addRecords: function(additions) {
         for (var itemId in additions) {
@@ -158,7 +159,7 @@ Ext.define('Onc.hub.Sync', {
                     },
                     success: function(record, operation) {
                         Ext.getStore('ComputesStore').add(record);
-                        Onc.EventBus.fireEvent('compute-add', record);
+                        Onc.EventBus.fireEvent('computeAdd', record);
                     }
             });
         }
