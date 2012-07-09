@@ -123,7 +123,8 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
     },
 
     _visible: function(btnName) {
-        this._set(btnName, true);
+        // Controls are shown only for Virtual Machines
+        this._set(btnName, !this.compute.isPhysical());
     },
     _disabled: function(btnName) {
         this._set(btnName, false, false);
