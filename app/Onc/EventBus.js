@@ -23,7 +23,9 @@ Ext.app.Controller.override({
 
 Ext.app.Controller.implement({
     fireBusEvent: function(eventName, args) {
-        Onc.EventBus.fireEvent(eventName, args);
+        var timerId = setTimeout(function() {
+            Onc.EventBus.fireEvent(eventName, args);
+        }, 0);
     },
 
     registerBusListeners: function(listeners) {
