@@ -133,5 +133,12 @@ Ext.define('Onc.model.Compute', {
         } else {
             console.error('Loading of a parent of a physical machine is not supported.');
         }
+    },
+
+    statics: {
+        extractParentId: function(vmId) {
+            return vmId.split('/')[2];
+        }
     }
+
 });
