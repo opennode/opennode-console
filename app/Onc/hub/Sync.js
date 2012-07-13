@@ -60,7 +60,7 @@ Ext.define('Onc.hub.Sync', {
         this._reg.delassoc(rec);
     },
 
-    
+
     _deleteSubscriptions: function(urls) {
         for (var i = 0; i < urls.length; i++) {
             Onc.hub.Hub.deleteSubscription(urls[i]);
@@ -136,16 +136,18 @@ Ext.define('Onc.hub.Sync', {
             this._hubListener = this._onDataFromHub.bind(this);
         return this._hubListener;
     },
-    
-    
+
+
     _removeRecords: function(removals) {
         for (var itemId in removals) {
             // TODO: assumption that we only remove VMs is a strong one and won't hold for too long
             // Use removals[Id] for detecting the actual object type once we have >1 authoritive stores
+            console.log('* removed: ' + itemId);
             var store = Ext.getStore('ComputesStore');
             var item = store.findRecord('id', itemId);
             store.remove(item);
-            Onc.EventBus.fireEvent('computeRemove', item);
+            console.log('* fireBusEvent: computeRemove');
+            Onc.EventBus.fireEvent('computeRemove', itemId, removals[itemId]);
         }
     },
 
