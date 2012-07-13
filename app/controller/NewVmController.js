@@ -47,10 +47,6 @@ Ext.define('Onc.controller.NewVmController', {
                                 if (!ret['success']) {
                                     form.markInvalid(ret['errors']);
                                 } else {
-                                    var compute = new Onc.model.Compute(ret['result']);
-                                    virtualizationContainer.children().add(compute);
-                                    // XXX: Temporary
-                                    Ext.getStore('ComputesStore').add(compute);
                                     me.getWindow().destroy();
                                 }
                             },
