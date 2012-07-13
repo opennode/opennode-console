@@ -25,19 +25,27 @@ Ext.define('Onc.controller.ComputeController', {
         computeAdd: function(vm){
             vm.loadParent(
                 function(hn){
-                    var vmListCmps = Ext.ComponentQuery.query('computeview[computeId=' + hn.get('id') +
-                            '] computevmlisttab gridpanel');
-                    if(vmListCmps && vmListCmps.length > 0){
-                        vmListCmps[0].getStore().add(vm);
-                    }
-                },
+                    vmList = this._getVMListCmp(hn.get('id'));
+                    if(vmList !== null)
+                        vmList.getStore().add(vm);
+                }.bind(this),
                 function(operation){
                     console.error('Error while loading parent: ', operation);
                 }.bind(this)
             );
         },
-        computeRemove: function(vm){
 
+        computeRemove: function(vmId, url){
+            console.log('* bus event (computeController): computeRemove: ' + vmId);
+            // remove deleted VM from vmList component on parent's compute tab
+            var parentId = Onc.model.Compute.extractParentId(url);
+            var vmList = this._getVMListCmp(parentId);
+            if(vmList !== null){
+                var store = vmList.getStore();
+                var index = store.findExact('id', vmId);
+                if(index !== -1)
+                    store.removeAt(index);
+            }
         }
     },
 
@@ -65,4 +73,11 @@ Ext.define('Onc.controller.ComputeController', {
             }
         });
     },
+
+    _getVMListCmp: function(hnId){
+        var vmListCmps = Ext.ComponentQuery.query('computeview[computeId=' + hnId +
+                '] computevmlisttab gridpanel');
+        return vmListCmps && vmListCmps.length > 0 ? vmListCmps[0] : null;
+    }
+
 });
