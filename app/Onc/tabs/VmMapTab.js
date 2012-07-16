@@ -335,9 +335,26 @@ Ext.define('Onc.tabs.VmMapTab', {
                             Ext.get(this.resizingCell).child('div.mem', true).innerHTML = this.originalSize;
                             this.resizingCell.style.setProperty('width', (Math.max(this.originalWidth, 1)) + 'px');
                         } else {
-                            var rec = this.getVmRecordFromEl(this.resizingCell);
-                            rec.set('memory', this.newSize);
-                            rec.save();
+                            var newSize = this.newSize;
+                            Ext.getStore('ComputesStore').loadById(this.getIdFromEl(this.resizingCell),
+                                function(compute) {
+                                    compute.set('memory', newSize);
+                                    compute.save({
+                                        success: function(ret) {
+                                            Onc.EventBus.fireEvent('displayNotification', 'Virtual Machine \'' +
+                                                ret.get('hostname') + '\' successfully resized');
+                                        },
+                                        failure: function(response) {
+                                            Onc.EventBus.fireEvent('displayNotification',
+                                                'Error occurred while resizing Virtual Machine', 'error');
+                                        }
+                                    });
+                                },
+                                function(error) {
+                                    Onc.EventBus.fireEvent('displayNotification',
+                                        'Error occurred while resizing Virtual Machine', 'error');
+                                }
+                            );
                         }
 
                         this.vmmapTab.disableResizing();
