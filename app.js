@@ -57,7 +57,19 @@ Ext.application({
     name: 'Onc',
 
     appFolder: 'app',
-    controllers: ['LoginController', 'MainController', 'ComputeController', 'NewVmController', 'EditVmController', 'TasksController', 'InfrastructureJoinController', 'ZabbixRegistrationController', 'ComputeStateController', 'SearchController']
+    controllers: [
+        'LoginController',
+        'MainController',
+        'ComputeController',
+        'NewVmController',
+        'EditVmController',
+        'TasksController',
+        'InfrastructureJoinController',
+        'ZabbixRegistrationController',
+        'ComputeStateController',
+        'SearchController',
+        'NotificationBarController'
+    ]
 });
 
 Ext.override(Ext.Base, {
