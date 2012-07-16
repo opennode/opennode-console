@@ -23,6 +23,7 @@ Ext.define('Onc.controller.ComputeController', {
             this.getComputeInfo().down('grid').setLoading(false);
         },
         computeAdd: function(vm){
+            this.fireBusEvent('displayNotification', 'New Virtual Machine created');
             vm.loadParent(
                 function(hn){
                     vmList = this._getVMListCmp(hn.get('id'));
