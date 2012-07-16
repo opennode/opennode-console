@@ -18,7 +18,6 @@ Ext.define('Onc.controller.NewVmController', {
     },
 
     init: function() {
-        var me = this;
         this.control({
             '#create-new-vm-button': {
                 click: function(sender) {
@@ -40,6 +39,7 @@ Ext.define('Onc.controller.NewVmController', {
 
                         var virtualizationContainer = this.getWindow().parentCompute.getChild('vms');
                         var url = virtualizationContainer.get('url');
+                        this.fireBusEvent('displayNotification', 'Creating new Virtual Machine...');
                         Onc.Backend.request('POST', url, {
                             jsonData: data,
                             success: function(response) {
@@ -47,12 +47,13 @@ Ext.define('Onc.controller.NewVmController', {
                                 if (!ret['success']) {
                                     form.markInvalid(ret['errors']);
                                 } else {
-                                    me.getWindow().destroy();
+                                    this.getWindow().destroy();
                                 }
-                            },
+                            }.bind(this),
                             failure: function(response) {
                                 console.error(response.responseText);
-                            }
+                                this.fireBusEvent('displayNotification', 'Error occurred while creating new Virtual Machine', 'error');
+                            }.bind(this)
                         });
                     }
                 }
