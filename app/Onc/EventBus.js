@@ -22,9 +22,10 @@ Ext.app.Controller.override({
 
 
 Ext.app.Controller.implement({
-    fireBusEvent: function(eventName, args) {
-        var timerId = setTimeout(function() {
-            Onc.EventBus.fireEvent(eventName, args);
+    fireBusEvent: function() {
+        var args = arguments;
+        timerId = setTimeout(function() {
+            Onc.EventBus.fireEvent.apply(Onc.EventBus, args);
         }, 0);
     },
 
