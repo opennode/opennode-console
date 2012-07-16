@@ -308,3 +308,39 @@
 .tagger .tagcontainer .tagbox .x-panel-header-text {
   font-weight: normal;
 }
+
+.notificationbar {
+	position: absolute;
+	width: 100%;
+	top: 10px;
+	left: 0;
+	z-index: 10000;
+	text-align: center;
+	pointer-events: none;
+ 	background-image: none !important;
+ 	background-color: transparent !important;
+}
+
+.notificationbar p {
+	text-align: center;
+	display: inline-block;
+	margin: auto;
+	padding: 3px 10px 4px 10px;
+	cursor: pointer;
+	font-weight: bold;
+	border: 1px solid;
+	font-size: 11px;
+	pointer-events: auto;
+}
+
+.notificationbar-info p {
+	border-color: #F0C36D;
+	background-color: #F9EDBE;
+	color: #555;
+}
+
+.notificationbar-error p {
+	background-color: #cc0000;
+	color: #fff;
+	border-color: #cc0000;
+}
