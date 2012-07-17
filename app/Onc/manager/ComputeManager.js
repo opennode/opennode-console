@@ -1,11 +1,6 @@
 Ext.define('Onc.manager.ComputeManager', {
     singleton: true,
 
-    constructor: function(config){
-        console.log('** ComputeManager created');
-    },
-
-
     // Compute Actions
 
     destroy: function(vm, callback) {
@@ -14,7 +9,6 @@ Ext.define('Onc.manager.ComputeManager', {
         var url = vm.get('url');
         Onc.Backend.request('DELETE', url, {
             success: function(response) {
-                console.log('Host Deleted (' + response.responseText + ')');
                 Onc.EventBus.fireEvent('computeDeleteCompleted', vm);
             },
             failure: function(response) {

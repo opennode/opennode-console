@@ -74,7 +74,6 @@ Ext.define('Onc.controller.ZabbixRegistrationController', {
             connect: function() {
                 this.subscription = Onc.hub.Hub.subscribe(this.onDataFromHub.bind(this), {'compute': vm.get('url')}, 'zabbix');
                 this.timerId = setTimeout(function() {
-                    console.log('* timedout');
                     this.finished();
                 }.bind(this), 3000);
             },
@@ -82,14 +81,12 @@ Ext.define('Onc.controller.ZabbixRegistrationController', {
             onDataFromHub: function(values) {
                 values.compute.forEach(function(el) {
                     var eo = el[1];
-                    console.log(eo.name);
                     if(eo.name === 'IZabbixRegistered')
                         this.finished();
                 }, this);
             },
 
             finished: function() {
-                console.log('finishing');
                 clearTimeout(this.timerId);
                 this.subscription.unsubscribe();
                 callback();
