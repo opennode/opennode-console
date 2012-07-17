@@ -96,22 +96,31 @@ Ext.define('Onc.hub.Sync', {
         for (var url in data) {
             var updates = data[url];
 
-            var attrChanges = {}
+            var attrChanges = {};
             var removals = {};
             var deletions = new Array();
             var additions = {};
+            var stateChanges = {};
             for (var i = 0; i < updates.length; i += 1) {
                 var update = updates[i][1];
-                if (update['event'] === 'change')
-                    attrChanges[update['name']] = update['value'];
-                else if (update['event'] === 'remove')
+                var name = update['name'];
+                var event = update['event'];
+                if (event === 'change'){
+                    attrChanges[name] = update['value'];
+                    if(name === 'state'){
+                        var res = url.split('/');
+                        var computeId = res[res.length-2];
+                        stateChanges[computeId] = update['value'];
+                    }
+                }
+                else if (event === 'remove')
                     removals[update['name']] = update['url'];
-                else if (update['event'] === 'delete')
+                else if (event === 'delete')
                     deletions.push(update['url']);
-                else if (update['event'] === 'add')
+                else if (event === 'add')
                     additions[update['name']] = update['url'];
                 else
-                    console.warn("Unsupported update type %s", update['event']);
+                    console.warn("Unsupported update type %s", event);
             }
             var records = this._byUrl.massoc(url);
             records.forEach(function(rec) {
@@ -127,7 +136,9 @@ Ext.define('Onc.hub.Sync', {
             // handle addition of new items
             if (additions)
                 this._addRecords(additions);
-
+            // handle computes state changes
+            if(stateChanges)
+                this._stateChanges(stateChanges);
         }
     },
 
@@ -164,6 +175,12 @@ Ext.define('Onc.hub.Sync', {
                         Onc.EventBus.fireEvent('computeAdd', record);
                     }
             });
+        }
+    },
+
+    _stateChanges: function(stateChanges){
+        for (var itemId in stateChanges) {
+            Onc.EventBus.fireEvent('computeStateChanged', itemId, stateChanges[itemId]);
         }
     }
 });
