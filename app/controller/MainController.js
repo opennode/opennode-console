@@ -37,7 +37,6 @@ Ext.define('Onc.controller.MainController', {
         },
 
         computeRemove: function(vmId, url){
-            console.log('* bus event (MainController): computeRemove + computeId');
             // close deleted VM compute tab
             var tabPanel = this.getTabs();
             var tab = tabPanel.child('computeview[computeId=' + vmId + ']');
