@@ -37,15 +37,19 @@ Ext.define('Onc.view.compute.ComputeView', {
         if (!tab && shouldAdd) {
             tabs.add(this._makeTab(title, tabType));
 
-            // a special case for convinience
-            if (tabType === 'vmlist') { tabs.setActiveTab(tabs.child('#vmlisttab')); }
+            // a special case for convenience
+            if (tabType === 'vmlist') {
+                tabs.setActiveTab(tabs.child('#vmlisttab'));
+            }
         }
-        if (tab && !shouldAdd) { tabs.remove(tab); }
+        if (tab && !shouldAdd) {
+            tabs.remove(tab);
+        }
     },
 
     updateTabs: function() {
-    	var me = this;
-    	var rec = this.record;
+        var me = this;
+        var rec = this.record;
         me._adjustTab('System', 'system', true);
 
         var isHn = rec.getChild('vms');

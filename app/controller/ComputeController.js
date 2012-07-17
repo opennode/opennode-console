@@ -5,6 +5,7 @@ Ext.define('Onc.controller.ComputeController', {
 
     refs: [
         {ref: 'computeInfo', selector: 'computeview'},
+        {ref: 'tabs', selector: '#mainTabs'}
     ],
 
     busListeners: {
@@ -37,7 +38,6 @@ Ext.define('Onc.controller.ComputeController', {
         },
 
         computeRemove: function(vmId, url){
-            console.log('* bus event (computeController): computeRemove: ' + vmId);
             // remove deleted VM from vmList component on parent's compute tab
             var parentId = Onc.model.Compute.extractParentId(url);
             var vmList = this._getVMListCmp(parentId);
@@ -46,6 +46,14 @@ Ext.define('Onc.controller.ComputeController', {
                 var index = store.findExact('id', vmId);
                 if(index !== -1)
                     store.removeAt(index);
+            }
+        },
+
+        computeStateChanged: function(computeId, value){
+            var tabPanel = this.getTabs();
+            var tab = tabPanel.getActiveTab();
+            if (tab && tab.computeId === computeId) {
+                tab.updateTabs();
             }
         }
     },
