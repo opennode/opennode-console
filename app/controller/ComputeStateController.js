@@ -8,6 +8,27 @@ Ext.define('Onc.controller.ComputeStateController', {
     ],
 
 
+    busListeners: {
+        computesStateChangeStarted: function(vms){
+            this._enableCsControls(false, vms);
+        },
+        computesStateChangeCompleted: function(vms){
+            this._enableCsControls(true, vms);
+        },
+        computeDeleteStarted: function(vm){
+            this._enableCsControls([vm], false);
+        },
+        computeDeleteCompleted: function(vm){
+            this._enableCsControls([vm], true);
+        },
+
+        computeStateChanged: function(computeId, value){
+            Ext.Array.each(this._getComponentsForId(computeId), function(cmp){
+                cmp.refresh();
+            });
+        }
+    },
+
     init: function() {
         var computeManager = Onc.manager.ComputeManager;
 
@@ -44,5 +65,22 @@ Ext.define('Onc.controller.ComputeStateController', {
                 }
             },
         });
-    }
+    },
+
+
+    // Helper methods
+
+    _enableCsControls: function(enabled, vms){
+        // enable / disable all ComputeStateControl components for each VM from list
+        Ext.Array.each(vms, function(vm){
+            Ext.Array.each(this._getComponentsForId(vm.get('id')), function(cmp){
+                cmp.setDisabled(!enabled, vms);
+            });
+        }, this);
+    },
+
+    _getComponentsForId: function(vmId){
+        return Ext.ComponentQuery.query('computestatecontrol[computeId=' + vmId + ']');
+    },
+
 });

@@ -8,8 +8,12 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
         compute: null
     },
 
+    computeId: null,
+
     initComponent: function() {
         this.addEvents('start', 'suspend', 'graceful', 'stop', 'details', 'edit');
+
+        this.computeId = this.compute.get('id');
 
         var buttons = [
             this._makeButton('start', "Start", "Start machine", true, {
@@ -38,9 +42,14 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
 
         this.callParent(arguments);
 
-        this._setState(this.initialState);
+        this.refresh();
     },
 
+    refresh: function(){
+        var state = (this.compute.get('state') === 'active' ? 'running' :
+            this.compute.get('state') === 'suspended' ? 'suspended' : 'stopped');
+        this._setState(state);
+    },
 
     // Helper methods
 
@@ -53,7 +62,8 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
             icon: 'img/icon/computestatecontrol/{0}.png'.format(name),
             iconAlign: 'top',
             tooltip: tooltip,
-            hidden: hidden
+            hidden: hidden,
+            minWidth: 38
         };
         if (this.enableText) {
             button.text = text;
