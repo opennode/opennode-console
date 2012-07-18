@@ -11,10 +11,10 @@ Ext.define('Onc.tabs.NetworkTab', {
         this.items = [{
             xtype: 'gridpanel',
             flex: 3,
-            title: 'Bridge Interfaces',
+            title: 'Interfaces',
             forceFit: true,
             multiSelect: true,
-            store: rec.getList('interfaces'),
+            store: this.makeInterfaceStore(),
             //tbar: [{icon: 'img/icon/add.png'},
             //       {icon: 'img/icon/delete.png'}],
             //plugins: Ext.create('Ext.grid.plugin.RowEditing'),
@@ -23,7 +23,7 @@ Ext.define('Onc.tabs.NetworkTab', {
                 {header: 'Name', dataIndex: 'id', width: 40, editor: {xtype: 'textfield', allowBlank: false }},
                 {header: 'Inet4', dataIndex: 'ipv4_address', width: 75, editor: {xtype: 'textfield', allowBlank: true }},
                 {header: 'Inet6', dataIndex: 'ipv6_address', width: 150, editor: {xtype: 'textfield', allowBlank: true }},
-                {header: 'Members', dataIndex: 'members', width: 150,
+                {header: 'Bridge members', dataIndex: 'members', width: 150,
                  renderer: function (members, _, rec) {
                      if (!members) return '';
 
@@ -141,6 +141,27 @@ Ext.define('Onc.tabs.NetworkTab', {
             });
 
         }
+    },
+
+    makeInterfaceStore: function() {
+        var interfaceStore = this.record.getList('interfaces');
+
+        // we need to copy the store in order to apply a filtering only here
+        var filteredStore = new Ext.data.Store({
+            model: interfaceStore.model,
+            proxy: interfaceStore.proxy,
+            data: interfaceStore.getRange().map(function(el) { return el.copy(); })
+        });
+
+        // filter out those interfaces which are contained as bridge members in another interface
+        // feature discussed in (ON-177)
+        filteredStore.filterBy(function(el) {
+            return interfaceStore.data.items.filter(function(bridge) {
+                return  bridge.get('members') && bridge.get('members').contains(el.get('name'));
+            }).length == 0;
+        });
+
+        return filteredStore;
     }
 });
 
