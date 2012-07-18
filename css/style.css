@@ -218,6 +218,11 @@
   background-color: #FFFFFF;
   border-color: #CCCCCC; }
 
+tr.compute {
+  height: 46px;
+  vertical-align: middle;
+}
+
 .icon-hd {
   background-image: url("../img/icon/hd.png"); }
 
