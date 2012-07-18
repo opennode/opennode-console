@@ -317,8 +317,8 @@
 	z-index: 10000;
 	text-align: center;
 	pointer-events: none;
- 	background-image: none !important;
- 	background-color: transparent !important;
+	background-image: none !important;
+	background-color: transparent !important;
 }
 
 .notificationbar p {
