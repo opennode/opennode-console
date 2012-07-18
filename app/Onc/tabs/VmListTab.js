@@ -116,16 +116,14 @@ Ext.define('Onc.tabs.VmListTab', {
 
         // create new container and add component
         var csContainer = Ext.create('Ext.container.Container', {
-            renderTo: domId,
+            renderTo: domId
         });
         csContainer.add(csComponent);
     },
 
     _createComputeStateControl: function(domId, vmRec){
         return Ext.widget('computestatecontrol', {
-            compute: vmRec,
-            initialState: (vmRec.get('state') === 'active' ? 'running' :
-                    vmRec.get('state') === 'suspended' ? 'suspended' : 'stopped'),
+            compute: vmRec
         });
     },
 
