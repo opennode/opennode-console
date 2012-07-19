@@ -16,10 +16,10 @@ Ext.define('Onc.controller.ComputeStateController', {
             this._enableCsControls(true, vms);
         },
         computeDeleteStarted: function(vm){
-            this._enableCsControls([vm], false);
+            this._enableCsControls(false, [vm]);
         },
         computeDeleteCompleted: function(vm){
-            this._enableCsControls([vm], true);
+            this._enableCsControls(true, [vm]);
         },
 
         computeStateChanged: function(computeId, value){
