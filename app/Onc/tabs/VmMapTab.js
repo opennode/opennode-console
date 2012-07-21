@@ -158,7 +158,12 @@ Ext.define('Onc.tabs.VmMapTab', {
                         var freeMemory = totalMemory;
 
                         var r = [];
-                        rec.getChild('vms').children().each( function(vm) {
+                        var vms = rec.getChild('vms');
+                        // in case HN doesn't have a vms container, we don't show anything (ON-635)
+                        if (vms === null)
+                            return '';
+
+                        vms.children().each( function(vm) {
                             var id = 'vmmap-' + vm.getId();
                             var classes = 'node-cell';
                             var memory = vm.get('memory');
