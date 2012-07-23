@@ -10,61 +10,10 @@ Ext.define('Onc.tabs.SystemTab', {
 
     envTags: ['label:Infrastructure', 'label:Staging', 'label:Development', 'label:Production'],
 
-    gauges: {
-        'memory': {id: 'ram', label: 'Physical Memory', iconCls: 'icon-memory'},
-        '/': {id: 'diskspace-root', label: 'Root', disk: true},
-        '/storage': {id: 'diskspace-storage', label: 'Storage', disk: true},
-        '/vz': {id: 'diskspace-vz', label: 'VZ', disk: true},
-    },
 
     initComponent: function() {
         var rec = this.record;
-        var tagsRec = rec.get('tags');
-
         this.addEvents('vmsstart', 'vmsstop', 'vmssuspend', 'vmsgraceful', 'vmedit');
-
-        // display only custom tags from record (start with 'label:')
-        var displayTags = [];
-        Ext.Array.forEach(tagsRec, function(item){
-            if(item.indexOf('label:') === 0) {
-                displayTags.push(item);
-            }
-        }, this);
-
-        var diskspaceUsage = rec.get('diskspace_usage');
-        var diskspace = rec.get('diskspace');
-        var gaugeItems = [];
-
-        // non-disk gauges
-        for (resource in this.gauges) {
-            gauge = this.gauges[resource];
-            if(gauge.disk)
-                continue;
-            gaugeItems[gaugeItems.length] = {
-                itemId: gauge.id + '-gauge',
-                label: gauge.label,
-                unit: 'MB',
-                value: rec.get(resource + '_usage'),
-                max: rec.get(resource),
-                iconCls: gauge.iconCls
-            };
-        }
-
-        // disk gauges
-        for (partition in diskspace){
-            gauge = this.gauges[partition];
-            // display only partitions (without total, etc.)
-            if(partition.indexOf('/') !== 0)
-                continue;
-            gaugeItems[gaugeItems.length] = {
-                itemId: (gauge !== undefined ? gauge.id : partition.replace('/', '_')) + '-gauge',
-                label: (gauge !== undefined ? gauge.label : partition) + ' Partition',
-                unit: 'MB',
-                max: diskspace[partition],
-                value: diskspaceUsage[partition],
-                iconCls: 'icon-hd'
-            };
-        }
 
         this.items = [{
             title: 'System Control',
@@ -108,12 +57,12 @@ Ext.define('Onc.tabs.SystemTab', {
             title: "Metrics",
             layout: {type: 'table', columns: 2},
             frame: true,
+            padding: '10 0 0 10',
             defaults: {
-                xtype: 'gauge',
                 width: 250,
-                margin: 10
+                margin: '0 10 10 0'
             },
-            items: gaugeItems
+            items: this._createGaugeItems()
         }, {
             title: "Tags",
             itemId: 'label-tags',
@@ -122,7 +71,7 @@ Ext.define('Onc.tabs.SystemTab', {
                 itemId: 'tagger',
                 xtype: 'tagger',
                 suggestions: this.envTags,
-                tags: displayTags,
+                tags: this._getDisplayTags(),
                 prefix: 'label:',
                 listeners: {
                     'tagAdded': function(source, tag){
@@ -139,30 +88,17 @@ Ext.define('Onc.tabs.SystemTab', {
             }],
         }];
 
-        var me = this;
         this._uptimeUpdateInterval = setInterval(function() {
-            me.down('#uptime').update(rec.get('state') === 'active' ?
-                                      rec.getUptime() : 'Server is switched off.');
-        }, 1000);
+            this.down('#uptime').update(rec.get('state') === 'active' ?
+                    rec.getUptime() : 'Server is switched off.');
+        }.bind(this), 1000);
 
         this.callParent(arguments);
     },
+
 
     onRender: function() {
         this.callParent(arguments);
-        this._streamSubscribe();
-    },
-
-    _streamSubscribe: function() {
-        var baseUrl= this.record.get('url');
-        this.subscription = Onc.hub.Hub.subscribe(this._onDataFromHub.bind(this), {
-            'memory': baseUrl + 'metrics/{0}_usage'.format('memory'),
-            'diskspace': baseUrl + 'metrics/{0}_usage'.format('diskspace'),
-        }, 'gauge');
-    },
-
-    _onDataFromHub: function(values) {
-        this.down('#ram-gauge').setValue(values['memory']);
     },
 
     onDestroy: function() {
@@ -170,8 +106,57 @@ Ext.define('Onc.tabs.SystemTab', {
 
         clearInterval(this._uptimeUpdateInterval);
         delete this._uptimeUpdateInterval;
-
-        console.assert(this.subscription);
-        this.subscription.unsubscribe();
     },
+
+
+    // Helper methods
+
+    _getDisplayTags: function(){
+        // display only custom tags from record (start with 'label:')
+        var displayTags = [];
+        Ext.Array.forEach(this.record.get('tags'), function(item){
+            if(item.indexOf('label:') === 0) {
+                displayTags.push(item);
+            }
+        }, this);
+
+        return displayTags;
+    },
+
+    _createGaugeItems: function(){
+        var gaugeItems = [];
+        var diskLabels = {
+            '/': 'Root',
+            '/storage': 'Storage',
+            '/vz': 'VZ'
+        };
+
+        // memory gauge
+        gaugeItems.push({
+            xtype: 'memorygauge',
+            compute: this.record,
+            label: 'Physical Memory',
+            unit: 'MB',
+            iconCls: 'icon-memory'
+        });
+
+        // disk gauges
+        for (partition in this.record.get('diskspace')){
+            if(partition.indexOf('/') !== 0)
+                continue;
+            gaugeItems.push({
+                partition: partition,
+                compute: this.record,
+                xtype: 'diskgauge',
+                label: (diskLabels[partition] ? diskLabels[partition] : partition) + ' Partition',
+                unit: 'MB',
+                metricsSubscriptionUrl: null,
+                dynamic: false,
+                iconCls: 'icon-hd'
+            });
+        }
+
+        return gaugeItems;
+    },
+
 });

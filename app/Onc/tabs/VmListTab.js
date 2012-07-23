@@ -4,17 +4,16 @@ Ext.define('Onc.tabs.VmListTab', {
 
     layout: 'fit',
 
-    _csComponentMap: null,      // map of reusable ComputeState components (key: compute id)
-    _gaugeComponentMap: null,   // map of reusable gauge components (key: compute id + gauge label)
-    _gaugeSubscriptions: null,  // array of gauge subscriptions
+    _cellComponentMap: null,   // map of reusable components
+    _cellContainerMap: null,   // map of containers
+
 
     initComponent: function() {
         this.addEvents('groupStop', 'groupStart');
 
         // initialize component and subscription cache
-        this._csComponentMap = {};
-        this._gaugeComponentMap = {};
-        this._gaugeSubscriptions = [];
+        this._cellComponentMap = {};
+        this._cellContainerMap = {};
 
         this.items = [{
             xtype: 'gridpanel',
@@ -105,26 +104,12 @@ Ext.define('Onc.tabs.VmListTab', {
     },
 
     _computeStateRenderer: function(domId, _, _, vmRec) {
-        var vmId = vmRec.get('id');
-
-        // retrieve existing component, or create if one does not exists
-        var csComponent = this._csComponentMap[vmId];
-        if(!csComponent){
-            csComponent = this._createComputeStateControl(domId, vmRec);
-            this._csComponentMap[vmId] = csComponent;
-        }
-
-        // create new container and add component
-        var csContainer = Ext.create('Ext.container.Container', {
-            renderTo: domId
-        });
-        csContainer.add(csComponent);
-    },
-
-    _createComputeStateControl: function(domId, vmRec){
-        return Ext.widget('computestatecontrol', {
-            compute: vmRec
-        });
+        var csKey = 'computestate-' + vmRec.get('id');
+        this._addToContainer(csKey, domId, function(){
+            return Ext.widget('computestatecontrol', {
+                compute: vmRec
+            });
+        }.bind(this));
     },
 
     _makeGaugeColumn: function(label, name, unit) {
@@ -134,74 +119,78 @@ Ext.define('Onc.tabs.VmListTab', {
             align: 'center',
             dataIndex: 'id',
             renderer: makeColumnRenderer(function(domId, _, _, rec) {
-                var gaugeId = rec.get('id') + '-' + label;
-
-                // retrieve existing component, or create if one does not exists
-                var gaugeComponent = this._gaugeComponentMap[gaugeId];
-                if(!gaugeComponent){
-                    gaugeComponent = this._createGauge(label, name, unit, rec);
-                    this._gaugeComponentMap[gaugeId] = gaugeComponent;
-                }
-
-                // create new container and add component
-                var gaugeContainer = Ext.create('Ext.container.Container', {
-                    renderTo: domId,
-                });
-                gaugeContainer.add(gaugeComponent);
-
+                var gaugeKey = 'gauge-' + rec.get('id') + '-' + label;
+                this._addToContainer(gaugeKey, domId, function(){
+                    return  this._createGauge(label, name, unit, rec);
+                }.bind(this));
             }.bind(this))
         };
     },
 
     _createGauge: function(label, name, unit, rec){
-        if(!rec.gaugeMetadata)
-            rec.gaugeMetadata = {};
-        if(!rec.gaugeMetadata[label])
-            rec.gaugeMetadata[label] = {};
-        var metadata = rec.gaugeMetadata[label];
-
-        var max = (name === 'cpu' ? rec.getMaxCpuLoad()
-                   : name === 'diskspace' ? rec.get('diskspace')['total']
-                   : rec.get(name));
-
-        metadata.gauge = Ext.create('Onc.widgets.Gauge', {
-            border: false,
-            max: max,
-            unit: unit,
-            display: name === 'cpu' ? ['fixed', 2] : undefined,
-            value: metadata.lastValue
-        });
-
-        var url = rec.get('url') + '/metrics/{0}_usage'.format(name);
-
-        if (!metadata.listener) {
-            metadata.listener = function(data) {
-                this.gauge.setValue(data[url]);
-                this.lastValue = data[url];
-            }.bind(metadata);
-
-            var subscription = Onc.hub.Hub.subscribe(metadata.listener, [url], 'gauge', function() {
-                var active = rec.get('state') == 'active';
-                if (!active)
-                    metadata.gauge.setValue(0);
-                // TODO: also change here widget active/inactive class if we want different visualization
-                return active;
+        if(name === 'memory')
+            return Ext.create('Onc.ui.components.MemoryGauge', {
+                border: false,
+                compute: rec,
+                unit: 'MB',
             });
-            this._gaugeSubscriptions.push(subscription);
+        else if(name === 'cpu')
+            return Ext.create('Onc.ui.components.CPUGauge', {
+                border: false,
+                compute: rec,
+            });
+        else if(name === 'diskspace')
+            return Ext.create('Onc.ui.components.DiskGauge', {
+                border: false,
+                compute: rec,
+                metricsSubscriptionUrl: null,
+                unit: 'MB'
+            });
+    },
+
+    _addToContainer: function(componentKey, domId, componentFactory){
+        // retrieve existing component, or create if one does not exists
+        var cellComponent = this._cellComponentMap[componentKey];
+        if(!cellComponent){
+            cellComponent = componentFactory();
+            this._cellComponentMap[componentKey] = cellComponent;
         }
 
-        return metadata.gauge;
+        // create new container and add component
+        var cellContainer = Ext.create('Ext.container.Container', {
+            renderTo: domId
+        });
+        cellContainer.add(cellComponent);
+
+        // destroy previous gauge container
+        this._destroyCellContainer(componentKey);
+
+        // memorize current gauge container
+        this._cellContainerMap[componentKey] = cellContainer;
     },
 
 
-    // unsubscribe gauges and destroys component cache
+    // destroys container and component cache
     onDestroy: function(){
-        Ext.Array.each(this._gaugeSubscriptions, function(item){
-            item.unsubscribe();
-        });
-        this._gaugeSubscriptions = null;
-        this._gaugeComponentMap = null;
-        this._csComponentMap = null;
-    }
+        // containers
+        for(var containerKey in this._cellContainerMap){
+            this._destroyCellContainer(containerKey);
+        }
+        delete this._cellContainerMap;
 
+        // components
+        for(var componentKey in this._cellComponentMap){
+            this._cellComponentMap[componentKey].destroy();
+        }
+        delete this._cellComponentMap;
+    },
+
+    _destroyCellContainer: function(containerKey){
+        var oldGaugeContainer = this._cellContainerMap[containerKey];
+        if(oldGaugeContainer){
+            oldGaugeContainer.removeAll();
+            oldGaugeContainer.destroy();
+            delete oldGaugeContainer;
+        }
+    }
 });
