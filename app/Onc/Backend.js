@@ -32,24 +32,26 @@ Ext.define('Onc.Backend', {
             withCredentials: true,
 
             callback: function(_, success, response) {
-                var result;
-                try {
-                    result = Ext.decode(response.responseText);
-                } catch (ex) {
-                    console.error("Error parsing JSON response:");
-                    console.error(response.responseText);
-                }
-                if (!success) {
-                    if (response.status === 403 && !(403 in successCodes)) {
-                        this.fireEvent('loginrequired');
-                    } else {
-                        d.errback(result, response);
-                    }
+                if (!success && (
+                    (response.status === 403 && !(403 in successCodes)) ||
+                    (response.status === 0 && response.responseText.length === 0)
+                )) {
+                    this.fireEvent('loginrequired');
                 } else {
-                    d.callback(result, response);
+                    var result;
+                    try {
+                        result = Ext.decode(response.responseText);
+                    } catch (ex) {
+                        console.error("Error parsing JSON response:");
+                        console.error(response.responseText);
+                    }
+                    if (!success) {
+                        d.errback(result, response);
+                    } else {
+                        d.callback(result, response);
+                    }
+                    callbackFn.apply(window, arguments);
                 }
-
-                callbackFn.apply(window, arguments);
             }.bind(this)
         };
 
