@@ -24,6 +24,11 @@ Ext.syncRequire([
 
     'Onc.widgets.Tagger',
     'Onc.widgets.Gauge',
+    'Onc.ui.components.ComputeGauge',
+    'Onc.ui.components.MemoryGauge',
+    'Onc.ui.components.CPUGauge',
+    'Onc.ui.components.NetworkGauge',
+    'Onc.ui.components.DiskGauge',
     'Onc.widgets.Shell',
     'Onc.widgets.Vnc',
     'Onc.tabs.Tab',
