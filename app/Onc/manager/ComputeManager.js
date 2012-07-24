@@ -22,20 +22,12 @@ Ext.define('Onc.manager.ComputeManager', {
         this._setStateAndWait(vms, 'active');
     },
 
-    stop: function(vms) {
-        this._setStateAndWait(vms, 'inactive');
-    },
-
-    suspend: function(vms) {
-        this._setStateAndWait(vms, 'inactive');
-    },
-
     graceful: function(vms) {
         this._setStateAndWait(vms, 'inactive');
     },
 
 
-	// compute Observer
+    // compute Observer
 
     _setStateAndWait: function(vms, desiredState) {
         var observers = [];

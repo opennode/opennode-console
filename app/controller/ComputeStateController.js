@@ -37,12 +37,6 @@ Ext.define('Onc.controller.ComputeStateController', {
                 start: function(sender, vm) {
                     computeManager.start([vm], function(){});
                 },
-                stop: function(sender, vm) {
-                    computeManager.stop([vm]);
-                },
-                suspend: function(sender, vm) {
-                    computeManager.suspend([vm]);
-                },
                 graceful: function(sender, vm) {
                     computeManager.graceful([vm]);
                 },
