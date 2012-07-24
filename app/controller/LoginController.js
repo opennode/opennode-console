@@ -43,7 +43,6 @@ Ext.define('Onc.controller.LoginController', {
         var cstore = Ext.getStore('SearchResultsStore');
         cstore.getProxy().extraParams['q'] = 'virt:no';
         cstore.load();
-        Ext.getStore('PhysicalComputesStore').load();
         if (this._viewport)
             this._viewport.destroy();
         this._viewport = this.getView('Viewport').create();
