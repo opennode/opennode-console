@@ -15,6 +15,10 @@ Ext.Loader.setConfig('paths', {
 
 Ext.Ajax.timeout = 200000;
 
+Ext.override(Ext.data.Connection, {
+    timeout : 200000
+});
+
 Ext.Loader.setConfig({enabled: true, disableCaching: false});
 
 Ext.syncRequire([
