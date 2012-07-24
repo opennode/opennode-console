@@ -11,7 +11,7 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
     computeId: null,
 
     initComponent: function() {
-        this.addEvents('start', 'suspend', 'graceful', 'stop', 'details', 'edit');
+        this.addEvents('start', 'graceful', 'details', 'edit');
 
         this.computeId = this.compute.get('id');
 
@@ -20,12 +20,10 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
                 title: 'Starting a VM',
                 text: 'Are you sure you want to boot this VM?'
             }),
-            this._makeButton('suspend', "Suspend", "Suspend machine", true),
             this._makeButton('graceful', "Shut down", "Shut down machine", true, {
                 title: 'Shutting down a VM',
                 text: 'Are you sure? All of the processes inside a VM will be stoppped'
             }),
-            this._makeButton('stop', "Force stop", "Force stop machine", true)
         ];
 
         if (!this.disableDetails) {
@@ -46,9 +44,7 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
     },
 
     refresh: function(){
-        var state = (this.compute.get('state') === 'active' ? 'running' :
-            this.compute.get('state') === 'suspended' ? 'suspended' : 'stopped');
-        this._setState(state);
+        this._setState();
     },
 
     // Helper methods
@@ -89,38 +85,26 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
                 if (choice === 'yes') {
                     action();
                 }
-            }.bind(this)
-        );
+            }
+        ), this;
     },
 
 
     _setState: function(name) {
-        if (name === 'suspended') {
+        if (this.compute.get('state') === 'inactive') {
             this._visible('start');
-            this._visible('stop');
-        } else if (name === 'stopped') {
-            this._visible('start');
-            this._disabled('stop');
-        } else if (name === 'running') {
-            this._disabled('suspend');
+            this._disabled('graceful');
+        } else if (this.compute.get('state') === 'active') {
+            this._disabled('start');
             this._visible('graceful');
-        } else if (name === 'starting') {
-            this._disabled('start');
-            this._disabled('stop');
-        } else if (name === 'shutting-down') {
-            this._disabled('start');
-            this._disabled('stop');
-        } else if (name === 'suspending') {
-            this._visible('start');
-            this._visible('stop');
-        } else if (name === 'force-stopping') {
-            this._disabled('start');
-            this._disabled('stop');
+        } else {
+            throw new Exception('Compute is in unknown state: ' + this.compute.get('state'));
         }
+        
     },
 
     _set: function(btnName, visible, enabled) {
-        var _btns = {'start': 1, 'stop': 1, 'graceful': 1, 'suspend': 1};
+        var _btns = {'start': 1, 'graceful': 1};
         var btn = this.down('#{0}-button'.format(btnName));
         btn.setVisible(visible);
         btn.setDisabled(enabled === false);
