@@ -151,7 +151,6 @@ Ext.define('Onc.tabs.SystemTab', {
                 label: (diskLabels[partition] ? diskLabels[partition] : partition) + ' Partition',
                 unit: 'MB',
                 metricsSubscriptionUrl: null,
-                dynamic: false,
                 iconCls: 'icon-hd'
             });
         }

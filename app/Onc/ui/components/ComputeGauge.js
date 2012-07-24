@@ -24,6 +24,11 @@ Ext.define('Onc.ui.components.ComputeGauge', {
         this.callParent();
     },
 
+    onRender: function() {
+        this.callParent(arguments);
+        this._checkIfActive();
+    },
+
     onDestroy: function(){
         this._unsubscribe();
     },
@@ -37,13 +42,7 @@ Ext.define('Onc.ui.components.ComputeGauge', {
 
     _subscribe: function(url, listener){
 //        console.log('+ subscribe: ' + this.compute.get('hostname'));
-        var subscription = Onc.hub.Hub.subscribe(listener.bind(this), [url], 'gauge', function() {
-            var active = this.compute.get('state') == 'active';
-            if (!active)
-                this.setValue(0);
-            // TODO: also change here widget active/inactive class if we want different visualization
-            return active;
-        }.bind(this));
+        var subscription = Onc.hub.Hub.subscribe(listener.bind(this), [url], 'gauge', this._checkIfActive.bind(this));
         this._subscriptions.push(subscription);
     },
 
@@ -53,6 +52,17 @@ Ext.define('Onc.ui.components.ComputeGauge', {
             item.unsubscribe();
         }, this);
         this._subscriptions = null;
-    }
+    },
 
+    _checkIfActive: function() {
+        var active = this.compute.get('state') == 'active';
+        if (!active){
+            this.setValue(0);
+            this.getEl().addCls('gauge-disabled');
+        } else {
+            this.getEl().removeCls('gauge-disabled');
+        }
+        // TODO: also change here widget active/inactive class if we want different visualization
+        return active;
+    }
 });
