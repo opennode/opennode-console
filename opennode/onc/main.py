@@ -120,5 +120,7 @@ class OncViewFactory(Adapter):
         resource = File(filename)
         if not resource.exists():
             return False
+        # make sure fonts are servers with a correct mime type
+        resource.contentTypes['.woff'] = 'application/x-font-woff'
 
         return OncView(resource)
