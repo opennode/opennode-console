@@ -58,9 +58,12 @@ Ext.define('Onc.ui.components.ComputeGauge', {
         var active = this.compute.get('state') == 'active';
         if (!active){
             this.setValue(0);
-            this.getEl().addCls('gauge-disabled');
+            // TODO: check if null check is necessary 
+            if(this.getEl())
+                this.getEl().addCls('gauge-disabled');
         } else {
-            this.getEl().removeCls('gauge-disabled');
+            if(this.getEl())
+                this.getEl().removeCls('gauge-disabled');
         }
         // TODO: also change here widget active/inactive class if we want different visualization
         return active;

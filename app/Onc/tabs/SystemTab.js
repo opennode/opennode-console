@@ -20,6 +20,10 @@ Ext.define('Onc.tabs.SystemTab', {
             layout: 'hbox',
             items: [Ext.widget('computestatecontrol', {
                 enableText: true,
+                enableBorders: true,
+                defaults: {
+                    margin: '0 3 0 0'
+                },
                 disableDetails: true,
                 compute: rec
             }), {

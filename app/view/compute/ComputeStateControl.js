@@ -9,6 +9,7 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
     },
 
     computeId: null,
+    enableBorders: false,
 
     initComponent: function() {
         this.addEvents('start', 'graceful', 'details', 'edit');
@@ -59,7 +60,8 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
             iconAlign: 'top',
             tooltip: tooltip,
             hidden: hidden,
-            minWidth: 38
+            minWidth: 38,
+            border: this.enableBorders
         };
         if (this.enableText) {
             button.text = text;
