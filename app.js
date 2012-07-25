@@ -1,4 +1,4 @@
-Ext.BLANK_IMAGE_URL = 'ext-4.0/resources/themes/images/default/tree/s.gif';
+Ext.BLANK_IMAGE_URL = 'ext-4.1/resources/themes/images/default/tree/s.gif';
 
 Ext.onReady(function() {
   setTimeout(function(){
@@ -8,9 +8,9 @@ Ext.onReady(function() {
 });
 
 Ext.Loader.setConfig('paths', {
-    'Ext': 'ext-4.0/src',
+    'Ext': 'ext-4.1/src',
     'Onc': './app/Onc',
-    'Ext.ux': 'ext-4.0/examples/ux'
+    'Ext.ux': 'ext-4.1/examples/ux'
 });
 
 Ext.Ajax.timeout = 200000;

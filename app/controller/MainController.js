@@ -23,6 +23,7 @@ Ext.define('Onc.controller.MainController', {
                 },
                 function(error) {
                     // TODO: visual display of the error
+                    console.error('Error while loading data: ', error);
                     return;
                 }
             );

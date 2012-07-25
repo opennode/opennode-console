@@ -10,7 +10,11 @@ Ext.define('Onc.view.Viewport', {
         region: 'north',
         id: 'header',
         html: '<img src="img/onc_logo.png" alt="OpenNode Console" width="436px" height="59px" />',
-        frame: true,
+//        frame: true,
+        height: 66,
+        padding: 5,
+        border: false,
+        bodyStyle: 'background: inherit',
         items: [{
             xtype: 'container',
             border: false,
@@ -35,26 +39,31 @@ Ext.define('Onc.view.Viewport', {
         }]
     }, {
         region: 'west',
-        collapsible: true,
+//        border: false,
+//        collapsible: true,
         layout: {type: 'vbox', align: 'stretchmax'},
         items: [
-            {xtype: 'searchfilter'},
+            {
+                xtype: 'searchfilter',
+                border: false
+            },
             {xtype: 'searchresults', flex: 1}
         ]
     }, {
         region: 'center',
         itemId: 'mainTabs',
         xtype: 'tabpanel',
+        border: false,
         listeners: {
-                'beforetabchange': function(tp, newTab, currentTab)  {
-                    if (newTab.id.startswith('computeview')) {
-                        newTab.updateTabs();
-                    }
+            'beforetabchange': function(tp, newTab, currentTab)  {
+                if (newTab.id.startswith('computeview')) {
+                    newTab.updateTabs();
                 }
+            }
         },
         preventHeader: true,
         defaults: {
-            closable: true
+            closable: true,
         },
         items: [{
             title: "OMS Shell",

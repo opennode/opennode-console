@@ -4,6 +4,7 @@ Ext.define('Onc.Backend', {
     singleton: true,
 
     constructor: function() {
+        this.callParent(arguments);
         this.addEvents('loginrequired');
     },
 
