@@ -1,11 +1,22 @@
 Ext.define('Onc.tabs.VmListTab', {
-    extend: 'Onc.tabs.Tab',
+    extend: 'Ext.grid.Panel',
     alias: 'widget.computevmlisttab',
 
     layout: 'fit',
 
     _cellComponentMap: null,   // map of reusable components
     _cellContainerMap: null,   // map of containers
+
+    title: "Virtual Machines",
+    forceFit: true,
+    multiSelect: true,
+    header: false,
+
+    viewConfig: {
+        getRowClass: function(record) {
+            return 'compute state-' + record.get('state');
+        }
+    },
 
 
     initComponent: function() {
@@ -15,39 +26,24 @@ Ext.define('Onc.tabs.VmListTab', {
         this._cellComponentMap = {};
         this._cellContainerMap = {};
 
-        this.items = [{
-            xtype: 'gridpanel',
-            title: "Virtual Machines",
-            forceFit: true,
-            multiSelect: true,
+        this.store = this.record.getChild('vms').children();
+        this.tbar = this._createTbarButtons();
+        this.columns = [
+            {header: 'State', xtype: 'templatecolumn', tpl: '<div class="state-icon" title="{state}"></div>', width: 40},
+            {header: 'Name', dataIndex: 'hostname', width: 75, editor: {xtype: 'textfield', allowBlank: false}},
+            {header: 'Inet4', dataIndex: 'ipv4_address', editor: {xtype: 'textfield', allowBlank: true}},
+            {header: 'Inet6', dataIndex: 'ipv6_address', editor: {xtype: 'textfield', allowBlank: true}},
 
-            store: this.record.getChild('vms').children(),
-
-            viewConfig: {
-                getRowClass: function(record) {
-                    return 'compute state-' + record.get('state');
-                }
+            {header: 'actions', renderer:
+                makeColumnRenderer(this._computeStateRenderer.bind(this))
             },
 
-            tbar: this._createTbarButtons(),
+            this._makeGaugeColumn('CPU usage', 'cpu'),
+            this._makeGaugeColumn('Memory usage', 'memory', 'MB'),
+            this._makeGaugeColumn('Disk usage', 'diskspace', 'MB'),
 
-            columns: [
-                {header: 'State', xtype: 'templatecolumn', tpl: '<div class="state-icon" title="{state}"></div>', width: 40},
-                {header: 'Name', dataIndex: 'hostname', width: 75, editor: {xtype: 'textfield', allowBlank: false}},
-                {header: 'Inet4', dataIndex: 'ipv4_address', editor: {xtype: 'textfield', allowBlank: true}},
-                {header: 'Inet6', dataIndex: 'ipv6_address', editor: {xtype: 'textfield', allowBlank: true}},
-
-                {header: 'actions', renderer:
-                    makeColumnRenderer(this._computeStateRenderer.bind(this))
-                },
-
-                this._makeGaugeColumn('CPU usage', 'cpu'),
-                this._makeGaugeColumn('Memory usage', 'memory', 'MB'),
-                this._makeGaugeColumn('Disk usage', 'diskspace', 'MB'),
-
-                {header: 'ID', dataIndex: 'id', width: 130, hidden: true}
-            ]
-        }];
+            {header: 'ID', dataIndex: 'id', width: 130, hidden: true}
+        ];
 
         this.callParent(arguments);
     },
@@ -75,7 +71,7 @@ Ext.define('Onc.tabs.VmListTab', {
                 icon: 'img/icon/' + action.icon + '16.png',
                 listeners: {
                     'click': function() {
-                        var selectedItems = this.child('gridpanel').getSelectionModel().getSelection();
+                        var selectedItems = this.getSelectionModel().getSelection();
                         if (selectedItems.length === 0)
                             Ext.Msg.show({title: "Error", msg: "Please select a VM from the list.",
                                 buttons: Ext.Msg.OK, icon: Ext.Msg.ERROR});

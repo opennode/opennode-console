@@ -40,9 +40,10 @@ Ext.define('Onc.widgets.Gauge', {
             this.el.addCls('with-border');
     },
 
-    afterRender: function() {
-        this.callParent(arguments);
-        this.refresh();
+    listeners: {
+        'afterrender': function(cmp, eOpts ){
+            this.refresh();
+        },
     },
 
     setValue: function(value) {

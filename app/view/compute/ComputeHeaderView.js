@@ -2,16 +2,19 @@ Ext.define('Onc.view.compute.ComputeHeaderView', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.computeheader',
 
-    frame: true,
     height: 50,
     bodyPadding: 5,
+    border: false,
+    bodyStyle: 'background: inherit',
 
     layout: {type: 'hbox', align: 'middle'},
+
 
     initComponent: function() {
         this.defaults = {
             margin: '0 5px',
-            width: 200
+            width: 200,
+            border: true
         };
 
         this.items = [{

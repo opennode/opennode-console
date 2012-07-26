@@ -10,7 +10,6 @@ Ext.define('Onc.view.Viewport', {
         region: 'north',
         id: 'header',
         html: '<img src="img/onc_logo.png" alt="OpenNode Console" width="436px" height="59px" />',
-//        frame: true,
         height: 66,
         padding: 5,
         border: false,
@@ -39,7 +38,6 @@ Ext.define('Onc.view.Viewport', {
         }]
     }, {
         region: 'west',
-//        border: false,
 //        collapsible: true,
         layout: {type: 'vbox', align: 'stretchmax'},
         items: [
@@ -54,6 +52,8 @@ Ext.define('Onc.view.Viewport', {
         itemId: 'mainTabs',
         xtype: 'tabpanel',
         border: false,
+        bodyStyle: 'background: inherit',
+        plain: true,
         listeners: {
             'beforetabchange': function(tp, newTab, currentTab)  {
                 if (newTab.id.startswith('computeview')) {

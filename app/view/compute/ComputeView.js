@@ -81,7 +81,9 @@ Ext.define('Onc.view.compute.ComputeView', {
             xtype: 'tabpanel',
             itemId: 'tabs',
             defaults: {record: rec},
-            items: []
+            items: [],
+            plain: true,
+            bodyStyle: 'background: inherit'
         }];
 
         this.callParent(arguments);

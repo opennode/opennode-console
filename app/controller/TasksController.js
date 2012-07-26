@@ -37,13 +37,6 @@ Ext.define('Onc.controller.TasksController', {
     },
 
     _load: function(){
-        this.view.setLoading(true);
-        var tasksStore = this.getStore('TasksStore');
-        tasksStore.load({
-            scope: this,
-            callback: function(records, operation, success) {
-                this.view.setLoading(false);
-            }
-        });
+        this.getStore('TasksStore').load();
     }
 });

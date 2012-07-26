@@ -44,6 +44,7 @@ Ext.define('Onc.view.LoginWindow', {
         }, {
             emptyText: "Username",
             name: 'username',
+            width: '100%',
             listeners: {
                 afterrender: function(field) {
                     field.focus(false, 500);
@@ -52,7 +53,8 @@ Ext.define('Onc.view.LoginWindow', {
         }, {
             emptyText: "Password",
             inputType: 'password',
-            name: 'password'
+            name: 'password',
+            width: '100%'
         }, {
             itemId: 'errormsg',
             xtype: 'label',

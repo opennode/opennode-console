@@ -74,7 +74,7 @@ Ext.define('Onc.controller.ComputeController', {
 
     _getVMListCmp: function(hnId){
         var tabPanel = this.getTabs();
-        return tabPanel.child('computeview[computeId=' + hnId + '] computevmlisttab gridpanel');
+        return tabPanel.child('computeview[computeId=' + hnId + '] computevmlisttab');
     }
 
 });

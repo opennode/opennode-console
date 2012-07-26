@@ -5,9 +5,6 @@ Ext.define('Onc.tabs.NetworkTab', {
     layout: {type: 'vbox', align: 'stretch'},
 
     initComponent: function() {
-        var me = this;
-        var rec = this.record;
-
         this.items = [{
             xtype: 'gridpanel',
             flex: 3,

@@ -237,12 +237,14 @@ Ext.define('Onc.tabs.VmMapTab', {
                 });
             },
 
-            afterRender: function() {
-                this.mon(this.el, 'click', this.onMouseClick, this);
-                this.mon(this.el, 'dblclick', this.onMouseDoubleClick, this);
-                this.mon(this.store, {scope: this, update: this.updateCellEvent});
+            listeners: {
+                'afterrender': function(cmp, eOpts ){
+                    this.mon(this.el, 'click', this.onMouseClick, this);
+                    this.mon(this.el, 'dblclick', this.onMouseDoubleClick, this);
+                    this.mon(this.store, {scope: this, update: this.updateCellEvent});
 
-                this.addEvents('showvmdetails');//, 'startvms', 'stopvms');
+                    this.addEvents('showvmdetails');//, 'startvms', 'stopvms');
+                }
             },
 
             getUptime: function(rec) {
