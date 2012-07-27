@@ -47,7 +47,20 @@ Ext.define('Onc.controller.MainController', {
 
     },
 
+    // TODO: move global variables to separate locator class
+    logViewerAppender: null,
+    logViewer: null,
+
     init: function() {
+        this.logViewerAppender = new Sm.log.LogViewerAppender();
+        Sm.log.Logger.getRoot().addAppender(this.logViewerAppender);
+
+        // set log level if LOG_LEVEL defined in config.js
+        if(LOG_LEVEL)
+            Sm.log.Logger.getRoot().setLevel(Sm.log.Level[LOG_LEVEL]);
+
+        var log = Sm.log.Logger.getLogger( 'UI');
+
         this.control({
             '#mainTabs': {
                 tabchange: function(tabPanel, newTab) {
@@ -71,6 +84,32 @@ Ext.define('Onc.controller.MainController', {
             '#infrastructurejoin-button':{
                 click: function() {
                     this.fireBusEvent('displayHostManager');
+                }
+            },
+            '#viewlog-button': {
+                click: function(){
+                    // Create a log window
+                    if(!this.logViewer){
+                        this.logViewer = new Sm.log.LogViewerWindow({
+                            appender : this.logViewerAppender,
+                            minimizable: true,
+                        });
+                        this.logViewer.on({
+                            close: function(win, eOpts){
+                                log.info('Log viewer closed - logs cleared');
+                                this.logViewer = null;
+                            },
+                            // minimize implemented because closing viewer clear log list
+                            minimize: function(win, eOpts){
+                                log.info('Log viewer minimized');
+                                win.hide();
+                            },
+                            scope: this
+                        });
+                        log.info('Log viewer created');
+                    }
+                    this.logViewer.setVisible(!this.logViewer.isVisible());
+                    log.info('Log viewer displayed');
                 }
             }
         });

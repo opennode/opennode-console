@@ -23,9 +23,17 @@ Ext.define('Onc.view.Viewport', {
                 margin: '0 0 0 2'
             },
             items: [{
+                id: 'viewlog-button',
+                xtype: 'button',
+                text: 'View logs',
+                ui: 'default-toolbar',
+                style: {
+                    textDecoration: 'underline'
+                }
+            }, {
                 id: 'tasks-button',
                 xtype: 'button',
-                text: 'Tasks',
+                text: 'Tasks'
             }, {
                 id: 'infrastructurejoin-button',
                 xtype: 'button',

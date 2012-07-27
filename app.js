@@ -26,6 +26,10 @@ Ext.syncRequire([
     'Ext.XTemplate',
     'Ext.form.*',
 
+    // used by log4js-ext
+    'Ext.ux.RowExpander',
+    'Ext.ux.statusbar.StatusBar',
+
     'Onc.widgets.Tagger',
     'Onc.widgets.Gauge',
     'Onc.ui.components.ComputeGauge',
