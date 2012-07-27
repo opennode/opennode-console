@@ -38,15 +38,22 @@ Ext.define('Onc.view.Viewport', {
         }]
     }, {
         region: 'west',
-//        collapsible: true,
-        layout: {type: 'vbox', align: 'stretchmax'},
-        items: [
-            {
+        collapsible: true,
+        bodyCls: 'searchpanel',
+
+        items: [{
+            xtype: 'container',
+            border: false,
+            layout: {type: 'vbox', align: 'stretchmax'},
+            items: [{
                 xtype: 'searchfilter',
-                border: false
-            },
-            {xtype: 'searchresults', flex: 1}
-        ]
+                border: false,
+                margin: '3 2 2 2'
+            }, {
+                xtype: 'searchresults',
+                flex: 1
+            }]
+        }]
     }, {
         region: 'center',
         itemId: 'mainTabs',

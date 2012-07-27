@@ -83,7 +83,8 @@ Ext.define('Onc.view.compute.ComputeView', {
             defaults: {record: rec},
             items: [],
             plain: true,
-            bodyStyle: 'background: inherit'
+            bodyStyle: 'background: inherit',
+            border: false
         }];
 
         this.callParent(arguments);

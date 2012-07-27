@@ -6,6 +6,7 @@ Ext.define('Onc.tabs.TemplatesTab', {
     forceFit: true,
     multiSelect: true,
     header: false,
+    border: false,
 
     columns: [
         {header: 'ID', dataIndex: 'id', hidden: true},

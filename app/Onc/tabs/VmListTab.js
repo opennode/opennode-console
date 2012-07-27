@@ -11,6 +11,7 @@ Ext.define('Onc.tabs.VmListTab', {
     forceFit: true,
     multiSelect: true,
     header: false,
+    border: false,
 
     viewConfig: {
         getRowClass: function(record) {
