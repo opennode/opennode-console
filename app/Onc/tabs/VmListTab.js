@@ -103,7 +103,12 @@ Ext.define('Onc.tabs.VmListTab', {
         var csKey = 'computestate-' + vmRec.get('id');
         this._addToContainer(csKey, domId, function(){
             return Ext.widget('computestatecontrol', {
-                compute: vmRec
+                compute: vmRec,
+                // fixed layout needed because of ExtJs-4.1 rendering mechanism 
+                defaults: {
+                    width: 38,
+                    height: 38
+                }
             });
         }.bind(this));
     },
