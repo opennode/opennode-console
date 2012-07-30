@@ -2,8 +2,12 @@ Ext.BLANK_IMAGE_URL = 'lib/ext-4.1/resources/themes/images/default/tree/s.gif';
 
 Ext.onReady(function() {
   setTimeout(function(){
-    Ext.get('loading').remove();
-    Ext.get('loading-mask').fadeOut({remove:true});
+    var mask = Ext.get('loading');
+    // a workaround for tests which don't have a special loading div
+    if (mask !== null) {
+        mask.remove();
+        Ext.get('loading-mask').fadeOut({remove:true});
+    }
   }, 250);
 });
 
