@@ -31,6 +31,7 @@ Ext.define('Onc.view.tabs.VmMapTab', {
             xtype: 'gridpanel',
             hideHeaders: true,
             columnLines: true,
+            border: true,
             id: 'vmmap',
             store: 'PhysicalComputesStore',
             selection: Ext.create('Ext.util.MixedCollection'),

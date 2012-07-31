@@ -4,6 +4,8 @@ Ext.define('Onc.view.tabs.NetworkTab', {
 
     layout: {type: 'vbox', align: 'stretch'},
 
+    border: false,
+
     initComponent: function() {
         this.items = [{
             xtype: 'gridpanel',

@@ -47,7 +47,11 @@ Ext.define('Onc.view.Viewport', {
     }, {
         region: 'west',
         collapsible: true,
+        split: true,
+        header: false,
         width: 220,
+        minWidth: 220,
+        maxWidth: 500,
         bodyCls: 'searchpanel',
         layout: {type: 'vbox', align: 'stretch'},
         items: [{

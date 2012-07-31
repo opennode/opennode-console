@@ -4,7 +4,7 @@ Ext.define('Onc.view.tabs.SystemTab', {
 
     defaults: {
         xtype: 'fieldset',
-        margin: 5
+        margin: '5 5 5 10'
     },
     autoScroll: true,
 
