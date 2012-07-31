@@ -1,0 +1,15 @@
+.x-livesearch-match {
+    font-weight: bold;
+    
+    /* Verde fosforescente: #00FF00 */
+    /* Amarillo muy claro: #FFFF99 */
+    /* Amarillo fuerte: yellow */
+   background-color: yellow;
+}
+
+.x-toolbar .x-form-cb-wrap {
+    line-height: 22px;
+}
+.x-toolbar .x-form-checkbox {
+    vertical-align: 0;
+}
