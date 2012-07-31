@@ -8,14 +8,14 @@ else
     SERVER="file://`pwd`/fake-server/"
 fi
 
-MAJOR_VERSION=4.0
-MINOR_VERSION=4.0.7
+MAJOR_VERSION=4.1
+MINOR_VERSION=4.1.1
 ZIP="ext-${MINOR_VERSION}-gpl.zip"
-FOLDER="ext-${MINOR_VERSION}-gpl"
+FOLDER="extjs-${MINOR_VERSION}"
 
 
 echo "* removing any previous files"
-rm -rf ext-$MAJOR_VERSION $FOLDER
+rm -rf lib/ext-$MAJOR_VERSION $FOLDER
 
 if [ -f "$ZIP" ]; then
     INCOMPLETE=$(zipinfo -h "$ZIP" 2>&1 | grep "extra bytes at beginning or within zipfile")
@@ -37,6 +37,7 @@ echo "* unpacking"
 unzip $ZIP > /dev/null
 
 echo "* installing"
-mv $FOLDER ext-$MAJOR_VERSION
+mv $FOLDER lib/ext-$MAJOR_VERSION
+
 
 echo "* done"
