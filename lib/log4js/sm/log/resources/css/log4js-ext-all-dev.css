@@ -1,0 +1,245 @@
+/*
+ * Copyright © 2012 Pedro Agullo Soliveres.
+ * 
+ * This file is part of Log4js-ext.
+ *
+ * Log4js-ext is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License.
+ *
+ * Commercial use is permitted to the extent that the code/component(s)
+ * do NOT become part of another Open Source or Commercially developed
+ * licensed development library or toolkit without explicit permission.
+ *
+ * Log4js-ext is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Log4js-ext.  If not, see <http://www.gnu.org/licenses/>.
+ * 
+ * This software uses the ExtJs library (http://extjs.com), which is 
+ * distributed under the GPL v3 license (see http://extjs.com/license).
+ */
+
+
+/***********************************************************************
+
+ LogViewerWindow: title
+
+ ***********************************************************************/
+.sm-log-viewer-title-1 {
+  color: #0D84A8;  
+  text-decoration: none;
+}
+
+.sm-log-viewer-title-2 {
+  color: orange;  
+  text-decoration: none;
+}
+
+/***********************************************************************
+
+ LogViewerWindow: logging state indicators
+
+ ***********************************************************************/
+
+.sm-log-state-no-appender-attached {
+  background-image: url(../images/circle-black-16-ns.png?jcb=1342574355) !important;   
+  background-repeat: no-repeat; 
+}
+
+.sm-log-state-logging {
+  background-image: url(../images/ledgreen.png?jcb=1342574387) !important;
+  background-repeat: no-repeat;
+ }
+
+.sm-log-state-buffering {
+  background-image: url(../images/ledorange.png?jcb=1342574393) !important;   
+  background-repeat: no-repeat; 
+}
+
+.sm-log-state-stopped {
+  background-image: url(../images/ledred.png?jcb=1342574423) !important;   
+  background-repeat: no-repeat; 
+}
+
+
+/***********************************************************************
+
+ LogViewerWindow: level icons
+
+ ***********************************************************************/
+
+.sm-log-level-fatal-icon {
+  background-image: url(../images/level-fatal.png?jcb=1342574476) !important;   
+  background-repeat: no-repeat; 
+  height: 16px;
+  padding-left: 20px;
+}
+
+.sm-log-level-error-icon {
+  background-image: url(../images/level-error.png?jcb=1342574470) !important;   
+  background-repeat: no-repeat; 
+  height: 16px;
+  padding-left: 20px;
+}
+
+.sm-log-level-warn-icon {
+  background-image: url(../images/level-warn.png?jcb=1342574550) !important;   
+  background-repeat: no-repeat;
+  height: 16px;
+  padding-left: 20px;
+}
+
+.sm-log-level-info-icon {
+  background-image: url(../images/level-info.png?jcb=1342574518) !important;   
+  background-repeat: no-repeat; 
+  height: 16px;
+  padding-left: 20px;
+}
+
+.sm-log-level-debug-icon {
+  background-image: url(../images/level-debug.png?jcb=1342574455) !important;   
+  background-repeat: no-repeat; 
+  height: 16px;
+  padding-left: 20px;
+}
+
+.sm-log-level-trace-icon {
+  /* Not showing an icon for traces might help with clutter, though
+     not so 'cool' looking */
+  /*
+  background-image: ññññññ( ../images/level-trace.png ) !important;   
+  background-repeat: no-repeat; 
+  height: 16px;
+  */
+  padding-left: 20px;
+}
+
+
+
+/***********************************************************************
+
+ LogViewerWindow: window icon
+
+ ***********************************************************************/
+
+.sm-log-viewer-icon {
+  background-image: url(../images/bug.png?jcb=1342574328) !important;
+  background-repeat: no-repeat; 
+  padding-top: 1;
+  padding-bottom: 1; 
+}
+
+/***********************************************************************
+
+ LogViewerWindow: other
+
+ ***********************************************************************/
+
+.sm-log-has-logged-object-true {
+  background-image: url(../images/has-logged-object-true.png?jcb=1342574372) !important;   
+  background-repeat: no-repeat; 
+  background-position: center center;
+  height: 10px;
+  width: 16px;
+}
+
+
+/*
+ * Copyright © 2012 Pedro Agullo Soliveres.
+ * 
+ * This file is part of Log4js-ext.
+ *
+ * Log4js-ext is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License.
+ *
+ * Commercial use is permitted to the extent that the code/component(s)
+ * do NOT become part of another Open Source or Commercially developed
+ * licensed development library or toolkit without explicit permission.
+ *
+ * Log4js-ext is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Log4js-ext.  If not, see <http://www.gnu.org/licenses/>.
+ * 
+ * This software uses the ExtJs library (http://extjs.com), which is 
+ * distributed under the GPL v3 license (see http://extjs.com/license).
+ */
+
+
+/***********************************************************************
+
+ LogViewerWindow: JSON highlighting
+
+ ***********************************************************************/
+
+/* Conservative colours */
+.sm-log-json-string { color: blue; }
+.sm-log-json-number { color: maroon; }
+.sm-log-json-boolean { color: teal; }
+.sm-log-json-null { color: grey; }
+.sm-log-json-key { 
+  color: black;
+  font-weight: bold
+}
+
+/* More aggresive colours */
+/*
+.sm-log-json-string { color: green; }
+.sm-log-json-number { color: darkorange; }
+.sm-log-json-boolean { color: blue; }
+.sm-log-json-null { color: magenta; }
+.sm-log-json-key { color: red}
+*/
+
+
+.x-livesearch-match {
+    font-weight: bold;
+    /* background-color: yellow; Nice too*/
+    background-color: #00FF00; /* Nice green */
+}
+
+.sm-livesearch-next {
+  background-image: url(../../../../smthirdparty/ux/livesearch-next.gif?jcb=1341496858) !important;
+}
+
+.sm-livesearch-prev {
+  background-image: url(../../../../smthirdparty/ux/livesearch-prev.gif?jcb=1341496858) !important;
+}
+
+.x-toolbar .x-form-cb-wrap {
+    line-height: 22px;
+}
+.x-toolbar .x-form-checkbox {
+    vertical-align: 0;
+}
+
+/* = Row Expander Header
+----------------------------------------------- */
+
+.rowexpand-header .rowexpand-expand-all {
+background-image: url(../../../../extjs/resources/themes/images/default/grid/row-expand-sprite.gif?jcb=1334923980);
+background-position: 0 0;
+background-repeat: no-repeat;
+    margin-left: 1px;
+    padding-right: 6px;
+}
+.rowexpand-header .rowexpand-collapse-all {
+background-image: url(../../../../extjs/resources/themes/images/default/grid/row-expand-sprite.gif?jcb=1334923980);
+background-position: -25px 0;
+background-repeat: no-repeat;
+margin-left: 1px;
+padding-right: 6px;
+}
+
+
+
+
+

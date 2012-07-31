@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * Copyright © 2012 Pedro Agullo Soliveres.
+ * 
+ * This file is part of Log4js-ext.
+ *
+ * Log4js-ext is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License.
+ *
+ * Commercial use is permitted to the extent that the code/component(s)
+ * do NOT become part of another Open Source or Commercially developed
+ * licensed development library or toolkit without explicit permission.
+ *
+ * Log4js-ext is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Log4js-ext.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+ * 
+ * This software uses the ExtJs library (http://extjs.com), which is 
+ * distributed under the GPL v3 license (see http://extjs.com/license).
+ */
+
+(function() {
+   &quot;use strict&quot;; //$NON-NLS-1$
+
+<span id='Sm-log-Logger'>   /** 
+</span>    * A logger performs logging using the error, info, debug and other 
+    * functions.
+    * 
+    * Logged data is handled by the logger appenders 
+    * (see {@link Sm.log.AppenderBase}), 
+    * or its parent's appenders,
+    * that send it somewhere: the console, a window, etc.
+    * 
+    * An appender will need to format data, and it will use its
+    * layout (see {@link Sm.log.LayoutBase}) for that purpose. 
+    */
+   Ext.define('Sm.log.Logger', { //$NON-NLS-1$
+      
+      uses : ['Ext.Array',
+              'Sm.log.Level',
+              'Sm.log.LoggingEvent',
+              'Sm.log.ExtLogAppender',
+              'Sm.log.util.Assert'],
+              
+      config : {
+<span id='Sm-log-Logger-cfg-category'>         /**
+</span>          * @cfg {String} [=assigned in constructor] (required)
+          * @accessor
+          * 
+          * The logger's category.
+          * 
+          * This can be considered the logger name, too.
+          * 
+          * @readonly
+          */
+         category : '',
+         
+         // Method automatically generated for config.category
+<span id='Sm-log-Logger-method-setCategory'>         /**
+</span>          * @method setCategory
+          * @private
+          */
+         
+<span id='Sm-log-Logger-cfg-level'>         /**
+</span>          * @cfg {Sm.log.Level} 
+          * @accessor
+          * 
+          * The level for this logger, or null.
+          * 
+          * Logs with a level lesser than this level will be ignored.
+          * See {@link #getEffectiveLevel} for additional information.
+          */
+         level : null,
+         
+<span id='Sm-log-Logger-cfg-enabled'>         /**
+</span>          * @cfg
+          * @accessor
+          * 
+          * If set to false, disables all logging.
+          */
+         enabled : true,
+         
+<span id='Sm-log-Logger-cfg-appenders'>         /**
+</span>          * @cfg {Array}
+          * @accessor
+          * 
+          * The appenders to which this logger outputs directly.
+          * 
+          * See {@link #getEffectiveAppenders} for additional information.
+          * 
+          */
+         appenders : [],
+                  
+         // Method automatically generated for config.appender
+<span id='Sm-log-Logger-method-setAppenders'>         /**
+</span>          * @method setAppenders
+          * @private
+          */
+                 
+<span id='Sm-log-Logger-cfg-additivity'>         /**
+</span>          * @cfg
+          * @accessor
+          * 
+          * If true, this logger will log to its appenders plus its parent
+          * appenders.
+          */
+         additivity : true
+      },
+                   
+      statics : {
+<span id='Sm-log-Logger-static-property-enabled'>         /**
+</span>          * If false, no logger will output to its appenders, independently
+          * of the logger enabled state.
+          * 
+          * @static
+          * @property
+          */
+         enabled : true,
+         
+<span id='Sm-log-Logger-static-method-getRoot'>         /**
+</span>          * Returns the root logger, the logger that is the parent of all
+          * other loggers in the application.
+          * 
+          * By default, the root logger uses the {@link Sm.log.ExtLogAppender}
+          * to output logs.
+          * 
+          * @returns {Sm.log.Logger} The root logger.
+          * 
+          * @static
+          */
+         getRoot : function() {
+            if( this.PRIVATE_root === undefined ) {
+               this.PRIVATE_root = 
+                  Ext.create('Sm.log.Logger', 
+                      {category:'', level: Sm.log.Level.TRACE});
+               this.PRIVATE_root.addAppender(Sm.log.ExtLogAppender);
+            }
+            return this.PRIVATE_root;
+         },
+
+/*         
+         loggerExists : function( category ) {
+            var parts, logger, found;
+            
+            if( category === '') {
+               return true;
+            }
+            
+            parts = category.split(&quot;.&quot;);
+            logger = this.getRoot();
+            found = true;
+            Ext.Array.forEach( parts, function(part) {
+               Sm.log.util.Assert.assert( part );
+               if( !logger[part] ) {
+                  found = false;
+                  return false;
+               }
+               logger = logger[part];
+            });
+        
+            return found;
+         },
+*/
+<span id='Sm-log-Logger-static-method-getLogger'>         /**
+</span>          * @static
+          * 
+          * Returns a logger for the specified category.
+          * 
+          * If there is no such logger, it is created. You should never
+          * instantiate loggers with the logger constructor, but rather you
+          * should use this function for that purpose.
+          * 
+          * @param {String} category The category for which to get the logger.
+          * 
+          * @returns {Sm.log.Logger}
+          * 
+          */
+         getLogger : function( category ) {
+            Sm.log.util.Assert.assert( category !== undefined );
+            
+            if( !Ext.isString(category) ) {
+               if( category.$isClass ) {
+                  category = category.getName();
+               }
+               else if( category.self ) {
+                  category = category.self.geName();
+               }
+               else {
+                  category = category.toString();
+               }
+            }
+            
+            if( category === '') {
+               return this.getRoot();
+            }
+            
+            // We take the 'easy' route: we create all the hierachy
+            // of logger: for 'a.b.c' we create a, a.b and a.b.c logger
+            // We could optimize this, but we'll wait until/if it is needed
+            var parts = category.split(&quot;.&quot;), cat = &quot;&quot;,
+                logger = this.getRoot(),
+                loggerProperty;
+            Ext.Array.forEach( parts, function(part) {
+               Sm.log.util.Assert.assert( part );
+               cat = cat + part;
+               loggerProperty = part + &quot;$SmLgr&quot;;
+               if( !logger[loggerProperty] ) {
+                 logger[loggerProperty] = new Sm.log.Logger( {category:cat});
+                 logger[loggerProperty].parentLogger = logger;
+               }
+               logger = logger[loggerProperty];
+               Sm.log.util.Assert.assert( !Ext.isFunction(logger));
+               cat = cat + &quot;.&quot;;
+            });
+            
+            return logger;
+         }
+         
+      },
+      
+<span id='Sm-log-Logger-method-getEffectiveEnabled'>      /**
+</span>       * Returns the effective enabled state, taking into account
+       * both this logger enabled property and the static enabled property. 
+       * 
+       * @returns {Boolean}
+       */
+      getEffectiveEnabled : function() {
+         return this.getEnabled() &amp;&amp; this.self.enabled;
+      },
+      
+<span id='Sm-log-Logger-method-getEffectiveAppenders'>      /** 
+</span>       * Returns all appenders to which this logger should log.
+       * 
+       *  This includes its own appenders, and, if additivity is true,
+       *  its parent logger appenders -which in turn might contribute
+       *  its own parent appenders if its additivity is set to true.
+       * 
+       * @returns {Array}
+       */
+      getEffectiveAppenders : function() {
+         var result = [], appenders = this.getAppenders();
+         
+         if( appenders &amp;&amp; appenders.length &gt; 0 ) {
+            result = result.concat( appenders);
+         }
+         if( this.parentLogger &amp;&amp; this.getAdditivity() ) {
+            result = result.concat( this.parentLogger.getEffectiveAppenders());
+         }
+         return result;
+      },
+      
+<span id='Sm-log-Logger-method-addAppender'>      /**
+</span>       * Adds a new appender to this logger.
+       * 
+       * @param {Sm.log.AppenderBase} appender 
+       *        The appender to add to this logger.
+       * 
+       * @returns {void}
+       */
+      addAppender : function(appender) {
+         this.getAppenders().push(appender); 
+      },
+      
+<span id='Sm-log-Logger-method-removeAppender'>      /**
+</span>       * Removes an appender from this logger.
+       * 
+       * @param {Sm.log.AppenderBase} appender The appender to remove.
+       * 
+       * @returns {void}
+       */
+      removeAppender : function(appender) {
+         Ext.Array.remove( this.getAppenders(), appender );
+      },
+      
+<span id='Sm-log-Logger-method-removeAllAppenders'>      /** 
+</span>       * Removes all appenders from this logger
+       * 
+       * @returns {void}
+       */
+      removeAllAppenders : function() {
+         this.setAppenders( [] );
+      },
+
+<span id='Sm-log-Logger-method-getEffectiveLevel'>      /** 
+</span>       * Returns the effective level for this logger.
+       * 
+       * If a level has been set by calling {@link #setLevel}, then that will
+       * be the effective level. Else, the parent effective level will be used.
+       * 
+       * @returns {Sm.log.Level} The effective level.
+       */
+      getEffectiveLevel : function() {
+        if( !this.getLevel() ) {
+           return this.parentLogger.getEffectiveLevel();
+        } 
+        return this.getLevel();
+      },
+      
+<span id='Sm-log-Logger-method-log'>      /**
+</span>       * Logs data with the specified level.
+       * 
+       * Arguments for this function are variable, and it is possible to 
+       * log a simple message, perform advanced formatting or even log objects.
+       * Check this 
+       * [link](http://http://code.google.com/p/log4js-ext/wiki/LoggingFormatting)
+       * for examples on how to use this function. 
+       * 
+       * @param level The log level. 
+       * @param messageArgs The arguments for the logging operation.
+       * 
+       * @returns {void}
+       */
+      log : function(level, messageArgs) {
+         var args = [], i;
+         for( i = 1; i &lt; arguments.length; i = i + 1 ) {
+            args.push(arguments[i]);
+         }
+         this.doLog(level, args);
+      },
+
+<span id='Sm-log-Logger-method-fatal'>      /**
+</span>       * Logs data with a FATAL level.
+       * 
+       * Arguments for this function are variable, and it is possible to 
+       * log a simple message, perform advanced formatting or even log objects.
+       * Check this 
+       * [link](http://http://code.google.com/p/log4js-ext/wiki/LoggingFormatting)
+       * for examples on how to use this function. 
+       * 
+       * @param messageArgs The arguments for the logging operation.
+       * 
+       * @returns {void}
+       */
+      fatal : function(messageArgs) {
+         this.doLog(Sm.log.Level.FATAL, arguments);         
+      },
+      
+<span id='Sm-log-Logger-method-error'>      /**
+</span>       * Logs data with an ERROR level.
+       * 
+       * Arguments for this function are variable, and it is possible to 
+       * log a simple message, perform advanced formatting or even log objects.
+       * Check this 
+       * [link](http://http://code.google.com/p/log4js-ext/wiki/LoggingFormatting)
+       * for examples on how to use this function. 
+       * 
+       * @param messageArgs The arguments for the logging operation.
+       * 
+       * @returns {void}
+       */
+      error : function(messageArgs) {
+         this.doLog(Sm.log.Level.ERROR, arguments);         
+      },
+      
+<span id='Sm-log-Logger-method-warn'>      /**
+</span>       * Logs data with a WARN level.
+       * 
+       * Arguments for this function are variable, and it is possible to 
+       * log a simple message, perform advanced formatting or even log objects.
+       * Check this 
+       * [link](http://http://code.google.com/p/log4js-ext/wiki/LoggingFormatting)
+       * for examples on how to use this function. 
+       * 
+       * @param messageArgs The arguments for the logging operation.
+       * 
+       * @returns {void}
+       */
+      warn : function(messageArgs) {
+         this.doLog(Sm.log.Level.WARN, arguments);         
+      },
+      
+<span id='Sm-log-Logger-method-info'>      /**
+</span>       * Logs data with an INFO level.
+       * 
+       * Arguments for this function are variable, and it is possible to 
+       * log a simple message, perform advanced formatting or even log objects.
+       * Check this 
+       * [link](http://http://code.google.com/p/log4js-ext/wiki/LoggingFormatting)
+       * for examples on how to use this function. 
+       * 
+       * @param messageArgs The arguments for the logging operation.
+       * 
+       * @returns {void}
+       */
+      info : function() {
+         this.doLog(Sm.log.Level.INFO, arguments);         
+      },
+      
+<span id='Sm-log-Logger-method-debug'>      /**
+</span>       * Logs data with a DEBUG level.
+       * 
+       * Arguments for this function are variable, and it is possible to 
+       * log a simple message, perform advanced formatting or even log objects.
+       * Check this 
+       * [link](http://http://code.google.com/p/log4js-ext/wiki/LoggingFormatting)
+       * for examples on how to use this function. 
+       * 
+       * @param messageArgs The arguments for the logging operation.
+       * 
+       * @returns {void}
+       */
+      debug : function(messageArgs) {
+         this.doLog(Sm.log.Level.DEBUG, arguments);         
+      },
+      
+<span id='Sm-log-Logger-method-trace'>      /**
+</span>       * Logs data with a TRACE level.
+       * 
+       * Arguments for this function are variable, and it is possible to 
+       * log a simple message, perform advanced formatting or even log objects.
+       * Check this 
+       * [link](http://http://code.google.com/p/log4js-ext/wiki/LoggingFormatting)
+       * for examples on how to use this function. 
+       * 
+       * @param messageArgs The arguments for the logging operation.
+       * 
+       * @returns {void}
+       */
+      trace : function(messageArgs) {
+         this.doLog(Sm.log.Level.TRACE, arguments);         
+      },
+      
+<span id='Sm-log-Logger-method-isLevelEnabled'>      /**
+</span>       * Returns true if this logger will perform logs with the specified level.
+       *  
+       * @param {Sm.log.Level} level The log level.
+       * @returns {Boolean} 
+       *     true if this logger will perform logs with the specified level.
+       */
+      isLevelEnabled : function(level) {
+         return this.getEffectiveLevel().le(level);
+      },
+      
+<span id='Sm-log-Logger-method-isFatalEnabled'>      /**
+</span>       * Returns true if this logger will perform logs with the FATAL level.
+       *  
+       * @returns {Boolean} 
+       *     true if this logger will perform logs with the FATAL level.
+       */
+      isFatalEnabled: function() {
+         return this.isLevelEnabled( Sm.log.Level.FATAL);
+      },
+      
+<span id='Sm-log-Logger-method-isErrorEnabled'>      /**
+</span>       * Returns true if this logger will perform logs with the ERROR level.
+       *  
+       * @returns {Boolean} 
+       *     true if this logger will perform logs with the ERROR level.
+       */
+      isErrorEnabled: function() {
+         return this.isLevelEnabled( Sm.log.Level.ERROR);
+      },
+      
+<span id='Sm-log-Logger-method-isWarnEnabled'>      /**
+</span>       * Returns true if this logger will perform logs with the WARN level.
+       *  
+       * @returns {Boolean} 
+       *     true if this logger will perform logs with the WARN level.
+       */
+      isWarnEnabled: function() {
+         return this.isLevelEnabled( Sm.log.Level.WARN);
+      },
+      
+<span id='Sm-log-Logger-method-isInfoEnabled'>      /**
+</span>       * Returns true if this logger will perform logs with the INFO level.
+       *  
+       * @returns {Boolean} 
+       *     true if this logger will perform logs with the INFO level.
+       */
+      isInfoEnabled: function() {
+         return this.isLevelEnabled( Sm.log.Level.INFO);
+      },
+      
+<span id='Sm-log-Logger-method-isDebugEnabled'>      /**
+</span>       * Returns true if this logger will perform logs with the DEBUG level.
+       *  
+       * @returns {Boolean} 
+       *     true if this logger will perform logs with the DEBUG level.
+       */
+      isDebugEnabled: function() {
+         return this.isLevelEnabled( Sm.log.Level.DEBUG);
+      },
+      
+<span id='Sm-log-Logger-method-isTraceEnabled'>      /**
+</span>       * Returns true if this logger will perform logs with the TRACE level.
+       *  
+       * @returns {Boolean} 
+       *     true if this logger will perform logs with the TRACE level.
+       */
+      isTraceEnabled: function() {
+         return this.isLevelEnabled( Sm.log.Level.TRACE);
+      },
+      
+<span id='Sm-log-Logger-method-doLog'>      /**
+</span>       * @private
+       * 
+       * Performs the real log.
+       * 
+       * @param {Sm.log.Level} level The log level.
+       * @param args The log arguments.
+       * 
+       * @returns {void}
+       */
+      doLog : function(level, args) {
+         var logEvent, time, cfg, i;
+         Sm.log.util.Assert.assert( level );
+         Sm.log.util.Assert.assert( args );
+         Sm.log.util.Assert.assert( args.length &gt;= 1 );
+         
+         if( !this.getEffectiveEnabled() ) {
+            return;
+         }
+         
+         if( this.isLevelEnabled(level)) {
+            cfg = {};
+            cfg.level = level;
+            cfg.message = args[0];
+            cfg.time = new Date();
+            cfg.category = this.getCategory();
+            if( args.length &gt; 1 ) {
+               cfg.formatParams = [];
+               for( i = 1; i &lt; args.length; i = i + 1 ) {
+                  cfg.formatParams.push( args[i] );
+               }
+            }
+            Ext.Array.forEach( this.getEffectiveAppenders(), 
+                     function(appender) 
+            {
+               // We create a copy for every appender to avoid appenders
+               // tinkering with events and affecting other appenders
+               logEvent = Ext.create( 'Sm.log.LoggingEvent', cfg ); 
+               appender.log( logEvent );
+            });
+         }
+      },
+      
+<span id='Sm-log-Logger-method-constructor'>      /**
+</span>       *  @private
+       * 
+       *  Do not use this: use {@link Sm.log.Logger#getLogger} instead.
+       * 
+       */
+      constructor : function (cfg) {
+         Sm.log.util.Assert.assert(cfg);
+         Sm.log.util.Assert.assert(cfg.category === '' || cfg.category );
+         this.initConfig(cfg);
+
+         this.setAppenders( [] );
+      }
+   });
+   
+}());</pre>
+</body>
+</html>
