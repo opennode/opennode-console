@@ -1,3 +1,5 @@
+.project
+.pydevproject
 ext-4.0
 *~
 .sass-cache/
@@ -19,4 +21,6 @@ docs/source/gen
 docs/source/jsdoc
 docs/source/jsdocapp
 ext-4.0.7-gpl.zip
+ext-4.1.1-gpl.zip
 config.js
+lib/ext-4.1/
