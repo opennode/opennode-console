@@ -17,13 +17,13 @@ Ext.define('Onc.view.compute.ComputeView', {
             };
         if (type === 'shell') {
             tab['shellConfig'] = {
-                    url: Onc.Backend.url(Ext.String.format('/computes/{0}/consoles/default/webterm', this.record.get('id')))
+                    url: Onc.core.Backend.url(Ext.String.format('/computes/{0}/consoles/default/webterm', this.record.get('id')))
             };
             tab['iconCls'] = 'icon-shell';
         }
         if (type === 'vnc') {
             tab['vncConfig'] = {
-                    url: Onc.Backend.url(Ext.String.format('/computes/{0}/consoles/vnc', this.record.get('id')))
+                    url: Onc.core.Backend.url(Ext.String.format('/computes/{0}/consoles/vnc', this.record.get('id')))
             };
             tab['iconCls'] = 'icon-shell';
         }

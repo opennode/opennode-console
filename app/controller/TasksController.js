@@ -20,7 +20,7 @@ Ext.define('Onc.controller.TasksController', {
             'tasksView': {
                 'taskActionPerformed': function(record, action){
                     var url = record.get('url') + 'actions/' + action.get('id');
-                    Onc.Backend.request('PUT', url, {
+                    Onc.core.Backend.request('PUT', url, {
                         success: function(response) {
                             this._load();
                         }.bind(this),

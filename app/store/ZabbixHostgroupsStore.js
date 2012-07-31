@@ -11,6 +11,6 @@ Ext.define('Onc.store.ZabbixHostgroupsStore', {
         extraParams: {
             'attr': 'zabbix_hostgroups'
         },
-        url: Onc.Backend.url('monitoring/zabbix')
+        url: Onc.core.Backend.url('monitoring/zabbix')
     }
 });

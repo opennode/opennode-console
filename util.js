@@ -57,13 +57,13 @@ function idx(field_idx) {
 }
 
 function succeed() {
-    var d = new Onc.util.Deferred();
+    var d = new Onc.core.util.Deferred();
     d.callback.apply(d, arguments);
     return d;
 }
 
 function fail() {
-    var d = new Onc.util.Deferred();
+    var d = new Onc.core.util.Deferred();
     d.errback.apply(d, arguments);
     return d;
 }

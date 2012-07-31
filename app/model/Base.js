@@ -1,6 +1,6 @@
 Ext.define('Onc.model.Base', {
     extend: 'Ext.data.Model',
-    requires: 'Onc.hub.Sync',
+    requires: 'Onc.core.hub.Sync',
 
     _syncNotificationsEnabled: false,
 
@@ -13,7 +13,7 @@ Ext.define('Onc.model.Base', {
     _maybeNotifyCreated: function() {
         if (!this._syncNotificationsEnabled && this.getId() && this.store) {
             this._syncNotificationsEnabled = true;
-            Onc.hub.Sync.recordCreated(this);
+            Onc.core.hub.Sync.recordCreated(this);
         }
     },
 
@@ -31,7 +31,7 @@ Ext.define('Onc.model.Base', {
         }
 
         if (!empty(changes))
-            Onc.hub.Sync.recordModified(this, changes);
+            Onc.core.hub.Sync.recordModified(this, changes);
     },
 
     endEdit: function(_) {
@@ -69,7 +69,7 @@ Ext.define('Onc.model.Base', {
 
     destroy: function() {
         this.callParent(arguments);
-        Onc.hub.Sync.recordDestroyed(this);
+        Onc.core.hub.Sync.recordDestroyed(this);
     },
 
     toString: function() {

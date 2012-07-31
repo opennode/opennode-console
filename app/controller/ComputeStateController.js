@@ -30,7 +30,7 @@ Ext.define('Onc.controller.ComputeStateController', {
     },
 
     init: function() {
-        var computeManager = Onc.manager.ComputeManager;
+        var computeManager = Onc.core.manager.ComputeManager;
 
         this.control({
             'computestatecontrol': {

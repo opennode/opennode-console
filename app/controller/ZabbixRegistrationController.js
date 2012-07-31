@@ -72,7 +72,7 @@ Ext.define('Onc.controller.ZabbixRegistrationController', {
     _createObserver: function(vm, callback) {
         this.__proto__ = {
             connect: function() {
-                this.subscription = Onc.hub.Hub.subscribe(this.onDataFromHub.bind(this), {'compute': vm.get('url')}, 'zabbix');
+                this.subscription = Onc.core.hub.Hub.subscribe(this.onDataFromHub.bind(this), {'compute': vm.get('url')}, 'zabbix');
                 this.timerId = setTimeout(function() {
                     this.finished();
                 }.bind(this), 3000);

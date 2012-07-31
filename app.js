@@ -9,7 +9,7 @@ Ext.onReady(function() {
 
 Ext.Loader.setConfig('paths', {
     'Ext': 'lib/ext-4.1/src',
-    'Onc': './app/Onc',
+    'Onc': './app',
     'Ext.ux': 'lib/ext-4.1/examples/ux'
 });
 
@@ -30,40 +30,46 @@ Ext.syncRequire([
     'Ext.ux.RowExpander',
     'Ext.ux.statusbar.StatusBar',
 
-    'Onc.widgets.Tagger',
-    'Onc.widgets.Gauge',
-    'Onc.ui.components.ComputeGauge',
-    'Onc.ui.components.MemoryGauge',
-    'Onc.ui.components.CPUGauge',
-    'Onc.ui.components.NetworkGauge',
-    'Onc.ui.components.DiskGauge',
-    'Onc.widgets.Shell',
-    'Onc.widgets.Vnc',
-    'Onc.tabs.Tab',
-    'Onc.tabs.VmListTab',
-    'Onc.tabs.SystemTab',
-    'Onc.tabs.NetworkTab',
-    'Onc.tabs.StorageTab',
-    'Onc.tabs.TemplatesTab',
-    'Onc.tabs.ShellTab',
-    'Onc.tabs.VncTab',
-    'Onc.polymorphic.Reader',
-    'Onc.polymorphic.Association',
+    'Onc.core.Backend',
+    'Onc.core.Proxy',
+    'Onc.core.Store',
+    'Onc.core.EventBus',
 
-    'Onc.util.Deferred',
-    'Onc.Backend',
-    'Onc.Proxy',
-    'Onc.Store',
-    'Onc.util.Scheduler',
-    'Onc.hub.Hub',
-    'Onc.hub.Subscription',
-    'Onc.hub.Sync',
-    'Onc.EventBus',
-    'Onc.manager.ComputeManager'
+    'Onc.core.polymorphic.Reader',
+    'Onc.core.polymorphic.Association',
+
+    'Onc.core.util.Deferred',
+    'Onc.core.util.Scheduler',
+
+    'Onc.core.hub.Hub',
+    'Onc.core.hub.Subscription',
+    'Onc.core.hub.Sync',
+
+    'Onc.core.manager.ComputeManager',
+
+    'Onc.core.ui.widgets.Tagger',
+    'Onc.core.ui.widgets.Gauge',
+    'Onc.core.ui.widgets.Shell',
+    'Onc.core.ui.widgets.Vnc',
+
+    'Onc.core.ui.components.ComputeGauge',
+    'Onc.core.ui.components.MemoryGauge',
+    'Onc.core.ui.components.CPUGauge',
+    'Onc.core.ui.components.NetworkGauge',
+    'Onc.core.ui.components.DiskGauge',
+
+    'Onc.view.tabs.Tab',
+    'Onc.view.tabs.VmListTab',
+    'Onc.view.tabs.SystemTab',
+    'Onc.view.tabs.NetworkTab',
+    'Onc.view.tabs.StorageTab',
+    'Onc.view.tabs.TemplatesTab',
+    'Onc.view.tabs.ShellTab',
+    'Onc.view.tabs.VncTab'
 ]);
 
 if (ENABLE_VMMAP == true) {
-    Ext.syncRequire('Onc.tabs.VmMapTab');
+    Ext.syncRequire('Onc.view.tabs.VmMapTab');
 }
 
 Ext.application({

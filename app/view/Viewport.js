@@ -81,7 +81,7 @@ Ext.define('Onc.view.Viewport', {
             iconCls: 'icon-shell',
             closable: false,
             xtype: 'shell',
-            url: Onc.Backend.url('/bin/omsh/webterm')
+            url: Onc.core.Backend.url('/bin/omsh/webterm')
         }].concat(!ENABLE_VMMAP ? [] : [{
             title: "VM Map",
             iconCls: 'icon-vmmap',

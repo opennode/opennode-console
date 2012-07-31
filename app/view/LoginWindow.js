@@ -73,7 +73,7 @@ Ext.define('Onc.view.LoginWindow', {
 
                     if (!values['username']) return;
 
-                    var r = Onc.Backend.request('POST', 'auth', {
+                    var r = Onc.core.Backend.request('POST', 'auth', {
                         successCodes: [403],
                         jsonData: {
                             'username': values['username'],

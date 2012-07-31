@@ -40,7 +40,7 @@ Ext.define('Onc.controller.NewVmController', {
                         var virtualizationContainer = this.getWindow().parentCompute.getChild('vms');
                         var url = virtualizationContainer.get('url');
                         this.fireBusEvent('displayNotification', 'Creating new Virtual Machine...');
-                        Onc.Backend.request('POST', url, {
+                        Onc.core.Backend.request('POST', url, {
                             jsonData: data,
                             success: function(response) {
                                 var ret = Ext.JSON.decode(response.responseText);

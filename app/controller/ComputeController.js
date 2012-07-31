@@ -47,7 +47,7 @@ Ext.define('Onc.controller.ComputeController', {
 
 
     init: function() {
-        var computeManager = Onc.manager.ComputeManager;
+        var computeManager = Onc.core.manager.ComputeManager;
 
         this.control({
             'computeview computevmlisttab #new-vm-button': {
