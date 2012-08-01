@@ -4,20 +4,27 @@ Harness.configure({
     title: 'ONC Test Suite',
 
     preload: [
-        "ext-4.1/resources/css/ext-all.css",
-        "ext-4.1/ext-all.js",
-        {   text: "Ext.Loader.setConfig('paths', {" +
-                  "'Ext': 'ext-4.1/src'," +
-                  "'Onc': './app/Onc'," +
-                  "'Ext.ux': 'ext-4.1/examples/ux' }); " + 
+        "lib/ext-4.1/resources/css/ext-all.css",
+        "lib/ext-4.1/ext-all.js",
+        {
+            text: "Ext.Loader.setConfig('paths', {" +
+                  "'Ext': 'lib/ext-4.1/src'," +
+                  "'Onc': './app'," +
+                  "'Ext.ux': 'lib/ext-4.1/examples/ux' }); " +
                   "Ext.Loader.setConfig({ enabled : true})"
         },
-        "log4js/sm/log/log4js-ext-all.js",
+        "lib/log4js/sm/log/log4js-ext-all.js",
         "support.js",
         "util.js",
         "conf-default.js",
         "config.js",
-        "app.js"
+        "app.js",
+
+        "lib/term/ShellInABox.js",
+        "lib/term/jquery.min.js",
+//        "lib/term/knockout-1.2.1.js",
+//        "lib/novnc/vnc.js"
+
     ]
 });
 
