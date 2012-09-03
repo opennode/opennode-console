@@ -1,0 +1,15 @@
+OpenNode Console theme related files.
+
+Contents:
+ _tab.scss - a modified extjs4 tab widget template, includes increased dimensions for the the icons.
+ config.rb - compass configuration file
+ on-theme.scss - opennode theme parameters
+
+Documentation:
+ http://www.sencha.com/learn/theming/ - theming guide
+ http://sass-lang.com/tutorial.html - sass tutorial
+ http://compass-style.org/reference/compass/ - compass reference
+
+Process:
+
+Run `compass compile` in this folder to generate a new theme css.

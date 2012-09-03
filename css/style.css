@@ -84,10 +84,6 @@
   .gauge.with-border {
     border: 1px solid lightblue; }
 
-.gauge-disabled {
-  opacity: 0.25;
-}
-
 #vmmap .node-cell {
   border: 1px solid #CCC;
   padding: 5px;
@@ -192,7 +188,7 @@
     #search-results .search-result .hostname {
       font-weight: bold; }
     #search-results .search-result .descr {
-      width: 156px;
+      width: 150px;
       line-height: 1.5em; }
       #search-results .search-result .descr, #search-results .search-result .descr .hostname {
         overflow: hidden;
@@ -209,23 +205,18 @@
   margin-left: 5px;
   margin-right: 5px;
   margin-botton: 0px;
-  width: 24px;
+  width: 30px;
   height: 30px;
   border-width: 1px;
   background-color: #99FF66;
   border-style: solid;
   background-repeat: no-repeat;
   background-position: center;
-  background-image: url("../img/icon/mainframe.png"); }
+  background-image: url("../img/icon/mainframe-24x24.png"); }
 .compute.state-inactive .state-icon {
   opacity: 0.5;
   background-color: #FFFFFF;
   border-color: #CCCCCC; }
-
-tr.compute {
-  height: 46px;
-  vertical-align: middle;
-}
 
 .icon-hd {
   background-image: url("../img/icon/hd.png"); }
@@ -240,19 +231,19 @@ tr.compute {
   background-image: url("../img/icon/memory.png"); }
 
 .x-tab-icon.icon-hd {
-  background-image: url("../img/icon/hd-16x16.png"); }
+  background-image: url("../img/icon/hd.png"); }
 .x-tab-icon.icon-network {
-  background-image: url("../img/icon/network-16x16.png"); }
+  background-image: url("../img/icon/network.png"); }
 .x-tab-icon.icon-system {
-  background-image: url("../img/icon/mainframe-16x16.png"); }
+  background-image: url("../img/icon/mainframe-24x24.png"); }
 .x-tab-icon.icon-shell {
-  background-image: url("../img/icon/shell-16x16.png"); }
+  background-image: url("../img/icon/shell-24x24.png"); }
 .x-tab-icon.icon-templates {
-  background-image: url("../img/icon/template-16x16.png"); }
+  background-image: url("../img/icon/template.png"); }
 .x-tab-icon.icon-vmlist {
-  background-image: url("../img/icon/vmlist-16x16.png"); }
+  background-image: url("../img/icon/vmlist.png"); }
 .x-tab-icon.icon-vmmap {
-  background-image: url("../img/icon/map-16x16.png"); }
+  background-image: url("../img/icon/map-24x24.png"); }
 
 .x-action-col-icon {
   opacity: 0.7; }
@@ -301,59 +292,3 @@ tr.compute {
     opacity: 1.0; }
   .computestatecontrol .x-btn.x-btn-disabled {
     opacity: 0.35 !important; }
-
-.tagger {
-  height: 45px;
-}
-
-.tagger .tagcontainer div.x-box-inner {
-  overflow-x: auto;
-}
-
-.tagger .tagcontainer .tagbox .x-panel-header {
-  background-image: none;
-}
-
-.tagger .tagcontainer .tagbox .x-panel-header-text {
-  font-weight: normal;
-}
-
-.notificationbar {
-  position: absolute;
-  width: 100%;
-  top: 10px;
-  left: 0;
-  z-index: 10000;
-  text-align: center;
-  pointer-events: none;
-  background-image: none !important;
-  background-color: transparent !important;
-}
-
-.notificationbar p {
-  text-align: center;
-  display: inline-block;
-  margin: auto;
-  padding: 3px 10px 4px 10px;
-  cursor: pointer;
-  font-weight: bold;
-  border: 1px solid;
-  font-size: 11px;
-  pointer-events: auto;
-}
-
-.notificationbar-info p {
-  border-color: #F0C36D;
-  background-color: #F9EDBE;
-  color: #555;
-}
-
-.notificationbar-error p {
-  background-color: #cc0000;
-  color: #fff;
-  border-color: #cc0000;
-}
-
-.searchpanel {
-  background-color: #DFE8F6;
-}

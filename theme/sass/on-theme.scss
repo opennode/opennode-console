@@ -1,0 +1,47 @@
+$include-default: false;
+
+//$base-color: #F2F2F2;
+
+$base-color: #CFD6FF;
+
+$tab-font-size: 14 !default;
+$tab-font-weight: normal !default;
+$tab-height: 28px !default;
+$tab-spacing: 1px !default;
+$tab-inner-border: false !default;
+$tab-top-border-radius: 0px 0px 0 0 !default;
+$tabbar-top-body-padding: 0px 0 0px !default;
+
+@import 'ext4/default/all';
+
+// You may remove any of the following modules that you
+// do not use in order to create a smaller css file.
+@include extjs-boundlist;
+@include extjs-button;
+@include extjs-btn-group;
+@include extjs-datepicker;
+@include extjs-colorpicker;
+@include extjs-menu;
+@include extjs-grid;
+@include extjs-form;
+    @include extjs-form-field;
+    @include extjs-form-fieldset;
+    @include extjs-form-file;
+    @include extjs-form-checkboxfield;
+    @include extjs-form-checkboxgroup;
+    @include extjs-form-triggerfield;
+    @include extjs-form-htmleditor;
+@include extjs-panel;
+@include extjs-qtip;
+@include extjs-slider;
+@include extjs-progress;
+@include extjs-toolbar;
+@include extjs-window;
+@include extjs-messagebox;
+@include extjs-tabbar;
+@include extjs-tab;
+@include extjs-tree;
+@include extjs-drawcomponent;
+@include extjs-viewport;
+
+$relative-image-path-for-uis: true; // defaults to "../images/" when true

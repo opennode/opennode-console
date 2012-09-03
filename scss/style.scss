@@ -10,7 +10,7 @@ $ICON-PREFIX: "../img/icon/";
 }
 
 
-$state-icon-size: 24px;
+$state-icon-size: 30px;
 $state-icon-height: 30px;
 $state-icon-margin: 5px;
 
@@ -64,7 +64,7 @@ $state-icon-margin: 5px;
         background-repeat: no-repeat;
         background-position:center;
 
-        background-image: url(ico("mainframe"));
+        background-image: url(ico("mainframe-24x24"));
     }
 
     &.state-inactive .state-icon {
@@ -90,25 +90,25 @@ $state-icon-margin: 5px;
 
 .x-tab-icon {
     &.icon-hd {
-        background-image: url(ico("hd-16x16"));
+        background-image: url(ico("hd"));
     }
     &.icon-network {
-        background-image: url(ico("network-16x16"));
+        background-image: url(ico("network"));
     }
     &.icon-system {
-        background-image: url(ico("mainframe-16x16"));
+        background-image: url(ico("mainframe-24x24"));
     }
     &.icon-shell {
-        background-image: url(ico("shell-16x16"));
+        background-image: url(ico("shell-24x24"));
     }
     &.icon-templates {
-        background-image: url(ico("template-16x16"));
+        background-image: url(ico("template"));
     }
     &.icon-vmlist {
-        background-image: url(ico("vmlist-16x16"));
+        background-image: url(ico("vmlist"));
     }
     &.icon-vmmap {
-        background-image: url(ico("map-16x16"));
+        background-image: url(ico("map-24x24"));
     }
 }
 
