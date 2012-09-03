@@ -89,7 +89,7 @@ Ext.define('Onc.view.tabs.VmListTab', {
             icon: 'img/icon/add.png',
             tooltip: 'Add a new virtual machine'
         },
-        !ENABLE_VMLIST_DELETE ? [] : {
+        !ENABLE_VMLIST_DELETE ? null : {
             itemId: 'delete-vm-button',
             text: 'Delete',
             icon: 'img/icon/delete.png',
