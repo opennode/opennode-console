@@ -33,7 +33,7 @@ Ext.define('Onc.controller.NewVmController', {
                         // cleanup for auto-generated properties from form input fields
                         // TODO: figure out how to exclude input field from Tagger widget to generate properties in form.getFieldValues() call
                         for (var key in data) {
-                            if (key.indexOf('ext-') === 0)
+                            if (key.indexOf('ext-') === 0 || key.indexOf('combobox-') === 0)
                                 delete data[key];
                          }
 
