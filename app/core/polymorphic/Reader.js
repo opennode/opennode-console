@@ -2,7 +2,6 @@ Ext.define('Onc.core.polymorphic.Reader', {
     extend: 'Ext.data.reader.Json',
     alias : 'reader.polymorphic',
 
-
     extractData : function(root) {
         var me = this,
             records = [],
@@ -37,37 +36,25 @@ Ext.define('Onc.core.polymorphic.Reader', {
                     continue;
                 }
 
-                // TODO remove
-                    // Old way:
-
-                    // XXX: hack, but unavoidable if we want polymorphic associations:
-                    // (Sencha people just can't write flexible code it seems...)
-
+                // Create a record with an empty data object.
+                // Populate that data object by extracting and converting field values from raw data
                     // extractValues uses this.model so we need to temporarily
                     // override that. Ext.data.reader.Reader class expect the
                     // model class to be defined only once at the beginning,
                     // so we have to override `this.model`, and rebuild the
                     // field extractors in order to ensure extractValues()
                     // extracts the right data fields:
-
-                    // var tmp = me.model;
-                    // me.model = modelCls;
-                    // me.buildExtractors(true);
-                    // values = me.extractValues(node);
-                    // me.model = tmp;
-                    // record = modelCls.create(values, id, node);
-
-
-                // Create a record with an empty data object.
-                // Populate that data object by extracting and converting field values from raw data
+                var tmp = me.model;
+                me.model = modelCls;
+                me.buildExtractors(true);
                 record = modelCls.create(undefined, me.getId(node), node, convertedValues = {});
+                me.model = tmp;
 
                 // If the server did not include an id in the response data, the Model constructor will mark the record as phantom.
                 // We  need to set phantom to false here because records created from a server response using a reader by definition are not phantom records.
                 record.phantom = false;
 
                 // Use generated function to extract all fields at once
-
                 me.convertRecordData(convertedValues, node, record);
 
                 records.push(record);
