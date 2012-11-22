@@ -51,17 +51,14 @@ To get ONC development up and running:
     $ cd opennode-console;
     $ ./boostrap.sh
 
- 3. If you don't have Cygwin on Windows, you can download the code `manually <http://extjs.cachefly.net/ext-4.0.7-gpl.zip>`_.
-    Unpack it to 'ext-4.0'.
-
- 4. Create a *config.js* in the repository root. Set BACKEND_PREFIX to an endpoint of OMS, which you've setup in Step 1.
+ 3. Create a *config.js* in the repository root. Set BACKEND_PREFIX to an endpoint of OMS, which you've setup in Step 1.
 
  .. code-block:: sh
 
     $ cd opennode-console;
     $ echo "BACKEND_PREFIX = 'http://localhost:10100/';" > config.js
 
- 5. Serve that directory via an HTTP server -- a simple one is present in the repository: run 'python mini-server.py'.
+ 4. Serve that directory via an HTTP server -- a simple one is present in the repository: run 'python mini-server.py'.
 
 Remote debugging
 ================
