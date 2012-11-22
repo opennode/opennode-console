@@ -11,17 +11,13 @@ Step 1: Setup development OMS
 
  2. Download and import `OMS appliance <http://opennodecloud.com/download/on-dev.ova>`_ into a VirtualBox.
 
- 3. Setup port forwarding in Virtualbox: inside OMS VM application is configured to run on port 8080. Setup a forwarding
-    to the host machine (i.e. your actual development machine) in VM configuration. `Example <http://i.imgur.com/m9HQ3.png>`_ .
+ 3. Setup port forwarding in Virtualbox: inside OMS VM application is configured to run on  192.168.66.2:8080. Setup a forwarding
+    to the host machine (i.e. your actual development machine) in VM configuration. `Example <http://i.imgur.com/YuENy.png>`_ .
 
- 4. Login into VM (**root:opennode**), directly or by setting up another port forwarding to SSH port 22, and start OMS:
- 
- .. code-block:: sh
+ 3a. Login into VM (**root:opennode**), OMS is running in a virtual machine (CTID 101).
 
-    $ /opt/oms/bin/omsd
-
- 5. Verify that it is working properly by browsing to 'http://localhost:10100/basicauth'
-   (replace '10100' for the port you've chosen in 3). Default OMS username:password is **dev:dev**.
+ 4. Verify that OMS is working properly by browsing to 'http://localhost:10100/basicauth'
+   (replace '10100' for the port you've chosen in step 3). Default OMS username:password is **opennode:opennode**.
 
 Step 2: Setup ONC repository
 ----------------------------
