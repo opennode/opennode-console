@@ -12,6 +12,6 @@ Ext.define('Onc.store.IncomingNodesStore', {
         extraParams: {
             'depth': 3
         },
-        url: '/machines/incoming'
+        url: '/machines/incoming/salt'
     }
 });
