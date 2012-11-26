@@ -11,7 +11,7 @@ $ICON-PREFIX: "../img/icon/";
 
 
 $state-icon-size: 30px;
-$state-icon-height: 30px;
+$search-result-height: 40px;
 $state-icon-margin: 5px;
 
 #search-results {
@@ -24,16 +24,28 @@ $state-icon-margin: 5px;
     overflow: hidden;
 
     .search-result {
-        padding: 0px $search-results-horizontal-padding;
         cursor: pointer;
+        border-bottom: 1px solid #d9e2eb;
+        border-top: 1px solid #d9e2eb;
+        background: #fff;
+        background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ffffff) to(#ecf1f5));
+        background-image: -webkit-linear-gradient(top, #ffffff, #ecf1f5);
+        background-image: -moz-linear-gradient(top, #ffffff, #ecf1f5);
+        background-image: -o-linear-gradient(top, #ffffff, #ecf1f5);
+        background-image: linear-gradient(top, #ffffff, #ecf1f5);
+        height: $search-result-height+1;
 
         .hostname { font-weight: bold; }
-
+       
         .descr {
+            font-size:12px;
+            padding-top: 2px;
+            color: #363636;
             width: $search-results-width - (2 * $search-results-horizontal-padding +
                                             $state-icon-size +
-                                            2 * $state-icon-margin) - $SCROLLBAR-WIDTH;
+                                            2 * $state-icon-margin) - $SCROLLBAR-WIDTH + 6;
             line-height: 1.5em;
+            display: block;
 
             &, .hostname {
                 overflow: hidden;
@@ -48,30 +60,91 @@ $state-icon-margin: 5px;
     }
 }
 
+.state-color {
+  display: block;
+  width: 10px;
+  height: $search-result-height - 1;
+  float: left;
+  background-color: white;
+  background-image: url("../img/shadow_left.png");
+  background-position: top right;
+  background-repeat: repeat-y;
+}
+.state-active .state-color{
+  background-color: #04ad04;
+}
+.state-running .state-color{
+  background-color: #76ce00;
+}  
+.state-suspended .state-color{
+  background-color: #F55600;
+}  
+.state-inactive .state-color{
+  background-color: gray;
+}  
+.state-error .state-color{
+  background-color: #e5231f;
+}  
+
+.state-migrating .state-color{
+  background-image: url("../img/load_blue.gif");
+}  
+.state-other .state-color{
+  background-image: url("../img/load_orange.gif");
+}  
+.state-creating .state-color{
+  background-image: url("../img/load_green.gif");
+}  
+.state-wait .state-color{
+  background-image: url("../img/load_wait.gif");
+  background-position: top center;
+}  
+
+
+
+.state-suspended .state-color{
+  background-color: #ffee66;
+}  
+.state-stopped .state-color{
+  background-color: #ee6633;
+}  
+
 
 .compute {
-    .state-icon {
+     .split-vertical{
+        display: block;
+        background: transparent;
+        width: 3px;
+        height: $search-result-height;
+        margin-right:3px;
         float: left;
-        margin-top: $state-icon-margin;
+        background-image: url("../img/shadow_right.png");
+        background-position: top left;
+        background-repeat: repeat-y;
+      }
+     @mixin c-icon {
+        background-position:  center 3px;
+        background-repeat: no-repeat;
+        float: left;
         margin-left: $state-icon-margin;
         margin-right: $state-icon-margin;
-        margin-botton: 0px;
+        padding-top: $state-icon-margin;
         width: $state-icon-size;
-        height: $state-icon-height;
-        border-width: 1px;
-        background-color: #99FF66;
-        border-style: solid;
-        background-repeat: no-repeat;
-        background-position:center;
-
-        background-image: url(ico("mainframe-24x24"));
+        height: $search-result-height;
+        color: #363636;
+        vertical-align: bottom;
+        text-align:center;
+        font-size:10px;
+        line-height: 55px; 
+      }
+    .comp-icon{
+      @include c-icon;
+       background-image: url(ico("mainframe-24x36"));
     }
-
-    &.state-inactive .state-icon {
-        opacity: 0.5;
-        background-color: #FFFFFF;
-        border-color: #CCCCCC;
-     }
+    .vm-icon{
+      @include c-icon;
+       background-image: url(ico("mainframe-VM-24x24"));
+    }
 }
 
 
