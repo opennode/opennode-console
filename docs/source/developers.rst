@@ -12,7 +12,7 @@ Step 1: Setup development OMS
  2. Download and import `OMS appliance <http://opennodecloud.com/download/on-dev.ova>`_ into a VirtualBox.
 
  3. Setup port forwarding in Virtualbox: inside OMS VM application is configured to run on  192.168.66.2:8080. Setup a forwarding
-    to the host machine (i.e. your actual development machine) in VM configuration. `Example <http://i.imgur.com/YuENy.png>`_ .
+    to the host machine (i.e. your actual development machine) in VM configuration. `Example <http://i.imgur.com/m9HQ3.png>`_ .
 
  3a. Login into VM (**root:opennode**), OMS is running in a virtual machine (CTID 101).
 
