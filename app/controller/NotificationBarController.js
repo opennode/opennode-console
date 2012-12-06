@@ -8,9 +8,9 @@ Ext.define('Onc.controller.NotificationBarController', {
     busListeners: {
         displayNotification: function(messageText, messageType){
             this.view.displayMessage(messageText, messageType);
-        },
+        }
     },
 
-    view: Ext.create('Onc.view.NotificationBarView'),
+    view: Ext.create('Onc.view.NotificationBarView')
 
 });

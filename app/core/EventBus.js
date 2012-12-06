@@ -35,5 +35,5 @@ Ext.app.Controller.implement({
                 Onc.core.EventBus.addListener(ev, listener, this);
             }.bind(this));
         };
-    },
+    }
 });
