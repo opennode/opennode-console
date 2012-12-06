@@ -91,7 +91,8 @@ Ext.application({
         'ZabbixRegistrationController',
         'ComputeStateController',
         'SearchController',
-        'NotificationBarController'
+        'NotificationBarController',
+        'RetryController'
     ]
 });
 

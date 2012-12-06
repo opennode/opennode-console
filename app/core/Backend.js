@@ -2,6 +2,9 @@ Ext.define('Onc.core.Backend', {
     extend: 'Ext.util.Observable',
     requires: ['Onc.core.util.Deferred'],
     singleton: true,
+    retryCounter: 0,
+    retryPeriods: [2, 5, 10, 30, 60], //in seconds
+    maxRetryAttempts: 60,
 
     constructor: function() {
         this.callParent(arguments);
@@ -9,7 +12,20 @@ Ext.define('Onc.core.Backend', {
     },
 
     url: function(url) {
-        return BACKEND_PREFIX + url.replace(/^\//,'');
+            return BACKEND_PREFIX + url.replace(/^\//,'');
+    },
+
+    ajaxRequest: function(request, options) {
+        if (request) {
+            for (var key in options) {
+                if (request.hasOwnProperty(key))
+                    console.warn("'%s' property of request will be overwritten", key);
+            }
+            Ext.apply(request, options);
+            Ext.Ajax.request(request);
+        } else {
+            Ext.Ajax.request(options);
+        }
     },
 
     request: function(method, url, options, request) {
@@ -33,12 +49,26 @@ Ext.define('Onc.core.Backend', {
             withCredentials: true,
 
             callback: function(_, success, response) {
-                if (!success && (
-                    (response.status === 403 && !(403 in successCodes)) ||
-                    (response.status === 0 && response.responseText.length === 0)
-                )) {
+                if (!success && (response.status === 403)) {
                     this.fireEvent('loginrequired');
+                } else if (!success || (response.status === 0 && response.responseText.length === 0)) {
+                    if (this.retryCounter > this.maxRetryAttempts) {
+                        this.fireEvent('loginrequired');
+                    } else {
+                        this.retryCounter++;
+                        var timeoutPeriod;
+                        if (this.retryPeriods.length > this.retryCounter) {
+                            timeoutPeriod = this.retryPeriods[this.retryCounter-1];
+                        } else {
+                            timeoutPeriod = this.retryPeriods[this.retryPeriods.length-1];
+                        }
+                        Onc.core.EventBus.fireEvent("showRetryProgress", timeoutPeriod);
+                        setTimeout(function() {Onc.core.Backend.ajaxRequest(request, options); Onc.core.EventBus.fireEvent("hideRetryProgress");}, timeoutPeriod * 1000);
+                    }
                 } else {
+                    if (this.retryCounter > 0) {
+                        this.retryCounter = 0;
+                    }
                     var result;
                     try {
                         result = Ext.decode(response.responseText);
@@ -61,16 +91,7 @@ Ext.define('Onc.core.Backend', {
                        "Request options shouldn't specify any of {0}".format(keys.join(', ')));
         Ext.apply(options, opts);
 
-        if (request) {
-            for (var key in options) {
-                if (request.hasOwnProperty(key))
-                    console.warn("'%s' property of request will be overwritten", key);
-            }
-            Ext.apply(request, options);
-            Ext.Ajax.request(request);
-        } else {
-            Ext.Ajax.request(options);
-        }
+        this.ajaxRequest(request, options);
 
         var d = new Onc.core.util.Deferred();
         return d;
