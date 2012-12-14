@@ -25,7 +25,7 @@ Ext.define('Onc.controller.InfrastructureJoinController', {
         this.control({
             '#infrastructureJoin':{
                 'hostAccept': function(source, hostname){
-                    var url = '/machines/incoming/{0}/actions/accept'.format(hostname);
+                    var url = '/machines/incoming/salt/{0}/actions/accept'.format(hostname);
 
                     Onc.core.Backend.request('PUT', url, {
                        success: function(response) {
@@ -37,7 +37,7 @@ Ext.define('Onc.controller.InfrastructureJoinController', {
                    });
                 },
                 'hostReject': function(source, hostname){
-                    var url = '/machines/incoming/{0}/actions/reject'.format(hostname);
+                    var url = '/machines/incoming/salt/{0}/actions/reject'.format(hostname);
 
                     Onc.core.Backend.request('PUT', url, {
                        success: function(response) {
