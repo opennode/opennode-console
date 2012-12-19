@@ -20,39 +20,12 @@ Ext.define('Onc.view.SearchResultsView', {
         '</tpl>',
         {
         	getComputeType: function(ctype){
-        		
-        		if(ctype.indexOf('virt:yes')>=0)return 'vm';
-        		else return 'comp';
-		        
-			},
-			getType: function(ctype, shortver){
-				var el;
-				var prefix="virt_type:";
-				
-				for (var i = 0; i < ctype.length; i++) {
-					var item=ctype[i];
-					if (item.indexOf(prefix)==0) {
-						el = item.replace(prefix,'');
-				
-					}
-				}
-
-        		if(el){
-        			if(shortver){
-        				var shortTypes = {'openvz':'OVZ', 'kvm':'KVM', 'physical':'PHY', 'opennode 6 server':'ON6', 'opennode management server':'OMS'};
-						if(shortTypes[el]){
-							return shortTypes[el];
-						}else{
-							return el.substr(0,3).toUpperCase();
-						};
-        			}else{
-        				return el;
-        			}
-        		}
-        		return '';
-		        
-			}
-		}
+                return Onc.model.Compute.getComputeType(ctype);
+            },
+            getType: function(ctype, shortver){
+                return Onc.model.Compute.getType(ctype, shortver);
+            }
+        }
     ),
     emptyText: 'No search results to display',
 
