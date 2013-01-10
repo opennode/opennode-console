@@ -1,5 +1,6 @@
 Ext.define('Onc.controller.LoginController', {
     extend: 'Ext.app.Controller',
+    require: 'Onc.model.AuthenticatedUser',
 
     views: ['LoginWindow', 'Viewport'],
 
@@ -33,18 +34,35 @@ Ext.define('Onc.controller.LoginController', {
     },
 
     _login: function() {
-        if (this._viewport)
+        if (this._viewport){
             this._viewport.destroy();
+        }
+        Onc.model.AuthenticatedUser.reset();
         this._viewport = this.getView('LoginWindow').create();
     },
 
     _onAuth: function() {
+        // XXX Needs refactoring once a more elegant role reporting is implemented, possibly as art 
+        // make a query to get user roles
+        var me = this;
+        Onc.core.Backend.request('PUT', 'bin/id')
+            .success(function(response) {
+                Onc.model.AuthenticatedUser.parseIdCommand(response);
+                me._onRoleKnown();
+            })
+            .failure(function(response) {
+                console.assert(response.status === 403);
+            });
+    },
+
+    _onRoleKnown: function() {
         Onc.core.hub.Hub.run();
         var cstore = Ext.getStore('SearchResultsStore');
         cstore.getProxy().extraParams['q'] = 'virt:no';
         cstore.load();
         if (this._viewport)
             this._viewport.destroy();
+        console.log(Onc.model.AuthenticatedUser.username);
         this._viewport = this.getView('Viewport').create();
     }
 });

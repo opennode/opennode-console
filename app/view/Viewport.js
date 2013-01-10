@@ -6,6 +6,13 @@ Ext.define('Onc.view.Viewport', {
         'Onc.view.SearchResultsView'
     ],
 
+    initComponent: function() {
+        this.callParent(arguments);
+        this.down('#username-label').setText('Hi, ' + Onc.model.AuthenticatedUser.username + '!');
+        console.log(this.down('#username-label'));
+    },
+
+    
     items: [{
         region: 'north',
         id: 'header',
@@ -17,12 +24,25 @@ Ext.define('Onc.view.Viewport', {
         items: [{
             xtype: 'container',
             border: false,
+            layout: {
+                type: 'table',
+                columns: 4,
+                trAttrs: { align: 'right' }
+            },
             style: 'position: absolute; top: 2px; right: 0px',
             bodyStyle: 'background: inherit',
             defaults: {
                 margin: '0 0 0 2'
             },
             items: [{
+                id: 'username-label',
+                xtype: 'text',
+                text: 'N/A',
+                colspan: 4,
+                style: {
+                    "text-align": 'right'
+                }
+            }, {
                 id: 'viewlog-button',
                 xtype: 'button',
                 text: 'View logs',

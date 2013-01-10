@@ -51,6 +51,8 @@ Ext.syncRequire([
 
     'Onc.core.manager.ComputeManager',
 
+    'Onc.model.AuthenticatedUser',
+
     'Onc.core.ui.widgets.Tagger',
     'Onc.core.ui.widgets.Gauge',
     'Onc.core.ui.widgets.Shell',
