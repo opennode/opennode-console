@@ -58,11 +58,13 @@ Ext.define('Onc.controller.LoginController', {
     _onRoleKnown: function() {
         Onc.core.hub.Hub.run();
         var cstore = Ext.getStore('SearchResultsStore');
-        cstore.getProxy().extraParams['q'] = 'virt:no';
+        if (Onc.model.AuthenticatedUser.isAdmin())
+            cstore.getProxy().extraParams['q'] = 'virt:no';
+        else
+            cstore.getProxy().extraParams['q'] = 'virt:yes';
         cstore.load();
         if (this._viewport)
             this._viewport.destroy();
-        console.log(Onc.model.AuthenticatedUser.username);
         this._viewport = this.getView('Viewport').create();
     }
 });

@@ -18,8 +18,11 @@ Ext.define('Onc.model.AuthenticatedUser', {
     },
 
     getUsername: function() {
-        console.log("Called get username", this.username);
         return this.username;
+    },
+
+    isAdmin: function() {
+        return this.groups.indexOf('admins') > -1;
     }
 
 });
