@@ -29,7 +29,19 @@ Ext.define('Onc.view.tabs.VmListTab', {
         this.store = this.record.getChild('vms').children();
         this.tbar = this._createTbarButtons();
         this.columns = [
-            {header: 'State', xtype: 'templatecolumn', tpl: '<div class="state-icon" title="{state}"></div>', width: 40},
+            {header: 'State', xtype: 'templatecolumn', tpl: new Ext.XTemplate(
+                    '<div class="state-color" data-qtip="State: {state}"></div>',
+                    '<div class="{[this.getComputeType(values.tags)]}-icon">',
+                    '<span data-qtip="{[this.getType(values.tags, false)]}">',
+                    '{[this.getType(values.tags, true)]}</span></div>',
+                    {
+                        getComputeType: function(ctype){
+                            return Onc.model.Compute.getComputeType(ctype);
+                        },
+                        getType: function(ctype, shortver){
+                            return Onc.model.Compute.getType(ctype, shortver);
+                        }
+                    }), width: 35},
             {header: 'Name', dataIndex: 'hostname', width: 75, editor: {xtype: 'textfield', allowBlank: false}},
             {header: 'Inet4', dataIndex: 'ipv4_address', editor: {xtype: 'textfield', allowBlank: true}},
             {header: 'Inet6', dataIndex: 'ipv6_address', editor: {xtype: 'textfield', allowBlank: true}},
