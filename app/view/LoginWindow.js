@@ -79,15 +79,21 @@ Ext.define('Onc.view.LoginWindow', {
                             'username': values['username'],
                             'password': values['password']
                         }
-                    })
+                    });
+                    
+                    button.up('window').setLoading(true);
+                    
                     r.success(function(result) {
                             var window = button.up('window');
+                            window.setLoading(false);
                             window.destroy();
                             window.fireEvent('login', result['token']);
                     }.bind(this));
 
                     r.failure(function() {
-                        button.up('window').down('#errormsg').setText("Invalid username or password");
+                        var window = button.up('window');
+                        window.setLoading(false);
+                        window.down('#errormsg').setText("Invalid username or password");
                     });
                 }.bind(this)
             }
