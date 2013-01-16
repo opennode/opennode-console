@@ -32,6 +32,8 @@ Harness.configure({
 Harness.start({
     group: 'Sanity',
     items: [
-        'tests/010_sanity.t.js'
+
+        'tests/010_sanity/010_sanity.t.js'
     ]
+
 });
