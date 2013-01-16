@@ -94,7 +94,8 @@ Ext.application({
         'ComputeStateController',
         'SearchController',
         'NotificationBarController',
-        'RetryController'
+        'RetryController',
+        'MigrateController'
     ]
 });
 
