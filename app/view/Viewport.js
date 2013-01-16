@@ -6,6 +6,29 @@ Ext.define('Onc.view.Viewport', {
         'Onc.view.SearchResultsView'
     ],
 
+    initComponent: function() {
+        this.callParent(arguments);
+        this.down('#username-label').setText('Hi, ' + Onc.model.AuthenticatedUser.username + '!');
+        this._adjustViewToGroups();
+    },
+
+    _adjustViewToGroups: function() {
+        var isAdmin = Onc.model.AuthenticatedUser.isAdmin();
+        var adminButtons = ['infrastructurejoin-button', 'tasks-button'];
+        var adminTabs = ['vmmap', 'oms-shell'];
+        // adjust controll buttons
+        for (var i = 0; i < adminButtons.length; i++) {
+            this.down('#' + adminButtons[i]).hidden = !isAdmin;
+        }
+        // adjust tabs
+        var tabs = this.down('#mainTabs');
+        if (!isAdmin)
+            for (var i = 0; i < adminTabs.length; i++) {
+                console.log(tabs);
+                tabs.remove(this.down('#' + adminTabs[i]));
+            }
+    },
+
     items: [{
         region: 'north',
         id: 'header',
@@ -17,12 +40,25 @@ Ext.define('Onc.view.Viewport', {
         items: [{
             xtype: 'container',
             border: false,
+            layout: {
+                type: 'table',
+                columns: 4,
+                trAttrs: { align: 'right' }
+            },
             style: 'position: absolute; top: 2px; right: 0px',
             bodyStyle: 'background: inherit',
             defaults: {
                 margin: '0 0 0 2'
             },
             items: [{
+                id: 'username-label',
+                xtype: 'text',
+                text: 'N/A',
+                colspan: 4,
+                style: {
+                    "text-align": 'right'
+                }
+            }, {
                 id: 'viewlog-button',
                 xtype: 'button',
                 text: 'View logs',
@@ -81,12 +117,14 @@ Ext.define('Onc.view.Viewport', {
             closable: true,
         },
         items: [{
+            itemId: 'oms-shell',
             title: "OMS Shell",
             iconCls: 'icon-shell',
             closable: false,
             xtype: 'shell',
             url: Onc.core.Backend.url('/bin/omsh/webterm')
         }].concat(!ENABLE_VMMAP ? [] : [{
+            itemId: 'vmmap',
             title: "VM Map",
             iconCls: 'icon-vmmap',
             closable: false,
