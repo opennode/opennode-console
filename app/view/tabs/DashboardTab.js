@@ -2,7 +2,9 @@ Ext.define('Onc.view.tabs.DashboardTab', {
     extend: 'Onc.view.tabs.Tab',
     alias: 'widget.computedashboardtab',
 
-    layout:  {type: 'hbox', align: 'stretch', pack: 'start'},
+  
+    autoScroll: true,
+    
     bodyPadding: 0,
 
     initComponent: function() {
@@ -10,29 +12,36 @@ Ext.define('Onc.view.tabs.DashboardTab', {
 	            {
 	            	xtype: 'container',
 	            	layout: {type: 'vbox', align: 'stretch',pack: 'start'},
-	            	height: '100%',
+	            	defaults: {
+	            		xtype: 'fieldset',
+	            	    margin: '5 5 5 10'
+	            	},
 	    	        items: [{
-	                	xtype: 'panel',
 	    	    		title: 'Dash1',
-	    	    		height: '33%',
-	    	    		width: '70%'
+	    	    		html: '<p>World!</p>'
     	            },{
-	                	xtype: 'panel',
+    	            	xtype: 'splitter' 
+    	            },{
 	    	    		title: 'Dash2',
-	    	    		height: '33%',
-	    	    		width: '70%'
+	    	    		html: '<p>World!</p>'
     	            },{
-	                	xtype: 'panel',
+    	            	xtype: 'splitter' 
+    	            },{
 	    	    		title: 'Dash3',
-	    	    		height: '33%',
-	    	    		width: '70%'
+	    	    		html: '<p>World!</p>'
     	            }]
 	            },
 	            {
-	            	xtype: 'panel',
-		    		title: 'Dash4',
-		    		height: '100%',
-		    		width: '30%'
+	            	xtype: 'container',
+	            	layout: {type: 'vbox', align: 'stretch',pack: 'start'},
+	            	defaults: {
+	            		xtype: 'fieldset',
+	            	    margin: '5 5 5 10'
+	            	},
+	    	        items: [{
+			    		title: 'Dash4',
+			    		html: '<p>World!</p>'
+	    	        }]
 	            }
 	    
     	              
