@@ -659,12 +659,11 @@ Ext.define('Onc.view.tabs.VmMapTab', {
 
             this.dropZone = new Ext.dd.DropZone(this.getEl(), {
                 getTargetFromEvent: function(e) {
-                    //return e.getTarget(Ext.getCmp('vmmap').getView().rowSelector);
-                    //return e.getTarget('#vmmap tr.x-grid-row');
                     return e.getTarget('tr.x-grid-row');
                 },
 
                 onNodeOver: function(target, dd, e, data) {
+
                     var targetRec = data.vmmap.getView().getRecord(e.getTarget('tr.x-grid-row'));
                     if (targetRec) {
                         if (targetRec.getId() !== data.sourceRec.getId()) {
@@ -675,10 +674,12 @@ Ext.define('Onc.view.tabs.VmMapTab', {
                 },
 
                 onNodeDrop: function(target, dd, e, data) {
-                    var vmmap = data.vmmap;
-                    var nodeRec = vmmap.getVmRecordFromEl(data.nodeEl);
-                    var targetRec = vmmap.getView().getRecord(target);
-                    Onc.core.EventBus.fireEvent("startMigrate");
+                    var srcId = data.nodeEl.id.replace('vmmap-', '');
+                    var destId = e.getTarget('div.node-cell').id.replace('vmmap-', '');
+                    var srcHost = Ext.get(data.nodeEl.id).down('div.name', true).innerHTML;
+                    var destHost = Ext.get(e.getTarget('div.node-cell').id).down('div.name', true).innerHTML;
+                    options = {srcId: srcId, destId : destId, srcHost: srcHost, destHost: destHost}
+                    Onc.core.EventBus.fireEvent("startMigrate", options);
                     return true;
                 }
             });

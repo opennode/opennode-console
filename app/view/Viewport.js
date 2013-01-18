@@ -73,11 +73,11 @@ Ext.define('Onc.view.Viewport', {
             }, {
                 id: 'infrastructurejoin-button',
                 xtype: 'button',
-                text: 'Host management',
+                text: 'Host management'
             }, {
                 id: 'logout-button',
                 xtype: 'button',
-                text: 'Log out',
+                text: 'Log out'
             }]
         }]
     }, {

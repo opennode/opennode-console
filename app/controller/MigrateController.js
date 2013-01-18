@@ -2,8 +2,8 @@ Ext.define('Onc.controller.MigrateController', {
     extend: 'Ext.app.Controller',
 
     busListeners: {
-           startMigrate : function() {
-               this.migrationStarted();
+           startMigrate : function(options) {
+               this.migrationStarted(options);
            },
 
             stopMigrate : function() {
@@ -11,13 +11,14 @@ Ext.define('Onc.controller.MigrateController', {
             }
     },
 
-    migrationStarted: function() {
-        Ext.MessageBox.confirm('Confirm', 'Are you sure you want to start migration?', showResult);
+    migrationStarted: function(options) {
+        var msg = 'Are you sure you want to start migration from {0} to {1} node?'.format(options.srcHost, options.destHost);
+        Ext.MessageBox.confirm('Confirm', msg, showResult);
         function showResult(btn){
             if ('yes' == btn) {
                 var myMask = new Ext.LoadMask(Ext.getBody(), {msg:"Please wait..."});
                 myMask.show();
-                var url = '/computes/a165fa62-9949-488a-a229-cfb952aa1edd/actions/migrate?arg=/machines/a165fa62-9949-488a-a229-cfb952aa1edd';
+                var url = '/computes/{0}/actions/migrate?arg=/machines/{1}'.format(options.srcId, options.destId);
                 Onc.core.Backend.request('PUT', url, {
                     success: function(response) {
                         this._load();
@@ -27,7 +28,6 @@ Ext.define('Onc.controller.MigrateController', {
                     }
                 });
                 setTimeout(function () {myMask.hide();} , 5000);
-
             }
         };
     }

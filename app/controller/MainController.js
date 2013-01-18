@@ -92,7 +92,7 @@ Ext.define('Onc.controller.MainController', {
                     if(!this.logViewer){
                         this.logViewer = new Sm.log.LogViewerWindow({
                             appender : this.logViewerAppender,
-                            minimizable: true,
+                            minimizable: true
                         });
                         this.logViewer.on({
                             close: function(win, eOpts){

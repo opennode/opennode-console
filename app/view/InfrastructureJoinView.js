@@ -16,7 +16,7 @@ Ext.define('Onc.view.InfrastructureJoinView', {
 
     defaults: {
         border: false,
-        bodyStyle: 'background: inherit',
+        bodyStyle: 'background: inherit'
     },
 
     initComponent: function(){
@@ -90,7 +90,7 @@ Ext.define('Onc.view.InfrastructureJoinView', {
             buttons:[{
                 text: 'Reload', handler: function(){
                     this.fireEvent('reload', this);
-                }.bind(this),
+                }.bind(this)
             }, {
                 text: 'Close', handler: function(){
                     this.up('window').destroy();
