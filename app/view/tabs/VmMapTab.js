@@ -678,13 +678,7 @@ Ext.define('Onc.view.tabs.VmMapTab', {
                     var vmmap = data.vmmap;
                     var nodeRec = vmmap.getVmRecordFromEl(data.nodeEl);
                     var targetRec = vmmap.getView().getRecord(target);
-                    Ext.Msg.show({
-                        msg: "Migrate " + nodeRec.get('hostname') +
-                            " from " + data.sourceRec.get('hostname') +
-                            " to " + targetRec.get('hostname') + "?",
-                        buttons: Ext.Msg.OKCANCEL,
-                        icon: Ext.Msg.QUESTION
-                    });
+                    Onc.core.EventBus.fireEvent("startMigrate");
                     return true;
                 }
             });
