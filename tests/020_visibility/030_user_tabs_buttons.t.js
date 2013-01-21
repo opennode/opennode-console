@@ -47,7 +47,7 @@ StartTest(function (t) {
 				
 				next();
 			},
-			
+						
 			function(next){
 				t.diag("4 step: Logout from onc");
 				t.click('#logout-button');
