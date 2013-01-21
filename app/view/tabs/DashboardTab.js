@@ -27,13 +27,33 @@ Ext.define('Onc.view.tabs.DashboardTab', {
 			            	},
 			    	        items: [{
 			    	    		title: 'Runnig services',
-			    	    		html: '<p>PLACEHOLDER</p>'
+			    	    		defaults: {
+			    	                xtype: 'box',
+			    	                padding: 5
+			    	            },
+			    	    		items:[{ html: '# physical servers'},
+			    	    		       { html: '# cloud servers'},
+			    	    		       { html: '# HA cloud servers'},
+			    	    		       { html: '# subnets'},
+			    	    		       { html: '# Virtual machines'},
+			    	    		       { html: '# of assigned RAM'},
+			    	    		       { html: '# of assigned disk space'}
+			    	    		]
 		    	            },{
 			    	    		title: 'Pending actions',
-			    	    		html: '<p>PLACEHOLDER</p>'
+			    	    		defaults: {
+			    	                 xtype: 'box',
+			    	                 padding: 5
+			    	            },
+			    	            items:[{html: '<p>PLACEHOLDER</p>'}]
+			    	    		
 		    	            },{
 			    	    		title: 'Running tasks',
-			    	    		html: '<p>PLACEHOLDE</p>'
+			    	    		defaults: {
+			    	                 xtype: 'box',
+			    	                 padding: 5
+			    	    		},
+			    	    		items:[{html: '<p>PLACEHOLDER</p>'}]
 		    	            }]
 			            },
 			            {
@@ -46,7 +66,11 @@ Ext.define('Onc.view.tabs.DashboardTab', {
 			            	},
 			    	        items: [{
 					    		title: 'Latest events',
-					    		html: '<p>PLACEHOLDER</p>'
+					    		defaults: {
+			    	                 xtype: 'box',
+			    	                 padding: 5
+			    	             },
+			    	             items: [{html: '<p>PLACEHOLDER</p>' }]
 			    	        }]
 			            }
 		            ]
