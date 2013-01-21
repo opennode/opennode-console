@@ -2,7 +2,7 @@ var Harness = Siesta.Harness.Browser.ExtJS;
 
 Harness.configure({
     title: 'ONC Test Suite',
-    isReadyTimeout : 30000,
+    overrideSetTimeout : false,
 
     preload: [
         "lib/ext-4.1/resources/css/ext-all.css",
