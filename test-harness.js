@@ -46,7 +46,15 @@ Harness.start(
 		items: [
 
 		        'tests/020_visibility/020_admin_tabs_buttons.t.js',
-		        'tests/020_visibility/030_user_tabs_buttons.t.js'
+		        'tests/020_visibility/021_user_tabs_buttons.t.js'
+		        ]
+	},
+	{
+
+		group: 'VM management',
+		items: [
+
+		        'tests/030_VMmanagement/030_VM_select.t.js'
 		        ]
 	}
 );

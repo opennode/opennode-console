@@ -40,3 +40,19 @@ function login(t, user, pwd, callback) {
 	);
 	
 }
+
+function clickEl(t, el, callback) {
+	t.chain(
+			{
+				waitFor : 'selector',
+				args : el
+			},
+			{
+				action : 'click',
+				target : el
+			},
+			function(){
+				callback();
+			}
+	);
+}
