@@ -663,7 +663,6 @@ Ext.define('Onc.view.tabs.VmMapTab', {
                 },
 
                 onNodeOver: function(target, dd, e, data) {
-
                     var targetRec = data.vmmap.getView().getRecord(e.getTarget('tr.x-grid-row'));
                     if (targetRec) {
                         if (targetRec.getId() !== data.sourceRec.getId()) {
@@ -674,11 +673,13 @@ Ext.define('Onc.view.tabs.VmMapTab', {
                 },
 
                 onNodeDrop: function(target, dd, e, data) {
-                    var srcId = data.nodeEl.id.replace('vmmap-', '');
-                    var destId = e.getTarget('div.node-cell').id.replace('vmmap-', '');
-                    var srcHost = Ext.get(data.nodeEl.id).down('div.name', true).innerHTML;
-                    var destHost = Ext.get(e.getTarget('div.node-cell').id).down('div.name', true).innerHTML;
-                    options = {srcId: srcId, destId : destId, srcHost: srcHost, destHost: destHost}
+
+                    var vmmap = data.vmmap;
+                    var targetRec = vmmap.getView().getRecord(target);
+                    var nodeName = Ext.get(data.nodeEl.id).down('div.name', true).innerHTML;
+                    var computeId = data.nodeEl.id.replace('vmmap-', '');
+                    var machineId = targetRec.id.replace('Onc.model.Compute-', '');
+                    options = {computeId:computeId, machineId:machineId, srcHost:data.sourceRec.get('hostname'), destHost:targetRec.get('hostname'), nodeName:nodeName}
                     Onc.core.EventBus.fireEvent("startMigrate", options);
                     return true;
                 }
