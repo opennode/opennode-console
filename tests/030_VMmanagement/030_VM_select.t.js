@@ -44,7 +44,7 @@ StartTest(function (t) {
 			},
 			
 			function(next){
-				clickEl(t,"#button-1194-btnInnerEl", next);
+				clickEl(t,'span:contains("Create")', next);
 			}
 			
 			
