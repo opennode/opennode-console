@@ -54,7 +54,8 @@ Harness.start(
 		group: 'VM management',
 		items: [
 
-		        'tests/030_VMmanagement/030_VM_select.t.js'
+		        'tests/030_VMmanagement/030_add_VM.t.js',
+		        'tests/030_VMmanagement/031_delete_VM.t.js'
 		        ]
 	}
 );

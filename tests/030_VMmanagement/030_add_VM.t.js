@@ -28,7 +28,7 @@ StartTest(function (t) {
 			},
 			
 			function(next){
-				// Count table rows 
+				// Count table rows without header
 				rowsBefore = countRows('#gridview-1091');
 				t.diag('VM list has ' + rowsBefore + ' VMs.');
 				next();
@@ -65,51 +65,33 @@ StartTest(function (t) {
 				clickEl(t,'span:contains("Create")', next);
 			},
 			
-//			// Workround to select updated VMs table
-//			function(next){
-//				// Select System tab
-//				t.diag("7 step: Select System tab");
-//				clickEl(t,"#tab-1079-btnEl", next);
-//			},
-//			
-//			// Workround to select updated VMs table
-//			function(next){
-//				// Select VMs tab
-//				t.diag("8 step: Select VMs tab again");
-//				clickEl(t,"#tab-1097-btnEl", next);
-//			},
+			function(next){
+				clickEl(t,".descr", next);
+			},
 			
 			function(next){
-				var lastRow = rowsBefore;
-				lastRow = lastRow + 1;
-				// Wait while last table row will appear
-				waitForEl(t, 'tr:nth-child('+ lastRow +') td:nth-child(2):contains("oms.autotest")');
-				//waitForEl(t, '.x-grid-table');
-				next();
+				// Select VMs tab
+				t.diag("2 step: Select VMs tab");
+				clickEl(t,"#tab-1097-btnEl", next);
 			},
 
 			function(next){
-
-				var rowsAfter = countRows('#gridview-1091');
+				waitForEl(t,'.x-grid-table');
+				next();
+			},
+			
+	
+			function(next){
+				// Count table rows without header
+				rowsAfter =  countRows('#gridview-1091');
 				t.diag('VM list now has ' + rowsAfter + ' before had ' + rowsBefore + ' VMs.');
 				
-//				var newRow = rowsAfter - rowsBefore;
-//				t.is(newRow,"1","New VM is created");
+//				t.is(rowsAfter,rowsBefore+1,"New VM is created");
 //				
 //				var name = document.querySelector('div[id=gridview-1091]>table>tbody>tr:nth-child(' + rowsAfter + ')>td:nth-child(2)>div').innerHTML;
 //				t.is(name,"oms.autotest","New VM hostname match new created one 'oms.autotest'");
 				next();
 			}
-			
-//			function(next){
-//				t.click('tr:nth-child('+ rowsAfter +') td:nth-child(5) button[data-qtip="Delete machine"]');
-//				t.click('span:contains("Yes")',next);
-//			}
-			
-//			function(){
-//				t.diag("8 step: Delete VM");
-//			}
-			
 			
     );
 	 
