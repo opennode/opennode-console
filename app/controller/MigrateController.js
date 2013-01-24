@@ -3,8 +3,8 @@ Ext.define('Onc.controller.MigrateController', {
 
     busListeners: {
            startMigrate : function(options) {
-               this.checkStatus(1141,options, new Ext.LoadMask(options.vmmap, {msg:"Migrating. Please wait..."}));
-               //this.showConfirmation(options);
+               //this.checkStatus(1141,options, new Ext.LoadMask(options.vmmap, {msg:"Migrating. Please wait..."}));
+               this.showConfirmation(options);
            }
     },
 
