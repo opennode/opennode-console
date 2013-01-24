@@ -64,7 +64,7 @@ Ext.define('Onc.view.tabs.VmMapTab', {
                     text: 'Migrate',
                     scope: this,
                     handler: this.onMigrateClick
-                }]).concat([{
+                }]).concat(!ENABLE_VMMAP_LEGEND ? [] : [{
                     xtype: 'tbseparator'
                 }, {
                     xtype: 'button',
