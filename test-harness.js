@@ -46,7 +46,7 @@ Harness.start(
 		items: [
 
 		        'tests/020_visibility/020_admin_tabs_buttons.t.js',
-		        'tests/020_visibility/021_user_tabs_buttons.t.js'
+		        'tests/020_visibility/021_user_tabs_buttons.t.js',
 		        ]
 	},
 	{
