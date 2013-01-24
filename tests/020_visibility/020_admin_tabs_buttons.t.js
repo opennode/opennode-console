@@ -65,7 +65,7 @@ StartTest(function (t) {
 			{ 
 				waitFor : 'selector',
 				args : '.x-window-header-text'
-			}		
+			}
     
     );
 
