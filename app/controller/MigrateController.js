@@ -3,8 +3,8 @@ Ext.define('Onc.controller.MigrateController', {
 
     busListeners: {
            startMigrate : function(options) {
-               //this.checkStatus(1141,options, new Ext.LoadMask(options.vmmap, {msg:"Migrating. Please wait..."}));
-               this.showConfirmation(options);
+               this.checkStatus(1141,options, new Ext.LoadMask(options.vmmap, {msg:"Migrating. Please wait..."}));
+               //this.showConfirmation(options);
            }
     },
 
@@ -40,13 +40,13 @@ Ext.define('Onc.controller.MigrateController', {
                 var ret = Ext.JSON.decode(response.responseText);
                 myMask.hide();
                 options.vmmap.doLayout();
-                //TODO need to show success message?
+                Ext.MessageBox.alert('Status', 'Node migrated successfully.');
             },
             failure: function(response) {
                 //TODO: need to implement retry mechanism
-                //console.error('Error on migration: ' + response.responseText);
+                console.error('Error on migration: ' + response.responseText);
 
-                //setTimeout("this.checkStatus(pid, options)", 3000);
+                setTimeout("this.checkStatus(pid, options, myMask)", 3000);
             }
         });
     }
