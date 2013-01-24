@@ -57,7 +57,7 @@ Ext.define('Onc.controller.ComputeStateController', {
                 details: function(sender, vm) {
                     this.fireBusEvent('openCompute', vm.get('id'));
                 }
-            },
+            }
         });
     },
 
@@ -75,6 +75,6 @@ Ext.define('Onc.controller.ComputeStateController', {
 
     _getComponentsForId: function(vmId){
         return Ext.ComponentQuery.query('computestatecontrol[computeId=' + vmId + ']');
-    },
+    }
 
 });

@@ -673,15 +673,19 @@ Ext.define('Onc.view.tabs.VmMapTab', {
                 },
 
                 onNodeDrop: function(target, dd, e, data) {
-
                     var vmmap = data.vmmap;
                     var targetRec = vmmap.getView().getRecord(target);
-                    var nodeName = Ext.get(data.nodeEl.id).down('div.name', true).innerHTML;
-                    var computeId = data.nodeEl.id.replace('vmmap-', '');
-                    var machineId = targetRec.id.replace('Onc.model.Compute-', '');
-                    options = {computeId:computeId, machineId:machineId, srcHost:data.sourceRec.get('hostname'), destHost:targetRec.get('hostname'), nodeName:nodeName, vmmap:data.vmmap}
-                    Onc.core.EventBus.fireEvent("startMigrate", options);
-                    return true;
+                    if (targetRec.getId() !== data.sourceRec.getId()) {
+                        var nodeName = Ext.get(data.nodeEl.id).down('div.name', true).innerHTML;
+                        var computeId = data.nodeEl.id.replace('vmmap-', '');
+                        var machineId = targetRec.id.replace('Onc.model.Compute-', '');
+                        options = {computeId:computeId, machineId:machineId, srcHost:data.sourceRec.get('hostname'), destHost:targetRec.get('hostname'), nodeName:nodeName, vmmap:data.vmmap}
+                        Onc.core.EventBus.fireEvent("startMigrate", options);
+                        return true;
+                    } else {
+                        Ext.MessageBox.alert('Status', 'Unable to proceed migration on the same machine');
+                        return false;
+                    }
                 }
             });
 

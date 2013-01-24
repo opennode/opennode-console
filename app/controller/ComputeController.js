@@ -61,7 +61,7 @@ Ext.define('Onc.controller.ComputeController', {
                 },
                 groupStop: function(vms) {
                     computeManager.graceful(vms);
-                },
+                }
             },
             'computesystemtab #zabbix-button': {
                 click: function() {
