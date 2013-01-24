@@ -66,18 +66,12 @@ StartTest(function (t) {
 			},
 			
 			function(next){
-				clickEl(t,".descr", next);
-			},
-			
-			function(next){
-				// Select VMs tab
-				t.diag("2 step: Select VMs tab");
-				clickEl(t,"#tab-1097-btnEl", next);
-			},
-
-			function(next){
-				waitForEl(t,'.x-grid-table');
-				next();
+				t.chain(
+						{
+							waitFor : 7000
+						},
+						next
+				);
 			},
 			
 	
@@ -86,10 +80,11 @@ StartTest(function (t) {
 				rowsAfter =  countRows('#gridview-1091');
 				t.diag('VM list now has ' + rowsAfter + ' before had ' + rowsBefore + ' VMs.');
 				
-//				t.is(rowsAfter,rowsBefore+1,"New VM is created");
-//				
-//				var name = document.querySelector('div[id=gridview-1091]>table>tbody>tr:nth-child(' + rowsAfter + ')>td:nth-child(2)>div').innerHTML;
-//				t.is(name,"oms.autotest","New VM hostname match new created one 'oms.autotest'");
+				t.is(rowsAfter,rowsBefore+1,"New VM is created");
+				
+				var lastRow = document.querySelector('#gridview-1091').getElementsByTagName("tr").length;;
+				var name = document.querySelector('div[id=gridview-1091]>table>tbody>tr:nth-child(' + lastRow + ')>td:nth-child(2)>div').innerHTML;
+				t.is(name,"oms.autotest","New VM hostname match new created one 'oms.autotest'");
 				next();
 			}
 			
