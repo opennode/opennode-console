@@ -49,12 +49,14 @@ Ext.define('Onc.core.Backend', {
             withCredentials: true,
 
             callback: function(_, success, response) {
+                var emptyResponse = (response.status === 0 && response.responseText.length === 0);
                 if (!success && (response.status === 403) && !(response.status in successCodes)) {
                     this.fireEvent('loginrequired');
-                } else if (!(response.status in successCodes) && (!success || (response.status === 0 && response.responseText.length === 0))) {
+                } else if (!(response.status in successCodes) && (!success || emptyResponse)) {
                     if (this.retryCounter > this.maxRetryAttempts) {
+                        this.retryCounter = 0;
                         this.fireEvent('loginrequired');
-                    } else {
+                    } else if (emptyResponse) {
                         this.retryCounter++;
                         var timeoutPeriod;
                         if (this.retryPeriods.length > this.retryCounter) {
@@ -63,7 +65,10 @@ Ext.define('Onc.core.Backend', {
                             timeoutPeriod = this.retryPeriods[this.retryPeriods.length-1];
                         }
                         Onc.core.EventBus.fireEvent("showRetryProgress", timeoutPeriod);
-                        setTimeout(function() {Onc.core.Backend.ajaxRequest(request, options); Onc.core.EventBus.fireEvent("hideRetryProgress");}, timeoutPeriod * 1000);
+                        setTimeout(function() {
+                                    Onc.core.Backend.ajaxRequest(request, options);
+                                    Onc.core.EventBus.fireEvent("hideRetryProgress");
+                                }, timeoutPeriod * 1000);
                     }
                 } else {
                     if (this.retryCounter > 0) {
