@@ -4,7 +4,27 @@ Ext.define('Onc.view.tabs.DashboardTab', {
 
     autoScroll: true,
     bodyPadding: 0,
+    _storeLoaded: false,
+    
+    listeners: {
+        activate: function(){
+            if(this._storeLoaded)
+                return;
 
+            var store = Ext.getStore('PhysicalComputesStore');
+            store.load({
+                scope: this,
+                callback: function(records, operation, success) {
+                    if(!success){
+                        Onc.core.EventBus.fireEvent('displayNotification', 'Error while loading data', 'error');
+                    }
+                    else
+                        this._storeLoaded = true;
+                }
+            });
+        }
+    },
+    
     initComponent: function() {
     	 this.items = [
                {
