@@ -44,27 +44,20 @@ StartTest(function (t) {
 				t.type('span:contains("Yes")','[ENTER]',next);
 			},
 			
-			
 			function(next){
-				clickEl(t,".descr", next);
-			},
-			
-			function(next){
-				// Select VMs tab
-				t.diag("2 step: Select VMs tab");
-				clickEl(t,"#tab-1097-btnEl", next);
-			},
-
-			function(next){
-				waitForEl(t,'.x-grid-table');
-				next();
+				t.chain(
+						{
+							waitFor : 7000
+						},
+						next
+				);
 			},
 			
 			function(next){
 				// Count table rows without header
 				rowsAfter =  countRows('#gridview-1091');
 				t.diag('VM list now has ' + rowsAfter + ' before had ' + rowsBefore + ' VMs.');
-//				t.is(rowsAfter-1,rowsBefore,"VM was deleted");
+				t.is(rowsAfter,rowsBefore-1,"VM was deleted");
 
 				next();
 			}
