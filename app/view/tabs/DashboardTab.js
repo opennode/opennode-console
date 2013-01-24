@@ -8,23 +8,34 @@ Ext.define('Onc.view.tabs.DashboardTab', {
 
     listeners: {
         activate: function () {
-            if (this._storeLoaded) return;
-
-            var store = Ext.getStore('PhysicalComputesStore');
-            store.load({
-                scope: this,
-                callback: function (records, operation, success) {
-                    if (!success) {
-                        Onc.core.EventBus.fireEvent(
-                            'displayNotification',
-                            'Error while loading data', 'error');
-                    } else this._storeLoaded = true;
-                }
-            });
+            this._loadLastEvents();
         }
+    },
+ 
+    _loadLastEvents: function() {
+        var eventCmp = this.down("#latest-events");
+        eventCmp.setLoading(true);
+        Onc.core.Backend.request('PUT', 'bin/catlog?arg=-n&arg=30')
+            .success(function(response) {
+                var logs = response.stdout[0].split('\n');
+                var msg = '<ol>'
+                for (var i = 0; i < logs.length; i++) {
+                    // get the log components
+                    msg += '<li>' + logs[i] + '</li>';
+                }
+                msg += '</ol>';
+                eventCmp.update(msg);
+                eventCmp.setLoading(false);
+            })
+            .failure(function(response) {
+                console.assert(response.status === 403);
+                eventCmp.update('<b>Event log loading failed with status ' + response.status + '</b>');
+                eventCmp.setLoading(false);
+            });
     },
 
     initComponent: function () {
+        var me = this;
         this.items = [{
             xtype: 'container',
             layout: {
@@ -32,9 +43,9 @@ Ext.define('Onc.view.tabs.DashboardTab', {
                 align: 'stretch',
                 pack: 'start'
             },
-            height: 600,
+            minHeight: 600,
             defaults: {
-                minWidth: 200,
+                minWidth: 150,
                 minHeight: 200
             },
             items: [{
@@ -44,7 +55,7 @@ Ext.define('Onc.view.tabs.DashboardTab', {
                     align: 'stretch',
                     pack: 'start'
                 },
-                width: '66%',
+                width: '50%',
                 defaults: {
                     xtype: 'fieldset',
                     margin: '5 5 5 10',
@@ -96,7 +107,7 @@ Ext.define('Onc.view.tabs.DashboardTab', {
                     align: 'stretch',
                     pack: 'start'
                 },
-                width: '34%',
+                width: '50%',
                 defaults: {
                     xtype: 'fieldset',
                     margin: '5 5 5 10'
@@ -104,11 +115,22 @@ Ext.define('Onc.view.tabs.DashboardTab', {
                 items: [{
                     title: 'Latest events',
                     defaults: {
-                        xtype: 'box',
+                        xtype: 'container',
                         padding: 5
                     },
                     items: [{
-                        html: '<p>PLACEHOLDER</p>'
+                        xtype: 'toolbar',
+                        items: [
+                            '->',
+                            {
+                            text: 'Refresh',
+                            handler: function() {
+                                me._loadLastEvents();
+                            }
+                        }]
+                    }, {
+                        xtype: 'displayfield',
+                        itemId: 'latest-events',
                     }]
                 }]
             }]
