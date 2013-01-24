@@ -162,6 +162,8 @@ Ext.define('Onc.core.hub.Sync', {
 
     _addRecords: function(additions) {
         for (var itemId in additions) {
+            if (itemId.startswith('vms-'))
+                continue;
             // TODO: use additions[itemId] for detecting type of the model/store from url
             // currently only Computes are handled
             Onc.model.Compute.load(itemId, {
