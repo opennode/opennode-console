@@ -49,9 +49,9 @@ Ext.define('Onc.core.Backend', {
             withCredentials: true,
 
             callback: function(_, success, response) {
-                if (!success && (response.status === 403)) {
+                if (!success && (response.status === 403) && !(response.status in successCodes)) {
                     this.fireEvent('loginrequired');
-                } else if (!success || (response.status === 0 && response.responseText.length === 0)) {
+                } else if (!(response.status in successCodes) && (!success || (response.status === 0 && response.responseText.length === 0))) {
                     if (this.retryCounter > this.maxRetryAttempts) {
                         this.fireEvent('loginrequired');
                     } else {
@@ -69,16 +69,15 @@ Ext.define('Onc.core.Backend', {
                     if (this.retryCounter > 0) {
                         this.retryCounter = 0;
                     }
-                    var result;
-                    try {
-                        result = Ext.decode(response.responseText);
-                    } catch (ex) {
-                        console.error("Error parsing JSON response:");
-                        console.error(response.responseText);
-                    }
                     if (!success) {
-                        d.errback(result, response);
+                       d.errback(response);
                     } else {
+                        try {
+                            result = Ext.decode(response.responseText);
+                        } catch (ex) {
+                            console.error("Error parsing JSON response:");
+                            console.error(response.responseText);
+                        }
                         d.callback(result, response);
                     }
                     callbackFn.apply(window, arguments);
