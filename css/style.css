@@ -322,6 +322,8 @@
   background-image: url("../img/icon/vmlist.png"); }
 .x-tab-icon.icon-vmmap {
   background-image: url("../img/icon/map-24x24.png"); }
+.x-tab-icon.icon-dashboard {
+  background-image: url("../img/icon/dashboard.png"); }
 
 .x-action-col-icon {
   opacity: 0.7; }

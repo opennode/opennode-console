@@ -34,9 +34,7 @@ $state-icon-margin: 5px;
         background-image: -o-linear-gradient(top, #ffffff, #ecf1f5);
         background-image: linear-gradient(top, #ffffff, #ecf1f5);
         height: $search-result-height+1;
-
         .hostname { font-weight: bold; }
-       
         .descr {
             font-size:12px;
             padding-top: 2px;
@@ -122,21 +120,6 @@ $state-icon-margin: 5px;
         background-position: top left;
         background-repeat: repeat-y;
       }
-     @mixin c-icon {
-        background-position:  center 3px;
-        background-repeat: no-repeat;
-        float: left;
-        margin-left: $state-icon-margin;
-        margin-right: $state-icon-margin;
-        padding-top: $state-icon-margin;
-        width: $state-icon-size;
-        height: $search-result-height;
-        color: #363636;
-        vertical-align: bottom;
-        text-align:center;
-        font-size:10px;
-        line-height: 55px; 
-      }
     .comp-icon{
       @include c-icon;
        background-image: url(ico("mainframe-24x36"));
@@ -182,6 +165,9 @@ $state-icon-margin: 5px;
     }
     &.icon-vmmap {
         background-image: url(ico("map-24x24"));
+    }
+    &.icon-dashboard {
+        background-image: url(ico("dashboard"));
     }
 }
 
