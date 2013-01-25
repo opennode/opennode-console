@@ -3,8 +3,8 @@ Ext.define('Onc.controller.MigrateController', {
 
     busListeners: {
            startMigrate : function(options) {
-               //this.checkStatus(1141,options, new Ext.LoadMask(options.vmmap, {msg:"Migrating. Please wait..."}));
-               this.showConfirmation(options);
+               this.checkStatus(1141,options, new Ext.LoadMask(options.vmmap, {msg:"Migrating. Please wait..."}), 0);
+               //this.showConfirmation(options);
            }
     },
 
@@ -25,7 +25,7 @@ Ext.define('Onc.controller.MigrateController', {
         Onc.core.Backend.request('PUT', url, {
             success: function(response) {
                 var ret = Ext.JSON.decode(response.responseText);
-                this.checkStatus(ret.pid, options, myMask);
+                this.checkStatus(ret.pid, options, myMask, 0);
             }.bind(this),
             failure: function(response) {
                 console.error('Error on migration: ' + response.responseText);
@@ -33,22 +33,27 @@ Ext.define('Onc.controller.MigrateController', {
         });
     },
 
-    checkStatus: function(pid, options, myMask) {
-        var url = "/proc/completed/" + pid;
-        Onc.core.Backend.request('GET', url, {successCodes: [404]}, {
-            success: function(response) {
-                var ret = Ext.JSON.decode(response.responseText);
-                myMask.hide();
-                options.vmmap.doLayout();
-                Ext.MessageBox.alert('Status', 'Node migrated successfully.');
-            },
-            failure: function(response) {
-                //TODO: need to implement retry mechanism
-                console.error('Error on migration: ' + response.responseText);
-
-                setTimeout("this.checkStatus(pid, options, myMask)", 3000);
-            }
-        });
+    checkStatus: function(pid, options, myMask, retryAttempt) {
+        var maxRetryAttempts = 100;
+        var retryPeriod = 3; //seconds
+        if (maxRetryAttempts > retryAttempt) {
+            var url = "/proc/completed/" + pid;
+            Onc.core.Backend.request('GET', url, {successCodes: [404]}, {
+                success: function(response) {
+                    var ret = Ext.JSON.decode(response.responseText);
+                    myMask.hide();
+                    options.vmmap.doLayout();
+                    Ext.MessageBox.alert('Status', 'Node migrated successfully.');
+                },
+                failure: function(request, response) {
+                    console.log("Returned 404 error retrying");
+                    setTimeout(function () {this.checkStatus(pid, options, myMask, retryAttempt+1)}.bind(this), retryPeriod * 1000);
+                }.bind(this)
+            });
+        } else {
+            myMask.hide();
+            Ext.MessageBox.alert('Status', 'Node migration fail');
+        }
     }
 
 
