@@ -536,6 +536,7 @@ Ext.define('Onc.view.tabs.VmMapTab', {
     },
 
     afterRender: function() {
+        // Ilja: wtf is this?
         this.vmmap = Ext.getCmp('vmmap');
         this.vmmap.vmmapTab = this;
 
@@ -543,9 +544,8 @@ Ext.define('Onc.view.tabs.VmMapTab', {
     },
 
     updateAll: function() {
-        var vmmap = this.vmmap;
-        var store = vmmap.store;
-        vmmap.getView().refresh();
+        this.vmmap.store.reload();
+        this.vmmap.doLayout();
     },
 
     onTagClick: function() {
