@@ -9,7 +9,8 @@ Ext.define('Onc.controller.MigrateController', {
     },
 
     showConfirmation: function(options) {
-        var msg = "Migrate <b>{0}</b> from <b>{1}</b> to <b>{2}</b>?".format(options.nodeName, options.srcHost, options.destHost);
+        var msg = "Are you sure you want to migrate <b>{0}</b> from <b>{1}</b> to <b>{2}</b>?".format(options.nodeName,
+                    options.srcHost, options.destHost);
         Ext.MessageBox.confirm('Confirm', msg, showResult.bind(this));
         function showResult(btn){
             if ('yes' == btn) {
@@ -21,7 +22,7 @@ Ext.define('Onc.controller.MigrateController', {
     migrate : function(options) {
         var myMask = new Ext.LoadMask(options.vmmap, {msg:'Migrating {0}. Please wait...'.format(options.nodeName)});
         myMask.show();
-        var url = '/computes/{0}/actions/migrate?arg=/machines/{1}'.format(options.computeId, options.machineId);
+        var url = '/computes/{0}/actions/migrate?arg=/machines/{1}&asynchronous=1'.format(options.computeId, options.destMachineId);
         Onc.core.Backend.request('PUT', url, {
             success: function(response) {
                 var ret = Ext.JSON.decode(response.responseText);
@@ -40,22 +41,32 @@ Ext.define('Onc.controller.MigrateController', {
             var url = "/proc/completed/" + pid;
             Onc.core.Backend.request('GET', url, {successCodes: [404]}, {
                 success: function(response) {
-                    var ret = Ext.JSON.decode(response.responseText);
-                    myMask.hide();
-                    options.vmmap.doLayout();
-                    Ext.MessageBox.alert('Status', '"{0}" was successfully migrated.'.format(options.nodeName));
-                },
+                    this.checkMachineState(options, myMask);
+                }.bind(this),
                 failure: function(request, response) {
-                    console.log("Returned 404 error retrying");
                     setTimeout(function () {
-                        this.checkStatus(pid, options, myMask, retryAttempt + 1);
-                    }.bind(this), retryPeriod * 1000);
+                        this.checkStatus(pid, options, myMask, retryAttempt+1)}.bind(this),
+                            retryPeriod * 1000);
                 }.bind(this)
             });
         } else {
             myMask.hide();
             Ext.MessageBox.alert('Status', 'Node migration has failed');
         }
-    }
+    },
 
+    checkMachineState: function(options, myMask) {
+            var url = "/machines/{0}/vms/{1}".format(options.srcMachineId, options.computeId);
+            Onc.core.Backend.request('GET', url, {successCodes: [404]}, {
+                success: function(response) {
+                    myMask.hide();
+                    Ext.MessageBox.alert('Status', 'Node migration has failed');
+                },
+                failure: function(request, response) {
+                    myMask.hide();
+                    options.vmmap.doLayout();
+                    Ext.MessageBox.alert('Status', '"{0}" was successfully migrated.'.format(options.nodeName));
+                }
+            });
+    }
 });

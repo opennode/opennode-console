@@ -678,8 +678,16 @@ Ext.define('Onc.view.tabs.VmMapTab', {
                     if (targetRec.getId() !== data.sourceRec.getId()) {
                         var nodeName = Ext.get(data.nodeEl.id).down('div.name', true).innerHTML;
                         var computeId = data.nodeEl.id.replace('vmmap-', '');
-                        var machineId = targetRec.id.replace('Onc.model.Compute-', '');
-                        options = {computeId:computeId, machineId:machineId, srcHost:data.sourceRec.get('hostname'), destHost:targetRec.get('hostname'), nodeName:nodeName, vmmap:data.vmmap}
+                        var destMachineId = targetRec.id.replace('Onc.model.Compute-', '');
+                        var srcMachineId = data.sourceRec.id.replace('Onc.model.Compute-', '');
+                        options = {
+                            computeId: computeId,
+                            destMachineId: destMachineId,
+                            srcMachineId: srcMachineId,
+                            srcHost: data.sourceRec.get('hostname'),
+                            destHost: targetRec.get('hostname'),
+                            nodeName: nodeName,
+                            vmmap: data.vmmap}
                         Onc.core.EventBus.fireEvent("startMigrate", options);
                         return true;
                     } else {
