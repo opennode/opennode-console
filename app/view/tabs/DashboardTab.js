@@ -13,24 +13,30 @@ Ext.define('Onc.view.tabs.DashboardTab', {
     },
  
     _loadLastEvents: function() {
+        var eventContainer = this.down("#events-container");
         var eventCmp = this.down("#latest-events");
-        eventCmp.setLoading(true);
+        eventContainer.setLoading(true);
         Onc.core.Backend.request('PUT', 'bin/catlog?arg=-n&arg=30')
             .success(function(response) {
-                var logs = response.stdout[0].split('\n');
-                var msg = '<ol>'
-                for (var i = 0; i < logs.length; i++) {
-                    // get the log components
-                    msg += '<li>' + logs[i] + '</li>';
+                var stdout = response.stdout[0];
+                if (stdout) {
+                    var logs = response.stdout[0].split('\n');
+                    var msg = '<ol>';
+                    for (var i = 0; i < logs.length; i++) {
+                        // get the log components
+                        msg += '<li>' + logs[i] + '</li>';
+                    }
+                    msg += '</ol>';
+                    eventCmp.update(msg);
+                } else {
+                    eventCmp.update('<b>No event logs available (OMS is probably logging to stdout).</b>');
                 }
-                msg += '</ol>';
-                eventCmp.update(msg);
-                eventCmp.setLoading(false);
+                eventContainer.setLoading(false);
             })
             .failure(function(response) {
                 console.assert(response.status === 403);
                 eventCmp.update('<b>Event log loading failed with status ' + response.status + '</b>');
-                eventCmp.setLoading(false);
+                eventContainer.setLoading(false);
             });
     },
 
@@ -114,6 +120,7 @@ Ext.define('Onc.view.tabs.DashboardTab', {
                 },
                 items: [{
                     title: 'Latest events',
+                    itemId: 'events-container',
                     defaults: {
                         xtype: 'container',
                         padding: 5

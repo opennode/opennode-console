@@ -19,7 +19,7 @@ Ext.define('Onc.controller.MigrateController', {
     },
 
     migrate : function(options) {
-        var myMask = new Ext.LoadMask(options.vmmap, {msg:"Migrating. Please wait..."});
+        var myMask = new Ext.LoadMask(options.vmmap, {msg:'Migrating {0}. Please wait...'.format(options.nodeName)});
         myMask.show();
         var url = '/computes/{0}/actions/migrate?arg=/machines/{1}'.format(options.computeId, options.machineId);
         Onc.core.Backend.request('PUT', url, {
@@ -28,7 +28,7 @@ Ext.define('Onc.controller.MigrateController', {
                 this.checkStatus(ret.pid, options, myMask, 0);
             }.bind(this),
             failure: function(response) {
-                console.error('Error on migration: ' + response.responseText);
+                console.error('Error during migration: ' + response.responseText);
             }
         });
     },
@@ -43,19 +43,19 @@ Ext.define('Onc.controller.MigrateController', {
                     var ret = Ext.JSON.decode(response.responseText);
                     myMask.hide();
                     options.vmmap.doLayout();
-                    Ext.MessageBox.alert('Status', 'Node migrated successfully.');
+                    Ext.MessageBox.alert('Status', '"{0}" was successfully migrated.'.format(options.nodeName));
                 },
                 failure: function(request, response) {
                     console.log("Returned 404 error retrying");
-                    setTimeout(function () {this.checkStatus(pid, options, myMask, retryAttempt+1)}.bind(this), retryPeriod * 1000);
+                    setTimeout(function () {
+                        this.checkStatus(pid, options, myMask, retryAttempt + 1);
+                    }.bind(this), retryPeriod * 1000);
                 }.bind(this)
             });
         } else {
             myMask.hide();
-            Ext.MessageBox.alert('Status', 'Node migration fail');
+            Ext.MessageBox.alert('Status', 'Node migration has failed');
         }
     }
-
-
 
 });
