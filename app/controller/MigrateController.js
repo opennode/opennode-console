@@ -3,7 +3,6 @@ Ext.define('Onc.controller.MigrateController', {
 
     busListeners: {
            startMigrate : function(options) {
-               //this.checkStatus(1141,options, new Ext.LoadMask(options.vmmap, {msg:"Migrating. Please wait..."}), 0);
                this.showConfirmation(options);
            }
     },
@@ -41,7 +40,7 @@ Ext.define('Onc.controller.MigrateController', {
             var url = "/proc/completed/" + pid;
             Onc.core.Backend.request('GET', url, {successCodes: [404]}, {
                 success: function(response) {
-                    this.checkMachineState(options, myMask);
+                    this.verifyMigratedVM(options, myMask);
                 }.bind(this),
                 failure: function(request, response) {
                     setTimeout(function () {
@@ -55,17 +54,23 @@ Ext.define('Onc.controller.MigrateController', {
         }
     },
 
-    checkMachineState: function(options, myMask) {
-            var url = "/machines/{0}/vms/{1}".format(options.srcMachineId, options.computeId);
+    verifyMigratedVM: function(options, myMask) {
+            var url = "/machines/{0}/vms/{1}?attrs=status".format(options.srcMachineId, options.computeId);
             Onc.core.Backend.request('GET', url, {successCodes: [404]}, {
                 success: function(response) {
+                    console.log('verifying migrated vm', url, reponse)
+                    // if we see VM in it's previous location, it's a failure, no need to redraw.
                     myMask.hide();
                     Ext.MessageBox.alert('Status', 'Node migration has failed');
                 },
                 failure: function(request, response) {
                     myMask.hide();
-                    options.vmmap.doLayout();
-                    Ext.MessageBox.alert('Status', '"{0}" was successfully migrated.'.format(options.nodeName));
+                    var vmmap = Ext.getCmp('vmmap');
+                    Ext.MessageBox.alert('Status', '<b>"{0}"</b> was successfully migrated.'.format(options.nodeName),
+                        function() {
+                            vmmap.store.reload();
+                            vmmap.doLayout();
+                        });
                 }
             });
     }
