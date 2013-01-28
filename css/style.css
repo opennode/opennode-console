@@ -22,7 +22,7 @@
   padding: 53px 0px;
   margin: 0;
   height: auto;
-  font: 13px tahoma,arial,helvetica;
+  font: 13px tahoma, arial, helvetica;
   text-align: center; }
 
 @keyframes blink {
@@ -85,7 +85,7 @@
     border: 1px solid lightblue; }
 
 #vmmap .node-cell {
-  border: 1px solid #CCC;
+  border: 1px solid #cccccc;
   padding: 5px;
   margin-right: -1px;
   margin-top: -1px;
@@ -100,7 +100,7 @@
     border: 2px solid #333399;
     margin-right: 0px; }
 #vmmap .node-cell-free {
-  border: 1px solid #CCC;
+  border: 1px solid #cccccc;
   padding: 5px 5px 42px;
   margin-top: -1px;
   float: left;
@@ -373,25 +373,10 @@
   .computestatecontrol .x-btn.x-btn-disabled {
     opacity: 0.35 !important; }
 
-.resources {
-	
-}
-
-.resources ol ol, 
-.resources ol ul,
-.resources ul ol,
-.resources ul ul
- {
-    margin-left: 2em;
-}
-
-.resources ol ul li,
-.resources ul ul li
- {
-    list-style: disc;
-} 
-
+.resources ol ol, .resources ol ul, .resources ul ol, .resources ul ul {
+  margin-left: 2em; }
+.resources ol ul li, .resources ul ul li {
+  list-style: disc; }
 .resources li strong {
-    font-weight: bolder;
-    padding-right: 3px;
-}
+  font-weight: bolder;
+  padding-right: 3px; }
