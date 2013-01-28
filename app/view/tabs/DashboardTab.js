@@ -112,6 +112,21 @@ Ext.define('Onc.view.tabs.DashboardTab', {
                 pendingActionsContainer.setLoading(false);
             });
     },
+    _loadRunningTasks: function() {
+        var runningTasksContainer = this.down('#running-tasks-container');
+        runningTasksContainer.setLoading(true);
+        var runningTasksCmp = this.down("#running-tasks");
+        Onc.core.Backend.request('GET', 'proc/?depth=1')
+            .success(function(response){
+                
+                runningTasksContainer.setLoading(false);
+            })
+            .failure(function(response){
+                console.assert(response.status === 403);
+                runningTasksCmp.update('<b>Detecting available resources failed: ' + response.status + '</b>');
+                runningTasksContainer.setLoading(false);
+            });
+    },
 
     initComponent: function() {
         var me = this;
@@ -179,6 +194,26 @@ Ext.define('Onc.view.tabs.DashboardTab', {
                     },{
                         xtype: 'displayfield',
                         itemId: 'pending-actions',
+                    }]
+                },{
+                    title: 'Running tasks',
+                    itemId: 'running-tasks-container',
+                    defaults: {
+                        xtype: 'container',
+                        padding: 5
+                    },
+                    items: [{
+                        xtype: 'toolbar',
+                        items: [
+                            '->', {
+                            text: 'Refresh',
+                            handler: function() {
+                                me._loadRunningTasks();
+                            }
+                        }]
+                    },{
+                        xtype: 'displayfield',
+                        itemId: 'running-tasks',
                     }]
                 }]
             }, {
