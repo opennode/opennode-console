@@ -12,6 +12,8 @@ Ext.define('Onc.controller.MainController', {
         var tabPanel = this.getTabs();
         var tab = tabPanel.child('computeview[computeId=' + computeId + ']');
         if (!tab) {
+            var loadingMask = new Ext.LoadMask(Ext.getCmp('search-results'), {msg:'Loading. Please wait...'});
+            loadingMask.show();
             this.getStore('ComputesStore').loadById(computeId,
                 function(compute) {
                     tab = Ext.widget('computeview', {
@@ -27,6 +29,7 @@ Ext.define('Onc.controller.MainController', {
                     return;
                 }
             );
+            loadingMask.hide();
         } else {
             tabPanel.setActiveTab(tab);
         }
