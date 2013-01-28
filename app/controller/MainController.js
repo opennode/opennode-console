@@ -86,6 +86,11 @@ Ext.define('Onc.controller.MainController', {
                     this.fireBusEvent('displayHostManager');
                 }
             },
+            '#oms-shell-button':{
+                click: function() {
+                    this.fireBusEvent('displayOmsShell');
+                }
+            },
             '#viewlog-button': {
                 click: function(){
                     // Create a log window

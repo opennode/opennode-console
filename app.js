@@ -97,7 +97,8 @@ Ext.application({
         'NotificationBarController',
         'RetryController',
         'MigrateController',
-        'DashboardController'
+        'DashboardController',
+        'OmsShellController'
     ]
 });
 

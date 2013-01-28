@@ -14,7 +14,7 @@ Ext.define('Onc.view.Viewport', {
 
     _adjustViewToGroups: function() {
         var isAdmin = Onc.model.AuthenticatedUser.isAdmin();
-        var adminButtons = ['infrastructurejoin-button', 'tasks-button'];
+        var adminButtons = ['infrastructurejoin-button', 'tasks-button', 'oms-shell-button'];
         var adminTabs = ['vmmap', 'oms-shell'];
         // adjust controll buttons
         for (var i = 0; i < adminButtons.length; i++) {
@@ -42,7 +42,7 @@ Ext.define('Onc.view.Viewport', {
             border: false,
             layout: {
                 type: 'table',
-                columns: 4,
+                columns: 5,
                 trAttrs: { align: 'right' }
             },
             style: 'position: absolute; top: 2px; right: 0px',
@@ -54,7 +54,7 @@ Ext.define('Onc.view.Viewport', {
                 id: 'username-label',
                 xtype: 'text',
                 text: 'N/A',
-                colspan: 4,
+                colspan: 5,
                 style: {
                     "text-align": 'right'
                 }
@@ -74,6 +74,10 @@ Ext.define('Onc.view.Viewport', {
                 id: 'infrastructurejoin-button',
                 xtype: 'button',
                 text: 'Host management'
+            }, {
+                id: 'oms-shell-button',
+                xtype: 'button',
+                text: 'OMS Shell'
             }, {
                 id: 'logout-button',
                 xtype: 'button',
@@ -114,7 +118,7 @@ Ext.define('Onc.view.Viewport', {
         },
         preventHeader: true,
         defaults: {
-            closable: true,
+            closable: true
         },
         items: [{
             title: "Dashboard",
