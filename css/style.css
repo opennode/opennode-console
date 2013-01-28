@@ -372,3 +372,26 @@
     opacity: 1.0; }
   .computestatecontrol .x-btn.x-btn-disabled {
     opacity: 0.35 !important; }
+
+.resources {
+	
+}
+
+.resources ol ol, 
+.resources ol ul,
+.resources ul ol,
+.resources ul ul
+ {
+    margin-left: 2em;
+}
+
+.resources ol ul li,
+.resources ul ul li
+ {
+    list-style: disc;
+} 
+
+.resources li strong {
+    font-weight: bolder;
+    padding-right: 3px;
+}
