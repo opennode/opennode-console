@@ -15,7 +15,7 @@ Ext.define('Onc.view.Viewport', {
     _adjustViewToGroups: function() {
         var isAdmin = Onc.model.AuthenticatedUser.isAdmin();
         var adminButtons = ['infrastructurejoin-button', 'tasks-button', 'oms-shell-button'];
-        var adminTabs = ['vmmap', 'oms-shell'];
+        var adminTabs = ['vmmap'];
         // adjust controll buttons
         for (var i = 0; i < adminButtons.length; i++) {
             this.down('#' + adminButtons[i]).hidden = !isAdmin;
@@ -126,13 +126,6 @@ Ext.define('Onc.view.Viewport', {
             closable: false,
             xtype: 'computedashboardtab',
             itemId: 'dashboard'
-        }, {
-            itemId: 'oms-shell',
-            title: "OMS Shell",
-            iconCls: 'icon-shell',
-            closable: false,
-            xtype: 'shell',
-            url: Onc.core.Backend.url('/bin/omsh/webterm')
         }].concat(!ENABLE_VMMAP ? [] : [{
             itemId: 'vmmap',
             title: "VM Map",
