@@ -239,3 +239,30 @@ $state-icon-margin: 5px;
         }
     }
 }
+
+.resources {
+    ol ol, ol ul, ul ol, ul ul  {
+        margin-left: 2em;
+    }
+    ol ul, ul ul {
+        li{
+            list-style: disc;
+        }
+    }
+    li{
+        strong{
+            font-weight: bolder;
+            padding-right: 3px;
+        }
+    }
+
+}
+
+.ulist {
+    ul {
+        li{
+            padding-left: 1em;
+            list-style: disc;
+        }
+    } 
+}

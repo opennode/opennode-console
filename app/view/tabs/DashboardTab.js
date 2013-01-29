@@ -5,10 +5,12 @@ Ext.define('Onc.view.tabs.DashboardTab', {
     autoScroll: true,
     bodyPadding: 0,
     _storeLoaded: false,
+    
 
     listeners: {
         activate: function() {
             this._loadRunningServices();
+            this._loadRunningTasks();
             this._loadLastEvents();
         }
     },
@@ -43,7 +45,7 @@ Ext.define('Onc.view.tabs.DashboardTab', {
     _loadRunningServices: function() {
         var resourceContainer = this.down('#resources-container');
 
-        var serviceCmp1 = this.down("#running-services1");
+        var serviceCmp = this.down("#running-services");
         resourceContainer.setLoading(true);
 
         Onc.core.Backend.request('GET', 'machines/?depth=3&attrs=diskspace,memory,__type__')
@@ -85,16 +87,58 @@ Ext.define('Onc.view.tabs.DashboardTab', {
             msg += '<li><strong>' + Math.round(assignedHDD) + '</strong> of assigned disk space</li>';
 
             msg += '</ol>';
-            serviceCmp1.update(msg);
+            serviceCmp.update(msg);
             resourceContainer.setLoading(false);
         })
             .failure(function(response) {
             console.assert(response.status === 403);
-            serviceCmp1.update('<b>Detecting available resources failed: ' + response.status + '</b>');
+            serviceCmp.update('<b>Detecting available resources failed: ' + response.status + '</b>');
             resourceContainer.setLoading(false);
         });
-
-
+    },
+    _loadPendingAction: function() {
+        var pendingActionsContainer = this.down('#pending-actions-container');
+        pendingActionsContainer.setLoading(true);
+        
+        var pendingActionsCmp = this.down("#pending-actions");
+        Onc.core.Backend.request('GET', 'proc/?depth=1')
+            .success(function(response){
+                
+                
+                pendingActionsContainer.setLoading(false);
+            })
+            .failure(function(response){
+                console.assert(response.status === 403);
+                pendingActionsCmp.update('<b>Detecting available resources failed: ' + response.status + '</b>');
+                pendingActionsContainer.setLoading(false);
+            });
+    },
+    _loadRunningTasks: function() {
+        var runningTasksContainer = this.down('#running-tasks-container');
+        runningTasksContainer.setLoading(true);
+        var runningTasksCmp = this.down("#running-tasks");
+        Onc.core.Backend.request('GET', 'proc/?depth=1&attrs=__type__,cmdline')
+            .success(function(response){
+                var msg = '<ul class="ulist">';
+                var tasks = response.children;
+                for(var i = 0; i < tasks.length; i++){
+                    var task = tasks[i];
+                    if(task.__type__ == 'Task'){
+                        msg += '<li>';
+                        msg +='command: ' + task.cmdline;
+                        msg += '</li>';
+                    }
+                }
+                msg += '</ul>';
+                
+                runningTasksCmp.update(msg);
+                runningTasksContainer.setLoading(false);
+            })
+            .failure(function(response){
+                console.assert(response.status === 403);
+                runningTasksCmp.update('<b>Detecting available resources failed: ' + response.status + '</b>');
+                runningTasksContainer.setLoading(false);
+            });
     },
 
     initComponent: function() {
@@ -122,6 +166,7 @@ Ext.define('Onc.view.tabs.DashboardTab', {
                 defaults: {
                     xtype: 'fieldset',
                     margin: '5 5 5 10',
+                    componentCls: 'resources'
                 },
                 items: [{
                     title: 'Available resources',
@@ -141,10 +186,47 @@ Ext.define('Onc.view.tabs.DashboardTab', {
                         }]
                     }, {
                         xtype: 'displayfield',
-                        itemId: 'running-services1',
-                    }, {
+                        itemId: 'running-services'
+                    }]
+                },{
+                    title: 'Pending actions',
+                    itemId: 'pending-actions-container',
+                    defaults: {
+                        xtype: 'container',
+                        padding: 5
+                    },
+                    items: [{
+                        xtype: 'toolbar',
+                        items: [
+                            '->', {
+                            text: 'Refresh',
+                            handler: function() {
+                                me._loadPendingAction();
+                            }
+                        }]
+                    },{
                         xtype: 'displayfield',
-                        itemId: 'running-services2',
+                        itemId: 'pending-actions',
+                    }]
+                },{
+                    title: 'Running tasks',
+                    itemId: 'running-tasks-container',
+                    defaults: {
+                        xtype: 'container',
+                        padding: 5
+                    },
+                    items: [{
+                        xtype: 'toolbar',
+                        items: [
+                            '->', {
+                            text: 'Refresh',
+                            handler: function() {
+                                me._loadRunningTasks();
+                            }
+                        }]
+                    },{
+                        xtype: 'displayfield',
+                        itemId: 'running-tasks',
                     }]
                 }]
             }, {
