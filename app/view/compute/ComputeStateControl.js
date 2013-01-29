@@ -12,7 +12,7 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
     enableBorders: false,
 
     initComponent: function() {
-        this.addEvents('start', 'graceful', 'details', 'edit');
+        this.addEvents('start', 'graceful', 'details', 'edit', 'host');
 
         this.computeId = this.compute.get('id');
 
@@ -24,7 +24,7 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
             this._makeButton('graceful', "Shut down", "Shut down machine", true, {
                 title: 'Shutting down a VM',
                 text: 'Are you sure? All of the processes inside a VM will be stoppped'
-            }),
+            })
         ];
 
         if (!this.disableDetails) {
@@ -36,6 +36,8 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
                 text: 'Are you sure you want to delete this VM?'
             });
             buttons[buttons.length] = this._makeButton('edit', "Edit", "Edit machine", false);
+            
+            buttons[buttons.length] = this._makeButton('host', "Host", "Go to host", false);
         }
         this.items = buttons;
 
