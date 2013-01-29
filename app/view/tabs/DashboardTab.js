@@ -116,9 +116,21 @@ Ext.define('Onc.view.tabs.DashboardTab', {
         var runningTasksContainer = this.down('#running-tasks-container');
         runningTasksContainer.setLoading(true);
         var runningTasksCmp = this.down("#running-tasks");
-        Onc.core.Backend.request('GET', 'proc/?depth=1')
+        Onc.core.Backend.request('GET', 'proc/?depth=1&attrs=__type__,cmdline')
             .success(function(response){
+                var msg = '<ul class="ulist">';
+                var tasks = response.children;
+                for(var i = 0; i < tasks.length; i++){
+                    var task = tasks[i];
+                    if(task.__type__ == 'Task'){
+                        msg += '<li>';
+                        msg +='command: ' + task.cmdline;
+                        msg += '</li>';
+                    }
+                }
+                msg += '</ul>';
                 
+                runningTasksCmp.update(msg);
                 runningTasksContainer.setLoading(false);
             })
             .failure(function(response){

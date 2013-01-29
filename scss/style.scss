@@ -257,3 +257,12 @@ $state-icon-margin: 5px;
     }
 
 }
+
+.ulist {
+    ul {
+        li{
+            padding-left: 1em;
+            list-style: disc;
+        }
+    } 
+}
