@@ -10,6 +10,7 @@ Ext.define('Onc.view.tabs.DashboardTab', {
     listeners: {
         activate: function() {
             this._loadRunningServices();
+            this._loadRunningTasks();
             this._loadLastEvents();
         }
     },
