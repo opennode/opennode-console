@@ -22,6 +22,7 @@ Ext.define('Onc.controller.MainController', {
                     });
                     tabPanel.add(tab);
                     tabPanel.setActiveTab(tab);
+                    loadingMask.hide();
                 },
                 function(error) {
                     // TODO: visual display of the error
@@ -29,7 +30,6 @@ Ext.define('Onc.controller.MainController', {
                     return;
                 }
             );
-            loadingMask.hide();
         } else {
             tabPanel.setActiveTab(tab);
         }
