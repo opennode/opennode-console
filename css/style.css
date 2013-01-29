@@ -380,3 +380,7 @@
 .resources li strong {
   font-weight: bolder;
   padding-right: 3px; }
+
+.ulist ul li {
+  padding-left: 1em;
+  list-style: disc; }
