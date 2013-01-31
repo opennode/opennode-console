@@ -58,10 +58,11 @@ Ext.define('Onc.controller.ComputeStateController', {
                     this.fireBusEvent('openCompute', vm.get('id'));
                 },
                 host: function(sender, vm) {
-                    console.log('go to host');
-                    var parentId = Onc.model.Compute.extractParentId(vm.get('id'));
-                    console.log('parentid: ' + parentId);
-                    this.fireBusEvent('openCompute', parentId);
+                    var vmurl = vm.get('url');
+                    var parentId = Onc.model.Compute.extractParentId(vmurl);
+                    if(parentId != undefined && parentId != null){
+                        this.fireBusEvent('openCompute', parentId);
+                    }
                 }
             }
         });
