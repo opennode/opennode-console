@@ -70,6 +70,7 @@ Ext.syncRequire([
     'Onc.view.tabs.NetworkTab',
     'Onc.view.tabs.StorageTab',
     'Onc.view.tabs.TemplatesTab',
+    'Onc.view.tabs.ShellTab',
     'Onc.view.tabs.VncTab',
     'Onc.view.tabs.DashboardTab'
 ]);

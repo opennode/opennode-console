@@ -37,6 +37,10 @@ Ext.define('Onc.controller.LoginController', {
         if (this._viewport){
             this._viewport.destroy();
         }
+        /*Ext.WindowMgr.each(function(w) {
+            console.log(w);
+            w.destroy();
+        });  */
         Onc.model.AuthenticatedUser.reset();
         this._viewport = this.getView('LoginWindow').create();
     },
