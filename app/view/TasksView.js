@@ -11,7 +11,7 @@ Ext.define('Onc.view.TasksView', {
 
     defaults: {
         border: false,
-        bodyStyle: 'background: inherit',
+        bodyStyle: 'background: inherit'
     },
 
     items: [{
@@ -19,16 +19,17 @@ Ext.define('Onc.view.TasksView', {
        columns: [
            {header: 'Id', dataIndex: 'id', width: 50},
            {header: 'Command', dataIndex: 'cmdline', flex: 1},
-           {header: 'Actions', dataIndex: 'url', width: 180},
+           {header: 'Actions', dataIndex: 'url', width: 180}
        ],
        store: 'TasksStore'
     }],
 
     buttons: [{
-        text: 'Reload',
+        text: 'Reload'
     }, {
         text: 'Close' ,
         handler: function() {
+            console.log(this.up('window'));
             this.up('window').destroy();
         }
     }],
