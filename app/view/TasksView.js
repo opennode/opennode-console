@@ -29,7 +29,6 @@ Ext.define('Onc.view.TasksView', {
     }, {
         text: 'Close' ,
         handler: function() {
-            console.log(this.up('window'));
             this.up('window').destroy();
         }
     }],
