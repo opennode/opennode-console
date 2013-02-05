@@ -4,9 +4,7 @@ Ext.define('Onc.view.tabs.DashboardTab', {
 
     autoScroll: true,
     bodyPadding: 0,
-    _storeLoaded: false,
-    
-
+    layout: 'fit',
     listeners: {
         activate: function() {
             this._loadRunningServices();
@@ -16,6 +14,7 @@ Ext.define('Onc.view.tabs.DashboardTab', {
     },
 
     _loadLastEvents: function() {
+        var me = this;
         var eventContainer = this.down("#events-container");
         var eventCmp = this.down("#latest-events");
         eventContainer.setLoading(true);
@@ -30,7 +29,7 @@ Ext.define('Onc.view.tabs.DashboardTab', {
                     msg += '<li>' + logs[i] + '</li>';
                 }
                 msg += '</ol>';
-                eventCmp.update(msg);
+                eventCmp.update(me._wrapHtml(msg));
             } else {
                 eventCmp.update('<b>No event logs available (OMS is probably logging to stdout).</b>');
             }
@@ -44,7 +43,7 @@ Ext.define('Onc.view.tabs.DashboardTab', {
     },
     _loadRunningServices: function() {
         var resourceContainer = this.down('#resources-container');
-
+        var me = this;
         var serviceCmp = this.down("#running-services");
         resourceContainer.setLoading(true);
 
@@ -87,7 +86,7 @@ Ext.define('Onc.view.tabs.DashboardTab', {
             msg += '<li><strong>' + Math.round(assignedHDD) + '</strong> of assigned disk space</li>';
 
             msg += '</ol>';
-            serviceCmp.update(msg);
+            serviceCmp.update(me._wrapHtml(msg));
             resourceContainer.setLoading(false);
         })
             .failure(function(response) {
@@ -147,20 +146,20 @@ Ext.define('Onc.view.tabs.DashboardTab', {
             xtype: 'container',
             layout: {
                 type: 'hbox',
-                align: 'stretch',
-                pack: 'start'
+                align: 'stretch'
             },
-            minHeight: 600,
+            
+//            minHeight: 200,
             defaults: {
-                minWidth: 150,
-                minHeight: 200
+//                minWidth: 250,
+//                minHeight: 200
             },
             items: [{
                 xtype: 'container',
                 layout: {
                     type: 'vbox',
                     align: 'stretch',
-                    pack: 'start'
+//                    pack: 'start'
                 },
                 width: '50%',
                 defaults: {
@@ -233,9 +232,9 @@ Ext.define('Onc.view.tabs.DashboardTab', {
                 xtype: 'container',
                 layout: {
                     type: 'vbox',
-                    align: 'stretch',
-                    pack: 'start'
+                    align: 'stretch'
                 },
+                autoScroll: true,
                 width: '50%',
                 defaults: {
                     xtype: 'fieldset',
@@ -265,5 +264,11 @@ Ext.define('Onc.view.tabs.DashboardTab', {
             }]
         }];
         this.callParent(arguments);
+    },
+    _wrapHtml: function(html){
+        var wrapStart = '<div class="scrollPort">';
+        var wrapEnd = '</div>';
+        return wrapStart + html + wrapEnd;
     }
+    
 });
