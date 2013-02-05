@@ -49,14 +49,37 @@ Ext.define('Onc.controller.LoginController', {
         // XXX Needs refactoring once a more elegant role reporting is implemented, possibly as art 
         // make a query to get user roles
         var me = this;
-        Onc.core.Backend.request('PUT', 'bin/id')
+       // var myMask = new Ext.LoadMask(Ext.getBody(), {msg:"Please wait..."});
+      //  myMask.show();
+        Onc.core.Backend.request('PUT', 'bin/id?asynchronous=1')
             .success(function(response) {
-                Onc.model.AuthenticatedUser.parseIdCommand(response);
-                me._onRoleKnown();
+                me._checkStatus(response.pid, 0);
             })
             .failure(function(response) {
                 console.assert(response.status === 403);
             });
+    },
+
+    _checkStatus: function(pid, retryAttempt) {
+        var maxRetryAttempts = 100;
+        var retryPeriod = 1; //seconds
+        if (maxRetryAttempts > retryAttempt) {
+            var url = "/proc/completed/" + pid;
+            Onc.core.Backend.request('GET', url, {successCodes: [404]}, {
+                success: function(response) {
+                    Onc.model.AuthenticatedUser.parseIdCommand(response);
+                    this._onRoleKnown();
+                }.bind(this),
+                failure: function(request, response) {
+                    setTimeout(function () {
+                        this._checkStatus(pid, retryAttempt+1)}.bind(this),
+                        retryPeriod * 1000);
+                }.bind(this)
+            });
+        } else {
+            Ext.MessageBox.alert('Status', 'Login failed');
+            this._login();
+        }
     },
 
     _onRoleKnown: function() {

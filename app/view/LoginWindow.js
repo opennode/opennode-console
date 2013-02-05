@@ -84,7 +84,7 @@ Ext.define('Onc.view.LoginWindow', {
                     button.up('window').setLoading(true);
                     
                     r.success(function(result) {
-                            var window = button.up('window');
+                        var window = button.up('window');
                             if (window) {
                                 window.destroy();
                                 window.fireEvent('login', result['token']);
