@@ -2,9 +2,10 @@ Ext.define('Onc.view.tabs.DashboardTab', {
     extend: 'Onc.view.tabs.Tab',
     alias: 'widget.computedashboardtab',
 
-    autoScroll: true,
     bodyPadding: 0,
     layout: 'fit',
+    border: true,
+    style: {borderColor:'inherit', borderStyle:'solid', borderWidth:'1px'},
     listeners: {
         activate: function() {
             this._loadRunningServices();
