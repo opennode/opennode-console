@@ -8,6 +8,7 @@ Ext.define('Onc.model.AuthenticatedUser', {
     parseIdCommand: function(response) {
         //Sample input: user: opennode\ngroups: admins\neffective_principals: opennode admins\n
         var creds ='';
+        //TODO remove this if when stout returns will be implemented
         if(response.stdout != undefined) {
             creds = response.stdout[0].split('\n');
         } else {
