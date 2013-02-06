@@ -1,11 +1,18 @@
 Ext.define('Onc.view.tabs.DashboardTab', {
     extend: 'Onc.view.tabs.Tab',
     alias: 'widget.computedashboardtab',
+    require: 'Onc.core.util.Completer',
 
     bodyPadding: 0,
     layout: 'fit',
     border: true,
-    style: {borderColor:'inherit', borderStyle:'solid', borderWidth:'1px'},
+    style: {
+        borderColor: 'inherit',
+        borderStyle:'solid',
+        borderWidth:'1px'
+    },
+    _storeLoaded: false,
+
     listeners: {
         activate: function() {
             this._loadRunningServices();
@@ -19,27 +26,42 @@ Ext.define('Onc.view.tabs.DashboardTab', {
         var eventContainer = this.down("#events-container");
         var eventCmp = this.down("#latest-events");
         eventContainer.setLoading(true);
-        Onc.core.Backend.request('PUT', 'bin/catlog?arg=-n&arg=30')
+        Onc.core.Backend.request('PUT', 'bin/catlog?arg=-n&arg=30&asynchronous=1')
             .success(function(response) {
-            var stdout = response.stdout[0];
-            if (stdout) {
-                var logs = response.stdout[0].split('\n');
-                var msg = '<ol>';
-                for (var i = 0; i < logs.length; i++) {
-                    // get the log components
-                    msg += '<li>' + logs[i] + '</li>';
-                }
-                msg += '</ol>';
-                eventCmp.update(me._wrapHtml(msg));
-            } else {
-                eventCmp.update('<b>No event logs available (OMS is probably logging to stdout).</b>');
-            }
-            eventContainer.setLoading(false);
+                var c = new Onc.core.util.Completer();
+                c.callAndCheck(response.pid,
+                    function(response) {
+                        //TODO remove this if when stdout will be implemented
+                        if (response.stdout != undefined) {
+                            var stdout = response.stdout[0];
+                            if (stdout) {
+                                var logs = stdout.split('\n');
+                                var msg = '<ol>';
+                                for (var i = 0; i < logs.length; i++) {
+                                    // get the log components
+                                    msg += '<li>' + logs[i] + '</li>';
+                                }
+                                msg += '</ol>';
+                                eventCmp.update(msg);
+                            } else {
+                                eventCmp.update('<b>No event logs available (OMS is probably logging to stdout).</b>');
+                            }
+                            eventContainer.setLoading(false);
+                        } else {
+                            eventCmp.update('<b>/proc/completed/ does not return stdout</b>');
+                            eventContainer.setLoading(false);
+                        }
+
+                    },
+                    function(response) {
+                        eventCmp.update('<b>Event log loading failed with status ' + response.status + '</b>');
+                        eventContainer.setLoading(false);
+                    })
         })
             .failure(function(response) {
-            console.assert(response.status === 403);
-            eventCmp.update('<b>Event log loading failed with status ' + response.status + '</b>');
-            eventContainer.setLoading(false);
+                console.assert(response.status === 403);
+                eventCmp.update('<b>Event log loading failed with status ' + response.status + '</b>');
+                eventContainer.setLoading(false);
         });
     },
     _loadRunningServices: function() {
@@ -50,6 +72,7 @@ Ext.define('Onc.view.tabs.DashboardTab', {
 
         Onc.core.Backend.request('GET', 'machines/?depth=3&attrs=diskspace,memory,__type__')
             .success(function(response) {
+
             var physServers = 0;
             var physCloudServers = 0;
             var physHACloudServers = 0;
@@ -99,12 +122,12 @@ Ext.define('Onc.view.tabs.DashboardTab', {
     _loadPendingAction: function() {
         var pendingActionsContainer = this.down('#pending-actions-container');
         pendingActionsContainer.setLoading(true);
-        
+
         var pendingActionsCmp = this.down("#pending-actions");
         Onc.core.Backend.request('GET', 'proc/?depth=1')
             .success(function(response){
-                
-                
+
+
                 pendingActionsContainer.setLoading(false);
             })
             .failure(function(response){
@@ -130,7 +153,7 @@ Ext.define('Onc.view.tabs.DashboardTab', {
                     }
                 }
                 msg += '</ul>';
-                
+
                 runningTasksCmp.update(msg);
                 runningTasksContainer.setLoading(false);
             })
@@ -149,7 +172,7 @@ Ext.define('Onc.view.tabs.DashboardTab', {
                 type: 'hbox',
                 align: 'stretch'
             },
-            
+
 //            minHeight: 200,
             defaults: {
 //                minWidth: 250,
@@ -206,7 +229,7 @@ Ext.define('Onc.view.tabs.DashboardTab', {
                         }]
                     },{
                         xtype: 'displayfield',
-                        itemId: 'pending-actions',
+                        itemId: 'pending-actions'
                     }]
                 },{
                     title: 'Running tasks',
@@ -226,7 +249,7 @@ Ext.define('Onc.view.tabs.DashboardTab', {
                         }]
                     },{
                         xtype: 'displayfield',
-                        itemId: 'running-tasks',
+                        itemId: 'running-tasks'
                     }]
                 }]
             }, {
@@ -259,7 +282,7 @@ Ext.define('Onc.view.tabs.DashboardTab', {
                         }]
                     }, {
                         xtype: 'displayfield',
-                        itemId: 'latest-events',
+                        itemId: 'latest-events'
                     }]
                 }]
             }]
@@ -271,5 +294,5 @@ Ext.define('Onc.view.tabs.DashboardTab', {
         var wrapEnd = '</div>';
         return wrapStart + html + wrapEnd;
     }
-    
+
 });

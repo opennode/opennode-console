@@ -44,6 +44,7 @@ Ext.syncRequire([
 
     'Onc.core.util.Deferred',
     'Onc.core.util.Scheduler',
+    'Onc.core.util.Completer',
 
     'Onc.core.hub.Hub',
     'Onc.core.hub.Subscription',

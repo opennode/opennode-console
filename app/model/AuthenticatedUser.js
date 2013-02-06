@@ -7,7 +7,13 @@ Ext.define('Onc.model.AuthenticatedUser', {
 
     parseIdCommand: function(response) {
         //Sample input: user: opennode\ngroups: admins\neffective_principals: opennode admins\n
-        var creds = response.stdout[0].split('\n');
+        var creds ='';
+        //TODO remove this if when stout returns will be implemented
+        if(response.stdout != undefined) {
+            creds = response.stdout[0].split('\n');
+        } else {
+            creds = "user: admin\ngroups: admins\neffective_principals: opennode admins\n".split('\n');
+        }
         this.username = creds[0].split(': ')[1];
         this.groups = creds[1].split(': ')[1].split(' ');
     },

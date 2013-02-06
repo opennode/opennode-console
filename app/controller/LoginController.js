@@ -1,6 +1,6 @@
 Ext.define('Onc.controller.LoginController', {
     extend: 'Ext.app.Controller',
-    require: 'Onc.model.AuthenticatedUser',
+    require: ['Onc.model.AuthenticatedUser', 'Onc.core.util.Completer'],
 
     views: ['LoginWindow', 'Viewport'],
 
@@ -50,10 +50,22 @@ Ext.define('Onc.controller.LoginController', {
         // XXX Needs refactoring once a more elegant role reporting is implemented, possibly as art 
         // make a query to get user roles
         var me = this;
-        Onc.core.Backend.request('PUT', 'bin/id')
+        var myMask = new Ext.LoadMask(Ext.getBody(), {msg:"Loading..."});
+        myMask.show();
+        Onc.core.Backend.request('PUT', 'bin/id?asynchronous=1')
             .success(function(response) {
-                Onc.model.AuthenticatedUser.parseIdCommand(response);
-                me._onRoleKnown();
+                var c = new Onc.core.util.Completer();
+                c.callAndCheck(response.pid,
+                    function(response) {
+                        Onc.model.AuthenticatedUser.parseIdCommand(response);
+                        me._onRoleKnown();
+                        myMask.hide();
+                    },
+                    function(response) {
+                        Ext.MessageBox.alert('Status', 'Login failed');
+                        myMask.hide();
+                       me._login();
+                    })
             })
             .failure(function(response) {
                 console.assert(response.status === 403);
