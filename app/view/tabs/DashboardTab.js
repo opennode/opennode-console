@@ -32,8 +32,8 @@ Ext.define('Onc.view.tabs.DashboardTab', {
                 c.callAndCheck(response.pid,
                     function(response) {
                         //TODO remove this if when stdout will be implemented
-                        if (response.stdout != undefined) {
-                            var stdout = response.stdout[0];
+                        if (response.responseText != undefined) {
+                            var stdout = JSON.parse(response.responseText).stdout[0];
                             if (stdout) {
                                 var logs = stdout.split('\n');
                                 var msg = '<ol>';
@@ -98,7 +98,6 @@ Ext.define('Onc.view.tabs.DashboardTab', {
                 }
             }
 
-
             var msg = '<ol>';
             msg += '<li><strong>' + physServers + '</strong> physical servers</li>';
             msg += '<ul>';
@@ -119,23 +118,7 @@ Ext.define('Onc.view.tabs.DashboardTab', {
             resourceContainer.setLoading(false);
         });
     },
-    _loadPendingAction: function() {
-        var pendingActionsContainer = this.down('#pending-actions-container');
-        pendingActionsContainer.setLoading(true);
 
-        var pendingActionsCmp = this.down("#pending-actions");
-        Onc.core.Backend.request('GET', 'proc/?depth=1')
-            .success(function(response){
-
-
-                pendingActionsContainer.setLoading(false);
-            })
-            .failure(function(response){
-                console.assert(response.status === 403);
-                pendingActionsCmp.update('<b>Detecting available resources failed: ' + response.status + '</b>');
-                pendingActionsContainer.setLoading(false);
-            });
-    },
     _loadRunningTasks: function() {
         var runningTasksContainer = this.down('#running-tasks-container');
         runningTasksContainer.setLoading(true);
@@ -148,7 +131,7 @@ Ext.define('Onc.view.tabs.DashboardTab', {
                     var task = tasks[i];
                     if(task.__type__ == 'Task'){
                         msg += '<li>';
-                        msg +='command: ' + task.cmdline;
+                        msg += task.id + ': ' + task.cmdline;
                         msg += '</li>';
                     }
                 }
@@ -159,7 +142,7 @@ Ext.define('Onc.view.tabs.DashboardTab', {
             })
             .failure(function(response){
                 console.assert(response.status === 403);
-                runningTasksCmp.update('<b>Detecting available resources failed: ' + response.status + '</b>');
+                runningTasksCmp.update('<b>Detecting running tasks has failed: ' + response.status + '</b>');
                 runningTasksContainer.setLoading(false);
             });
     },
@@ -211,27 +194,7 @@ Ext.define('Onc.view.tabs.DashboardTab', {
                         xtype: 'displayfield',
                         itemId: 'running-services'
                     }]
-                },{
-                    title: 'Pending actions',
-                    itemId: 'pending-actions-container',
-                    defaults: {
-                        xtype: 'container',
-                        padding: 5
-                    },
-                    items: [{
-                        xtype: 'toolbar',
-                        items: [
-                            '->', {
-                            text: 'Refresh',
-                            handler: function() {
-                                me._loadPendingAction();
-                            }
-                        }]
-                    },{
-                        xtype: 'displayfield',
-                        itemId: 'pending-actions'
-                    }]
-                },{
+                }, {
                     title: 'Running tasks',
                     itemId: 'running-tasks-container',
                     defaults: {
