@@ -10,6 +10,7 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
 
     computeId: null,
     enableBorders: false,
+    disableHost: true,
 
     initComponent: function() {
         this.addEvents('start', 'graceful', 'details', 'edit', 'host');
@@ -37,7 +38,9 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
             });
             buttons[buttons.length] = this._makeButton('edit', "Edit", "Edit machine", false);
             
-            buttons[buttons.length] = this._makeButton('host', "Host", "Go to host", false);
+            if(!this.disableHost){
+                buttons[buttons.length] = this._makeButton('host', "Host", "Go to host", false);
+            }
         }
         this.items = buttons;
 

@@ -25,6 +25,7 @@ Ext.define('Onc.view.tabs.SystemTab', {
                     margin: '0 3 0 0'
                 },
                 disableDetails: true,
+                disableHost: false,
                 compute: rec
             }), {
                 xtype: 'container',
