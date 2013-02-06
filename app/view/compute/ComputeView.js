@@ -6,13 +6,14 @@ Ext.define('Onc.view.compute.ComputeView', {
     ],
 
     iconCls: 'icon-system',
-    layout: {type: 'vbox', align: 'stretch'},
+    layout: 'auto',
+    style: 'height: auto;',
 
     _makeTab: function(title, type) {
         var tab = {
                 title: title,
                 xtype: 'compute{0}tab'.format(type),
-                itemId: '{0}tab'.format(type),
+                itemId: '{0}tab'.format(type)
             };
         if (type === 'shell') {
             tab['shellConfig'] = {
@@ -69,18 +70,23 @@ Ext.define('Onc.view.compute.ComputeView', {
                       rec.get('ipv4_address') + '<br/>' +
                       rec.get('type'))
         };
-
         this.items = [{
             xtype: 'computeheader',
-            record: rec
+            record: rec,
+            style: 'height: auto; '
         }, {
             flex: 1,
             xtype: 'tabpanel',
             itemId: 'tabs',
-            defaults: {record: rec},
+            defaults: {
+                record: rec,
+                layout: 'auto',
+                style: 'height: 100%; '
+            },
+            style: 'height: 100%; ',
             items: [],
             plain: true,
-            bodyStyle: 'background: inherit',
+            bodyStyle: 'background: inherit;'
         }];
 
         this.callParent(arguments);

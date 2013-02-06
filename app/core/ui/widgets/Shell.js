@@ -15,6 +15,7 @@ Ext.define('Onc.core.ui.widgets.Shell', {
             setTimeout(function() {
                 me._shell = new ShellInABox(me.url, me.el.dom);
                 me._shell.indicateSize = true;
+                me._shell.isEmbedded= true;
             }, 100);
         },
         'resize': function() {
@@ -28,4 +29,4 @@ Ext.define('Onc.core.ui.widgets.Shell', {
                 this._shell.focusCursor();
         }
     }
-})
+}) ;

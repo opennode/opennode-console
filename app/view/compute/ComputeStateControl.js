@@ -16,7 +16,9 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
         this.addEvents('start', 'graceful', 'details', 'edit', 'host');
 
         this.computeId = this.compute.get('id');
-
+        this.defaults = {
+            style: 'position: relative !important; float: left;'
+        };
         var buttons = [
             this._makeButton('start', "Start", "Start machine", true, {
                 title: 'Starting a VM',
@@ -60,7 +62,6 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
             xtype: 'button',
             scale: 'large',
             itemId: '{0}-button'.format(name),
-            scale: 'large',
             icon: 'img/icon/computestatecontrol/{0}.png'.format(name),
             iconAlign: 'top',
             tooltip: tooltip,

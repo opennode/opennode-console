@@ -3,6 +3,7 @@
 @import "loader";
 @import "gauge";
 @import "vmmap";
+@import "shell";
 
 $ICON-PREFIX: "../img/icon/";
 @function ico($name) {
