@@ -11,6 +11,7 @@ Ext.define('Onc.view.tabs.VmListTab', {
     forceFit: true,
     multiSelect: true,
     header: false,
+    resizable: false,
 
     viewConfig: {
         getRowClass: function(record) {
@@ -41,12 +42,12 @@ Ext.define('Onc.view.tabs.VmListTab', {
                         getType: function(ctype, shortver){
                             return Onc.model.Compute.getType(ctype, shortver);
                         }
-                    }), width: 35},
-            {header: 'Name', dataIndex: 'hostname', width: 75, editor: {xtype: 'textfield', allowBlank: false}},
-            {header: 'Inet4', dataIndex: 'ipv4_address', editor: {xtype: 'textfield', allowBlank: true}},
-            {header: 'Inet6', dataIndex: 'ipv6_address', editor: {xtype: 'textfield', allowBlank: true}},
+                    }), width: 35, resizable: false},
+            {header: 'Name', dataIndex: 'hostname', width: 75, editor: {xtype: 'textfield', allowBlank: false}, resizable: false},
+            {header: 'Inet4', dataIndex: 'ipv4_address', width: 60, editor: {xtype: 'textfield', allowBlank: true}, resizable: false},
+            {header: 'Inet6', dataIndex: 'ipv6_address', width: 60, editor: {xtype: 'textfield', allowBlank: true}, resizable: false},
 
-            {header: 'actions', renderer:
+            {header: 'actions', resizable: false, renderer:
                 makeColumnRenderer(this._computeStateRenderer.bind(this))
             },
 
@@ -54,9 +55,9 @@ Ext.define('Onc.view.tabs.VmListTab', {
             this._makeGaugeColumn('Memory usage', 'memory', 'MB'),
             this._makeGaugeColumn('Disk usage', 'diskspace', 'MB'),
 
-            {header: 'ID', dataIndex: 'id', width: 130, hidden: true}
+            {header: 'ID', dataIndex: 'id', width: 130, resizable: false, hidden: true}
         ];
-
+        
         this.callParent(arguments);
     },
 
@@ -131,6 +132,7 @@ Ext.define('Onc.view.tabs.VmListTab', {
             width: 85,
             align: 'center',
             dataIndex: 'id',
+            resizable: false,
             renderer: makeColumnRenderer(function(domId, _, _, rec) {
                 var gaugeKey = 'gauge-' + rec.get('id') + '-' + label;
                 this._addToContainer(gaugeKey, domId, function(){
