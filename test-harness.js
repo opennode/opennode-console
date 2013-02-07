@@ -57,7 +57,6 @@ Harness.start(
 					items: [
 	
 					        'tests/administrator/030_VMmanagement/030_add_VM.t.js',
-					        'tests/administrator/030_VMmanagement/031_delete_VM.t.js',
 					        'tests/administrator/030_VMmanagement/login.t.js'
 					        ]
 				}

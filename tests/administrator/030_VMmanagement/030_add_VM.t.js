@@ -90,9 +90,48 @@ StartTest(function (t) {
 								
 								t.is(rowsAfter,rowsBefore+1,"New VM is created");
 								
-								var lastRow = document.querySelector('.x-grid-table').getElementsByTagName("tr").length;;
-								var name = document.querySelector('div.x-grid-view>table>tbody>tr:nth-child(' + lastRow + ')>td:nth-child(2)>div').innerHTML;
+								var lastRow = document.querySelector('.x-grid-table').getElementsByTagName("tr").length;
+								var name = document.querySelector('tr:nth-child(' + lastRow + ')>td:nth-child(2)>div').innerHTML;
 								t.is(name,"oms.autotest","New VM hostname match new created one 'oms.autotest'");
+								next();
+							},
+							
+							function(next){
+								var lastRow = document.querySelector('.x-grid-table').getElementsByTagName("tr").length;
+								t.diag("3 step: Delete new created VM");
+								var stopVM = document.querySelector('tr:nth-child('+ lastRow +') td:nth-child(5) button[data-qtip="Start machine"]');
+								var nameVM = document.querySelector('tr:nth-child(' + lastRow + ')>td:nth-child(2)>div').innerHTML;
+								
+								//
+								
+								if(nameVM=="oms.autotest"){
+									if(stopVM!=null){
+										t.type('tr:nth-child('+ lastRow +') td:nth-child(5) button[data-qtip="Delete machine"]','[ENTER]',next);
+										}
+								} else
+									t.diag("There is no VM with name oms.autotest or this machine is started");
+							},
+							
+							function(next){
+								t.type('span:contains("Yes")','[ENTER]',next);
+							},
+							
+							function(next){
+								t.chain(
+										{
+											waitFor : 7000
+										},
+										next
+								);
+							},
+							
+							function(next){
+								// Count table rows without header
+								rowsBefore = rowsAfter;
+								rowsAfter =  countRows('.x-grid-table');
+								t.diag('VM list now has ' + rowsAfter + ' before had ' + rowsBefore + ' VMs.');
+								t.is(rowsAfter,rowsBefore-1,"VM was deleted");
+
 								next();
 							}
 							

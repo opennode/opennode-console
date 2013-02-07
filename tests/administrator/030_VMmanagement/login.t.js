@@ -22,6 +22,13 @@ StartTest(function (t) {
 							function(next){
 								clickEl(t,".descr", next);
 							},
+							function(next){
+								// Select VMs tab
+								t.diag("2 step: Select VMs tab");
+								var elem = Ext.get(".x-tab-inner"); 
+								console.log(elem);
+								next();
+							},
 							function(){
 //								var omsShellTab = Ext.ComponentQuery.query("#oms-shell");
 //								var omsShellTabItem = Ext.get(omsShellTab).item(0);
@@ -32,7 +39,8 @@ StartTest(function (t) {
 //								console.log(vmMapTabItem.dom.tab.el.dom);
 								
 
-								console.log(Ext.get(Ext.ComponentQuery.query("#tabpanel-1034")));
+								
+//								console.log(Ext.get(Ext.ComponentQuery.query("#tabpanel-1034")));
 								
 																
 //								var vm = Ext.ComponentQuery.query("#search-results");
