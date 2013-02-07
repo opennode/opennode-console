@@ -2,16 +2,16 @@ Ext.define('Onc.view.tabs.VmListTab', {
     extend: 'Ext.grid.Panel',
     alias: 'widget.computevmlisttab',
 
-    layout: 'fit',
+//    layout: 'fit',
 
     _cellComponentMap: null,   // map of reusable components
     _cellContainerMap: null,   // map of containers
 
     title: "Virtual Machines",
-    forceFit: true,
+//    forceFit: true,
     multiSelect: true,
     header: false,
-    resizable: false,
+//    resizable: true,
 
     viewConfig: {
         getRowClass: function(record) {
@@ -42,12 +42,12 @@ Ext.define('Onc.view.tabs.VmListTab', {
                         getType: function(ctype, shortver){
                             return Onc.model.Compute.getType(ctype, shortver);
                         }
-                    }), width: 35, resizable: false},
-            {header: 'Name', dataIndex: 'hostname', width: 75, editor: {xtype: 'textfield', allowBlank: false}, resizable: false},
-            {header: 'Inet4', dataIndex: 'ipv4_address', width: 60, editor: {xtype: 'textfield', allowBlank: true}, resizable: false},
-            {header: 'Inet6', dataIndex: 'ipv6_address', width: 60, editor: {xtype: 'textfield', allowBlank: true}, resizable: false},
+                    }), width: 75},
+            {header: 'Name', dataIndex: 'hostname', width: 100,flex: 1, editor: {xtype: 'textfield', allowBlank: false}},
+            {header: 'Inet4', dataIndex: 'ipv4_address', width: 120, editor: {xtype: 'textfield', allowBlank: true}},
+            {header: 'Inet6', dataIndex: 'ipv6_address', width: 120, editor: {xtype: 'textfield', allowBlank: true}},
 
-            {header: 'actions', resizable: false, renderer:
+            {header: 'actions', flex: 1, width: 75, renderer:
                 makeColumnRenderer(this._computeStateRenderer.bind(this))
             },
 
@@ -55,7 +55,7 @@ Ext.define('Onc.view.tabs.VmListTab', {
             this._makeGaugeColumn('Memory usage', 'memory', 'MB'),
             this._makeGaugeColumn('Disk usage', 'diskspace', 'MB'),
 
-            {header: 'ID', dataIndex: 'id', width: 130, resizable: false, hidden: true}
+            {header: 'ID', dataIndex: 'id', width: 130, hidden: true}
         ];
         
         this.callParent(arguments);
@@ -129,7 +129,7 @@ Ext.define('Onc.view.tabs.VmListTab', {
     _makeGaugeColumn: function(label, name, unit) {
         return {
             header: label,
-            width: 85,
+            width: 150,
             align: 'center',
             dataIndex: 'id',
             resizable: false,
@@ -147,12 +147,12 @@ Ext.define('Onc.view.tabs.VmListTab', {
             return Ext.create('Onc.core.ui.components.MemoryGauge', {
                 border: false,
                 compute: rec,
-                unit: 'MB',
+                unit: 'MB'
             });
         else if(name === 'cpu')
             return Ext.create('Onc.core.ui.components.CPUGauge', {
                 border: false,
-                compute: rec,
+                compute: rec
             });
         else if(name === 'diskspace')
             return Ext.create('Onc.core.ui.components.DiskGauge', {

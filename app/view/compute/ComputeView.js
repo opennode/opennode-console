@@ -6,8 +6,8 @@ Ext.define('Onc.view.compute.ComputeView', {
     ],
 
     iconCls: 'icon-system',
-    layout: 'auto',
-    style: 'height: auto;',
+    layout: { type: 'vbox', align: 'stretch' },
+//    style: 'height: auto;',
 
     _makeTab: function(title, type) {
         var tab = {
@@ -72,18 +72,20 @@ Ext.define('Onc.view.compute.ComputeView', {
         };
         this.items = [{
             xtype: 'computeheader',
-            record: rec,
-            style: 'height: auto; '
+            record: rec
+//            style: 'height: auto; '
         }, {
             flex: 1,
             xtype: 'tabpanel',
             itemId: 'tabs',
             defaults: {
                 record: rec,
-                layout: 'auto',
-                style: 'height: 100%; '
+                layout: {type: 'vbox', align: 'stretch' },
+                region: 'center'
+
+//                style: 'height: 100%; '
             },
-            style: 'height: 100%; ',
+//            style: 'height: 100%; ',
             items: [],
             plain: true,
             bodyStyle: 'background: inherit;'

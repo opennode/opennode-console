@@ -3,6 +3,7 @@ Ext.define('Onc.view.tabs.DashboardTab', {
     alias: 'widget.computedashboardtab',
     require: 'Onc.core.util.Completer',
 
+    autoScroll: true,
     bodyPadding: 0,
     layout: 'fit',
     border: true,
@@ -158,14 +159,14 @@ Ext.define('Onc.view.tabs.DashboardTab', {
 
 //            minHeight: 200,
             defaults: {
-//                minWidth: 250,
+                minWidth: 150
 //                minHeight: 200
             },
             items: [{
                 xtype: 'container',
                 layout: {
                     type: 'vbox',
-                    align: 'stretch',
+                    align: 'stretch'
 //                    pack: 'start'
                 },
                 width: '50%',
@@ -221,7 +222,6 @@ Ext.define('Onc.view.tabs.DashboardTab', {
                     type: 'vbox',
                     align: 'stretch'
                 },
-                autoScroll: true,
                 width: '50%',
                 defaults: {
                     xtype: 'fieldset',
