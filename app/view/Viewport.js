@@ -133,5 +133,14 @@ Ext.define('Onc.view.Viewport', {
             closable: false,
             xtype: 'computevmmaptab'
         }])
+    },{
+        region: 'south',
+        xtype: 'container',
+        border: false,
+        height: 1,
+        plain: true,
+        preventHeader: true,
+        bodyStyle: 'background: inherit',
+        items: []
     }]
 });
