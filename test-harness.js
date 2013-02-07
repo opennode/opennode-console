@@ -41,21 +41,40 @@ Harness.start(
 		        ]
 	},
 	{
-
-		group: 'Visible elements',
+		group: 'Administrator',
 		items: [
+		        
+		    	{
 
-		        'tests/020_visibility/020_admin_tabs_buttons.t.js',
-		        'tests/020_visibility/021_user_tabs_buttons.t.js'
+		    		group: 'Visible elements',
+		    		items: [
+
+		    		        'tests/administrator/020_visibility/020_admin_tabs_buttons.t.js'
+		    		        ]
+		    	},
+				{
+		    		group: 'VM management',
+					items: [
+	
+					        'tests/administrator/030_VMmanagement/030_add_VM.t.js',
+					        'tests/administrator/030_VMmanagement/031_delete_VM.t.js',
+					        'tests/administrator/030_VMmanagement/login.t.js'
+					        ]
+				}
 		        ]
 	},
 	{
-
-		group: 'VM management',
+		group: 'User',
 		items: [
+		        
+		    	{
 
-		        'tests/030_VMmanagement/030_add_VM.t.js',
-		        'tests/030_VMmanagement/031_delete_VM.t.js'
+		    		group: 'Visible elements',
+		    		items: [
+
+		    		        'tests/user/020_visibility/021_user_tabs_buttons.t.js'
+		    		        ]
+		    	}
 		        ]
 	}
 );
