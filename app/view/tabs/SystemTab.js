@@ -7,7 +7,7 @@ Ext.define('Onc.view.tabs.SystemTab', {
         margin: '5 5 5 10'
     },
     autoScroll: true,
-
+    layout : {type : 'vbox', align: 'stretch'},
     envTags: ['label:Infrastructure', 'label:Staging', 'label:Development', 'label:Production'],
 
 
@@ -91,7 +91,7 @@ Ext.define('Onc.view.tabs.SystemTab', {
                         rec.save();
                     }.bind(this)
                 }
-            }],
+            }]
         }];
 
         this._uptimeUpdateInterval = setInterval(function() {
@@ -162,6 +162,6 @@ Ext.define('Onc.view.tabs.SystemTab', {
         }
 
         return gaugeItems;
-    },
+    }
 
 });
