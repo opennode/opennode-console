@@ -61,11 +61,12 @@ Ext.define('Onc.view.tabs.SystemTab', {
                 {html: 'ID'}, {style: "font-weight: bold", html: rec.getId()}]
         }, {
             title: "Metrics",
-            layout: {type: 'table', columns: 2},
+            layout: {type: 'auto'},
             frame: true,
             padding: '10 0 0 10',
             defaults: {
-                width: 250,
+                style: 'position: relative !important; float: left;',
+                width: 260,
                 margin: '0 10 10 0'
             },
             items: this._createGaugeItems()
