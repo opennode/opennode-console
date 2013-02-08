@@ -3,9 +3,8 @@ Ext.define('Onc.view.tabs.ShellTab', {
     alias: 'widget.computeshelltab',
 
     layout: 'fit',
-    forceFit: true,
     bodyPadding: 0,
-//    style: 'height: auto; min-height: 40px;',
+
     initComponent: function () {
         this.items = [
             {

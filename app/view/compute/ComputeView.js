@@ -79,9 +79,8 @@ Ext.define('Onc.view.compute.ComputeView', {
             xtype: 'tabpanel',
             itemId: 'tabs',
             defaults: {
-                record: rec,
-                layout: {type: 'vbox', align: 'stretch' },
-                region: 'center'
+                record: rec//,
+//                layout: {type: 'vbox', align: 'stretch' }
 
 //                style: 'height: 100%; '
             },
