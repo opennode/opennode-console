@@ -42,7 +42,7 @@ Ext.define('Onc.view.tabs.NetworkTab', {
                              store: Ext.create('BridgeMembersStore', {
                                  data: memberData,
                                  parentRecord: rec
-                             }),
+                             })
                          });
                      }, 0);
                      return Ext.String.format('<div id="{0}"></div>', id);
