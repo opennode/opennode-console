@@ -119,6 +119,11 @@ Ext.define('Onc.model.Compute', {
         return true;
     },
 
+    isDeployed: function() {
+        var features = this.get('features');
+        return Onc.model.Compute.containsDeployedFeature(features);
+    },
+
     loadParent: function(successCb, failureCb) {
         // we assume that physical computes don't have any parents
         if (!this.isPhysical()) {
@@ -131,6 +136,18 @@ Ext.define('Onc.model.Compute', {
     },
 
     statics: {
+        isDeployed: function(jsonRecord) {
+            return Onc.model.Compute.containsDeployedFeature(jsonRecord['features']);
+        },
+
+        containsDeployedFeature: function(features) {
+            for(var i = 0; i < features.length; i++){
+                if(features[i] === 'IDeployed')
+                    return true;
+            };
+            return false;
+        },
+
         extractParentId: function(vmId) {
             return vmId.split('/')[2];
         },

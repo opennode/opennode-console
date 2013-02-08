@@ -101,16 +101,21 @@ Ext.define('Onc.core.hub.Sync', {
             var deletions = new Array();
             var additions = {};
             var stateChanges = {};
+            var featureChanges = {};
             for (var i = 0; i < updates.length; i += 1) {
                 var update = updates[i][1];
                 var name = update['name'];
                 var event = update['event'];
                 if (event === 'change'){
                     attrChanges[name] = update['value'];
-                    if(name === 'state'){
+                    if (name === 'state'){
                         var res = url.split('/');
                         var computeId = res[res.length-2];
                         stateChanges[computeId] = update['value'];
+                    } else if (name === 'features') {
+                        var res = url.split('/');
+                        var computeId = url.split('/')[res.length-2];
+                        featureChanges[computeId] = update['value'];
                     }
                 }
                 else if (event === 'remove')
@@ -138,7 +143,10 @@ Ext.define('Onc.core.hub.Sync', {
                 this._addRecords(additions);
             // handle computes state changes
             if(stateChanges)
-                this._stateChanges(stateChanges);
+                this._processChanges('computeStateChanged', stateChanges);
+            // handle changed compute feature set
+            if (featureChanges)
+                this._processChanges('computeFeaturesChanged', featureChanges);
         }
     },
 
@@ -178,9 +186,10 @@ Ext.define('Onc.core.hub.Sync', {
         }
     },
 
-    _stateChanges: function(stateChanges){
-        for (var itemId in stateChanges) {
-            Onc.core.EventBus.fireEvent('computeStateChanged', itemId, stateChanges[itemId]);
+    _processChanges: function(signalName, changes) {
+        for (var itemId in changes) {
+            Onc.core.EventBus.fireEvent(signalName, itemId, changes[itemId]);
         }
     }
+
 });

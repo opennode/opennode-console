@@ -11,12 +11,17 @@ Ext.define('Onc.controller.ComputeController', {
 
     busListeners: {
         computeAdd: function(vm){
+            if (!vm.isDeployed()) {
+                // we ignore such VMs in ONC display
+                return;
+            }
             this.fireBusEvent('displayNotification', 'New Virtual Machine created');
             vm.loadParent(
                 function(hn){
                     vmList = this._getVMListCmp(hn.get('id'));
-                    if(vmList)
+                    if (vmList && vmList.getStore().indexOf(vm) == -1) {
                         vmList.getStore().add(vm);
+                    }
                 }.bind(this),
                 function(operation){
                     console.error('Error while loading parent: ', operation);
@@ -42,9 +47,24 @@ Ext.define('Onc.controller.ComputeController', {
             if (tab && tab.computeId === computeId) {
                 tab.updateTabs();
             }
+        },
+
+        computeFeaturesChanged: function(computeId, newFeatures) {
+            var isNowDeployed = Onc.model.Compute.containsDeployedFeature(newFeatures);
+            Ext.getStore('ComputesStore').loadById(computeId,
+                function(compute) {
+                    if (compute.isDeployed() && !isNowDeployed)
+                        Onc.core.EventBus.fireEvent('computeRemove', compute.get('id'), compute.get('url'));
+                    else if (isNowDeployed)
+                        Onc.core.EventBus.fireEvent('computeAdd', compute);
+                },
+                function(error) {
+                    console.error('Error while loading data: ', error);
+                    return;
+                }
+            );
         }
     },
-
 
     init: function() {
         var computeManager = Onc.core.manager.ComputeManager;
@@ -70,7 +90,6 @@ Ext.define('Onc.controller.ComputeController', {
             }
         });
     },
-
 
     _getVMListCmp: function(hnId){
         var tabPanel = this.getTabs();

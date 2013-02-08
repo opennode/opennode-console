@@ -96,7 +96,6 @@ Ext.define('Onc.core.manager.ComputeManager', {
 
 
     // TODO: move to abstract Manager class
-
     fireBusEvent: function(eventName, args) {
         Onc.core.EventBus.fireEvent(eventName, args);
     }
