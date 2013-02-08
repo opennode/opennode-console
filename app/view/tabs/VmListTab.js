@@ -43,11 +43,10 @@ Ext.define('Onc.view.tabs.VmListTab', {
                             return Onc.model.Compute.getType(ctype, shortver);
                         }
                     }), width: 75},
-            {header: 'Name', dataIndex: 'hostname', width: 100,flex: 1, editor: {xtype: 'textfield', allowBlank: false}},
+            {header: 'Name', dataIndex: 'hostname', width: 100, flex: 0, editor: {xtype: 'textfield', allowBlank: false}},
             {header: 'Inet4', dataIndex: 'ipv4_address', width: 120, editor: {xtype: 'textfield', allowBlank: true}},
-            {header: 'Inet6', dataIndex: 'ipv6_address', width: 120, editor: {xtype: 'textfield', allowBlank: true}},
 
-            {header: 'actions', flex: 1, width: 75, renderer:
+            {header: 'actions', width: 165, flex: 0, renderer:
                 makeColumnRenderer(this._computeStateRenderer.bind(this))
             },
 
