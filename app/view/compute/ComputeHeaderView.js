@@ -14,7 +14,7 @@ Ext.define('Onc.view.compute.ComputeHeaderView', {
         this.defaults = {
             style: 'position: relative !important; float: left;',
 
-            margin: '0 5px',
+            margin: '5px',
             width: 200,
             border: true
         };
