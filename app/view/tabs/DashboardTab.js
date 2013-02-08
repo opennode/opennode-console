@@ -169,6 +169,8 @@ Ext.define('Onc.view.tabs.DashboardTab', {
                     align: 'stretch'
 //                    pack: 'start'
                 },
+                autoScroll: true,
+
                 width: '50%',
                 defaults: {
                     xtype: 'fieldset',
@@ -222,6 +224,8 @@ Ext.define('Onc.view.tabs.DashboardTab', {
                     type: 'vbox',
                     align: 'stretch'
                 },
+                autoScroll: true,
+//                layout : 'fit',
                 width: '50%',
                 defaults: {
                     xtype: 'fieldset',
