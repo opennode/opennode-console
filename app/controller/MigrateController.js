@@ -58,7 +58,6 @@ Ext.define('Onc.controller.MigrateController', {
             var url = "/machines/{0}/vms/{1}?attrs=status".format(options.srcMachineId, options.computeId);
             Onc.core.Backend.request('GET', url, {successCodes: [404]}, {
                 success: function(response) {
-                    console.log('verifying migrated vm', url, reponse)
                     // if we see VM in it's previous location, it's a failure, no need to redraw.
                     myMask.hide();
                     Ext.MessageBox.alert('Status', 'Node migration has failed');
