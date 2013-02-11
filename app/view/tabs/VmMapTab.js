@@ -687,7 +687,7 @@ Ext.define('Onc.view.tabs.VmMapTab', {
                             srcHost: data.sourceRec.get('hostname'),
                             destHost: targetRec.get('hostname'),
                             nodeName: nodeName,
-                            vmState: targetRec.get('state'),
+                            vmIsInactive: Ext.get(data.nodeEl.id).down('span.uptime', true).innerHTML === 'inactive',
                             vmmap: data.vmmap,
                         }
                         Onc.core.EventBus.fireEvent("startMigrate", options);

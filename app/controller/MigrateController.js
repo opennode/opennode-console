@@ -21,8 +21,7 @@ Ext.define('Onc.controller.MigrateController', {
     migrate : function(options) {
         var myMask = new Ext.LoadMask(options.vmmap, {msg:'Migrating {0}. Please wait...'.format(options.nodeName)});
         myMask.show();
-        console.log(options.vmState, options.vmState === 'inactive');
-        var offlineMigration = options.vmState === 'inactive' ? '&offline' : ''; 
+        var offlineMigration = options.vmIsInactive ? '&offline' : ''; 
         var url = '/computes/{0}/actions/migrate?arg=/machines/{1}&asynchronous=1{2}'.format(options.computeId,
                         options.destMachineId, offlineMigration);
         Onc.core.Backend.request('PUT', url, {
