@@ -680,8 +680,6 @@ Ext.define('Onc.view.tabs.VmMapTab', {
                         var computeId = data.nodeEl.id.replace('vmmap-', '');
                         var destMachineId = targetRec.id.replace('Onc.model.Compute-', '');
                         var srcMachineId = data.sourceRec.id.replace('Onc.model.Compute-', '');
-                        console.log(data);
-                        console.log(vmmap);
                         options = {
                             computeId: computeId,
                             destMachineId: destMachineId,
@@ -689,13 +687,11 @@ Ext.define('Onc.view.tabs.VmMapTab', {
                             srcHost: data.sourceRec.get('hostname'),
                             destHost: targetRec.get('hostname'),
                             nodeName: nodeName,
+                            vmState: targetRec.get('state'),
                             vmmap: data.vmmap,
                         }
                         Onc.core.EventBus.fireEvent("startMigrate", options);
                         return true;
-                    } else {
-                        Ext.MessageBox.alert('Status', 'Unable to proceed migration on the same machine');
-                        return false;
                     }
                 }
             });
