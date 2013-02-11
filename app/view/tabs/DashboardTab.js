@@ -156,18 +156,14 @@ Ext.define('Onc.view.tabs.DashboardTab', {
                 type: 'hbox',
                 align: 'stretch'
             },
-
-//            minHeight: 200,
             defaults: {
                 minWidth: 150
-//                minHeight: 200
             },
             items: [{
                 xtype: 'container',
                 layout: {
                     type: 'vbox',
                     align: 'stretch'
-//                    pack: 'start'
                 },
                 autoScroll: true,
 
@@ -225,7 +221,6 @@ Ext.define('Onc.view.tabs.DashboardTab', {
                     align: 'stretch'
                 },
                 autoScroll: true,
-//                layout : 'fit',
                 width: '50%',
                 defaults: {
                     xtype: 'fieldset',
