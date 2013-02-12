@@ -35,6 +35,10 @@ Ext.define('Onc.controller.LoginController', {
 
     _login: function() {
         if (this._viewport){
+            if(this._viewport.getXType() == 'loginwindow'){
+                return; // do nothing
+            }
+            console.log(this._viewport);
             this._viewport.destroy();
         }
         Ext.WindowMgr.each(function(w) {
