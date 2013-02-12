@@ -12,11 +12,27 @@ Ext.define('Onc.controller.LoginController', {
     init: function() {
         Onc.core.Backend.on('loginrequired', this._login.bind(this));
 
-        Onc.core.Backend.request('GET', 'auth')
-            .success(this._onAuth.bind(this))
-            .failure(function(response) {
-                console.assert(response.status === 403);
-            });
+        Onc.core.Backend.request('GET', 'auth', {successCodes: [404]}, {
+            success: function(response) {
+                this._onAuth.bind(this);
+            }.bind(this),
+            failure: function(response) {
+                if (response.status === 502) {
+                   Ext.MessageBox.show({
+                        title        : 'OMS error',
+                        msg          : 'OMS fails to respond. Please, check server status.',
+                        progress     : false,
+                        closable     : false,
+                        buttons: Ext.MessageBox.OK,
+                        buttonText: { ok: 'Reload application' },
+                        icon: Ext.MessageBox.ERROR,
+                        fn: function () {
+                            window.location.reload()
+                        }
+                    });
+                }
+            }.bind(this)
+        });
 
         this.control({
             'loginwindow': {
