@@ -11,10 +11,9 @@ Ext.define('Onc.controller.LoginController', {
 
     init: function() {
         Onc.core.Backend.on('loginrequired', this._login.bind(this));
-
         Onc.core.Backend.request('GET', 'auth', {successCodes: [404]}, {
             success: function(response) {
-                this._onAuth.bind(this);
+                this._onAuth();
             }.bind(this),
             failure: function(response) {
                 if (response.status === 502) {
@@ -31,6 +30,7 @@ Ext.define('Onc.controller.LoginController', {
                         }
                     });
                 }
+                console.log('Authentication error', response);
             }.bind(this)
         });
 

@@ -2,7 +2,7 @@ Ext.define('Onc.controller.MigrateController', {
     extend: 'Ext.app.Controller',
 
     busListeners: {
-           startMigrate : function(options) {
+           startMigrate: function(options) {
                this.showConfirmation(options);
            }
     },

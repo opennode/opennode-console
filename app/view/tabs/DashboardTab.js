@@ -15,7 +15,7 @@ Ext.define('Onc.view.tabs.DashboardTab', {
     _storeLoaded: false,
 
     listeners: {
-        activate: function() {
+        add: function() {
             this._loadRunningServices();
             this._loadRunningTasks();
             this._loadLastEvents();
@@ -32,7 +32,6 @@ Ext.define('Onc.view.tabs.DashboardTab', {
                 var c = new Onc.core.util.Completer();
                 c.callAndCheck(response.pid,
                     function(response) {
-                        //TODO remove this if when stdout will be implemented
                         if (response.responseText != undefined) {
                             var stdout = JSON.parse(response.responseText).stdout[0];
                             if (stdout) {
