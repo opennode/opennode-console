@@ -7,7 +7,7 @@ StartTest(function (t) {
 			function(next){
 				t.chain(
 						{
-							waitFor : 500
+							waitFor : 1000
 						},
 						next
 				);
@@ -20,7 +20,7 @@ StartTest(function (t) {
 					t.chain(
 					   		
 							{
-								waitFor : 4000
+								waitFor : 5000
 							},
 							
 							function(next){
@@ -35,10 +35,9 @@ StartTest(function (t) {
 								var hostButton = Ext.get("infrastructurejoin-button-btnEl"); 
 								t.ok(hostButton==null,"Host management button is not visible");
 								
-								//Verify if OMS Shell tab is not presented
-								var omsShellTab = Ext.ComponentQuery.query("#oms-shell");
-								var omsShellTabItem = Ext.get(omsShellTab).item(0);
-								t.ok(omsShellTabItem==null,"OMS Shell tab is not visible");
+								//Verify if OMS shell button is not presented
+								var omsShellButton = Ext.get("oms-shell-button-btnEl"); 
+								t.ok(omsShellButton==null,"OMS shell button is not visible");
 								
 								//Verify if VM Map tab is not presented
 								var vmMapTab = Ext.ComponentQuery.query("#vmmap");

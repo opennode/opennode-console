@@ -9,7 +9,7 @@ StartTest(function (t) {
 			function(next){
 				t.chain(
 						{
-							waitFor : 500
+							waitFor : 1000
 						},
 						next
 				);
@@ -76,7 +76,7 @@ StartTest(function (t) {
 							function(next){
 								t.chain(
 										{
-											waitFor : 7000
+											waitFor : 15000,
 										},
 										next
 								);
@@ -98,15 +98,16 @@ StartTest(function (t) {
 							
 							function(next){
 								var lastRow = document.querySelector('.x-grid-table').getElementsByTagName("tr").length;
-								t.diag("3 step: Delete new created VM");
-								var stopVM = document.querySelector('tr:nth-child('+ lastRow +') td:nth-child(5) button[data-qtip="Start machine"]');
+								t.diag("7 step: Delete new created VM");
+								var stopVM = document.querySelector('tr:nth-child('+ lastRow +') td:nth-child(4) button[data-qtip="Start machine"]');
+								console.log(stopVM);
 								var nameVM = document.querySelector('tr:nth-child(' + lastRow + ')>td:nth-child(2)>div').innerHTML;
 								
 								//
 								
 								if(nameVM=="oms.autotest"){
 									if(stopVM!=null){
-										t.type('tr:nth-child('+ lastRow +') td:nth-child(5) button[data-qtip="Delete machine"]','[ENTER]',next);
+										t.type('tr:nth-child('+ lastRow +') td:nth-child(4) button[data-qtip="Delete machine"]','[ENTER]',next);
 										}
 								} else
 									t.diag("There is no VM with name oms.autotest or this machine is started");

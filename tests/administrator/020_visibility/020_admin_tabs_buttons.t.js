@@ -7,7 +7,7 @@ StartTest(function (t) {
 			function(next){
 				t.chain(
 						{
-							waitFor : 500
+							waitFor : 1000
 						},
 						next
 				);
@@ -20,7 +20,7 @@ StartTest(function (t) {
 					t.chain(
 					   		
 							{
-									waitFor : 4000
+									waitFor : 5000
 							},
 
 							function(next){
@@ -50,13 +50,22 @@ StartTest(function (t) {
 								var logoutButtonText = Ext.get("logout-button-btnInnerEl"); 
 								t.is(logoutButtonText.dom.textContent, "Log out", "Logout button has correct text 'Log out'");
 								
-								//Verify if OMS Shell tab is presented
-								var omsShellTab = Ext.ComponentQuery.query("#oms-shell");
+								//Verify if OMS shell button is presented
+								var omsShellButton = Ext.get("oms-shell-button-btnEl"); 
+								t.ok(omsShellButton!=null,"OMS shell button is visible");
+								
+								//Verify if OMS shell button has correct text 'OMS Shell'
+								var logoutButtonText = Ext.get("oms-shell-button-btnInnerEl"); 
+								t.is(logoutButtonText.dom.textContent, "OMS Shell", "OMS shell button has correct text 'OMS Shell'");
+								
+								
+								//Verify if Dashboard tab is presented
+								var omsShellTab = Ext.ComponentQuery.query("#dashboard");
 								var omsShellTabItem = Ext.get(omsShellTab).item(0);
-								t.ok(omsShellTabItem!=null,"OMS Shell tab is visible");
+								t.ok(omsShellTabItem!=null,"Dashboard tab is visible");
 								
 								//Verify if OMS Shell tab has correct text 'OMS Shell'
-								t.is(omsShellTabItem.dom.tab.el.dom.textContent, "OMS Shell", "OMS Shell tab has correct text 'OMS Shell'");
+								t.is(omsShellTabItem.dom.tab.el.dom.textContent, "Dashboard", "Dashboard tab has correct text 'Dashboard'");
 
 								//Verify if VM Map tab is presented
 								var vmMapTab = Ext.ComponentQuery.query("#vmmap");

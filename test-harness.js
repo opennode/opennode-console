@@ -3,6 +3,7 @@ var Harness = Siesta.Harness.Browser.ExtJS;
 Harness.configure({
     title: 'ONC Test Suite',
     overrideSetTimeout : false,
+    waitForTimeout : 20000,
 
     preload: [
         "lib/ext-4.1/resources/css/ext-all.css",
@@ -56,8 +57,7 @@ Harness.start(
 		    		group: 'VM management',
 					items: [
 	
-					        'tests/administrator/030_VMmanagement/030_add_VM.t.js',
-					        'tests/administrator/030_VMmanagement/xxx.t.js'
+					        'tests/administrator/030_VMmanagement/030_add_VM.t.js'
 					        ]
 				}
 		        ]
