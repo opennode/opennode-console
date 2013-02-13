@@ -11,7 +11,7 @@ Ext.define('Onc.controller.LoginController', {
 
     init: function() {
         Onc.core.Backend.on('loginrequired', this._login.bind(this));
-        Onc.core.Backend.request('GET', 'auth', {successCodes: [404]}, {
+        Onc.core.Backend.request('GET', 'auth', {
             success: function(response) {
                 this._onAuth();
             }.bind(this),

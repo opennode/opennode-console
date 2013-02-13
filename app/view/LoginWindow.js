@@ -73,28 +73,25 @@ Ext.define('Onc.view.LoginWindow', {
 
                     if (!values['username']) return;
 
+                    button.up('window').setLoading(true);
                     var r = Onc.core.Backend.request('POST', 'auth', {
                         successCodes: [403],
                         jsonData: {
                             'username': values['username'],
                             'password': values['password']
+                        },
+                        success: function(response) {
+                            var window = button.up('window');
+                                if (window) {
+                                    window.destroy();
+                                    window.fireEvent('login', response['token']);
+                                 }
+                        }.bind(this),
+                        failure: function(response) {
+                            var window = button.up('window');
+                            window.setLoading(false);
+                            window.down('#errormsg').setText("Invalid username or password");
                         }
-                    });
-                    
-                    button.up('window').setLoading(true);
-                    
-                    r.success(function(result) {
-                        var window = button.up('window');
-                            if (window) {
-                                window.destroy();
-                                window.fireEvent('login', result['token']);
-                            }
-                    }.bind(this));
-
-                    r.failure(function() {
-                        var window = button.up('window');
-                        window.setLoading(false);
-                        window.down('#errormsg').setText("Invalid username or password");
                     });
                 }.bind(this)
             }
