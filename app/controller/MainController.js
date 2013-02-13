@@ -33,7 +33,8 @@ Ext.define('Onc.controller.MainController', {
                     });
                     tabPanel.add(tab);
                     tabPanel.setActiveTab(tab);
-                },
+                    this.fireBusEvent('computeDisplayed', computeId);
+                }.bind(this),
 
                 function(error) {
                     // TODO: visual display of the error
@@ -43,6 +44,7 @@ Ext.define('Onc.controller.MainController', {
             );
         } else {
             tabPanel.setActiveTab(tab);
+            this.fireBusEvent('computeDisplayed', computeId);
         }
     },
 
@@ -77,10 +79,11 @@ Ext.define('Onc.controller.MainController', {
 
         this.control({
             '#mainTabs': {
-                tabchange: function(tabPanel, newTab) {
-                    var computeId = newTab.computeId;
-                    this.fireBusEvent('computeDisplayed', computeId);
-                }
+//                tabchange: function(tabPanel, newTab) {
+//                    var computeId = newTab.computeId;
+//                    console.log("tab changed to " + computeId);
+//                    this.fireBusEvent('computeDisplayed', computeId);
+//                }
             },
             '#vmmap': {
                 showvmdetails: function(computeId) {
