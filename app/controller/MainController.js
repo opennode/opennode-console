@@ -10,10 +10,23 @@ Ext.define('Onc.controller.MainController', {
 
     openComputeInTab: function(computeId) {
         var tabPanel = this.getTabs();
-        var tab = tabPanel.child('computeview[computeId=' + computeId + ']');
+        var tabId = 'computeview[computeId=' + computeId + ']';
+        var tab = tabPanel.child(tabId);
         if (!tab) {
+            var placeholderTabId = 'dummy-computeview-tab-' + computeId;
+            tab = new Ext.Panel ({
+                id: placeholderTabId,
+                title: 'VM data'
+            });
+            tabPanel.add(tab);
+            tabPanel.setActiveTab(tab);
+            var loadingMask = new Ext.LoadMask(tab, {msg:'Please wait while loading data...'});
+            loadingMask.show();
+
             this.getStore('ComputesStore').loadById(computeId,
                 function(compute) {
+                    loadingMask.hide();
+                    tabPanel.remove(tab);
                     tab = Ext.widget('computeview', {
                         record: compute,
                         computeId: computeId
@@ -21,6 +34,7 @@ Ext.define('Onc.controller.MainController', {
                     tabPanel.add(tab);
                     tabPanel.setActiveTab(tab);
                 },
+
                 function(error) {
                     // TODO: visual display of the error
                     console.error('Error while loading data: ', error);
