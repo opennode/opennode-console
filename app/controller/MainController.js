@@ -20,7 +20,7 @@ Ext.define('Onc.controller.MainController', {
             });
             tabPanel.add(tab);
             tabPanel.setActiveTab(tab);
-            var loadingMask = new Ext.LoadMask(tab, {msg:'Please wait while loading data...'});
+            var loadingMask = new Ext.LoadMask(tab, {msg:'Please wait while loading VM...'});
             loadingMask.show();
 
             this.getStore('ComputesStore').loadById(computeId,
