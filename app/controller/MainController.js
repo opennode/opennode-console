@@ -9,11 +9,15 @@ Ext.define('Onc.controller.MainController', {
     refs: [{ref: 'tabs', selector: '#mainTabs'}],
 
     openComputeInTab: function(computeId) {
+
         var tabPanel = this.getTabs();
         var tabId = 'computeview[computeId=' + computeId + ']';
         var tab = tabPanel.child(tabId);
         if (!tab) {
             var placeholderTabId = 'dummy-computeview-tab-' + computeId;
+            if (tabPanel.child('#' + placeholderTabId)) {
+                return; // placeholder tab already in place
+            }
             tab = new Ext.Panel ({
                 id: placeholderTabId,
                 title: 'VM data'
@@ -33,7 +37,6 @@ Ext.define('Onc.controller.MainController', {
                     });
                     tabPanel.add(tab);
                     tabPanel.setActiveTab(tab);
-                    this.fireBusEvent('computeDisplayed', computeId);
                 }.bind(this),
 
                 function(error) {
