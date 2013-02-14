@@ -29,11 +29,11 @@ Ext.define('Onc.view.NotificationBarView', {
 
 
     displayMessage: function(messageText, messageType){
-        this._clearTimer();
-        this._setMessage(messageText, messageType);
-        this._setTimer();
-
-        this.show();
+        Ext.example.msg('', messageText);
+//        this._clearTimer();
+//        this._setMessage(messageText, messageType);
+//        this._setTimer();
+//        this.show();
     },
 
     hideMessage: function(){
