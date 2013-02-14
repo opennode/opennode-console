@@ -3,6 +3,7 @@ StartTest(function (t) {
 	t.chain(
    		
 			function(next){
+
 				t.chain(
 						{
 							waitFor : 500
@@ -11,26 +12,32 @@ StartTest(function (t) {
 				);
 			},
 			
-			function(next){
-				goon = verifyIfUserIsLoggedIn(t,"admin");
-				if (goon == true){
-
-					t.chain(
-							{
-								waitFor : 4000
-							},
-							function(next){
-								clickEl(t,".descr", next);
-							},
-							{
-								waitFor : 4000
-							},
-							function(next){
-								//Verify if Tasks button has correct text 'Tasks'
-								var taskButtonText = Ext.get("tab-1035");
-								console.log(taskButtonText);
-								next();
-							},
+			function(next) {
+				var loginWindow = Ext.ComponentQuery.query("loginwindow");
+				var loginWindowItem = Ext.get(loginWindow).item(0);
+				console.log(loginWindowItem);
+			}
+//			
+//			function(next){
+//				goon = verifyIfUserIsLoggedIn(t,"admin");
+//				if (goon == true){
+//
+//					t.chain(
+//							{
+//								waitFor : 4000
+//							},
+//							function(next){
+//								clickEl(t,".descr", next);
+//							},
+//							{
+//								waitFor : 4000
+//							},
+//							function(next){
+//								//Verify if Tasks button has correct text 'Tasks'
+//								var taskButtonText = Ext.get("tab-1035");
+//								console.log(taskButtonText);
+//								next();
+//							},
 //							function(next){
 //								// Select VMs tab
 //								t.diag("2 step: Select VMs tab");
@@ -38,7 +45,7 @@ StartTest(function (t) {
 //								console.log(elem);
 //								next();
 //							},
-							function(){
+//							function(){
 //								var omsShellTab = Ext.ComponentQuery.query("#oms-shell");
 //								var omsShellTabItem = Ext.get(omsShellTab).item(0);
 //								t.click(omsShellTabItem.dom.tab.el.dom);
@@ -60,7 +67,7 @@ StartTest(function (t) {
 								
 								//console.log(Ext.ComponentQuery.query("#mainTabs"));
 								//t.ok(omsShellTab==null,"OMS Shell tab is not visible");
-							}
+//							}
 
 //							
 //							function(next){
@@ -96,10 +103,10 @@ StartTest(function (t) {
 //
 //
 //							}
-							
-				    );
-				}
-			}
+//							
+//				    );
+//				}
+//			}
 			
 
 			

@@ -50,7 +50,9 @@ Harness.start(
 		    		group: 'Visible elements',
 		    		items: [
 
+		    		        'tests/administrator/020_visibility/021_negative_authentication.t.js',
 		    		        'tests/administrator/020_visibility/020_admin_tabs_buttons.t.js'
+		    		        
 		    		        ]
 		    	},
 				{

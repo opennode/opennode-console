@@ -144,5 +144,11 @@ function verifyIfUserIsLoggedIn(t, user){
 	}
 }
 
+function loginWindow(){
+	var loginWindow = Ext.ComponentQuery.query("loginwindow");
+	var loginWindowItem = Ext.get(loginWindow).item(0);
+	if (loginWindowItem!=null){return true}
+}
+
 
 
