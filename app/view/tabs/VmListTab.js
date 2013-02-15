@@ -24,9 +24,8 @@ Ext.define('Onc.view.tabs.VmListTab', {
         this._cellContainerMap = {};
 
         this.store = this.record.getChild('vms').children();
-        console.log("adding IDeployed filter to vmList store");
         this.store.filterBy(function(record) {
-            return !Ext.Array.contains(record.get("features"), "IDeployed");
+            return Ext.Array.contains(record.get("features"), "IDeployed");
         });
         this.tbar = this._createTbarButtons();
         this.columns = [
