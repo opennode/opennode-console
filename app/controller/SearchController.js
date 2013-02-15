@@ -8,16 +8,6 @@ Ext.define('Onc.controller.SearchController', {
     refs: [{ref: 'searchResults', selector: '#search-results'}],
 
     busListeners: {
-        // when compute is opened in tab, select it in list
-        computeDisplayed: function(computeId){
-            var searchResults = this.getSearchResults();
-            var store = searchResults.getStore();
-            var selModel = searchResults.getSelectionModel();
-            if (searchResults.getStore().getById(computeId))
-                selModel.select(store.getById(computeId));
-            else
-                selModel.deselect(selModel.getSelection());
-        }
     },
 
     init: function() {

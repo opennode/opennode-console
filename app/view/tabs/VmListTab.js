@@ -2,16 +2,12 @@ Ext.define('Onc.view.tabs.VmListTab', {
     extend: 'Ext.grid.Panel',
     alias: 'widget.computevmlisttab',
 
-//    layout: 'fit',
-
     _cellComponentMap: null,   // map of reusable components
     _cellContainerMap: null,   // map of containers
 
     title: "Virtual Machines",
-//    forceFit: true,
     multiSelect: true,
     header: false,
-//    resizable: true,
 
     viewConfig: {
         getRowClass: function(record) {

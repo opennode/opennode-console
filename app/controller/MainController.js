@@ -81,13 +81,6 @@ Ext.define('Onc.controller.MainController', {
         var log = Sm.log.Logger.getLogger( 'UI');
 
         this.control({
-            '#mainTabs': {
-//                tabchange: function(tabPanel, newTab) {
-//                    var computeId = newTab.computeId;
-//                    console.log("tab changed to " + computeId);
-//                    this.fireBusEvent('computeDisplayed', computeId);
-//                }
-            },
             '#vmmap': {
                 showvmdetails: function(computeId) {
                     this.openComputeInTab(computeId);
