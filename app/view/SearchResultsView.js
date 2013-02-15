@@ -19,7 +19,7 @@ Ext.define('Onc.view.SearchResultsView', {
         '    </div>',
         '</tpl>',
         {
-        	getComputeType: function(ctype){
+            getComputeType: function(ctype){
                 return Onc.model.Compute.getComputeType(ctype);
             },
             getType: function(ctype, shortver){
@@ -38,6 +38,7 @@ Ext.define('Onc.view.SearchResultsView', {
 
     listeners: {
         'selectionchange': function(_, selections) {
+            console.log('selection change', selections);
             if (selections.length === 1) {
                 var node = this.getNode(selections[0]);
                 Ext.fly(node).scrollIntoView(this.el);

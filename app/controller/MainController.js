@@ -9,7 +9,6 @@ Ext.define('Onc.controller.MainController', {
     refs: [{ref: 'tabs', selector: '#mainTabs'}],
 
     openComputeInTab: function(computeId) {
-
         var tabPanel = this.getTabs();
         var tabId = 'computeview[computeId=' + computeId + ']';
         var tab = tabPanel.child(tabId);
@@ -20,7 +19,7 @@ Ext.define('Onc.controller.MainController', {
             }
             tab = new Ext.Panel ({
                 id: placeholderTabId,
-                title: 'VM data'
+                title: 'Loading...'
             });
             tabPanel.add(tab);
             tabPanel.setActiveTab(tab);
@@ -42,6 +41,7 @@ Ext.define('Onc.controller.MainController', {
                 function(error) {
                     // TODO: visual display of the error
                     console.error('Error while loading data: ', error);
+                    this.fireBusEvent('displayNotification', error, 'Error');
                     return;
                 }
             );
