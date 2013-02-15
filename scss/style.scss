@@ -42,7 +42,7 @@ $state-icon-margin: 5px;
             color: #363636;
             width: $search-results-width - (2 * $search-results-horizontal-padding +
                                             $state-icon-size +
-                                            2 * $state-icon-margin) - $SCROLLBAR-WIDTH + 6;
+                                            2 * $state-icon-margin) - $SCROLLBAR-WIDTH - 6;
             line-height: 1.5em;
             display: block;
 
