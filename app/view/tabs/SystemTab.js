@@ -15,7 +15,7 @@ Ext.define('Onc.view.tabs.SystemTab', {
         var rec = this.record;
         this.addEvents('vmsstart', 'vmsstop', 'vmssuspend', 'vmsgraceful', 'vmedit');
 
-        this.items = [{
+        this.items = [rec.isPhysical() ? null : {
             title: 'System Control',
             layout: 'hbox',
             items: [Ext.widget('computestatecontrol', {
