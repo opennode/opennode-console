@@ -165,6 +165,8 @@ Ext.define('Onc.view.tabs.VmMapTab', {
                             return '';
 
                         vms.children().each( function(vm) {
+                            if (!vm.isDeployed())
+                                return true;  // extjs each's way of saying 'continue'
                             var id = 'vmmap-' + vm.getId();
                             var classes = 'node-cell';
                             var memory = vm.get('memory');
