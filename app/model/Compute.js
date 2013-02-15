@@ -141,11 +141,10 @@ Ext.define('Onc.model.Compute', {
         },
 
         containsDeployedFeature: function(features) {
-            for(var i = 0; i < features.length; i++){
-                if(features[i] === 'IDeployed')
-                    return true;
-            };
-            return false;
+            if (features)
+                return Ext.Array.contains(features, 'IDeployed')
+            else
+                return false;
         },
 
         extractParentId: function(vmId) {
