@@ -39,7 +39,6 @@ Ext.define('Onc.controller.NewVmController', {
 
                         var virtualizationContainer = this.getWindow().parentCompute.getChild('vms');
                         var url = virtualizationContainer.get('url');
-                        this.fireBusEvent('displayNotification', 'Creating new Virtual Machine...');
                         Onc.core.Backend.request('POST', url, {
                             jsonData: data,
                             success: function(response) {
@@ -48,6 +47,7 @@ Ext.define('Onc.controller.NewVmController', {
                                     form.markInvalid(ret['errors']);
                                 } else {
                                     this.getWindow().destroy();
+                                    this.fireBusEvent('displayNotification', 'Creating a new virtual machine...', 'New VM');
                                 }
                             }.bind(this),
                             failure: function(response) {
