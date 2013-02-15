@@ -15,7 +15,7 @@ Ext.define('Onc.controller.ComputeController', {
                 // we ignore such VMs in ONC display
                 return;
             }
-            this.fireBusEvent('displayNotification', 'New Virtual Machine created');
+            this.fireBusEvent('displayNotification', 'New VM \'{0}\' was created'.format(vm.get('hostname')), 'VM created');
             vm.loadParent(
                 function(hn){
                     vmList = this._getVMListCmp(hn.get('id'));

@@ -47,7 +47,8 @@ Ext.define('Onc.controller.NewVmController', {
                                     form.markInvalid(ret['errors']);
                                 } else {
                                     this.getWindow().destroy();
-                                    this.fireBusEvent('displayNotification', 'Creating a new virtual machine...', 'New VM');
+                                    this.fireBusEvent('displayNotification', 'Your request was successfully submitted. Stay tuned!',
+                                        'New VM request submitted');
                                 }
                             }.bind(this),
                             failure: function(response) {
