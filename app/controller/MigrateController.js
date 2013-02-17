@@ -41,43 +41,6 @@ Ext.define('Onc.controller.MigrateController', {
         });
     },
 
-    checkStatus: function(pid, options, myMask, retryAttempt) {
-        var maxRetryAttempts = 100;
-        var retryPeriod = 3; //seconds
-        if (maxRetryAttempts > retryAttempt) {
-            var url = "/proc/completed/" + pid;
-            Onc.core.Backend.request('GET', url, {successCodes: [404]}, {
-                success: function(response) {
-                    var taskStdout = JSON.parse(response.responseText).stdout[0];
-                    if (taskStdout && taskStdout.startswith('Failed migration')) {
-                        myMask.hide();
-                        Ext.MessageBox.show({
-                           title: 'Migration failure',
-                           msg: 'Migration failed: {0}'.format(taskStdout),
-                           buttons: Ext.MessageBox.OK,
-                           icon: Ext.MessageBox.ERROR
-                        });
-                        return;
-                    }
-                    this.verifyMigratedVM(options, myMask);
-                }.bind(this),
-                failure: function(request, response) {
-                    setTimeout(function () {
-                        this.checkStatus(pid, options, myMask, retryAttempt+1)}.bind(this),
-                            retryPeriod * 1000);
-                }.bind(this)
-            });
-        } else {
-            myMask.hide();
-            Ext.MessageBox.show({
-               title: 'Migration task timeout',
-               msg: 'Migration has timed out. The task is still running but appears hung.',
-               buttons: Ext.MessageBox.OK,
-               icon: Ext.MessageBox.ERROR
-            });
-        }
-    },
-
     verifyMigratedVM: function(options, myMask) {
             var url = "/machines/{0}/vms/{1}?attrs=status".format(options.srcMachineId, options.computeId);
             Onc.core.Backend.request('GET', url, {successCodes: [404]}, {
@@ -106,5 +69,42 @@ Ext.define('Onc.controller.MigrateController', {
                     }); 
                 }
             });
+    },
+
+    checkStatus: function(pid, options, myMask, retryAttempt) {
+        var maxRetryAttempts = 100;
+        var retryPeriod = 3; //seconds
+        if (maxRetryAttempts > retryAttempt) {
+            var url = "/proc/completed/" + pid;
+            Onc.core.Backend.request('GET', url, {successCodes: [404]}, {
+                success: function(response) {
+                    var taskStdout = JSON.parse(response.responseText).stdout[0];
+                    if (taskStdout && taskStdout.startswith('Failed migration')) {
+                        myMask.hide();
+                        Ext.MessageBox.show({
+                           title: 'Migration failure',
+                           msg: 'Migration failed: {0}'.format(taskStdout),
+                           buttons: Ext.MessageBox.OK,
+                           icon: Ext.MessageBox.ERROR
+                        });
+                        return;
+                    }
+                    Ext.Function.defer(this.verifyMigratedVM, 10000, this, [options, myMask]);
+                }.bind(this),
+                failure: function(request, response) {
+                    setTimeout(function () {
+                        this.checkStatus(pid, options, myMask, retryAttempt+1)}.bind(this),
+                            retryPeriod * 1000);
+                }.bind(this)
+            });
+        } else {
+            myMask.hide();
+            Ext.MessageBox.show({
+               title: 'Migration task timeout',
+               msg: 'Migration has timed out. The task is still running but appears hung.',
+               buttons: Ext.MessageBox.OK,
+               icon: Ext.MessageBox.ERROR
+            });
+        }
     }
 });
