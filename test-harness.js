@@ -61,8 +61,8 @@ Harness.start(
 					items: [
 	
 					        'tests/administrator/030_VMmanagement/030_add_VM.t.js',
-					        'tests/administrator/030_VMmanagement/031_migrate_newVM.t.js',
-					        'tests/administrator/030_VMmanagement/032_migrate_existingVM.t.js'
+					        'tests/administrator/030_VMmanagement/031_migrate_existingVM.t.js',
+					        'tests/administrator/030_VMmanagement/032_migrate_newVM.t.js'
 					        ]
 				}
 		        ]
