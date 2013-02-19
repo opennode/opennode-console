@@ -19,7 +19,7 @@ Ext.define('Onc.view.TasksView', {
        columns: [
            {header: 'Id', dataIndex: 'id', width: 50},
            {header: 'Command', dataIndex: 'cmdline', flex: 1},
-           {header: 'Actions', dataIndex: 'url', width: 180}
+           {header: 'Actions', dataIndex: 'url', width: 100}
        ],
        store: 'TasksStore'
     }],
@@ -47,6 +47,9 @@ Ext.define('Onc.view.TasksView', {
                 var actionCount = actions.getCount();
                 for(var i = 0; i < actionCount; i++){
                     var action = actions.getAt(i);
+                    // XXX for now we conceal terminate from the view
+                    if (action.internalId === 'terminate')
+                        continue;
                     this._createCommand(domId, record, action);
                 }
             }
