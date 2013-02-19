@@ -76,6 +76,10 @@ function login1(t, user, pwd) {
 			{ 
 				waitFor : 'selector',
 				args : '.x-tab-bar'
+			},
+			{
+				waitFor : 'selector',
+				args : '#search-results'
 			}
 	);
 	

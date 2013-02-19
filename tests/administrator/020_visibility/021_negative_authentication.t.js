@@ -48,7 +48,7 @@ StartTest(function (t) {
 								
 								//Verify if error message is displayed after incorrect login
 								var loginError = Ext.get(Ext.ComponentQuery.query("#errormsg")).item(0);
-								t.ok(loginError!=null, "Error message is displayed.");
+								t.ok(loginError.dom.html=="Invalid username or password", "Error message is displayed.");
 							}
 				    
 				    );
