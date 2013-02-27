@@ -1,5 +1,6 @@
 from __future__ import absolute_import
 
+import logging
 import os
 import pkg_resources
 import re
@@ -18,6 +19,8 @@ from opennode.oms.model.model.plugins import IPlugin, PluginInfo
 from opennode.oms.config import IRequiredConfigurationFiles, gen_config_file_names, get_config
 
 
+log = logging.getLogger(__name__)
+
 class OncRequiredConfigurationFiles(Subscription):
     implements(IRequiredConfigurationFiles)
     context(object)
@@ -30,7 +33,9 @@ class OncPlugin(PluginInfo):
     implements(IPlugin)
 
     def initialize(self):
-        print "[OncPlugin] initializing plugin"
+        import traceback; traceback.print_stack()
+        print '------'
+        log.debug("initializing ONC plugin")
         try:
             symlink_target = get_config().get('onc', 'symlink_target')
             relative_path = os.path.join(*(['../..']))
