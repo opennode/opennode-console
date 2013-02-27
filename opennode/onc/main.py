@@ -33,8 +33,6 @@ class OncPlugin(PluginInfo):
     implements(IPlugin)
 
     def initialize(self):
-        import traceback; traceback.print_stack()
-        print '------'
         log.debug("initializing ONC plugin")
         try:
             symlink_target = get_config().get('onc', 'symlink_target')
