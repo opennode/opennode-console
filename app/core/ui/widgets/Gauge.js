@@ -12,7 +12,9 @@ Ext.define('Onc.core.ui.widgets.Gauge', {
     unit: null,
     criticalLevel: 0.00,
     criticalCurve: 0.05,
-
+	lastUpdated: new Date(0),
+	secondsAllowed: 10,
+	firstDataReceived: false,
     // This must be either ['fixed', _] or ['precision', _] where _ is
     // an integer between 1 and 21 incl:
     display: null,
@@ -29,7 +31,17 @@ Ext.define('Onc.core.ui.widgets.Gauge', {
         '<div class="bar"><div></div></div>'
     ),
 
+	initComponent : function() {
+		Ext.TaskManager.start({
+			run : this._checkForFailure,
+			scope : this,
+			interval : 1000 * this.secondsAllowed
+		});
+		this.callParent();
+	},
+
     onRender: function() {
+    	this._checkForFailure();//Check data do dim 0 values at render
         this.callParent(arguments);
         this.tpl.overwrite(this.el, this);
         if (this.iconCls) {
@@ -48,11 +60,13 @@ Ext.define('Onc.core.ui.widgets.Gauge', {
 
     setValue: function(value) {
         this.value = value;
+        this.lastUpdated = new Date();
         this.refresh();
     },
 
     refresh: function() {
         if (this.rendered) {
+        	this._dimGauge(false);
             var ratio = (this.value / this.max).round(2);
             ratio = (isNaN(ratio) ? 0 : ratio);
 
@@ -88,5 +102,27 @@ Ext.define('Onc.core.ui.widgets.Gauge', {
         value = this.convert(value);
         var display = this.display || this.defaultDisplay;
         return value['to' + display[0].capitalize()](display[1]);
-    }
+    },
+    _dimGauge : function(doIt) {
+		if (doIt) {
+			this.el.addCls('problem');
+		} else {
+			this.el.removeCls('problem');
+		}
+	},
+	_checkForFailure : function() {
+		if (!this.firstDataReceived && this.value==0.0) //this is here because 0 values are sent when opening compute, even if metrics are disabled 
+			this.lastUpdated=new Date(0);
+		else 
+			this.firstDataReceived = true;
+		
+		var now = new Date();
+		var sec = 1000;
+		var diff = (now.getTime() - this.lastUpdated.getTime()) / (sec);
+		if (diff >= this.secondsAllowed)
+			this._dimGauge(true);
+		else
+			this._dimGauge(false);
+
+	}
 });

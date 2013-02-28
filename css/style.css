@@ -22,7 +22,7 @@
   padding: 53px 0px;
   margin: 0;
   height: auto;
-  font: 13px tahoma, arial, helvetica;
+  font: 13px tahoma,arial,helvetica;
   text-align: center; }
 
 @keyframes blink {
@@ -84,8 +84,14 @@
   .gauge.with-border {
     border: 1px solid lightblue; }
 
+.gauge.problem {
+  color: gray; }
+
+.gauge.problem .bar div {
+  background-color: gray !important; }
+
 #vmmap .node-cell {
-  border: 1px solid #cccccc;
+  border: 1px solid #CCC;
   padding: 5px;
   margin-right: -1px;
   margin-top: -1px;
@@ -100,7 +106,7 @@
     border: 2px solid #333399;
     margin-right: 0px; }
 #vmmap .node-cell-free {
-  border: 1px solid #cccccc;
+  border: 1px solid #CCC;
   padding: 5px 5px 42px;
   margin-top: -1px;
   float: left;
