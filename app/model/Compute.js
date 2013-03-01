@@ -134,6 +134,34 @@ Ext.define('Onc.model.Compute', {
             console.error('Loading of a parent of a physical machine is not supported.');
         }
     },
+    
+    updateSubset: function(subset) {
+		var url = this.get('url') + subset;
+		console.log("Getting compute sublist data: " + subset);
+		Ext.Ajax.request({
+			url : Onc.core.Backend.url(url),
+			method : 'GET',
+			withCredentials : true,
+			params : {
+				depth : 3
+			},
+			success : function(resp) {
+				console.log("Got compute sublist data: " + subset);
+				var jsonData = Ext.JSON.decode(resp.responseText);
+				var subList = this.getList(subset);
+
+				//Remove old data and add new
+				subList.removeAll();
+				for (var i = 0; i < jsonData.children.length; i++) {
+					subList.add(jsonData.children[i]);
+				}
+				subList.sync();
+			}.bind(this),
+			failure : function(request, response) {
+				console.log("Cannot get Compute subset data:" + subset);
+			}
+		});
+	},
 
     statics: {
         isDeployed: function(jsonRecord) {
