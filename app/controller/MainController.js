@@ -104,6 +104,16 @@ Ext.define('Onc.controller.MainController', {
                     this.fireBusEvent('displayOmsShell');
                 }
             },
+            '#re-register-gauges' : {
+				click : function() {
+					console.log("Re-registering all gauges.");
+					var gauges=Ext.ComponentQuery.query('[cls~=gauge]');//alias with dots not working
+					console.log("Gauges found:"+gauges.length);
+					Ext.Array.each(gauges, function(item) {
+								item.reSubscribe();
+					}, this);
+				}
+			},
             '#viewlog-button': {
                 click: function(){
                     // Create a log window

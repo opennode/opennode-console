@@ -11,16 +11,8 @@ Ext.define('Onc.core.ui.components.ComputeGauge', {
 
 
     initComponent: function() {
-        this._subscriptions = [];
-
-        if(this.dynamic && this.metricsSubscriptionUrl){
-            this._subscribe(this.metricsSubscriptionUrl, this.onMetricsData);
-        }
-
-        if(this.dynamic && this.computeSubscriptionUrl){
-            this._subscribe(this.computeSubscriptionUrl, this.onComputeData);
-        }
-
+    	
+      	this._initSubscriptions();
         this.callParent();
     },
 
@@ -39,6 +31,11 @@ Ext.define('Onc.core.ui.components.ComputeGauge', {
     },
 
     onComputeData: function(data){},
+    
+    reSubscribe:function(){
+    	this._unsubscribe();
+    	this._initSubscriptions();   	
+    },
 
     _subscribe: function(url, listener){
 //        console.log('+ subscribe: ' + this.compute.get('hostname'));
@@ -67,5 +64,17 @@ Ext.define('Onc.core.ui.components.ComputeGauge', {
         }
         // TODO: also change here widget active/inactive class if we want different visualization
         return active;
+    },
+    
+    _initSubscriptions:function(){
+    	this._subscriptions = [];
+
+        if(this.dynamic && this.metricsSubscriptionUrl){
+            this._subscribe(this.metricsSubscriptionUrl, this.onMetricsData);
+        }
+
+        if(this.dynamic && this.computeSubscriptionUrl){
+            this._subscribe(this.computeSubscriptionUrl, this.onComputeData);
+        }
     }
 });

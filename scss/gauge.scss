@@ -50,3 +50,9 @@
         border: 1px solid lightblue;
     }
 }
+.gauge.problem{
+    color:gray;
+}
+.gauge.problem .bar div {
+    background-color:gray !important;
+}
