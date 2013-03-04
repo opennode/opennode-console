@@ -14,7 +14,7 @@ Ext.define('Onc.view.Viewport', {
 
     _adjustViewToGroups: function() {
         var isAdmin = Onc.model.AuthenticatedUser.isAdmin();
-        var adminButtons = ['infrastructurejoin-button', 'tasks-button', 'oms-shell-button'];
+        var adminButtons = ['infrastructurejoin-button', 'tasks-button', 'oms-shell-button', 're-register-gauges'];
         var adminTabs = ['vmmap'];
         // adjust controll buttons
         for (var i = 0; i < adminButtons.length; i++) {
@@ -42,7 +42,7 @@ Ext.define('Onc.view.Viewport', {
             border: false,
             layout: {
                 type: 'table',
-                columns: 5,
+                columns: 6,
                 trAttrs: { align: 'right' }
             },
             style: 'position: absolute; top: 2px; right: 0px',
@@ -54,7 +54,7 @@ Ext.define('Onc.view.Viewport', {
                 id: 'username-label',
                 xtype: 'text',
                 text: 'N/A',
-                colspan: 5,
+                colspan: 6,
                 style: {
                     "text-align": 'right'
                 }
@@ -79,6 +79,11 @@ Ext.define('Onc.view.Viewport', {
                 xtype: 'button',
                 text: 'OMS Shell'
             }, {
+                id: 're-register-gauges',
+                xtype: 'button',
+                text: 'Re-register Gauges'
+            },
+            {
                 id: 'logout-button',
                 xtype: 'button',
                 text: 'Log out'
