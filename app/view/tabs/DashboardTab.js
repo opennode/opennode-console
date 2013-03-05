@@ -77,7 +77,7 @@ Ext.define('Onc.view.tabs.DashboardTab', {
             var physCloudServers = 0;
             var physHACloudServers = 0;
             var subnets = 0;
-            var virtMachines = 0;
+            var virtMachines = [];
             var assignedRam = 0;
             var assignedHDD = 0;
 
@@ -92,19 +92,21 @@ Ext.define('Onc.view.tabs.DashboardTab', {
                     for (var j = 0; j < serv.children.length; j++) {
                         var child = serv.children[j];
                         if (child.__type__ == 'VirtualizationContainer') {
-                            virtMachines += child.children.length;
+                        	Ext.each(child.children, function(it, index) {
+								 virtMachines.push(it.id);
+							});
                         }
                     }
                 }
             }
-
+            virtMachines=Ext.Array.unique(virtMachines);
             var msg = '<ol>';
             msg += '<li><strong>' + physServers + '</strong> physical servers</li>';
             msg += '<ul>';
             msg += '<li><strong>' + physCloudServers + '</strong> cloud servers</li>';
             msg += '<li><strong>' + physHACloudServers + '</strong> HA cloud servers</li>';
             msg += '</ul>';
-            msg += '<li><strong>' + virtMachines + '</strong> Virtual machines</li>';
+            msg += '<li><strong>' + virtMachines.length + '</strong> Virtual machines</li>';
             msg += '<li><strong>' + assignedRam + '</strong> of assigned RAM</li>';
             msg += '<li><strong>' + Math.round(assignedHDD) + '</strong> of assigned disk space</li>';
 
