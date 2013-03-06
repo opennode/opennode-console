@@ -1,5 +1,5 @@
 Ext.define('Onc.store.RegisteredNodesStore', {
-    extend: 'Ext.data.Store',
+    extend: 'Onc.store.NodesStore',
     model: 'Onc.model.ManagedNode',
 
     proxy: {
