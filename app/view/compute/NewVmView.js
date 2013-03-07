@@ -72,7 +72,11 @@ Ext.define('Onc.view.compute.NewVmView', {
     },
 
     disableControls: function (boolValue){
-        var controls = ['num_cores', 'num_cores_slider', 'cpu_limit', 'cpu_limit_slider', 'memory', 'memory_slider', 'diskspace', 'diskspace_slider', 'hostname', 'ipv4_address', 'dns1', 'dns2', 'root_password', 'root_password_repeat', 'start_on_boot', 'newvm_tagger'];
+        var controls = ['num_cores', 'num_cores_slider', 'cpu_limit',
+                        'cpu_limit_slider', 'memory', 'memory_slider',
+                        'diskspace', 'diskspace_slider', 'hostname',
+                        'ipv4_address', 'dns1', 'dns2', 'root_password',
+                        'root_password_repeat', 'start_on_boot', 'newvm_tagger'];
 
         Ext.Array.forEach(controls,function(control){
             Ext.getCmp(control).setDisabled(boolValue);
@@ -113,22 +117,12 @@ Ext.define('Onc.view.compute.NewVmView', {
     },
 
     initComponent: function() {
-    	this.parentCompute.updateSubset('templates');
+        this.parentCompute.updateSubset('templates');
         this.items = {
             xtype: 'form',
             items: [{
                 xtype: 'fieldset',
-                items: [// {
-                //     fieldLabel: "Virtualization type",
-                //     xtype: 'radiogroup',
-                //     columns: 2,
-                //     vertical: true,
-                //     items: [
-                //         {boxLabel: "OpenVZ", name: 'vtype', inputValue: 'openvz', checked: true},
-                //         {boxLabel: "KVM", name: 'vtype', inputValue: 'kvm'},
-                //     ]
-                // },
-                        {
+                items: [{
                     fieldLabel: 'Template',
                     name: 'template',
                     id: 'template',
@@ -290,17 +284,7 @@ Ext.define('Onc.view.compute.NewVmView', {
             }, {
                 xtype: 'fieldset',
                 title: "Network",
-                items: [// {
-                //     fieldLabel: "Network Type",
-                //     xtype: 'radiogroup',
-                //     columns: 2,
-                //     vertical: true,
-                //     items: [
-                //         {boxLabel: "VENET", name: 'network-type', inputValue: 'venet', checked: true},
-                //         {boxLabel: "VETH", name: 'network-type', inputValue: 'veth'},
-                //     ]
-                // },
-                        {
+                items: [{
                     fieldLabel: "Hostname",
                     name: 'hostname',
                     id: 'hostname',
@@ -376,10 +360,5 @@ Ext.define('Onc.view.compute.NewVmView', {
         };
 
         this.callParent(arguments);
-
-
-        // this.record = Ext.create('Onc.model.Compute', {});
-
-        // this.child('form').loadRecord(this.record);
     }
 });
