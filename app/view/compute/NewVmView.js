@@ -113,6 +113,7 @@ Ext.define('Onc.view.compute.NewVmView', {
     },
 
     initComponent: function() {
+        this.parentCompute.updateSubset('templates');
         this.items = {
             xtype: 'form',
             items: [{
