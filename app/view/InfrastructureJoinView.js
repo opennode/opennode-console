@@ -38,13 +38,13 @@ Ext.define('Onc.view.InfrastructureJoinView', {
                 }, {
                     xtype: 'actioncolumn',
                     renderer: function (val, metadata, record, rowIndex, colIndex, store) {
-		                if (record.get('status') == "accepting") {
-		                   this.items[0].disabled = true
-		                   this.items[1].disabled = true
+		                if (record.get('status') === "accepting") {
+		                   this.items[0].icon = '';
+		                   this.items[1].icon = '';
 		                   this.items[2].icon='img/icon/loading.gif';//hidden setting not working
 		                } else {
-		                   this.items[0].disabled = false
-		                   this.items[1].disabled = false
+		                   this.items[0].icon = 'img/icon/accept.png'
+		                   this.items[1].icon = 'img/icon/delete.png'
 		                   this.items[2].icon='';
 		                }
 		                return val;
@@ -87,12 +87,12 @@ Ext.define('Onc.view.InfrastructureJoinView', {
                 }, {
                     xtype: 'actioncolumn',
                     width: 50,
-                    renderer: function (val, metadata, record, rowIndex, colIndex, store) {
+                    renderer: function (val, metadata, record, rowIndex, colIndex, store, gridView) {
 		                if (record.get('status') == "deleting") {
-		                   this.items[0].disabled = true
+		                   this.items[0].icon=''
 		                   this.items[1].icon='img/icon/loading.gif';//hidden setting not working
 		                } else {
-		                   this.items[0].disabled = false
+		                   this.items[0].icon='img/icon/delete_edit.gif';
 		                   this.items[1].icon='';
 		                }
 		                return val;
