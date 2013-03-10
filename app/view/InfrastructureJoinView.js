@@ -37,6 +37,18 @@ Ext.define('Onc.view.InfrastructureJoinView', {
                     dataIndex: 'hostname'
                 }, {
                     xtype: 'actioncolumn',
+                    renderer: function (val, metadata, record, rowIndex, colIndex, store) {
+		                if (record.get('status') === "accepting") {
+		                   this.items[0].icon = '';
+		                   this.items[1].icon = '';
+		                   this.items[2].icon='img/icon/loading.gif';//hidden setting not working
+		                } else {
+		                   this.items[0].icon = 'img/icon/accept.png'
+		                   this.items[1].icon = 'img/icon/delete.png'
+		                   this.items[2].icon='';
+		                }
+		                return val;
+		            },
                     width: 50,
                     items: [{
                         icon: 'img/icon/accept.png',
@@ -54,6 +66,8 @@ Ext.define('Onc.view.InfrastructureJoinView', {
                         handler: function(grid, rowIndex, colIndex){
                             this._rejectHost(grid.store.getAt(rowIndex).get('hostname'));
                         }.bind(this)
+                    },{
+                        icon: ''
                     }]
                 }],
                 viewConfig: {
@@ -73,6 +87,16 @@ Ext.define('Onc.view.InfrastructureJoinView', {
                 }, {
                     xtype: 'actioncolumn',
                     width: 50,
+                    renderer: function (val, metadata, record, rowIndex, colIndex, store, gridView) {
+		                if (record.get('status') == "deleting") {
+		                   this.items[0].icon=''
+		                   this.items[1].icon='img/icon/loading.gif';//hidden setting not working
+		                } else {
+		                   this.items[0].icon='img/icon/delete_edit.gif';
+		                   this.items[1].icon='';
+		                }
+		                return val;
+		            },
                     items: [{
                         icon: 'img/icon/delete_edit.gif',
                         text: 'Delete',
@@ -81,6 +105,8 @@ Ext.define('Onc.view.InfrastructureJoinView', {
                         handler: function(grid, rowIndex, colIndex){
                             this._deleteHost(grid.store.getAt(rowIndex).get('hostname'));
                         }.bind(this)
+                    },{
+                        icon: ''
                     }]
                 }],
                 viewConfig: {

@@ -1,7 +1,6 @@
 Ext.define('Onc.store.IncomingNodesStore', {
-    extend: 'Ext.data.Store',
+  	extend: 'Onc.store.NodesStore',
     model: 'Onc.model.ManagedNode',
-
     proxy: {
         type: 'onc',
         reader: {
@@ -10,8 +9,8 @@ Ext.define('Onc.store.IncomingNodesStore', {
         },
 
         extraParams: {
-            'depth': 3
+            'depth': 2
         },
         url: '/machines/incoming/salt'
-    }
+    }   
 });
