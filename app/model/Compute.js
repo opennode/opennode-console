@@ -179,6 +179,45 @@ Ext.define('Onc.model.Compute', {
     },
 
     statics: {
+        getField: function(id, field, callbackFn) {
+            var val = "";
+            var comp = Ext.getStore('ComputesStore').getById(id);
+            if (comp) {
+                val = comp.get(field);
+                return val;
+            }
+
+            if (!val) {
+                var url = "/computes/{0}?attrs={1}".format(id, field);
+                if (callbackFn instanceof Function) {
+                    Ext.Ajax.request({
+                        url: Onc.core.Backend.url(url),
+                        withCredentials: true,
+                        method: "GET",
+                        success: function(result) {
+                            var jsonData = Ext.JSON.decode(result.responseText);
+                            callbackFn(jsonData[field]);
+                        },
+                        failure: function() {
+                            console.log("Failed to query:" + url);
+                        }
+                    });
+                } else { // synchronous request
+                    var request = new XMLHttpRequest();
+                    request.withCredentials = true;
+                    request.open('GET', Onc.core.Backend.url(url), false);
+                    request.send(null);
+
+                    if (request.status === 200) {
+                        var jsonData = Ext.JSON.decode(request.responseText);
+                        val = jsonData[field];
+                    } else {
+                        console.log("Failed to query:" + url);
+                    }
+                    return val;
+                }
+            }
+        },
         isDeployed: function(jsonRecord) {
             return Onc.model.Compute.containsDeployedFeature(jsonRecord['features']);
         },
