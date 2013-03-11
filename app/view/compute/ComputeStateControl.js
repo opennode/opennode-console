@@ -39,9 +39,29 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
                 text: 'Are you sure you want to delete this VM?'
             });
             buttons[buttons.length] = this._makeButton('edit', "Edit", "Edit machine", false);
-            
-            if(!this.disableHost){
-                buttons[buttons.length] = this._makeButton('host', "Host", "Go to host", false);
+
+            if (!this.disableHost) {
+                var btn = this._makeButton('host', "Host", "Go to host", false);
+                var vmurl = this.compute.get('url');
+                var parentId = Onc.model.Compute.extractParentId(vmurl);
+
+                btn.listeners = {
+                    'afterrender': function(el, eOpts) {
+                        Onc.model.Compute.getField(parentId, "hostname", function(hostname) {
+                            Ext.create('Onc.core.ui.widgets.StaticTip', {
+                                target: el.el,
+                                anchor: 'bottom',
+                                cls: 'host-tip',
+                                offsetY: 13,
+                                offsetX: -2,
+                                hideDelay: 2000,
+                                renderTo: Ext.getBody(),
+                                html: hostname
+                            });
+                        });
+                    }
+                };
+                buttons[buttons.length] = btn;
             }
         }
         this.items = buttons;

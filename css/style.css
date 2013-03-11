@@ -393,3 +393,6 @@
 .ulist ul li {
   padding-left: 1em;
   list-style: disc; }
+
+.host-tip {
+  border-color: lightgray !important; }
