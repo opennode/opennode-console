@@ -19,65 +19,100 @@ Ext.define('Onc.controller.InfrastructureJoinController', {
             this._load();
         }
     },
+    _createObserver: function(host, status, url, statusChangedCallback) {
+        return {
+            changeState: function() {
+                console.log("Setting status=" + status + " for host:" + host.get('hostname') + ", status before: " + host.get("status"));
+                host.set("status", status);
+                this.subscription = Onc.core.hub.Hub.subscribe(this.onDataFromHub.bind(this), {
+                    host: url
+                }, 'status_change');
+            },
 
+            onDataFromHub: function(values) {
+                values.host.forEach(function(el) {
+                    var eo = el[1];
+                    if (eo.event === 'delete')
+                        this.finished();
+                    else
+                        console.log("Unrecognised event:" + eo.event);
+                }, this);
+            },
+
+            finished: function() {
+                if (this.subscription.subscribed) {
+                    this.subscription.unsubscribe();
+                    host.set("status", "");
+                    statusChangedCallback();
+                }
+            }
+        };
+    },
     init: function(){
+        
         this.control({
-            '#infrastructureJoin':{
-                'hostAccept': function(source, hostname){
+            '#infrastructureJoin': {
+
+                'hostAccept': function(source, hostname) {
                     var url = '/machines/incoming/salt/{0}/actions/accept'.format(hostname);
 
                     var store = this.getStore('IncomingNodesStore');
                     var record = store.findRecord('hostname', hostname);
 
-                    if (record != null) {
-                        console.log("Setting status=accepting for host:" + hostname + ", status before: " + record.get("status"));
-                        record.set("status", "accepting");
-                    } else
-                        console.log("Record not found in store:" + hostname);
-
                     Onc.core.Backend.request('PUT', url, {
                         success: function(response) {
                             this._load(false);
+                            this._createObserver(record, "accepting", "/machines/incoming/salt/{0}".format(hostname), function() {
+                                this._load(true);
+                                this.getStore('SearchResultsStore').load();
+                            }.bind(this)).changeState();
                         }.bind(this),
                         failure: function(response) {
                             console.error('Accept host action failed: ' + response.responseText);
                         }
                     });
                 },
-                'hostReject': function(source, hostname){
+
+                'hostReject': function(source, hostname) {
                     var url = '/machines/incoming/salt/{0}/actions/reject'.format(hostname);
 
+                    var store = this.getStore('IncomingNodesStore');
+                    var record = store.findRecord('hostname', hostname);
+
                     Onc.core.Backend.request('PUT', url, {
-                       success: function(response) {
-                           this._load(false);
-                       }.bind(this),
-                       failure: function(response) {
-                           console.error('Reject host action failed: ' + response.responseText);
-                       }
-                   });
+                        success: function(response) {
+                            this._load(false);
+                            this._createObserver(record, "rejecting", "/machines/incoming/salt/{0}".format(hostname), function() {
+                                this._load(true);
+                            }.bind(this)).changeState();
+                        }.bind(this),
+                        failure: function(response) {
+                            console.error('Reject host action failed: ' + response.responseText);
+                        }
+                    });
                 },
-                'hostDelete': function(source, hostname){
+
+                'hostDelete': function(source, hostname) {
                     var url = '/machines/by-name/{0}'.format(hostname);
 
                     var store = this.getStore('RegisteredNodesStore');
                     var record = store.findRecord('hostname', hostname);
 
-                    if (record != null) {
-                        console.log("Setting status=deleting for host:" + hostname + ", status before: " + record.get("status"));
-                        record.set("status", "deleting");
-                    } else
-                        console.log("Record not found in store:" + hostname);
-
                     Onc.core.Backend.request('DELETE', url, {
                         success: function(response) {
                             this._load(false);
+                            this._createObserver(record, "deleting", "/machines/by-name/{0}".format(hostname), function() {
+                                this._load(true);
+                                this.getStore('SearchResultsStore').load();
+                            }.bind(this)).changeState();
                         }.bind(this),
                         failure: function(response) {
                             console.error('Delete host action failed: ' + response.responseText);
                         }
                     });
                 },
-                'reload': function(source){
+
+                'reload': function(source) {
                     this._load(true);
                 }
             }
