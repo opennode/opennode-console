@@ -14,7 +14,7 @@ Ext.define('Onc.view.Viewport', {
 
     _adjustViewToGroups: function() {
         var isAdmin = Onc.model.AuthenticatedUser.isAdmin();
-        var adminButtons = ['infrastructurejoin-button', 'tasks-button', 'oms-shell-button', 're-register-gauges'];
+        var adminButtons = ['infrastructurejoin-button', 'tasks-button', 'newapp-button','oms-shell-button', 're-register-gauges'];
         var adminTabs = ['vmmap'];
         // adjust controll buttons
         for (var i = 0; i < adminButtons.length; i++) {
@@ -40,11 +40,7 @@ Ext.define('Onc.view.Viewport', {
         items: [{
             xtype: 'container',
             border: false,
-            layout: {
-                type: 'table',
-                columns: 6,
-                trAttrs: { align: 'right' }
-            },
+           
             style: 'position: absolute; top: 2px; right: 0px',
             bodyStyle: 'background: inherit',
             defaults: {
@@ -54,8 +50,9 @@ Ext.define('Onc.view.Viewport', {
                 id: 'username-label',
                 xtype: 'text',
                 text: 'N/A',
-                colspan: 6,
+                
                 style: {
+                    "display":"block",
                     "text-align": 'right'
                 }
             }, {
@@ -70,6 +67,10 @@ Ext.define('Onc.view.Viewport', {
                 id: 'tasks-button',
                 xtype: 'button',
                 text: 'Tasks'
+            }, {
+                id: 'newapp-button',
+                xtype: 'button',
+                text: 'New Application'
             }, {
                 id: 'infrastructurejoin-button',
                 xtype: 'button',

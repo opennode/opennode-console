@@ -2,7 +2,7 @@ Ext.define('Onc.controller.NewVmController', {
     extend: 'Ext.app.Controller',
 
     views: ['compute.NewVmView'],
-    stores: ['ComputesStore'],
+    stores: ['ComputesStore', 'AllocationPolicyStore'],
 
     refs: [
         {ref: 'window', selector: 'window.newvm'},
@@ -18,6 +18,7 @@ Ext.define('Onc.controller.NewVmController', {
     },
 
     init: function() {
+        
         this.control({
             '#create-new-vm-button': {
                 click: function(sender) {
@@ -25,20 +26,18 @@ Ext.define('Onc.controller.NewVmController', {
                     if (form.isValid()) {
                         var data = form.getFieldValues();
 
-                        // tags
-                        var tagger = this.getForm().child('#tags').child('tagger');
-                        var tags = tagger.cloneTags();
-                        data['tags'] = tags;
+                        // cleanup for auto-generated properties from form input
+                        // fields
+                        // TODO: figure out how to exclude input field from
+                        // Tagger widget to generate properties in
+                        // form.getFieldValues() call
+                        for ( var key in data) {
+                            if (key.indexOf('ext-') === 0 || key.indexOf('combobox-') === 0) delete data[key];
+                        }
+                        var parentCompute = this.getWindow().parentCompute;
+                        var url = '/machines/hangar/automatic/action/allocate';
+                        if (parentCompute) url = parentCompute.getChild('vms').get('url');
 
-                        // cleanup for auto-generated properties from form input fields
-                        // TODO: figure out how to exclude input field from Tagger widget to generate properties in form.getFieldValues() call
-                        for (var key in data) {
-                            if (key.indexOf('ext-') === 0 || key.indexOf('combobox-') === 0)
-                                delete data[key];
-                         }
-
-                        var virtualizationContainer = this.getWindow().parentCompute.getChild('vms');
-                        var url = virtualizationContainer.get('url');
                         Onc.core.Backend.request('POST', url, {
                             jsonData: data,
                             success: function(response) {
@@ -47,8 +46,7 @@ Ext.define('Onc.controller.NewVmController', {
                                     form.markInvalid(ret['errors']);
                                 } else {
                                     this.getWindow().destroy();
-                                    this.fireBusEvent('displayNotification', 'Your request was successfully submitted. Stay tuned!',
-                                        'New VM request submitted');
+                                    this.fireBusEvent('displayNotification', 'Your request was successfully submitted. Stay tuned!', 'New VM request submitted');
                                 }
                             }.bind(this),
                             failure: function(response) {

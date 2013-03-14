@@ -30,9 +30,13 @@ Ext.define('Onc.model.Template', {
         {name: 'cpu_limit_min', mapping: "cpu_limit", convert: idx(0)},
         {name: 'cpu_limit_default', mapping: "cpu_limit", convert: idx(1)},
         {name: 'cpu_limit_max', mapping: "cpu_limit", convert: idx(2)},
-
+        
         {name: 'name_and_base_type', convert: function(_, record) {
             return Ext.String.format("{0} ({1})", record.get('name'), record.get('base_type'));
+        }},
+
+        {name: 'name_short', convert: function(_, record) {
+            return record.get('name').split("-")[0];
         }}
     ]
 });

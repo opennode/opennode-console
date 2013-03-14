@@ -94,6 +94,11 @@ Ext.define('Onc.controller.MainController', {
                     this.fireBusEvent('displayTaskManager');
                 }
             },
+            '#newapp-button': {
+                click: function() {
+                    this.fireBusEvent('displayNewVMDialog', null);
+                }
+            },
             '#infrastructurejoin-button':{
                 click: function() {
                     this.fireBusEvent('displayHostManager');
