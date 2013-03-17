@@ -41,7 +41,7 @@ Ext.define('Onc.store.TemplatesStore', {
         "url": "/machines/973cf553-eea4-55c4-aeeb-c8e0a58dd2d0/templates/b3cf65da-e401-45c0-b5f1-6f307b562ad6/",
         "permissions": ["admin", "security"]
     }, {
-        "name": "bind-9.7-x86-64-asys",
+        "name": "bind-9.7-x86-64-different",
         "base_type": "openvz",
         "cores": [1, 1, 1],
         "memory": [0.25, 0.5, 0.5],
@@ -84,7 +84,7 @@ Ext.define('Onc.store.TemplatesStore', {
         "ip": "192.168.0.1",
         "nameserver": "192.168.0.1",
         "tags": ["virt_type:openvz", "type:template"],
-        "id": "",
+        "id": "1",
         "__type__": "Template",
         "url": "",
         "permissions": ["admin", "security"]
@@ -100,7 +100,7 @@ Ext.define('Onc.store.TemplatesStore', {
         "ip": "192.168.0.1",
         "nameserver": "192.168.0.1",
         "tags": ["virt_type:openvz", "type:template"],
-        "id": "",
+        "id": "2",
         "__type__": "Template",
         "url": "",
         "permissions": ["admin", "security"]
@@ -116,7 +116,7 @@ Ext.define('Onc.store.TemplatesStore', {
         "ip": "192.168.0.1",
         "nameserver": "192.168.0.1",
         "tags": ["virt_type:openvz", "type:template"],
-        "id": "",
+        "id": "3",
         "__type__": "Template",
         "url": "",
         "permissions": ["admin", "security"]
@@ -132,7 +132,7 @@ Ext.define('Onc.store.TemplatesStore', {
         "ip": "192.168.0.1",
         "nameserver": "192.168.0.1",
         "tags": ["virt_type:openvz", "type:template"],
-        "id": "",
+        "id": "4",
         "__type__": "Template",
         "url": "",
         "permissions": ["admin", "security"]

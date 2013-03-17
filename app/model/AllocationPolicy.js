@@ -12,6 +12,22 @@ Ext.define('Onc.model.AllocationPolicy', {
     }, {
         name: 'hostname',
         type: 'string'
+    }, {
+        name: 'num_cores',
+        type: 'integer'
+    }, {
+        name: 'memory',
+        type: 'float'
+    }, {
+        name: 'diskspace',
+        convert: function(value) {
+            for ( var key in value)
+                value[key] = Math.round(value[key]);
+            return value;
+        }
+    }, {
+        name: 'swap_size',
+        type: 'float'
     }, ],
 
     getChild: function(name) {
@@ -32,7 +48,7 @@ Ext.define('Onc.model.AllocationPolicy', {
         }
     }],
 
-    updateSubset: function(subset, onComplete) {
+    updateSubset: function(subset, depth, onComplete) {
         var url = this.get('url') + subset;
         console.log("Getting compute sublist data: " + subset);
         Ext.Ajax.request({
@@ -40,14 +56,13 @@ Ext.define('Onc.model.AllocationPolicy', {
             method: 'GET',
             withCredentials: true,
             params: {
-                depth: 3
+                depth: depth
             },
             success: function(resp) {
                 console.log("Got compute sublist data: " + subset);
                 var jsonData = Ext.JSON.decode(resp.responseText);
                 var subList = this.getList(subset);
                 if (subList) subList.removeAll(); // Remove old data
-
                 // Create temp proxy, to load all accociations correctly
                 var store = Ext.create('Ext.data.Store', {
                     autoLoad: true,
@@ -65,14 +80,17 @@ Ext.define('Onc.model.AllocationPolicy', {
                 var compTemp = store.first();
                 subListTemp = compTemp.getList(subset);
                 if (subListTemp) {
-                    if (subList)
+                    if (subList) {
                         Ext.each(subListTemp.getRange(), function(it, i) {
                             subList.add(it);
                         })
-                    else
-                        subList = subListTemp;
+                    } else {//if child doesn't exist add it fully
+                        this.children().add(compTemp.getChild(subset));
+                    }
                 }
-                onComplete(subList);
+                
+                onComplete(subListTemp);
+                
             }.bind(this),
             failure: function(request, response) {
                 console.log("Cannot get Compute subset data:" + subset);

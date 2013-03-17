@@ -50,7 +50,12 @@ Ext.define('Onc.view.compute.NewVmView', {
             Ext.getCmp(cName).setValue(value);
         if (value !== -1 && value !== undefined && value !== null) Ext.getCmp(cName).setValue(value);
     },
-
+    unitProperty: {
+        'memory': 'GB',
+        'diskspace': 'GB',
+        'swap_size': 'GB',
+        'num_cores': ''
+    },
     setConstraints: function(hostProperty, componentName, stMax, stMin, multiplier, hostMultiplier, hostPropertySpec){
     setConstraints: function(hostProperty, componentName, stMax, stMin, multiplier, hostMultiplier, hostPropertySpec) {
         var component = Ext.getCmp(componentName);
@@ -83,44 +88,78 @@ Ext.define('Onc.view.compute.NewVmView', {
         else
             component.setMaxValue(parentValue * multiplier);
             if (min !== -1 && min !== undefined && min !== null)
-                component.setMinValue(Math.min(min, parentValue) * multiplier);
+                min = Math.min(min, parentValue) * multiplier;
             else
-                component.setMinValue(parentValue * multiplier);
+                min = parentValue * multiplier;
 
             if (max !== -1 && max !== undefined && max !== null)
-                component.setMaxValue(Math.min(max, parentValue) * multiplier);
+                max = Math.min(max, parentValue) * multiplier;
             else
-                component.setMaxValue(parentValue * multiplier);
+                max = parentValue * multiplier;
         } else {// If no parent comp then different rules
             var parentValue = hostMultiplier;
 
             if (min !== -1 && min !== undefined && min !== null)
-                component.setMinValue(min * multiplier);
+                min = min * multiplier;
             else
-                component.setMinValue(parentValue * multiplier);
+                min = parentValue * multiplier;
 
             if (max !== -1 && max !== undefined && max !== null)
-                component.setMaxValue(max * multiplier);
+                max = max * multiplier;
             else
-                component.setMaxValue(parentValue * multiplier);
+                max = parentValue * multiplier;
         }
+        var cPlaces = 10;
+        min = Math.ceil(min * cPlaces) / cPlaces;
+        max = Math.floor(max * cPlaces) / cPlaces;
+        component.setMinValue(min);
+        component.setMaxValue(max);
+
+        // label formatting
+        var oldLabel = component.labelEl.getHTML();
+        var limitsIdx = oldLabel.indexOf("(");
+        if (limitsIdx > 0) oldLabel = oldLabel.substr(0, limitsIdx);
+        var limitsPart = " ({0} .. {1} {2})".format(min, max, this.unitProperty[componentName]);
+        component.labelEl.update(oldLabel + limitsPart);
 
     },
 
     disableControls: function (boolValue){
         var controls = ['num_cores', 'num_cores_slider', 'cpu_limit', 'cpu_limit_slider', 'memory', 'memory_slider', 'diskspace', 'diskspace_slider', 'hostname', 'ipv4_address', 'dns1', 'dns2', 'root_password', 'root_password_repeat', 'start_on_boot', 'newvm_tagger'];
     disableControls: function(boolValue) {
-        var controls = ['num_cores', 'swap', 'memory', 'diskspace', 'hostname', 'ipv4_address', 'nameservers', 'root_password', 'root_password_repeat', 'start_on_boot', 'start_vm'];
+        var controls = ['num_cores', 'swap_size', 'memory', 'diskspace', 'hostname', 'ipv4_address', 'nameservers', 'root_password', 'root_password_repeat', 'start_on_boot', 'start_vm'];
 
         Ext.Array.forEach(controls,function(control){
         Ext.Array.forEach(controls, function(control) {
             Ext.getCmp(control).setDisabled(boolValue);
         });
     },
+    loadTemplates: function(store) {
+        var templatesIcons = Ext.getCmp('templatesIcons');
+        var combo = Ext.getCmp('allocation_policy');
+        if (store) {// enable
+
+            templatesIcons.store = store;
+            templatesIcons.refresh();
+            templatesIcons.enable();
+            combo.enable();
+            if (this.st) {
+                var newStIndex = store.findBy(function(record, id) {
+                    console.log(record);
+                    if (record.get('name_and_base_type') == this.st.get("name_and_base_type") || record.get('name') == this.st.get("name") || record.get('name_short') == this.st.get("name_short")) { return true; }
+                }.bind(this));
+                if (newStIndex != -1) {
+                    templatesIcons.select(store.getAt(newStIndex));
+                }
+            }
+        } else {// disable
+            templatesIcons.disable();
+            templatesIcons.deselect(this.st);
+            combo.disable();
+        }
+    },
 
     listeners: {
-        'afterrender': function(){
-
         'afterrender': function() {
             var tooltipMap = {
                     'template': 'Choose VM template',
@@ -137,7 +176,7 @@ Ext.define('Onc.view.compute.NewVmView', {
                 'num_cores': 'Number of cores',
                 'cpu_limit': 'CPU usage limit',
                 'memory': 'Assigned RAM',
-                'swap': 'Assigned swap memory',
+                'swap_size': 'Assigned swap memory',
                 'diskspace': 'Assigned disk space',
 
                     'hostname': 'Hostname',
@@ -163,12 +202,22 @@ Ext.define('Onc.view.compute.NewVmView', {
                     html: tooltip
                 });
             });
+
+            // Hiding "users" fields, shown if "admin"
+            var isAdmin = Onc.model.AuthenticatedUser.isAdmin();
+            var onlyAdminFields = ['allocation_policy', 'storage_location', 'ipv4_address', 'nameservers', 'start_vm', 'start_on_boot'];
+            if (!isAdmin) {
+                for ( var i = 0; i < onlyAdminFields.length; i++) {
+                    var field = Ext.getCmp(onlyAdminFields[i]);
+                    field.disable();// for validation
+                    field.isFormField = false;// not POST-ing it
+                    field.hide();
+                }
+            }
         }
     },
 
     initComponent: function() {
-
-        var templatesStore = (this.parentCompute != null) ? this.parentCompute.getList('templates') : this.store;
 
         this.items = {
             xtype: 'form',
@@ -225,13 +274,12 @@ Ext.define('Onc.view.compute.NewVmView', {
                                     id: "templatesIcons",
                                     name: "templatesIcons",
                                     xtype: "dataview",
-                                    height: 75,
+                                    minHeight: 75,
                                     overItemCls: 'template-over',
                                     selectedItemCls: 'template-selected',
                                     trackOver: true,
-                                    store: templatesStore,
                                     tpl: ['<table><tbody><tr><tpl for=".">', '<td><div class="template-icon-wrap" data-qtip="{name_and_base_type}">', '<span>{name_short}</span>',
-                                            '<img src="img/appicons/{name_short}.png" width="65" height="65" onerror="this.style.display =\'none\'"/>', '</div></td>', '</tpl></tbody></table>', ''],
+                                            '<img src="img/appicons/{name_short}.png" width="65" height="65" onerror="this.style.display =\'none\'"/>', '</div><div class="template_name">{name_and_base_type}</div></td>', '</tpl></tbody></table>', ''],
                                     itemSelector: 'div.template-icon-wrap',
                                     emptyText: 'No templates available',
                                     listeners: {
@@ -248,9 +296,9 @@ Ext.define('Onc.view.compute.NewVmView', {
                             this.setConstraints('diskspace', 'diskspace', 'disk_max', 'disk_min', 1, 1, 'total');
                             this.setConstraints('diskspace', 'diskspace_slider', 'disk_max', 'disk_min', 1, 1/1024, 'total');
                                                 this.setConstraints('num_cores', 'num_cores', 'cores_max', 'cores_min');
-                                                this.setConstraints('memory', 'memory', 'memory_max', 'memory_min', 1024);
-                                                this.setConstraints('swap', 'swap', 'swap_max', 'swap_min', 1024);
-                                                this.setConstraints('diskspace', 'diskspace', 'disk_max', 'disk_min', 1, 1, 'total');
+                                                this.setConstraints('memory', 'memory', 'memory_max', 'memory_min', 1, 1 / 1024);
+                                                this.setConstraints('swap_size', 'swap_size', 'swap_max', 'swap_min', 1, 1 / 1024);
+                                                this.setConstraints('diskspace', 'diskspace', 'disk_max', 'disk_min', 1, 1 / 1024, 'total');
 
 //                            this.adjusted('num_cores', 'cores_default');
                             this.adjusted('cpu_limit', 'cpu_limit_default', 0.01);
@@ -305,7 +353,6 @@ Ext.define('Onc.view.compute.NewVmView', {
                                                 this.disableControls(false);
                                                 Ext.getCmp('submitButton').enable();
                                             } else {
-                                                this.st = null;
                                                 this.disableControls(true);
                                                 Ext.getCmp('submitButton').disable();
                                             }
@@ -340,60 +387,68 @@ Ext.define('Onc.view.compute.NewVmView', {
                             triggerAction: 'all',
                             forceSelection: true,
                             editable: false,
+                            readOnly: true,
                             displayField: 'name',
                             valueField: 'value',
                             queryMode: 'local',
                             store: Ext.create('Ext.data.Store', {
                                 fields: ['name', 'value'],
                                 data: [{
-                                    name: 'Large mem VM profile name',
+                                    name: 'Default VM profile',
                                     value: 'default'
-                                }, {
-                                    name: 'Medium mem VM profile name',
-                                    value: 'medium'
-                                }, {
-                                    name: 'small mem VM profile name',
-                                    value: 'small'
                                 }]
                             })
                         }, {
                             id: 'allocation_policy',
                             name: 'allocation_policy',
+                            isFormField: false,
                             fieldLabel: 'Allocation policy',
                             xtype: 'combo',
                             mode: 'local',
-                            value: 'automatic',
                             triggerAction: 'all',
                             forceSelection: true,
                             editable: false,
                             displayField: 'hostname',
                             valueField: 'id',
                             queryMode: 'local',
-                            store: Ext.getStore("AllocationPolicyStore"),
+                            store: Ext.getStore("AllocationPolicyStore").load(),
                             listeners: {
+
                                 change: function(combo, newValue, oldValue, eOpts) {
-                                    var templatesIcons = Ext.getCmp('templatesIcons');
-                                    templatesIcons.disable();
-                                    templatesIcons.deselect(this.st);
-                                    combo.disable();
+                                    this.loadTemplates();
                                     if (newValue !== "automatic") {
                                         var computeId = newValue;
                                         var comp = Ext.getStore('AllocationPolicyStore').getById(computeId);
-                                        comp.updateSubset('templates', function(templatesStore) {
-                                            templatesIcons.store = templatesStore;
-                                            templatesIcons.refresh();
-                                            templatesIcons.enable();
-                                            combo.enable();
-                                        }, function(error) {
-                                            console.error('Error while loading data: ', error);
-                                            return;
-                                        });
+                                        this.parentCompute = comp;
+                                        var templatesStore = this.parentCompute.getList('templates')
+                                        if (!templatesStore) {
+                                            this.parentCompute.updateSubset('templates', 1, function(templatesStore) {
+                                                this.loadTemplates(templatesStore);
+                                            }.bind(this), function(error) {
+                                                console.error('Error while loading data: ', error);
+                                                return;
+                                            });
+                                        } else {
+                                            this.loadTemplates(templatesStore);
+                                        }
+
+                                        if (!this.parentCompute.getList('vms')) {
+                                            // Going to update vms subset to get
+                                            // the url from that
+                                            this.parentCompute.updateSubset('vms', 1, function(vmsStore) {
+                                            }, function(error) {
+                                                console.error('Error while loading data: ', error);
+                                                return;
+                                            });
+                                        }
                                     } else {
-                                        templatesIcons.store = Ext.getStore('TemplatesStore');
-                                        templatesIcons.refresh();
-                                        templatesIcons.enable();
-                                        combo.enable();
+                                        this.loadTemplates(Ext.getStore('TemplatesStore'));
+                                        this.parentCompute = null;
                                     }
+                                }.bind(this),
+                                afterrender: function(combo, eOpts) {
+                                    var id = (this.parentCompute) ? this.parentCompute.getId() : 'automatic'
+                                    combo.select(id);
                                 }.bind(this)
                             }
                         }
@@ -562,33 +617,30 @@ Ext.define('Onc.view.compute.NewVmView', {
                                 name: 'memory',
                                 id: 'memory',
                                 xtype: 'numberfield',
-                                value: 256,
-                                step: 128,
-                                minValue: 128,
-                                maxValue: 10240,
-                                width: 160,
+                                step: 0.1,
+                                labelWidth: 160,
+                                width: 220,
                                 style: {
                                     marginRight: '10px'
-                                }
+                                },
+                                value: 0.5
                             }, {
                                 fieldLabel: "Swap",
-                                name: 'swap',
-                                id: 'swap',
+                                name: 'swap_size',
+                                id: 'swap_size',
                                 xtype: 'numberfield',
-                                value: 256,
-                                step: 128,
-                                minValue: 128,
-                                maxValue: 10240,
-                                width: 160
+                                step: 0.1,
+                                labelWidth: 160,
+                                width: 220,
+                                value: 0.5
                             }, {
                                 fieldLabel: "CPUs",
                                 name: 'num_cores',
                                 id: 'num_cores',
                                 xtype: 'numberfield',
-                                value: 1,
-                                minValue: 1,
-                                maxValue: 10,
-                                width: 160
+                                labelWidth: 160,
+                                width: 220,
+                                value: 1
                             }, {
                                 fieldLabel: "Disk",
                                 name: 'diskspace',
@@ -597,10 +649,9 @@ Ext.define('Onc.view.compute.NewVmView', {
                                 allowDecimals: true,
                                 decimalPrecision: 2,
                                 step: 0.5,
-                                minValue: 2,
-                                maxValue: 1000,
-                                value: 10,
-                                width: 160
+                                labelWidth: 160,
+                                width: 220,
+                                value: 1
                             }]
                         }, {
                             id: 'storage_location',
@@ -722,10 +773,6 @@ Ext.define('Onc.view.compute.NewVmView', {
 
         this.callParent(arguments);
 
-
-        // this.record = Ext.create('Onc.model.Compute', {});
-
-        // this.child('form').loadRecord(this.record);
 
         // this.record = Ext.create('Onc.model.Compute', {});
 

@@ -25,7 +25,7 @@ Ext.define('Onc.store.AllocationPolicyStore', {
         },
         extraParams: {
             'depth': 1,
-            'attrs': 'hostname,url',
+            'attrs': 'hostname,url,num_cores,swap_size,diskspace,memory',
             'q': 'virt:no'
         },
         limitParam: null,

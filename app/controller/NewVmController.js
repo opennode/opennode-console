@@ -25,7 +25,6 @@ Ext.define('Onc.controller.NewVmController', {
                     var form = this.getForm().getForm();
                     if (form.isValid()) {
                         var data = form.getFieldValues();
-
                         // cleanup for auto-generated properties from form input
                         // fields
                         // TODO: figure out how to exclude input field from
@@ -35,7 +34,7 @@ Ext.define('Onc.controller.NewVmController', {
                             if (key.indexOf('ext-') === 0 || key.indexOf('combobox-') === 0) delete data[key];
                         }
                         var parentCompute = this.getWindow().parentCompute;
-                        var url = '/machines/hangar/automatic/action/allocate';
+                        var url = '/machines/hangar/';
                         if (parentCompute) url = parentCompute.getChild('vms').get('url');
 
                         Onc.core.Backend.request('POST', url, {
