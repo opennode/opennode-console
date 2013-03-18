@@ -95,6 +95,11 @@ Ext.define('Onc.controller.ComputeController', {
                     this.fireBusEvent('displayNewVMDialog', this.getComputeInfo().record);
                 }
             },
+            'computeview computeheader #gauge-chart-button': {
+                click: function(sender) {
+                    this.fireBusEvent('displayGaugeChartDialog', sender.up("computeview").record);
+                }
+            },
             'computeview computevmlisttab': {
                 groupStart: function(vms) {
                     computeManager.start(vms);

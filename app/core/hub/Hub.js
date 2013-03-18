@@ -151,6 +151,55 @@ Ext.define('Onc.core.hub.Hub', {
 
         return d;
     },
+    getFromPast: function(timestamp, urls, callbackFn) {
+        var d = new Onc.core.util.Deferred();
+
+        var r = Onc.core.Backend.request(this.METHOD, this.URL, {
+            params: {
+                'after': timestamp || 0,
+                'limit': 1000
+            },
+            jsonData: urls
+        });
+
+        r.success(d.trigger(function(result, response) {
+
+            var streamData = result[1];
+
+            var replies = [];
+            Ext.Object.each(streamData, function(urlIx, updates) {
+                if (updates.length === 0) {
+                    console.warn("Stream response violates protocol: value lists in streamData should be non-empty");
+                    return;
+                }
+                var urlIx = parseInt(urlIx);
+                replies.push([callbackFn, [urls[urlIx], updates]]);
+            }.bind(this));
+
+            replies.massocForEach(function(subscriber, data) {
+                var dataAsObj = {};
+                data.assocForEach(function(url, updates) {
+                    console.assert(updates.length);
+                    dataAsObj[url] = updates;
+                });
+                console.assert(!empty(dataAsObj));
+
+                var data = {};
+                Ext.Object.each(dataAsObj, function(url, updates) {
+                    var name = url;
+                    data[name] = updates;
+                });
+
+                subscriber(data);
+            }.bind(this));
+        }.bind(this)));
+
+        r.failure(d.triggerErrback(function(response) {
+            console.error("Failed to poll %s", this.URL);
+        }.bind(this)));
+
+        return d;
+    },
 
     _registerMapping: function(subscriber, resources, type) {
         var mapping = this._mappings.assoc(subscriber);
