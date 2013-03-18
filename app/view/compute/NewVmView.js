@@ -266,6 +266,12 @@ Ext.define('Onc.view.compute.NewVmView', {
                         items: [
                                 {
                                     xtype: 'textfield',
+                                    id: "backend",
+                                    name: "backend",
+                                    hidden: true
+                                },
+                                {
+                                    xtype: 'textfield',
                                     id: "template",
                                     name: "template",
                                     hidden: true
@@ -310,15 +316,12 @@ Ext.define('Onc.view.compute.NewVmView', {
                                                 this.adjusted('memory', 'memory_default', 1024);
                                                 this.adjusted('diskspace', 'disk_default');
 
-                            this.setValue('hostname', 'name');
-                            this.setValue('ipv4_address', 'ip');
-                            this.setValue('dns1', 'nameserver');
-                            this.setValue('dns2', 'nameserver');
-                            this.setValue('root_password', 'password');
+                                                this.setValue('backend', 'base_type');
                                                 this.setValue('hostname', 'name');
                                                 this.setValue('ipv4_address', 'ip');
                                                 this.setValue('nameservers', 'nameserver');
                                                 this.setValue('root_password', 'password');
+                                                this.setValue('root_password_repeat', 'password');
                                                 this.setValue('template', 'name');
 
                             this.disableControls(false);
