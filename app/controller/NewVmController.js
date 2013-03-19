@@ -86,14 +86,15 @@ Ext.define('Onc.controller.NewVmController', {
                             if (key.indexOf('ext-') === 0 || key.indexOf('combobox-') === 0) delete data[key];
                         }
                         var parentCompute = this.getWindow().parentCompute;
-
+                        var hangarUrl = '/machines/hangar';
+                        var backend = data['backend'];// get template backend to dynamically create it
+                        delete data['backend'];
+                        
                         if (parentCompute) {
                             var url = parentCompute.getChild('vms').get('url');
                             this.createVm(url, data);
                         } else {
-                            var hangarUrl = '/machines/hangar';
-                            var backend = data['backend'];// get template backend to dynamically create it
-                            delete data['backend'];
+                            
 
                             var url = hangarUrl + '/vms-' + backend;
                             this.createVmInHangar(hangarUrl, url, data, backend)
