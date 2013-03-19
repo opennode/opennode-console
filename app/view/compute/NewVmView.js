@@ -381,6 +381,7 @@ Ext.define('Onc.view.compute.NewVmView', {
                                 cpuLimitSlider.setValue(newValue);
                                 cpuLimit.setValue(newValue/100);
                         items: [{
+                            isFormField: false,
                             id: 'vm_profile',
                             name: 'vm_profile',
                             fieldLabel: 'VM Profile',
@@ -657,6 +658,7 @@ Ext.define('Onc.view.compute.NewVmView', {
                                 value: 1
                             }]
                         }, {
+                            isFormField: false,
                             id: 'storage_location',
                             name: 'storage_location',
                             fieldLabel: 'Storage location',
@@ -743,6 +745,7 @@ Ext.define('Onc.view.compute.NewVmView', {
                                 type: 'hbox'
                             },
                             items: [{
+                                isFormField: false,
                                 flex: 1,
                                 xtype: 'checkbox',
                                 name: 'start_vm',
