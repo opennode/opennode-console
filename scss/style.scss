@@ -271,3 +271,56 @@ $state-icon-margin: 5px;
 .host-tip {
 	border-color: lightgray !important;
 }
+.template-icon-wrap{
+	display: inline-block;
+	zoom: 1;
+	position: relative;
+	cursor: pointer;
+	cursor: hand;
+	white-space: nowrap;
+	vertical-align: middle;
+	text-align:center;
+	background-repeat: no-repeat;
+	width:75px;
+	height:75px;
+	overflow:hidden;
+	line-height: 75px;
+	border-radius: 5px; 
+	-moz-border-radius: 5px; 
+	-webkit-border-radius: 5px; 
+	border: 1px solid gray;
+	background-color:#fff;
+	margin: 0 5px;
+	text-shadow: 1px 1px 3px rgba(150, 148, 150, 1);
+	font-weight:bold;
+	color: rgb(0, 163, 255);
+}
+#templatesIcons{
+	margin-bottom:10px;
+}
+.template-over{
+	border: 1px solid #00a3ff;
+}
+.template-selected{
+	border: 2px solid #00a3ff;
+}
+.template_name{
+	height: 25px;
+	width: 75px;
+	font-size: 10px;
+	overflow: hidden;
+	text-align: center;
+	margin: 0 5px;
+	color:gray;
+}
+
+.template-icon-wrap img{
+   background-color:#fff;
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   width: 65px;
+   height: 65px;
+   margin-top: -32px; /* Half the height */
+   margin-left: -32px; /* Half the width */
+}
