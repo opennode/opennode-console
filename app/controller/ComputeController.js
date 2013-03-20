@@ -63,6 +63,23 @@ Ext.define('Onc.controller.ComputeController', {
                     return;
                 }
             );
+        },
+        
+        computeSuspiciousChanged: function(computeId, suspicious) {
+            Ext.ComponentQuery.query('computeview[computeId=' + computeId + ']').forEach(function(c) {
+                if (suspicious) {
+                    c.el.mask("Suspicious activity.", "x-mask-msg-suspicious");
+                } else if (c.el.isMasked()) {
+                    c.el.unmask();
+                }
+            });
+            Ext.ComponentQuery.query('computestatecontrol[computeId=' + computeId + ']').forEach(function(c) {
+                if (suspicious) {
+                    c.el.mask("Suspicious activity.", "x-mask-msg-suspicious-vm");
+                } else if (c.el.isMasked()) {
+                    c.el.unmask();
+                }
+            });
         }
     },
 

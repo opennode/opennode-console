@@ -102,7 +102,8 @@ Ext.define('Onc.core.hub.Sync', {
             var additions = {};
             var stateChanges = {};
             var featureChanges = {};
-            for (var i = 0; i < updates.length; i += 1) {
+            var suspiciousChanges = {};
+            for ( var i = 0; i < updates.length; i += 1) {
                 var update = updates[i][1];
                 var name = update['name'];
                 var event = update['event'];
@@ -116,6 +117,10 @@ Ext.define('Onc.core.hub.Sync', {
                         var res = url.split('/');
                         var computeId = url.split('/')[res.length-2];
                         featureChanges[computeId] = update['value'];
+                    } else if (name === 'suspicious') {
+                        var res = url.split('/');
+                        var computeId = url.split('/')[res.length - 2];
+                        suspiciousChanges[computeId] = update['value'];
                     }
                 }
                 else if (event === 'remove')
@@ -145,8 +150,9 @@ Ext.define('Onc.core.hub.Sync', {
             if(stateChanges)
                 this._processChanges('computeStateChanged', stateChanges);
             // handle changed compute feature set
-            if (featureChanges)
-                this._processChanges('computeFeaturesChanged', featureChanges);
+            if (featureChanges) this._processChanges('computeFeaturesChanged', featureChanges);
+
+            if (suspiciousChanges) this._processChanges('computeSuspiciousChanged', suspiciousChanges);
         }
     },
 
