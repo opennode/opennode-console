@@ -7,7 +7,6 @@ Ext.define('Onc.view.compute.NewVmView', {
     border: false,
     width: 500,
     resizable: false,
-    store: "TemplatesStore",
 
     defaults: {
         border: false,
@@ -320,7 +319,7 @@ Ext.define('Onc.view.compute.NewVmView', {
                                             });
                                         }
                                     } else {
-                                        this.loadTemplates(Ext.getStore('TemplatesStore'));
+                                        this.loadTemplates(Ext.getStore('TemplatesStore').load());
                                         this.parentCompute = null;
                                     }
                                 }.bind(this),
