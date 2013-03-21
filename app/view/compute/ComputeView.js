@@ -61,6 +61,12 @@ Ext.define('Onc.view.compute.ComputeView', {
         return true;
     },
 
+    listeners: {
+        'boxready': function(){
+            Onc.core.EventBus.fireEvent("computeSuspiciousChanged", this.record.data['id'], this.record.data['suspicious']);
+        }
+    },
+
     initComponent: function() {
         var rec = this.record;
 

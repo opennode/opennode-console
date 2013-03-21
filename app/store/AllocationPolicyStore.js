@@ -8,6 +8,7 @@ Ext.define('Onc.store.AllocationPolicyStore', {
         "id": "automatic",
         "url": "automatic",
         "hostname": "Automatic",
+        "suspicious":false
     }],
 
     sorters: [{
@@ -25,7 +26,7 @@ Ext.define('Onc.store.AllocationPolicyStore', {
         },
         extraParams: {
             'depth': 1,
-            'attrs': 'hostname,url,num_cores,swap_size,diskspace,memory',
+            'attrs': 'hostname,url,num_cores,swap_size,diskspace,memory,suspicious',
             'q': 'virt:no'
         },
         limitParam: null,
@@ -41,4 +42,8 @@ Ext.define('Onc.store.AllocationPolicyStore', {
             store.loadData(store.staticData, true);
         }
     },
+    filters: [{
+        property: 'suspicious',
+        value: /false/
+    }]
 });
