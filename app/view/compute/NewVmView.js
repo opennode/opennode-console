@@ -333,6 +333,8 @@ Ext.define('Onc.view.compute.NewVmView', {
                                                     }
                                                 }
                                             });
+                                        } else {
+                                            this.loadTemplates(Ext.getStore('TemplatesStore'));
                                         }
                                     }
                                 }.bind(this),
