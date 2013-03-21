@@ -86,19 +86,19 @@ Ext.define('Onc.view.compute.NewVmView', {
             if (max !== -1 && max !== undefined && max !== null)
                 max = max * multiplier;
             else
-                max = parentValue * multiplier;
+                max = -1;
         }
         var cPlaces = 10;
         min = Math.ceil(min * cPlaces) / cPlaces;
         max = Math.floor(max * cPlaces) / cPlaces;
         component.setMinValue(min);
-        component.setMaxValue(max);
+        if(max !== -1) component.setMaxValue(max);
 
         // label formatting
         var oldLabel = component.labelEl.getHTML();
         var limitsIdx = oldLabel.indexOf("(");
         if (limitsIdx > 0) oldLabel = oldLabel.substr(0, limitsIdx);
-        var limitsPart = " ({0} .. {1} {2})".format(min, max, this.unitProperty[componentName]);
+        var limitsPart = " ({0} .. {1} {2})".format(min, (max !== -1)? max : '', this.unitProperty[componentName]);
         component.labelEl.update(oldLabel + limitsPart);
     },
 
