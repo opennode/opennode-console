@@ -328,7 +328,7 @@ Ext.define('Onc.view.compute.NewVmView', {
                                         }
                                     } else {
                                         var store = Ext.getStore('TemplatesStore');
-                                        if (store.getCount() == 0) {//dont load agein when switching between alloc policy items
+                                        if (store.getCount() == 0) { // don't load again when switching between alloc policy items
                                             store.load({
                                                 scope: this,
                                                 callback: function(records, operation, success) {
