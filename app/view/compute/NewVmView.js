@@ -176,6 +176,9 @@ Ext.define('Onc.view.compute.NewVmView', {
 
     initComponent: function() {
 
+        //So window open fresh data is loaded afterwards
+        Ext.getStore('TemplatesStore').removeAll();
+        
         this.items = {
             xtype: 'form',
             items: [
@@ -319,8 +322,18 @@ Ext.define('Onc.view.compute.NewVmView', {
                                             });
                                         }
                                     } else {
-                                        this.loadTemplates(Ext.getStore('TemplatesStore').load());
-                                        this.parentCompute = null;
+                                        var store = Ext.getStore('TemplatesStore');
+                                        if (store.getTotalCount() == 0) {//dont load agein when switching between alloc policy items
+                                            store.load({
+                                                scope: this,
+                                                callback: function(records, operation, success) {
+                                                    if (success) {
+                                                        this.loadTemplates(Ext.getStore('TemplatesStore'));
+                                                        this.parentCompute = null;
+                                                    }
+                                                }
+                                            });
+                                        }
                                     }
                                 }.bind(this),
                                 afterrender: function(combo, eOpts) {
