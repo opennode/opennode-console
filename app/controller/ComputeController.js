@@ -68,14 +68,17 @@ Ext.define('Onc.controller.ComputeController', {
         computeSuspiciousChanged: function(computeId, suspicious) {
             Ext.ComponentQuery.query('computeview[computeId=' + computeId + ']').forEach(function(c) {
                 if (suspicious) {
-                    c.el.mask("Suspicious activity.", "x-mask-msg-suspicious");
+                    var comp = Ext.getStore('ComputesStore').getById(computeId);
+                    var hostname="host";
+                    if(comp)hostname=comp.get("hostname");
+                    c.el.mask(Ext.String.format("Management access to '{0}' is in a suspicious|failed state", hostname), "x-mask-msg-suspicious");
                 } else if (c.el.isMasked()) {
                     c.el.unmask();
                 }
             });
             Ext.ComponentQuery.query('computestatecontrol[computeId=' + computeId + ']').forEach(function(c) {
                 if (suspicious) {
-                    c.el.mask("Suspicious activity.", "x-mask-msg-suspicious-vm");
+                    c.el.mask("Connection unstable.", "x-mask-msg-suspicious-vm");
                 } else if (c.el.isMasked()) {
                     c.el.unmask();
                 }
