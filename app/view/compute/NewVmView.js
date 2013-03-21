@@ -101,7 +101,7 @@ Ext.define('Onc.view.compute.NewVmView', {
     },
 
     disableControls: function(boolValue) {
-        var controls = ['num_cores', 'swap_size', 'memory', 'diskspace', 'hostname', 'ipv4_address', 'nameservers', 'root_password', 'root_password_repeat', 'start_on_boot', 'start_vm'];
+        var controls = ['num_cores', 'swap_size', 'memory', 'diskspace', 'hostname', 'ipv4_address', 'nameservers', 'root_password', 'root_password_repeat', 'start_on_boot', 'start_vm','ipv4_mask'];
 
         Ext.Array.forEach(controls, function(control) {
             Ext.getCmp(control).setDisabled(boolValue);
@@ -144,7 +144,7 @@ Ext.define('Onc.view.compute.NewVmView', {
                 'diskspace': 'Assigned disk space',
 
                 'hostname': 'Hostname',
-                'ipv4_address': 'IPv4 address',
+                'ipv4_address': 'IPv4 address: Server does automatic allocation if IP is empty ',
                 'nameservers': 'Domain Name Servers, comma seperated list',
                 'root_password': 'Root password',
                 'root_password_repeat': 'Repeat root password',
@@ -442,8 +442,15 @@ Ext.define('Onc.view.compute.NewVmView', {
                             fieldLabel: "Nameservers",
                             name: 'nameservers',
                             id: 'nameservers',
-                            colspan: 2,
-                            width: 460,
+							width: 280,
+                            xtype: 'textfield',
+                            labelWidth: 70     
+                        },{
+                            isFormField: false,
+                            hidden: true,
+                            fieldLabel: "Mask",
+                            name: 'ipv4_mask',
+                            id: 'ipv4_mask',
                             xtype: 'textfield',
                             labelWidth: 70
                         }]
