@@ -28,7 +28,10 @@ Ext.define('Onc.model.AllocationPolicy', {
     }, {
         name: 'swap_size',
         type: 'float'
-    }, ],
+    }, {
+        name: 'suspicious',
+        type: 'boolean'
+    }],
 
     getChild: function(name) {
         return this.children().findRecord('id', name);

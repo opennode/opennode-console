@@ -35,7 +35,8 @@ Ext.define('Onc.model.Compute', {
 
         {name: 'uptime', type: 'string', persist: false},
 
-        {name: 'features'}
+        {name: 'features'},
+        {name: 'suspicious', type: 'boolean'}
     ],
 
     proxy: {

@@ -53,7 +53,12 @@ Ext.define('Onc.view.tabs.VmListTab', {
             this._makeGaugeColumn('Memory usage', 'memory', 'MB'),
             this._makeGaugeColumn('Disk usage', 'diskspace', 'MB'),
 
-            {header: 'ID', dataIndex: 'id', width: 130, hidden: true}
+            {header: 'ID', dataIndex: 'id', width: 130, hidden: true,
+           		renderer: function(val, metadata, record, rowIndex, colIndex, store) {
+              	  Onc.core.EventBus.fireEvent("computeSuspiciousChanged", record.data['id'], record.data['suspicious']);
+              	  return val;
+           		}
+			}
         ];
         
         this.callParent(arguments);
