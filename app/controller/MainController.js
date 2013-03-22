@@ -4,7 +4,7 @@ Ext.define('Onc.controller.MainController', {
     models: ['Base', 'Compute', 'IpRoute', 'Storage', 'Template', 'VirtualizationContainer', 'Hangar',
              'Templates', 'NetworkInterface', 'NetworkInterfaces'],
     stores: ['ComputesStore', 'PhysicalComputesStore', 'TemplatesStore'],
-    views: ['compute.ComputeView'],
+    views: ['compute.ComputeView','compute.GaugesChartView'],
 
     refs: [{ref: 'tabs', selector: '#mainTabs'}],
 
@@ -51,11 +51,37 @@ Ext.define('Onc.controller.MainController', {
         }
     },
 
+    openGaugesChartInTab: function(compute) {
+        var tabPanel = this.getTabs();
+        var computeId=compute.get('id');
+        var tabId = 'gaugeschart[computeId=' + computeId + ']';
+        var tab = tabPanel.child(tabId);
+        if (!tab) {
+            tab=Ext.widget('gaugeschartview', {
+                compute: compute,
+                computeId: computeId,
+                store: Ext.create('Ext.data.JsonStore', {
+                    fields: ['timestamp', 'cpu', 'memory', 'diskspace', 'network'],
+                    data: [],
+                    sorters: ['timestamp']
+                }),
+            });
+            tabPanel.add(tab);
+            tabPanel.setActiveTab(tab);
+        } else {
+            tabPanel.setActiveTab(tab);
+        }
+    },
+
     busListeners: {
         openCompute: function(computeId){
           this.openComputeInTab(computeId);
         },
-
+        
+        openGaugesChart: function(compute){
+            this.openGaugesChartInTab(compute);
+        },
+        
         computeRemove: function(vmId, url){
             // close deleted VM compute tab
             var tabPanel = this.getTabs();
