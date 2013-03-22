@@ -48,10 +48,11 @@ Ext.define('Onc.view.compute.ComputeHeaderView', {
             convert: function(v) { return v / 1024; },
             iconCls: 'icon-hd'
         }, {
-            buttons: [{
-                text: 'Show in Chart',
-                itemId: 'gauge-chart-button'
-            }]
+            xtype: 'button',
+            text: 'Show in Chart',
+            itemId: 'gauge-chart-button',
+            padding: '4 0 4 0',
+            scale   : 'medium'
         }];
 
         this.callParent(arguments);

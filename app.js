@@ -89,7 +89,6 @@ Ext.application({
         'MainController',
         'ComputeController',
         'NewVmController',
-        'GaugesChartController',
         'EditVmController',
         'TasksController',
         'InfrastructureJoinController',

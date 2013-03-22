@@ -97,7 +97,7 @@ Ext.define('Onc.controller.ComputeController', {
             },
             'computeview computeheader #gauge-chart-button': {
                 click: function(sender) {
-                    this.fireBusEvent('displayGaugeChartDialog', sender.up("computeview").record);
+                    this.fireBusEvent('openGaugesChart', sender.up("computeview").record);
                 }
             },
             'computeview computevmlisttab': {

@@ -1,24 +1,17 @@
 Ext.define('Onc.view.compute.GaugesChartView', {
-    extend: 'Ext.window.Window',
-    alias: 'widget.gaugeschart',
-    hidden: false,
-    title: 'Chart',
-    modal: true,
+    extend: 'Ext.Panel',
+    alias: 'widget.gaugeschartview',
+
     border: false,
 
-    resizable: false,
     layout: 'fit',
 
     store: null,
 
-    defaults: {
-        border: false,
-        bodyStyle: 'background: inherit',
-        bodyPadding: 4
-    },
     _checkIfActive: function() {
         return true;
     },
+    
     minimumTimestamp: 0,
 
     onMetricsData: function(data) {
@@ -51,7 +44,7 @@ Ext.define('Onc.view.compute.GaugesChartView', {
         }
 
         if (currentMinimum != this.minimumTimestamp) {
-            var chart = Ext.getCmp("gaugesChart");
+            var chart = this.child('chart');
             chart.axes.get(1).minimum = this.minimumTimestamp;
             chart.redraw();
         }
@@ -64,17 +57,19 @@ Ext.define('Onc.view.compute.GaugesChartView', {
     },
     clearData: function() {
         this.store.removeAll();
-        this.minimumTimestamp=0;
+        this.minimumTimestamp = 0;
     },
 
     initComponent: function() {
+        this.title = "Chart: " + this.compute.get('hostname');
+
         var url = this.compute.get('url');
         this.urls = [url + 'metrics/diskspace_usage', url + 'metrics/cpu_usage', url + 'metrics/memory_usage', url + 'metrics/network_usage']
         Onc.core.hub.Hub.subscribe(this.onMetricsData.bind(this), this.urls, 'chart', this._checkIfActive.bind(this));
 
         this.items = [{
             xtype: 'chart',
-            id: 'gaugesChart',
+            name: 'gaugesChart',
             minWidth: 800,
             minHeight: 600,
             style: 'background:#fff',
@@ -223,6 +218,7 @@ Ext.define('Onc.view.compute.GaugesChartView', {
             handler: function() {
                 this.loadOldData();
             }.bind(this)
-        }], this.callParent(arguments);
+        }];
+        this.callParent(arguments);
     }
 });
