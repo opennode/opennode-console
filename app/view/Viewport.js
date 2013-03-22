@@ -32,7 +32,7 @@ Ext.define('Onc.view.Viewport', {
     items: [{
         region: 'north',
         id: 'header',
-        html: '<img src="img/onc_logo.png" alt="OpenNode Console" width="436px" height="59px" />',
+        html: '<img src="'+IMG_LOGO_MAIN+' " alt="OpenNode Console" width="436px" height="59px" />',
         height: 66,
         padding: 5,
         border: false,
