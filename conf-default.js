@@ -12,3 +12,6 @@ ENABLE_VMMAP_LEGEND = false;
 
 //FATAL, ERROR, WARN, INFO, DEBUG, and TRACE.
 LOG_LEVEL = 'INFO';
+
+IMG_LOGO_MAIN="img/onc_logo.png";
+IMG_LOGO_LOGIN="img/onc_logo_login.png";
