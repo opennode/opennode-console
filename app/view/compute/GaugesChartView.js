@@ -3,7 +3,7 @@ Ext.define('Onc.view.compute.GaugesChartView', {
     alias: 'widget.gaugeschartview',
 
     border: false,
-
+    closable:true,
     layout: 'fit',
 
     store: null,
