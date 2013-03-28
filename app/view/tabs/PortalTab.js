@@ -1,0 +1,61 @@
+Ext.define('Onc.view.tabs.PortalTab', {
+    extend: 'Onc.view.tabs.Tab',
+    alias: 'widget.portaltab',
+
+    layout: 'border',
+    initComponent: function() {
+        var me = this;
+        this.items = [{
+            id: 'app-portal',
+            xtype: 'portalpanel',
+            region: 'center',
+            items: [{
+                id: 'col-1',
+                items: [{
+                    id: 'portlet-1',
+                    title: 'Running Tasks',
+                    height: 200,
+                    items: [],
+                    listeners: {
+                        'close': Ext.bind(this.onPortletClose, this)
+                    }
+                }]
+            }, {
+                id: 'col-2',
+                colSpan: 2,
+                items: [{
+                    id: 'chartsPortlet',
+                    title: 'Charts',
+                    items: Ext.create('Onc.portal.GaugesChartPortlet'),
+                    listeners: {
+                        'close': Ext.bind(this.onPortletClose, this)
+                    }
+                }, {
+                    id: 'logPortlet',
+                    title: 'Latest Events',
+                    tools: [{
+                        xtype: 'tool',
+                        type: 'refresh',
+                        handler: function(e, target, header, tool) {
+                            var portlet = header.ownerCt;
+                            portlet.setLoading('Loading...');
+                            portlet.down('logportlet')._loadLastEvents();
+                        }
+                    }],
+                    items: Ext.create('Onc.portal.LogPortlet'),
+                    listeners: {
+                        'close': Ext.bind(this.onPortletClose, this)
+                    }
+                }]
+            }, {
+                id: 'col-3',
+                items: []
+            }]
+
+        }];
+        this.callParent(arguments);
+    },
+    onPortletClose: function(portlet) {
+    },
+
+});

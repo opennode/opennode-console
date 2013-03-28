@@ -73,7 +73,14 @@ Ext.syncRequire([
     'Onc.view.tabs.TemplatesTab',
     'Onc.view.tabs.ShellTab',
     'Onc.view.tabs.VncTab',
-    'Onc.view.tabs.DashboardTab'
+    'Onc.view.tabs.DashboardTab',
+    'Onc.view.tabs.PortalTab',
+    'Onc.portal.LogPortlet',
+    'Onc.portal.PortalColumn',
+    'Onc.portal.PortalDropZone',
+    'Onc.portal.PortalPanel',
+    'Onc.portal.Portlet',
+    'Onc.portal.GaugesChartPortlet'
 ]);
 
 if (ENABLE_VMMAP == true) {
