@@ -8,10 +8,11 @@ Ext.define('Onc.portal.Portlet', {
     alias: 'widget.portlet',
     layout: 'fit',
     anchor: '100%',
-    frame: true,
+    frame: false,
     closable: true,
     collapsible: true,
     animCollapse: true,
+    margin:2,
     draggable: {
         moveOnDrag: false    
     },

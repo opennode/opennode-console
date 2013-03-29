@@ -58,7 +58,8 @@ Ext.syncRequire([
     'Onc.core.ui.widgets.Gauge',
     'Onc.core.ui.widgets.Shell',
     'Onc.core.ui.widgets.Vnc',
-
+    'Onc.core.ui.widgets.InfoBox',
+    
     'Onc.core.ui.components.ComputeGauge',
     'Onc.core.ui.components.MemoryGauge',
     'Onc.core.ui.components.CPUGauge',
@@ -80,7 +81,8 @@ Ext.syncRequire([
     'Onc.portal.PortalDropZone',
     'Onc.portal.PortalPanel',
     'Onc.portal.Portlet',
-    'Onc.portal.GaugesChartPortlet'
+    'Onc.portal.GaugesChartPortlet',
+    'Onc.portal.InfoBoxesPortlet'
 ]);
 
 if (ENABLE_VMMAP == true) {

@@ -11,15 +11,35 @@ Ext.define('Onc.view.tabs.PortalTab', {
             region: 'center',
             items: [{
                 id: 'col-1',
+
                 items: [{
+                    id: 'infoboxesportlet',
+                    title: 'Available Resources',
+                    header:false,
+                    tools: [{
+                        xtype: 'tool',
+                        type: 'refresh',
+                        handler: function(e, target, header, tool) {
+                            var portlet = header.ownerCt;
+                            portlet.setLoading('Loading...'); 
+                            portlet.down('infoboxesportlet')._loadRunningServices();
+                        }
+                    }],
+                    items: Ext.create('Onc.portal.InfoBoxesPortlet'),
+                    listeners: {
+                        'close': Ext.bind(this.onPortletClose, this)
+                    }
+                },{
                     id: 'portlet-1',
                     title: 'Running Tasks',
                     height: 200,
                     items: [],
+
                     listeners: {
                         'close': Ext.bind(this.onPortletClose, this)
                     }
                 }]
+
             }, {
                 id: 'col-2',
                 colSpan: 2,

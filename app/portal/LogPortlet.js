@@ -2,8 +2,8 @@ Ext.define('Onc.portal.LogPortlet', {
     extend: 'Ext.grid.Panel',
     alias: 'widget.logportlet',
     uses: ['Ext.data.ArrayStore'],
-    height: 300,
-
+    height: 250,
+    border: false,
     store: Ext.create('Ext.data.ArrayStore', {
         fields: [{
             name: 'time'

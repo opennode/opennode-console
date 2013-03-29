@@ -6,9 +6,7 @@ Ext.define('Onc.portal.PortalPanel', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.portalpanel',
 
-    requires: ['Ext.layout.container.Column',
-
-    'Onc.portal.PortalDropZone', 'Onc.portal.PortalColumn'],
+    requires: ['Ext.layout.container.Column','Onc.portal.PortalDropZone', 'Onc.portal.PortalColumn'],
 
     cls: 'x-portal',
     bodyCls: 'x-portal-body',

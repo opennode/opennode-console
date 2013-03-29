@@ -4,7 +4,7 @@ Ext.define('Onc.portal.GaugesChartPortlet', {
     alias: 'widget.gaugeschartportlet',
 
     layout: 'fit',
-
+    border: false,
     store: Ext.create('Ext.data.JsonStore', {
         fields: ['timestamp', 'co0_c', 'co1_c'],
         data: [],
