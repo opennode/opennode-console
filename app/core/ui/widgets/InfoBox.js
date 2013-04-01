@@ -7,7 +7,6 @@ Ext.define('Onc.core.ui.widgets.InfoBox', {
     border: true,
     width: 95,
     hight: 95,
-    margin:1,
     
     value: 0,
     title: '',

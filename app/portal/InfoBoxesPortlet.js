@@ -4,7 +4,6 @@ Ext.define('Onc.portal.InfoBoxesPortlet', {
     alias: 'widget.infoboxesportlet',
 
     border: false,
-    margin: '10 0 10 0',
 
     _loadRunningServices: function() {
         var resourceContainer = this.up('#infoboxesportlet');
@@ -74,33 +73,48 @@ Ext.define('Onc.portal.InfoBoxesPortlet', {
     },
 
     initComponent: function() {
-        this.defaults = {
-            style: 'position: relative !important; float: left;',
-        };
+
         this.items = [{
-            xtype: 'infobox',
-            id: 'physServersBox',
-            title: 'Physical Servers',
-            sub1_title: 'cloud',
-            sub2_title: 'HA cloud'
-        }, {
-            xtype: 'infobox',
-            id: 'virtualMachinesBox',
-            title: 'Virtual machines'
-        }, {
-            xtype: 'infobox',
-            id: 'assignedRamBox',
-            title: 'Assigned RAM',
-            convert: function(v) { return v / 1024; },
-            display: ['fixed', 1],
-            unit:'GB'
-        }, {
-            xtype: 'infobox',
-            id: 'assignedHddBox',
-            title: 'Assigned HDD',
-            convert: function(v) { return v / 1024; },
-            display: ['fixed', 1],
-            unit:'GB'
+            xtype: 'container',
+            layout: {
+                type: 'hbox',
+                pack: 'justify'
+            },
+            defaults: {
+                flex: 1,
+            },
+            items: [{
+                xtype: 'infobox',
+                margin:'0 4 0 0',
+                id: 'physServersBox',
+                title: 'Physical Servers',
+                sub1_title: 'cloud',
+                sub2_title: 'HA cloud'
+            }, {
+                xtype: 'infobox',
+                margin:'0 4 0 0',
+                id: 'virtualMachinesBox',
+                title: 'Virtual machines'
+            }, {
+                xtype: 'infobox',
+                margin:'0 4 0 0',
+                id: 'assignedRamBox',
+                title: 'Assigned RAM',
+                convert: function(v) {
+                    return v / 1024;
+                },
+                display: ['fixed', 1],
+                unit: 'GB'
+            }, {
+                xtype: 'infobox',
+                id: 'assignedHddBox',
+                title: 'Assigned HDD',
+                convert: function(v) {
+                    return v / 1024;
+                },
+                display: ['fixed', 1],
+                unit: 'GB'
+            }]
         }];
 
         this.callParent(arguments);

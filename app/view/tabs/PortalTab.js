@@ -9,13 +9,15 @@ Ext.define('Onc.view.tabs.PortalTab', {
             id: 'app-portal',
             xtype: 'portalpanel',
             region: 'center',
+       
             items: [{
                 id: 'col-1',
-
+                colSpan: 2,
                 items: [{
                     id: 'infoboxesportlet',
                     title: 'Available Resources',
                     header:false,
+                    border: false,
                     tools: [{
                         xtype: 'tool',
                         type: 'refresh',
@@ -42,7 +44,10 @@ Ext.define('Onc.view.tabs.PortalTab', {
 
             }, {
                 id: 'col-2',
-                colSpan: 2,
+                items: []
+            }, {
+                id: 'col-3',
+                colSpan: 3,
                 items: [{
                     id: 'chartsPortlet',
                     title: 'Charts',
@@ -68,7 +73,10 @@ Ext.define('Onc.view.tabs.PortalTab', {
                     }
                 }]
             }, {
-                id: 'col-3',
+                id: 'col-4',
+                items: []
+            } ,{
+                id: 'col-5',
                 items: []
             }]
 
