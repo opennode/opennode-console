@@ -240,6 +240,12 @@
   font-size: 8px;
   color: gray; }
 
+.tasks-table .x-grid-cell-inner {
+  padding: 6px 6px !important; }
+
+.tasks-table .x-grid-row .x-grid-cell {
+  background-color: transparent !important; }
+
 #search-results {
   width: 215px;
   overflow: hidden; }

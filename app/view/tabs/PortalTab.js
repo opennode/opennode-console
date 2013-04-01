@@ -34,8 +34,8 @@ Ext.define('Onc.view.tabs.PortalTab', {
                 },{
                     id: 'portlet-1',
                     title: 'Running Tasks',
-                    height: 200,
-                    items: [],
+                  
+                    items:  Ext.create('Onc.portal.TasksPortlet'),
 
                     listeners: {
                         'close': Ext.bind(this.onPortletClose, this)

@@ -82,7 +82,8 @@ Ext.syncRequire([
     'Onc.portal.PortalPanel',
     'Onc.portal.Portlet',
     'Onc.portal.GaugesChartPortlet',
-    'Onc.portal.InfoBoxesPortlet'
+    'Onc.portal.InfoBoxesPortlet',
+    'Onc.portal.TasksPortlet'
 ]);
 
 if (ENABLE_VMMAP == true) {
