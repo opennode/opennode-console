@@ -190,6 +190,6 @@ Ext.define('Onc.portal.PortalDropZone', {
     // unregister the dropzone from ScrollManager
     unreg: function() {
         Ext.dd.ScrollManager.unregister(this.portal.body);
-        Ext.app.PortalDropZone.superclass.unreg.call(this);
+        Onc.portal.PortalDropZone.superclass.unreg.call(this);
     }
 });
