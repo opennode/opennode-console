@@ -1,6 +1,6 @@
 Ext.define('Onc.controller.DashboardController', {
     extend: 'Ext.app.Controller',
 
-    stores: ['ComputesStore', 'PhysicalComputesStore','GaugesChartComputesStore'],
+    stores: ['ComputesStore', 'PhysicalComputesStore','GaugesChartComputesStore','TasksPortletStore'],
 
 });

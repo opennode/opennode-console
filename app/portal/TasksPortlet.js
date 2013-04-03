@@ -4,14 +4,27 @@ Ext.define('Onc.portal.TasksPortlet', {
     minHeight: 200,
     border: false,
 
-    initComponent: function() {
+    initMessages: function() {
+        var messages = new Ext.util.HashMap();
+        messages.add("DEFAULT", "Service {0} is running.");
+        messages.add("ERROR", "Service {0} should be running.");
+        messages.add("NOTIFY_PAUSED", "Service {0} is paused.");
+        this.messages = messages;
 
+    },
+
+    initComponent: function() {
+        this.initMessages();
+        Ext.getStore('TasksPortletStore').startAutoRefresh(2);
         Ext.apply(this, {
-            store: 'TasksStore',
+            store: 'TasksPortletStore',
             hideHeaders: true,
-            bodyCls:'tasks-table',
-            style:{
-                background:"transparent",
+            bodyCls: 'tasks-table',
+            style: {
+                background: "transparent",
+            },
+            viewConfig: {
+                loadMask: false
             },
             columns: [{
                 id: 'id',
@@ -26,8 +39,26 @@ Ext.define('Onc.portal.TasksPortlet', {
                 sortable: true,
                 dataIndex: 'cmdline',
                 renderer: function(value, metaData, record, row, col, store, gridView) {
-                    var color="#5bcb63";
-                    metaData.style = 'border-bottom:1px solid {0};border-left:8px solid {0}'.format(color);
+                    var color = "#5bcb63";
+                    var status = record.get("status");
+                    var message;
+                    if (status) {
+                        message = this.messages.get(status);
+                        switch (status) {
+                        case "ERROR":
+                            color = "#FA4E55";
+                            if (message) value = message.format(value);
+                            break;
+                        case "NOTIFY_PAUSED":
+                            color = "#FFB745";
+                            if (message) value = message.format(value.replace(": paused", ""));
+                            break;
+                        default:
+                        }
+                    }
+                    if (!message) value =  this.messages.get("DEFAULT").format(value);
+                    metaData.style = 'background:#F7F8FF !important;border-bottom:1px solid {0};border-left:8px solid {0}'.format(color);
+
                     return value;
                 }
             }]
