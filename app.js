@@ -56,6 +56,7 @@ Ext.syncRequire([
 
     'Onc.core.ui.widgets.Tagger',
     'Onc.core.ui.widgets.Gauge',
+    'Onc.core.ui.widgets.GaugeChart',
     'Onc.core.ui.widgets.Shell',
     'Onc.core.ui.widgets.Vnc',
     'Onc.core.ui.widgets.InfoBox',
