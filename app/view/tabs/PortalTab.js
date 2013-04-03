@@ -9,21 +9,21 @@ Ext.define('Onc.view.tabs.PortalTab', {
             id: 'app-portal',
             xtype: 'portalpanel',
             region: 'center',
-       
+
             items: [{
                 id: 'col-1',
-                colSpan: 2,
+                columnWidth:0.4,
                 items: [{
                     id: 'infoboxesportlet',
                     title: 'Available Resources',
-                    header:false,
+                    header: false,
                     border: false,
                     tools: [{
                         xtype: 'tool',
                         type: 'refresh',
                         handler: function(e, target, header, tool) {
                             var portlet = header.ownerCt;
-                            portlet.setLoading('Loading...'); 
+                            portlet.setLoading('Loading...');
                             portlet.down('infoboxesportlet')._loadRunningServices();
                         }
                     }],
@@ -31,12 +31,10 @@ Ext.define('Onc.view.tabs.PortalTab', {
                     listeners: {
                         'close': Ext.bind(this.onPortletClose, this)
                     }
-                },{
+                }, {
                     id: 'portlet-1',
                     title: 'Running Tasks',
-                  
-                    items:  Ext.create('Onc.portal.TasksPortlet'),
-
+                    items: Ext.create('Onc.portal.TasksPortlet'),
                     listeners: {
                         'close': Ext.bind(this.onPortletClose, this)
                     }
@@ -44,10 +42,7 @@ Ext.define('Onc.view.tabs.PortalTab', {
 
             }, {
                 id: 'col-2',
-                items: []
-            }, {
-                id: 'col-3',
-                colSpan: 3,
+                columnWidth:0.6,
                 items: [{
                     id: 'chartsPortlet',
                     title: 'Charts',
@@ -72,12 +67,6 @@ Ext.define('Onc.view.tabs.PortalTab', {
                         'close': Ext.bind(this.onPortletClose, this)
                     }
                 }]
-            }, {
-                id: 'col-4',
-                items: []
-            } ,{
-                id: 'col-5',
-                items: []
             }]
 
         }];

@@ -33,35 +33,7 @@ Ext.define('Onc.portal.PortalPanel', {
         });
     },
 
-    // Set columnWidth, and set first and last column classes to allow exact CSS targeting.
-    beforeLayout: function() {
-        var items = this.layout.getLayoutItems(), len = items.length, firstAndLast = ['x-portal-column-first', 'x-portal-column-last'], i, item, last;
-
-        for (i = 0; i < len; i++) {
-            item = items[i];
-            item.columnWidth = 1 * ((item.colSpan) ? item.colSpan : 1) / len;
-
-            last = (i == len - 1);
-
-            if (!i) { // if (first)
-                if (last) {
-                    item.addCls(firstAndLast);
-                } else {
-                    item.addCls('x-portal-column-first');
-                    item.removeCls('x-portal-column-last');
-                }
-            } else if (last) {
-                item.addCls('x-portal-column-last');
-                item.removeCls('x-portal-column-first');
-            } else {
-                item.removeCls(firstAndLast);
-            }
-        }
-
-        return this.callParent(arguments);
-    },
-
-    // private
+     // private
     initEvents: function() {
         this.callParent();
         this.dd = Ext.create('Onc.portal.PortalDropZone', this, this.dropConfig);
