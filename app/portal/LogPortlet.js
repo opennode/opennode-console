@@ -41,7 +41,7 @@ Ext.define('Onc.portal.LogPortlet', {
                             message = message.substr(message.indexOf(" ") + 1);
                             var level = message.substr(0, message.indexOf(" "));
                             message = message.substr(message.indexOf(" ") + 1);
-                            if (time) {
+                            if (time && level) {
                                 var d = {
                                     'time': date + " " + time,
                                     'message': message,
