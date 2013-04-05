@@ -1,0 +1,60 @@
+.infobox{
+     background: url("../img/infobox_bg.png") repeat-x;
+     width:95px;
+     height:95px;
+     border:1px solid #d9e2eb;
+     color:#363636;
+     font-family: Arial, Helvetica, sans-serif;
+}
+.ib_header{
+   background: url("../img/infobox_line.png") repeat-x bottom;
+   width:100%;
+   height:25%;
+   text-align:center;
+   
+}
+.ib_header div{
+	vertical-align:middle;
+	line-height:22px;
+	font-size:11px;
+}
+.ib_main{
+	 height:60%;
+}
+.ib_footer{
+ 	height:15%;
+ 	font-size:10px;
+}
+.ib_footer span{
+	padding:0 1px 0 1px;
+}
+.ib_f_right{
+	float:right;
+	padding-right:2px;
+}
+.ib_f_left{
+	float:left;
+	padding-left:2px;
+}
+.ib_bold_nr{
+	font-weight:bold;
+}
+.ib_main div{
+	line-height:57px;
+	font-size:50px; 
+	vertical-align:middle;
+	text-align:center;
+	font-family: Arial, Helvetica, sans-serif;
+	letter-spacing:-1px;
+}
+.ib_main div span{
+	font-size:8px;
+	color: gray;
+}
+
+.tasks-table .x-grid-cell-inner {
+    padding: 6px 6px !important;
+}
+.tasks-table .x-grid-row .x-grid-cell{
+	background-color: transparent !important;
+}

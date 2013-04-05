@@ -6,6 +6,7 @@ Ext.define('Onc.model.Task', {
         {name: '__type__', type: 'string'},
         {name: 'url', type: 'string'},
         {name: 'cmdline', type: 'string'},
+        {name: 'status', type: 'string'},
     ],
 
     associations: [
