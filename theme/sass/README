@@ -2,6 +2,7 @@ OpenNode Console theme related files.
 
 Contents:
  _tab.scss - a modified extjs4 tab widget template, includes increased dimensions for the the icons.
+ _window.scss, _panel.scss - a modified extjs4 widget template, puts shadow on header-text.
  config.rb - compass configuration file
  on-theme.scss - opennode theme parameters
 
@@ -13,3 +14,6 @@ Documentation:
 Process:
 
 Run `compass compile` in this folder to generate a new theme css.
+
+Simpler configuring and use of compass and sass for windows and mac:
+http://mhs.github.com/scout-app/
