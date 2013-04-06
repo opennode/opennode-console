@@ -107,6 +107,14 @@ Ext.define('Onc.view.Viewport', {
         }, {
             xtype: 'searchresults',
             flex: 1
+        }],
+        fbar: [{
+            flex: 1,
+            text: 'Open VM List',
+            tooltip: 'Opens all VM list',
+            handler: function(button, state) {
+                Onc.core.EventBus.fireEvent('openVmList');
+            }.bind(this)
         }]
     }, {
         region: 'center',

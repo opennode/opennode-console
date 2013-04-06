@@ -170,6 +170,9 @@ $state-icon-margin: 5px;
     &.icon-dashboard {
         background-image: url(ico("dashboard"));
     }
+    &.icon-list {
+        background-image: url(ico("list"));
+    }
 }
 
 .x-action-col-icon {
