@@ -70,6 +70,7 @@ Ext.syncRequire([
 
     'Onc.view.tabs.Tab',
     'Onc.view.tabs.VmListTab',
+    'Onc.view.tabs.VmListGridTab',
     'Onc.view.tabs.SystemTab',
     'Onc.view.tabs.NetworkTab',
     'Onc.view.tabs.StorageTab',
