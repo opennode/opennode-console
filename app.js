@@ -37,6 +37,7 @@ Ext.syncRequire([
     'Onc.core.Backend',
     'Onc.core.Proxy',
     'Onc.core.Store',
+	'Onc.store.NodesStore',
     'Onc.core.EventBus',
 
     'Onc.core.polymorphic.Reader',
