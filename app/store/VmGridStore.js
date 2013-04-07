@@ -3,18 +3,20 @@ Ext.define('Onc.store.VmGridStore', {
     model: 'Onc.model.Compute',
     autoLoad: true,
     closable:true,
+    pageSize:10,
     proxy: {
         type: 'onc',
         reader: {
             type: 'json',
-            root: 'children'
+            root: 'children',
+          //  totalProperty:'total'
         },
         extraParams: {
             'depth': 1,
             'attrs': 'virt,state,hostname,ipv4_address,cpu_info,url,num_cores,swap_size,diskspace,memory,suspicious,tags',
         },
-        limitParam: null,
-        pageParam: null,
+        limitParam: 'limit',
+        pageParam: 'offset',
         startParam: null,
         url: 'computes'
     },

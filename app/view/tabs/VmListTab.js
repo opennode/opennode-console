@@ -36,7 +36,6 @@ Ext.define('Onc.view.tabs.VmListTab', {
         if (attrs) {
             var attrsArr = attrs.split(",");
             var attrsColumns = [];
-            console.log(headerCt)
             for ( var i = 0; i < attrsArr.length; i++) {
                 var name = attrsArr[i];
                 attrsColumns.push({
@@ -59,41 +58,11 @@ Ext.define('Onc.view.tabs.VmListTab', {
         Ext.override(Ext.ux.grid.filter.StringFilter, {
             validateRecord: function(record) {
                 var val = record.get(this.dataIndex);
-
                 if (typeof val != 'string') { return (this.getValue().length === 0); }
-
                 return val.toLowerCase().indexOf(this.getValue().toLowerCase()) == 0;
             },
         });
-        Ext.override(filter, {
-            buildQuery: function(filters) {
-                var p = {}, i, f, tmp, len = filters.length;
-                p['q'] = ""
-                if (!this.encode) {
-                    for (i = 0; i < len; i++) {
-                        f = filters[i];
 
-                        if (f.data["type"] === "string") {
-                            if (p['q']) p['q'] += "&";
-                            p['q'] += f.field + ":" + f.data["value"];
-                        }
-                    }
-                } else {
-                    tmp = [];
-                    for (i = 0; i < len; i++) {
-                        f = filters[i];
-                        tmp.push(Ext.apply({}, {
-                            field: f.field
-                        }, f.data));
-                    }
-                    // only build if there is active filter
-                    if (tmp.length > 0) {
-                        p[this.paramPrefix] = Ext.JSON.encode(tmp);
-                    }
-                }
-                return p;
-            }
-        });
         this.addEvents('groupStop', 'groupStart');
 
         // initialize component and subscription cache
@@ -124,7 +93,8 @@ Ext.define('Onc.view.tabs.VmListTab', {
                             return Onc.model.Compute.getType(ctype, shortver);
                         }
                     }), width: 75,
-					 filter: {
+                    dataIndex: 'state',
+					filter: {
                			active: true,
                 		type: "string"
             		}

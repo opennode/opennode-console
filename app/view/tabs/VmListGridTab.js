@@ -40,7 +40,11 @@ Ext.define('Onc.view.tabs.VmListGridTab', {
                     var grid = Ext.getCmp("vmgrid");
                     grid.filters.clearFilters();
                 }
-            }, ]
+            }, ],
+            dockedItems: [Ext.create('Ext.toolbar.Paging', {
+                dock: 'bottom',
+                store: "VmGridStore"
+            })],
 
         }];
 

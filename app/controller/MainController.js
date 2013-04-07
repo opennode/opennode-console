@@ -73,33 +73,13 @@ Ext.define('Onc.controller.MainController', {
         }
     },
     
-    openVmListInTab: function() {
-        var tabPanel = this.getTabs();
-        var tabId = 'computevmlistgridtab';
-        var tab = tabPanel.child(tabId);
-        if (!tab) {
-            tab=Ext.widget('computevmlistgridtab', {
-                title: "VM list",
-                iconCls: 'icon-list',
-                xtype: 'computevmlistgridtab',
-                itemId: 'vmgrid'
-            });
-            tabPanel.add(tab);
-            tabPanel.setActiveTab(tab);
-        } else {
-            tabPanel.setActiveTab(tab);
-        }
-    },
+
 
     busListeners: {
         openCompute: function(computeId){
           this.openComputeInTab(computeId);
         },
-        
-        openVmList: function(){
-            this.openVmListInTab();
-          },
-        
+           
         openGaugesChart: function(compute){
             this.openGaugesChartInTab(compute);
         },

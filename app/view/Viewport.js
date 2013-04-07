@@ -107,14 +107,6 @@ Ext.define('Onc.view.Viewport', {
         }, {
             xtype: 'searchresults',
             flex: 1
-        }],
-        fbar: [{
-            flex: 1,
-            text: 'Open VM List',
-            tooltip: 'Opens all VM list',
-            handler: function(button, state) {
-                Onc.core.EventBus.fireEvent('openVmList');
-            }.bind(this)
         }]
     }, {
         region: 'center',
@@ -140,6 +132,12 @@ Ext.define('Onc.view.Viewport', {
             closable: false,
             xtype: 'computedashboardtab',
             itemId: 'dashboard'
+        },{
+            title: "VM list",
+            iconCls: 'icon-list',
+            closable: false,
+            xtype: 'computevmlistgridtab',
+            itemId: 'vmgrid'
         }].concat(!ENABLE_VMMAP ? [] : [{
             itemId: 'vmmap',
             title: "VM Map",
