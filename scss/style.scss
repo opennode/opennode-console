@@ -4,6 +4,7 @@
 @import "gauge";
 @import "vmmap";
 @import "shell";
+@import "portlets";
 
 $ICON-PREFIX: "../img/icon/";
 @function ico($name) {

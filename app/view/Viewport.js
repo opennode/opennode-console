@@ -138,7 +138,7 @@ Ext.define('Onc.view.Viewport', {
             title: "Dashboard",
             iconCls: 'icon-dashboard',
             closable: false,
-            xtype: 'computedashboardtab',
+            xtype: 'portaltab',
             itemId: 'dashboard'
         }].concat(!ENABLE_VMMAP ? [] : [{
             itemId: 'vmmap',
