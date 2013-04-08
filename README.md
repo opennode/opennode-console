@@ -3,6 +3,8 @@ OpenNode Console (ONC)
 
 OpenNode Console is a web frontend for the [OpenNode Management Server (OMS)](<https://github.com/opennode/opennode-management).
 
+[![Build Status](https://gate1.hep.kbfi.ee:10000/job/opennode-onc/badge/icon)](https://gate1.hep.kbfi.ee:10000/job/opennode-onc/)
+
 Requirements
 ------------
 
