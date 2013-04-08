@@ -9,7 +9,7 @@ Ext.define('Onc.store.VmGridStore', {
         reader: {
             type: 'json',
             root: 'children',
-          //  totalProperty:'total'
+            totalProperty:'totalChildren'
         },
         extraParams: {
             'depth': 1,

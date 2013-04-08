@@ -63,6 +63,39 @@ Ext.define('Onc.view.tabs.VmListTab', {
             },
         });
 
+        
+        Ext.override(filter, {
+            buildQuery: function(filters) {
+                var p = {}, i, f, tmp, len = filters.length;
+                p['q'] = [];
+                if (!this.encode) {
+                    for (i = 0; i < len; i++) {
+                        f = filters[i];
+
+                        if (f.data["type"] === "string") {
+                            p['q'].push(f.field + ":" + f.data["value"]);
+                        }
+                    }
+                } else {
+                    tmp = [];
+                    for (i = 0; i < len; i++) {
+                        f = filters[i];
+                        tmp.push(Ext.apply({}, {
+                            field: f.field
+                        }, f.data));
+                    }
+                    // only build if there is active filter
+                    if (tmp.length > 0) {
+                        p[this.paramPrefix] = Ext.JSON.encode(tmp);
+                    }
+                }
+                return p;
+            }
+        });
+        
+        
+        
+        
         this.addEvents('groupStop', 'groupStart');
 
         // initialize component and subscription cache
