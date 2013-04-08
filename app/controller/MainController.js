@@ -3,7 +3,7 @@ Ext.define('Onc.controller.MainController', {
 
     models: ['Base', 'Compute', 'IpRoute', 'Storage', 'Template', 'VirtualizationContainer', 'Hangar',
              'Templates', 'NetworkInterface', 'NetworkInterfaces'],
-    stores: ['ComputesStore', 'PhysicalComputesStore', 'TemplatesStore'],
+    stores: ['ComputesStore', 'PhysicalComputesStore', 'TemplatesStore', 'VmGridStore'],
     views: ['compute.ComputeView','compute.GaugesChartView'],
 
     refs: [{ref: 'tabs', selector: '#mainTabs'}],
@@ -72,11 +72,33 @@ Ext.define('Onc.controller.MainController', {
             tabPanel.setActiveTab(tab);
         }
     },
+    
+    openVmListInTab: function() {
+        var tabPanel = this.getTabs();
+        var tabId = 'computevmlistgridtab';
+        var tab = tabPanel.child(tabId);
+        if (!tab) {
+            tab=Ext.widget('computevmlistgridtab', {
+                title: "VM list",
+                iconCls: 'icon-list',
+                xtype: 'computevmlistgridtab',
+                itemId: 'vmgrid'
+            });
+            tabPanel.add(tab);
+            tabPanel.setActiveTab(tab);
+        } else {
+            tabPanel.setActiveTab(tab);
+        }
+    },
 
     busListeners: {
         openCompute: function(computeId){
           this.openComputeInTab(computeId);
         },
+        
+        openVmList: function(){
+            this.openVmListInTab();
+          },
         
         openGaugesChart: function(compute){
             this.openGaugesChartInTab(compute);

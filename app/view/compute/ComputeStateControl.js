@@ -126,7 +126,8 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
             this._disabled('start');
             this._visible('graceful');
         } else {
-            throw new Exception('Compute is in unknown state: ' + this.compute.get('state'));
+            //Exception undefined// throw new Exception('Compute is in unknown state: ' + this.compute.get('state'));
+            console.log('Compute is in unknown state: ' + this.compute.get('state'));
         }
         
     },

@@ -1,9 +1,9 @@
 Ext.define('Onc.view.tabs.VmListTab', {
     extend: 'Ext.grid.Panel',
     alias: 'widget.computevmlisttab',
-
-    _cellComponentMap: null,   // map of reusable components
-    _cellContainerMap: null,   // map of containers
+    requires: ['Ext.ux.grid.FiltersFeature'],
+    _cellComponentMap: null, // map of reusable components
+    _cellContainerMap: null, // map of containers
 
     title: "Virtual Machines",
     multiSelect: true,
@@ -15,19 +15,101 @@ Ext.define('Onc.view.tabs.VmListTab', {
         }
     },
 
+    listeners: {
+        'afterrender': function(grid) {
+            grid.filters.createFilters();
+            this.createColumns(grid.headerCt);
+            grid.view.refresh();
+        },
+        'filterupdate': function(grid) {
+            console.log(grid)
+        },
+    },
+
+    /**
+     * Adds hidden columns, taken from proxy attrs
+     * 
+     * @param headerCt
+     */
+    createColumns: function(headerCt) {
+        var attrs = this.store.proxy.extraParams['attrs'];// For HN vmlist this does not work
+        if (attrs) {
+            var attrsArr = attrs.split(",");
+            var attrsColumns = [];
+            console.log(headerCt)
+            for ( var i = 0; i < attrsArr.length; i++) {
+                var name = attrsArr[i];
+                attrsColumns.push({
+                    dataIndex: name,
+                    text: Ext.String.capitalize(name),
+                    filterable: true,
+                    hidden: true
+                });
+            }
+            headerCt.add(attrsColumns);
+        }
+    },
 
     initComponent: function() {
+        var filter = Ext.create('feature.filters', {
+            local: false,
+            autoReload: true
+        });
+        // Override so it searches from beginning. To make a difference between active/inactive
+        Ext.override(Ext.ux.grid.filter.StringFilter, {
+            validateRecord: function(record) {
+                var val = record.get(this.dataIndex);
+
+                if (typeof val != 'string') { return (this.getValue().length === 0); }
+
+                return val.toLowerCase().indexOf(this.getValue().toLowerCase()) == 0;
+            },
+        });
+        Ext.override(filter, {
+            buildQuery: function(filters) {
+                var p = {}, i, f, tmp, len = filters.length;
+                p['q'] = ""
+                if (!this.encode) {
+                    for (i = 0; i < len; i++) {
+                        f = filters[i];
+
+                        if (f.data["type"] === "string") {
+                            if (p['q']) p['q'] += "&";
+                            p['q'] += f.field + ":" + f.data["value"];
+                        }
+                    }
+                } else {
+                    tmp = [];
+                    for (i = 0; i < len; i++) {
+                        f = filters[i];
+                        tmp.push(Ext.apply({}, {
+                            field: f.field
+                        }, f.data));
+                    }
+                    // only build if there is active filter
+                    if (tmp.length > 0) {
+                        p[this.paramPrefix] = Ext.JSON.encode(tmp);
+                    }
+                }
+                return p;
+            }
+        });
         this.addEvents('groupStop', 'groupStart');
 
         // initialize component and subscription cache
         this._cellComponentMap = {};
         this._cellContainerMap = {};
+        if (this.record) {
+            filter.local = true;// For HN vmlist only local filtering
+            this.store = this.record.getChild('vms').children();
+            this.store.filterBy(function(record) {
+                return Ext.Array.contains(record.get("features"), "IDeployed");
+            });
 
-        this.store = this.record.getChild('vms').children();
-        this.store.filterBy(function(record) {
-            return Ext.Array.contains(record.get("features"), "IDeployed");
-        });
-        this.tbar = this._createTbarButtons();
+            this.tbar = this._createTbarButtons();
+        }
+        this.features = [filter];
+
         this.columns = [
             {header: 'State', xtype: 'templatecolumn', tpl: new Ext.XTemplate(
                     '<div class="state-color" data-qtip="State: {state}"></div>',
@@ -41,9 +123,14 @@ Ext.define('Onc.view.tabs.VmListTab', {
                         getType: function(ctype, shortver){
                             return Onc.model.Compute.getType(ctype, shortver);
                         }
-                    }), width: 75},
-            {header: 'Name', dataIndex: 'hostname', width: 100, flex: 0, editor: {xtype: 'textfield', allowBlank: false}},
-            {header: 'Inet4', dataIndex: 'ipv4_address', width: 120, editor: {xtype: 'textfield', allowBlank: true}},
+                    }), width: 75,
+					 filter: {
+               			active: true,
+                		type: "string"
+            		}
+			},
+            {header: 'Name', filterable: true, dataIndex: 'hostname', width: 100, flex: 0, editor: {xtype: 'textfield', allowBlank: false}},
+            {header: 'Inet4', filterable: true, dataIndex: 'ipv4_address', width: 120, editor: {xtype: 'textfield', allowBlank: true}},
 
             {header: 'actions', width: 165, flex: 0, renderer:
                 makeColumnRenderer(this._computeStateRenderer.bind(this))
