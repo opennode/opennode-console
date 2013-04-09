@@ -2,7 +2,7 @@ Ext.define('Onc.controller.NewVmController', {
     extend: 'Ext.app.Controller',
 
     views: ['compute.NewVmView'],
-    stores: ['ComputesStore', 'AllocationPolicyStore'],
+    stores: ['ComputesStore', 'AllocationPolicyStore', 'VmProfilesStore'],
 
     refs: [
         {ref: 'window', selector: 'window.newvm'},
