@@ -20,6 +20,8 @@ Ext.define('Onc.view.compute.NewVmView', {
     parentCompute: null,
 
     st: null, // selected template
+    
+    vmProfile:null, //selected VM profile
 
     adjusted: function(cName, stDefName, multiplier) {
         var stdef = this.st.get(stDefName);
@@ -42,6 +44,7 @@ Ext.define('Onc.view.compute.NewVmView', {
         var value = this.st.get(stValue);
         if (value !== -1 && value !== undefined && value !== null) Ext.getCmp(cName).setValue(value);
     },
+     
     unitProperty: {
         'memory': 'GB',
         'diskspace': 'GB',
@@ -83,21 +86,20 @@ Ext.define('Onc.view.compute.NewVmView', {
             if (max !== -1 && max !== undefined && max !== null)
                 max = max * multiplier;
             else
-                max = parentValue * multiplier;
+                max = -1;
         }
         var cPlaces = 10;
         min = Math.ceil(min * cPlaces) / cPlaces;
         max = Math.floor(max * cPlaces) / cPlaces;
         component.setMinValue(min);
-        component.setMaxValue(max);
+        if(max !== -1) component.setMaxValue(max);
 
         // label formatting
         var oldLabel = component.labelEl.getHTML();
         var limitsIdx = oldLabel.indexOf("(");
         if (limitsIdx > 0) oldLabel = oldLabel.substr(0, limitsIdx);
-        var limitsPart = " ({0} .. {1} {2})".format(min, max, this.unitProperty[componentName]);
+        var limitsPart = " ({0} .. {1} {2})".format(min, (max !== -1)? max : '', this.unitProperty[componentName]);
         component.labelEl.update(oldLabel + limitsPart);
-
     },
 
     disableControls: function(boolValue) {
@@ -209,7 +211,7 @@ Ext.define('Onc.view.compute.NewVmView', {
                                     id: "templatesIcons",
                                     name: "templatesIcons",
                                     xtype: "dataview",
-                                    minHeight: 75,
+                                    minHeight: 100,
                                     overItemCls: 'template-over',
                                     selectedItemCls: 'template-selected',
                                     trackOver: true,
@@ -226,9 +228,6 @@ Ext.define('Onc.view.compute.NewVmView', {
                                                 this.setConstraints('memory', 'memory', 'memory_max', 'memory_min', 1, 1 / 1024);
                                                 this.setConstraints('swap_size', 'swap_size', 'swap_max', 'swap_min', 1, 1 / 1024);
                                                 this.setConstraints('diskspace', 'diskspace', 'disk_max', 'disk_min', 1, 1 / 1024, 'total');
-
-                                                this.adjusted('memory', 'memory_default', 1024);
-                                                this.adjusted('diskspace', 'disk_default');
 
                                                 this.setValue('backend', 'base_type');
                                                 this.setValue('hostname', 'name');
@@ -263,21 +262,27 @@ Ext.define('Onc.view.compute.NewVmView', {
                             fieldLabel: 'VM Profile',
                             xtype: 'combo',
                             mode: 'local',
-                            value: 'default',
                             triggerAction: 'all',
                             forceSelection: true,
                             editable: false,
-                            readOnly: true,
-                            displayField: 'name',
-                            valueField: 'value',
+                            // readOnly: true,
+                            displayField: 'profile',
+                            valueField: 'id',
                             queryMode: 'local',
-                            store: Ext.create('Ext.data.Store', {
-                                fields: ['name', 'value'],
-                                data: [{
-                                    name: 'Default VM profile',
-                                    value: 'default'
-                                }]
-                            })
+                            store: Ext.getStore("VmProfilesStore"),
+                            listeners: {
+                                change: function(combo, newValue, oldValue, eOpts) {
+                                    this.vmProfile = Ext.getStore("VmProfilesStore").getById(newValue);
+                                    if (this.vmProfile) {
+                                        var vmFields = ['memory', 'diskspace', 'num_cores'];
+                                        Ext.Array.each(vmFields, function(name, index) {
+                                            if (this.vmProfile.get(name)) {
+                                                Ext.getCmp(name).setValue(this.vmProfile.get(name));
+                                            }
+                                        }.bind(this));
+                                    }
+                                }.bind(this)
+                            }
                         }, {
                             id: 'allocation_policy',
                             name: 'allocation_policy',
@@ -323,7 +328,7 @@ Ext.define('Onc.view.compute.NewVmView', {
                                         }
                                     } else {
                                         var store = Ext.getStore('TemplatesStore');
-                                        if (store.getCount() == 0) {//dont load agein when switching between alloc policy items
+                                        if (store.getCount() == 0) { // don't load again when switching between alloc policy items
                                             store.load({
                                                 scope: this,
                                                 callback: function(records, operation, success) {
