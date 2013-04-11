@@ -20,10 +20,7 @@ Ext.define('Onc.view.tabs.VmListTab', {
             grid.filters.createFilters();
             this.createColumns(grid.headerCt);
             grid.view.refresh();
-        },
-        'filterupdate': function(grid) {
-            console.log(grid)
-        },
+        }
     },
 
     /**
@@ -148,7 +145,19 @@ Ext.define('Onc.view.tabs.VmListTab', {
               	  Onc.core.EventBus.fireEvent("computeSuspiciousChanged", record.data['id'], record.data['suspicious']);
               	  return val;
            		}
-			}
+			},
+ 			{
+				header: 'Tags',
+            	filter: {
+            	    active: true,
+            	    type: "string"
+           	 	},
+            	dataIndex: 'tags',
+            	hidden:true,
+            	width: 100,
+            	flex: 0
+ 			}
+	            
         ];
         
         this.callParent(arguments);
