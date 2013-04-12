@@ -43,18 +43,18 @@ Ext.define('Onc.portal.InfoBoxesPortlet', {
             }
             virtMachines = Ext.Array.unique(virtMachines);
 
-            physServersBox.updateData({
+            if (physServersBox) physServersBox.updateData({
                 value: physServers,
                 sub1_value: physCloudServers,
                 sub2_value: physHACloudServers
             });
-            virtualMachinesBox.updateData({
+            if (virtualMachinesBox) virtualMachinesBox.updateData({
                 value: virtMachines.length
             });
-            assignedRamBox.updateData({
+            if (assignedRamBox) assignedRamBox.updateData({
                 value: assignedRam
             });
-            assignedHddBox.updateData({
+            if (assignedHddBox) assignedHddBox.updateData({
                 value: Math.round(assignedHDD)
             });
 
@@ -73,6 +73,48 @@ Ext.define('Onc.portal.InfoBoxesPortlet', {
     },
 
     initComponent: function() {
+        var isAdmin = Onc.model.AuthenticatedUser.isAdmin();
+
+        var items = [];
+
+        if (isAdmin) items.push({
+            xtype: 'infobox',
+            margin: '0 4 0 0',
+            id: 'physServersBox',
+            title: 'Physical Servers',
+            sub1_title: 'cloud',
+            sub2_title: 'HA cloud'
+        });
+
+        items.push({
+            xtype: 'infobox',
+            margin: '0 4 0 0',
+            id: 'virtualMachinesBox',
+            title: 'Virtual machines'
+        });
+
+        items.push({
+            xtype: 'infobox',
+            margin: '0 4 0 0',
+            id: 'assignedRamBox',
+            title: 'Assigned RAM',
+            convert: function(v) {
+                return v / 1024;
+            },
+            display: ['fixed', 1],
+            unit: 'GB'
+        });
+
+        items.push({
+            xtype: 'infobox',
+            id: 'assignedHddBox',
+            title: 'Assigned HDD',
+            convert: function(v) {
+                return v / 1024;
+            },
+            display: ['fixed', 1],
+            unit: 'GB'
+        });
 
         this.items = [{
             xtype: 'container',
@@ -83,40 +125,8 @@ Ext.define('Onc.portal.InfoBoxesPortlet', {
             defaults: {
                 flex: 1,
             },
-            items: [{
-                xtype: 'infobox',
-                margin:'0 4 0 0',
-                id: 'physServersBox',
-                title: 'Physical Servers',
-                sub1_title: 'cloud',
-                sub2_title: 'HA cloud'
-            }, {
-                xtype: 'infobox',
-                margin:'0 4 0 0',
-                id: 'virtualMachinesBox',
-                title: 'Virtual machines'
-            }, {
-                xtype: 'infobox',
-                margin:'0 4 0 0',
-                id: 'assignedRamBox',
-                title: 'Assigned RAM',
-                convert: function(v) {
-                    return v / 1024;
-                },
-                display: ['fixed', 1],
-                unit: 'GB'
-            }, {
-                xtype: 'infobox',
-                id: 'assignedHddBox',
-                title: 'Assigned HDD',
-                convert: function(v) {
-                    return v / 1024;
-                },
-                display: ['fixed', 1],
-                unit: 'GB'
-            }]
+            items: items
         }];
-
         this.callParent(arguments);
     }
 

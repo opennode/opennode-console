@@ -8,13 +8,13 @@ Ext.define('Onc.view.Viewport', {
 
     initComponent: function() {
         this.callParent(arguments);
-        this.down('#username-label').setText('Hi, ' + Onc.model.AuthenticatedUser.username + '!');
+        this.down('#username-label').update({name:Onc.model.AuthenticatedUser.username});
         this._adjustViewToGroups();
     },
 
     _adjustViewToGroups: function() {
         var isAdmin = Onc.model.AuthenticatedUser.isAdmin();
-        var adminButtons = ['infrastructurejoin-button', 'tasks-button', 'newapp-button','oms-shell-button', 're-register-gauges'];
+        var adminButtons = ['infrastructurejoin-button', 'tasks-button', 'oms-shell-button', 're-register-gauges','viewlog-button'];
         var adminTabs = ['vmmap'];
         // adjust controll buttons
         for (var i = 0; i < adminButtons.length; i++) {
@@ -40,20 +40,25 @@ Ext.define('Onc.view.Viewport', {
         items: [{
             xtype: 'container',
             border: false,
-           
-            style: 'position: absolute; top: 2px; right: 0px',
+            style: 'position: absolute; top: 0px; right: 0px',
             bodyStyle: 'background: inherit',
             defaults: {
                 margin: '0 0 0 2'
             },
             items: [{
+                border: false,
+                bodyStyle: 'background: inherit;',
                 id: 'username-label',
-                xtype: 'text',
-                text: 'N/A',
-                
+                xtype: "container",
+                tpl: ["<span class='username'>Hi, <b>{name}</b> !</span>"],
+                data: {
+                    name: 'N/A'
+                },
+                margin: '0 0 3 0',
+                padding: 5,
                 style: {
-                    "display":"block",
-                    "text-align": 'right'
+                    "text-align": 'right',
+                    "text-transform": "capitalize"
                 }
             }, {
                 id: 'viewlog-button',
@@ -63,14 +68,17 @@ Ext.define('Onc.view.Viewport', {
                 style: {
                     textDecoration: 'underline'
                 }
+            },  {
+                id: 'newapp-button',
+                xtype: 'button',
+                text: 'New Application',
+                style:{
+                    fontWeight:"bolder"
+                }
             }, {
                 id: 'tasks-button',
                 xtype: 'button',
                 text: 'Tasks'
-            }, {
-                id: 'newapp-button',
-                xtype: 'button',
-                text: 'New Application'
             }, {
                 id: 'infrastructurejoin-button',
                 xtype: 'button',
