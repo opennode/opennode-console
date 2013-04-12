@@ -17,9 +17,9 @@ Ext.define('Onc.view.tabs.VmListGridTab', {
                 handler: function(button, state) {
                     var onlyRunning = (button.pressed !== false);
                     var grid = Ext.getCmp("vmgrid");
-                    var gridFilter = grid.filters.getFilter("state");
+                    var gridFilter = grid.filters.getFilter("tags");
 
-                    if (onlyRunning) gridFilter.setValue("active");
+                    if (onlyRunning) gridFilter.setValue("state:active");
                     gridFilter.setActive(onlyRunning, true);
                     grid.filters.reload();
                 }
@@ -40,7 +40,11 @@ Ext.define('Onc.view.tabs.VmListGridTab', {
                     var grid = Ext.getCmp("vmgrid");
                     grid.filters.clearFilters();
                 }
-            }, ]
+            }, ],
+            dockedItems: [Ext.create('Ext.toolbar.Paging', {
+                dock: 'bottom',
+                store: "VmGridStore"
+            })],
 
         }];
 
