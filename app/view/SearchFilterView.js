@@ -8,7 +8,7 @@ Ext.define('Onc.view.SearchFilterView', {
     layout: 'fit',
     items: {
         xtype: 'textfield',
-        emptyText: "Filter by...",
+        emptyText: "Search for...",
         enableKeyEvents: true
     },
 
