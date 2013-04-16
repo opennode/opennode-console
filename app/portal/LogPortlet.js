@@ -23,7 +23,6 @@ Ext.define('Onc.portal.LogPortlet', {
         var eventContainer = this.up("#logPortlet");
         eventContainer.setLoading(true);
         Onc.core.Backend.request('PUT', 'bin/catlog?arg=-n&arg=60').success(function(response) {
-	    console.log(response);
             if (response.stdout) {
                 for ( var i = 0; i < response.stdout.length; i++) {
                     // get the log components
@@ -33,10 +32,8 @@ Ext.define('Onc.portal.LogPortlet', {
                     message = message.substr(message.indexOf(" ") + 1);
                     var time = message.substr(0, message.indexOf(" "));
                     message = message.substr(message.indexOf(" ") + 1);
-		    console.log(message);
                     var level = message.substr(0, message.indexOf(" "));
                     message = message.substr(message.indexOf(" ") + 1);
-		    console.log(message);
                     if (time && level) {
                         var d = {
                              'time': date + " " + time,
