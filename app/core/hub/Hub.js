@@ -11,6 +11,19 @@ Ext.define('Onc.core.hub.Hub', {
     // State
     _running: false,
     _relativisticToken: +(new Date),
+    
+    /**
+     * Called when logging out, so polling for changes would stop.
+     */
+    onLogout: function(){
+        this._reg = [];
+        this._mappings = [];
+        this._running = false;
+        this._poll.bind(this).schedule({
+            wait: 0,
+            repeat: false
+        });
+    },
 
     /**
      *  Subscribes the given objects to the specified resources.

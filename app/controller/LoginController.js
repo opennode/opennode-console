@@ -55,6 +55,7 @@ Ext.define('Onc.controller.LoginController', {
                 return; // do nothing if the login window is already up
             }
             this._viewport.destroy();
+            Onc.core.hub.Hub.onLogout();
         }
         Ext.WindowMgr.each(function(w) {
             if (w.modal && !w.hidden) {
