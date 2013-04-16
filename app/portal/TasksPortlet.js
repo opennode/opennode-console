@@ -65,5 +65,9 @@ Ext.define('Onc.portal.TasksPortlet', {
         });
 
         this.callParent(arguments);
-    }
+    },
+    onDestroy: function() {
+        this.callParent(arguments);
+        clearInterval(Ext.getStore('TasksPortletStore').autoRefreshProcId);
+    },
 });
