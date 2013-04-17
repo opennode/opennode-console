@@ -69,7 +69,7 @@ Ext.define('Onc.view.tabs.VmListTab', {
                     for (i = 0; i < len; i++) {
                         f = filters[i];
 
-                        if (f.data["type"] === "string") {
+                        if (f.data["type"] === "string" &&  f.data["value"]) {
                             p['q'].push(f.field + ":" + f.data["value"]);
                         }
                     }

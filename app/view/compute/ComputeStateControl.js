@@ -16,6 +16,7 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
         this.addEvents('start', 'graceful', 'details', 'edit', 'host');
 
         this.computeId = this.compute.get('id');
+        
         this.defaults = {
             style: 'position: relative !important; float: left;'
         };
@@ -29,8 +30,9 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
                 text: 'Are you sure? All of the processes inside a VM will be stoppped'
             })
         ];
-
-        if (!this.disableDetails) {
+        
+        var url = this.compute.get('url'); // details cannot be displayed for vms that are in "hangar"
+        if (!this.disableDetails && url.indexOf("/machines/hangar/") != 0) {
             buttons[buttons.length] = this._makeButton('details', "Details", "Machine details", false);
         }
         if(!this.compute.isPhysical()){
