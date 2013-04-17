@@ -1,22 +1,20 @@
-Ext.define('Onc.store.AllocationPolicyStore', {
+Ext.define('Onc.store.VmGridTypeStore', {
     extend: 'Ext.data.Store',
-    model: 'Onc.model.AllocationPolicy',
+    model: 'Onc.model.VmGridType',
 
     autoLoad: true,
 
     staticData: [{
-        "id": "automatic",
-        "url": "automatic",
-        "hostname": "Automatic",
-        "suspicious":false
+        "id": "computes",
+        "url": "computes"
     }],
 
-    sorters: [{
-        property: 'hostname',
+ /*   sorters: [{
+        property: 'id',
         transform: function(val) {
             return val.toLowerCase();
         }
-    }],
+    }],*/
 
     proxy: {
         type: 'onc',
@@ -25,14 +23,12 @@ Ext.define('Onc.store.AllocationPolicyStore', {
             root: 'children'
         },
         extraParams: {
-            'depth': 1,
-            'attrs': 'hostname,url,num_cores,swap_size,diskspace,memory,suspicious',
-            'q': 'tags:virt:no'
+            'depth': 1
         },
         limitParam: null,
         pageParam: null,
         startParam: null,
-        url: 'computes'
+        url: 'machines/hangar'
     },
     listeners: {
         beforeload: function(store, options) {
@@ -41,9 +37,5 @@ Ext.define('Onc.store.AllocationPolicyStore', {
         load: function(store, records, successful, eOpts) {
             store.loadData(store.staticData, true);
         }
-    },
-    filters: [{
-        property: 'suspicious',
-        value: /false/
-    }]
+    }
 });

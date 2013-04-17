@@ -1,8 +1,6 @@
 Ext.define('Onc.store.VmGridStore', {
     extend: 'Onc.core.Store',
     model: 'Onc.model.Compute',
-    autoLoad: true,
-    closable:true,
     pageSize:10,
     proxy: {
         type: 'onc',
