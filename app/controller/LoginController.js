@@ -89,9 +89,9 @@ Ext.define('Onc.controller.LoginController', {
         Onc.core.hub.Hub.run();
         var cstore = Ext.getStore('SearchResultsStore');
         if (Onc.model.AuthenticatedUser.isAdmin())
-            cstore.getProxy().extraParams['q'] = 'virt:no';
+            cstore.getProxy().extraParams['q'] = 'tags:virt:no';
         else
-            cstore.getProxy().extraParams['q'] = 'virt:yes';
+            cstore.getProxy().extraParams['q'] = 'tags:virt:yes';
         cstore.load();
         if (this._viewport)
             this._viewport.destroy();
