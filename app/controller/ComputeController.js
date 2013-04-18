@@ -92,7 +92,7 @@ Ext.define('Onc.controller.ComputeController', {
         this.control({
             'computeview computevmlisttab #new-vm-button': {
                 click: function(sender) {
-                    this.fireBusEvent('displayNewVMDialog', this.getComputeInfo().record);
+                    this.fireBusEvent('displayNewVMDialog', sender.up("computeview").record);
                 }
             },
             'computeview computeheader #gauge-chart-button': {
