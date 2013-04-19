@@ -123,11 +123,7 @@ Ext.define('Onc.view.tabs.VmListTab', {
                             return Onc.model.Compute.getType(ctype, shortver);
                         }
                     }), width: 75,
-                    dataIndex: 'state',
-					filter: {
-               			active: true,
-                		type: "string"
-            		}
+                    dataIndex: 'state'
 			},
             {header: 'Name', filterable: true, dataIndex: 'hostname', width: 100, flex: 0, editor: {xtype: 'textfield', allowBlank: false}},
             {header: 'Inet4', filterable: true, dataIndex: 'ipv4_address', width: 120, editor: {xtype: 'textfield', allowBlank: true}},

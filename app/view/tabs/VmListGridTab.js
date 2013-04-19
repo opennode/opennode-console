@@ -24,25 +24,9 @@ Ext.define('Onc.view.tabs.VmListGridTab', {
                     grid.filters.reload();
                 }
             }, {
-                text: 'Local Filtering',
-                tooltip: 'Toggle Filtering between remote/local',
-                enableToggle: true,
-                handler: function(button, state) {
-                    var grid = Ext.getCmp("vmgrid");
-                    var local = (grid.filters.local !== true);
-                    // update the GridFilter setting
-                    grid.filters.local = local;
-                    grid.filters.reload();
-                }
-            }, {
-                text: 'Clear Filter Data',
-                handler: function() {
-                    var grid = Ext.getCmp("vmgrid");
-                    grid.filters.clearFilters();
-                }
-            }, {
                 id: 'vm_grid_type',
                 name: 'vm_grid_type',
+                hidden: !Onc.model.AuthenticatedUser.isAdmin(),
                 isFormField: false,
                 xtype: 'combo',
                 mode: 'local',
@@ -59,7 +43,7 @@ Ext.define('Onc.view.tabs.VmListGridTab', {
                         var id = newValue;
                         // hide columns if type is hangar
                         var grid = Ext.getCmp("vmgrid");
-                        var showIfCompute = ["actions", "CPU usage", "Memory usage", "Disk usage"];
+                        var showIfCompute = []; // Array of col names, to display only for computes not hangar vms
                         var isCompute = (id == "computes");
                         grid.columns.forEach(function(col) {
                             if (showIfCompute.contains(col.text)) {
@@ -81,7 +65,15 @@ Ext.define('Onc.view.tabs.VmListGridTab', {
             }, ],
             dockedItems: [Ext.create('Ext.toolbar.Paging', {
                 dock: 'bottom',
-                store: "VmGridStore"
+                store: "VmGridStore",
+                items:[ {
+                    dock: 'bottom',
+                    text: 'Clear filters',
+                    handler: function() {
+                        var grid = Ext.getCmp("vmgrid");
+                        grid.filters.clearFilters();
+                    }
+                }]
             })],
 
         }];
