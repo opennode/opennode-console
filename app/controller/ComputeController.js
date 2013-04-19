@@ -39,6 +39,12 @@ Ext.define('Onc.controller.ComputeController', {
                 if(index !== -1)
                     store.removeAt(index);
             }
+            var grid = Ext.getCmp("vmgrid");
+            if (grid) {
+                var store = grid.getStore();
+                var index = store.findExact('id', vmId);
+                if (index !== -1) store.removeAt(index);
+            }
         },
 
         computeStateChanged: function(computeId, value){

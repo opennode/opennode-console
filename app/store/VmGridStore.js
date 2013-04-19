@@ -11,7 +11,7 @@ Ext.define('Onc.store.VmGridStore', {
         },
         extraParams: {
             'depth': 1,
-            'attrs': 'state,hostname,ipv4_address,cpu_info,url,num_cores,swap_size,diskspace,memory,suspicious,tags',
+            'attrs': 'state,hostname,ipv4_address,cpu_info,url,num_cores,swap_size,diskspace,memory,suspicious,tags,features',
         },
         limitParam: 'limit',
         pageParam: 'offset',
