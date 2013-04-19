@@ -69,11 +69,22 @@ Ext.define('Onc.core.Backend', {
                                     Onc.core.Backend.ajaxRequest(request, options);
                                     Onc.core.EventBus.fireEvent("hideRetryProgress");
                                 }, timeoutPeriod * 1000);
-                    }
+                    } else if (response.status.toString().indexOf('5') == 0) {
+						Ext.Msg.show({
+							title : 'Server error ' + response.status,
+							msg : (response.responseText)
+									? "<div style='overflow: scroll; width: 500px;'><pre>"
+											+ response.responseText
+											+ "</pre></div>"
+									: "Server error has occured!",
+							buttons : Ext.MessageBox.OK,
+							width : 500
+						});
+					} 
                 } else {
-                    if (this.retryCounter > 0) {
-                        this.retryCounter = 0;
-                    }
+					if (this.retryCounter > 0) {
+						this.retryCounter = 0;
+					}
                     if (!success) {
                        d.errback(response);
                     } else {
