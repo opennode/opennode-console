@@ -24,9 +24,9 @@ Ext.define('Onc.portal.LogPortlet', {
         eventContainer.setLoading(true);
         Onc.core.Backend.request('PUT', 'bin/catlog?arg=-n&arg=60').success(function(response) {
             if (response.stdout) {
+                // cleanup of the store
+                this.store.removeAll();
                 for ( var i = 0; i < response.stdout.length; i++) {
-                    // cleanup of the store
-                    this.store.removeAll();
                     // get the log components
                     var message = response.stdout[i];
 
