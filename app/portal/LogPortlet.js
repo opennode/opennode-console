@@ -12,10 +12,10 @@ Ext.define('Onc.portal.LogPortlet', {
         }, {
             name: 'message'
         }],
-	sorters: [{
-	    property: 'time',
-	    direction: 'DESC'
-	}]
+    sorters: [{
+        property: 'time',
+        direction: 'DESC'
+    }]
     }),
 
     _loadLastEvents: function() {
@@ -25,9 +25,11 @@ Ext.define('Onc.portal.LogPortlet', {
         Onc.core.Backend.request('PUT', 'bin/catlog?arg=-n&arg=60').success(function(response) {
             if (response.stdout) {
                 for ( var i = 0; i < response.stdout.length; i++) {
+                    // cleanup of the store
+                    this.store.removeAll();
                     // get the log components
                     var message = response.stdout[i];
-                            
+
                     var date = message.substr(0, message.indexOf(" "));
                     message = message.substr(message.indexOf(" ") + 1);
                     var time = message.substr(0, message.indexOf(" "));
@@ -43,10 +45,10 @@ Ext.define('Onc.portal.LogPortlet', {
 
                         this.store.add(d);
                     }// not correct line
-                }   
-	            eventContainer.setLoading(false);
+                }
+                eventContainer.setLoading(false);
                 } else {
-		    console.log('Event log processing failed due to a missing log output')
+                    console.log('Event log processing failed due to a missing log output')
                     // eventCmp.update('<b>/proc/completed/ does not return stdout</b>');
                     eventContainer.setLoading(false);
                 }
