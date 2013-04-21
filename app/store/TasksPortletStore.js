@@ -44,35 +44,37 @@ Ext.define('Onc.store.TasksPortletStore', {
 
         // Lets clear filter, give record statuses and apply filter
         store.clearFilter();
-        Ext.each(store.hideTasksShowIfMissing, function(taskArr) {
-            var dItem = -1;
-            for ( var i = 0; i < taskArr.length; i++) {
-                dItem = store.findExact("cmdline", taskArr[i]);
-                if (dItem !== -1) break;
-            }
-            ;
+        var isAdmin = Onc.model.AuthenticatedUser.isAdmin();
+        if (isAdmin) {
+            Ext.each(store.hideTasksShowIfMissing, function(taskArr) {
+                var dItem = -1;
+                for ( var i = 0; i < taskArr.length; i++) {
+                    dItem = store.findExact("cmdline", taskArr[i]);
+                    if (dItem !== -1) break;
+                }
+                ;
 
-            if (dItem === -1) {
-                var task = Ext.create('Onc.model.Task', {
-                    cmdline: taskArr[0],
-                    __type__: "Task",
-                    status: "ERROR"
-                });
-                store.add(task);
-            } else {
-                var task = store.getAt(dItem);
-                task.set('status', "HIDE");// Causes TaskView grid to flicker
-            }
-        });
-        Ext.each(store.notifyIfPausedThere, function(taskCmd) {
-            var dItem = store.findExact("cmdline", taskCmd);
+                if (dItem === -1) {
+                    var task = Ext.create('Onc.model.Task', {
+                        cmdline: taskArr[0],
+                        __type__: "Task",
+                        status: "ERROR"
+                    });
+                    store.add(task);
+                } else {
+                    var task = store.getAt(dItem);
+                    task.set('status', "HIDE");// Causes TaskView grid to flicker
+                }
+            });
+            Ext.each(store.notifyIfPausedThere, function(taskCmd) {
+                var dItem = store.findExact("cmdline", taskCmd);
 
-            if (dItem !== -1) {
-                var task = store.getAt(dItem);
-                task.set('status', "NOTIFY_PAUSED");
-            }
-        });
-
+                if (dItem !== -1) {
+                    var task = store.getAt(dItem);
+                    task.set('status', "NOTIFY_PAUSED");
+                }
+            });
+        }
         store.filter([{
             property: '__type__',
             value: /Task/
