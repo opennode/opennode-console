@@ -25,7 +25,7 @@ Ext.define('Onc.view.tabs.SystemTab', {
                     margin: '0 3 0 0'
                 },
                 disableDetails: true,
-                disableHost: false,
+                disableHost: !Onc.model.AuthenticatedUser.isAdmin(),
                 compute: rec
             }), {
                 xtype: 'container',
