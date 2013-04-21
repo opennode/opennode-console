@@ -18,7 +18,8 @@ Ext.define('Onc.store.TemplatesStore', {
         url: 'templates/',
 
         extraParams: {
-            'depth': 2
+            depth: 2,
+            exclude: 'actions'
         }
     }
 });
