@@ -26,7 +26,7 @@ Ext.define('Onc.view.tabs.VmListGridTab', {
             }, {
                 id: 'vm_grid_type',
                 name: 'vm_grid_type',
-                hidden: !Onc.model.AuthenticatedUser.isAdmin(),
+                hidden: false,
                 isFormField: false,
                 xtype: 'combo',
                 mode: 'local',
