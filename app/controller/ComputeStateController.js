@@ -16,13 +16,14 @@ Ext.define('Onc.controller.ComputeStateController', {
             this._enableCsControls(true, vms);
         },
         computeDeleteStarted: function(vm) {
-            this._enableCsControls(false, [vm]);
+            //this._enableCsControls(false, [vm]);
             Ext.ComponentQuery.query('computestatecontrol[computeId=' + vm.getId() + ']').forEach(function(c) {
                 c.el.mask("Deleting ...", "x-mask-msg-suspicious-vm");
             });
         },
         computeDeleteCompleted: function(vm){
-            this._enableCsControls(true, [vm]);
+            //commented out: after deleting comes removing from list, this makes mask reappear before before removing
+            //this._enableCsControls(true, [vm]);
         },
 
         computeStateChanged: function(computeId, value){
@@ -74,7 +75,6 @@ Ext.define('Onc.controller.ComputeStateController', {
 
     // Helper methods
 
-    
     _enableCsControls: function(enabled, vms){
         // enable / disable all ComputeStateControl components for each VM from list
         Ext.Array.each(vms, function(vm){
