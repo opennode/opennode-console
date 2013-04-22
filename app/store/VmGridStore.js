@@ -11,7 +11,9 @@ Ext.define('Onc.store.VmGridStore', {
         },
         extraParams: {
             'depth': 1,
-            'attrs': 'id,url,tags,architecture,cpu_info,os_release,kernel,template,hostname,ipv4_address,ipv6_address,state,effective_state,num_cores,memory,diskspace,network,swap_size,uptime,suspicious,features',
+            'attrs': 'id,url,tags,architecture,cpu_info,os_release,kernel,template,' 
+                   + 'hostname,ipv4_address,ipv6_address,state,effective_state,num_cores,' 
+                   + 'memory,diskspace,network,swap_size,uptime,suspicious,features',
         },
         limitParam: 'limit',
         pageParam: 'offset',
@@ -24,7 +26,7 @@ Ext.define('Onc.store.VmGridStore', {
     // value: /[^openvz]/
     // }],
     //    
-    listeners: {  
+    listeners: {
         load: function(store, records, successful, eOpts) {
             // remove manually unwanted record, filtering does not work on filtered grid
             store.remove(store.findRecord("id", "openvz"));
