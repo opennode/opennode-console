@@ -22,6 +22,7 @@ Ext.define('Onc.store.GaugesChartComputesStore', {
         extraParams: {
             'depth': 1,
             'attrs': 'hostname,url,network,num_cores,swap_size,diskspace,memory',
+            'exclude':'openvz'
           //  'q': 'virt:no'
         },
         limitParam: null,
