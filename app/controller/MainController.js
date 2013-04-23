@@ -3,7 +3,7 @@ Ext.define('Onc.controller.MainController', {
 
     models: ['Base', 'Compute', 'IpRoute', 'Storage', 'Template', 'VirtualizationContainer', 'Hangar',
              'Templates', 'NetworkInterface', 'NetworkInterfaces'],
-    stores: ['ComputesStore', 'PhysicalComputesStore', 'TemplatesStore', 'VmGridStore'],
+    stores: ['ComputesStore', 'PhysicalComputesStore', 'VirtualizationContainerStore', 'TemplatesStore', 'VmGridStore'],
     views: ['compute.ComputeView','compute.GaugesChartView'],
 
     refs: [{ref: 'tabs', selector: '#mainTabs'}],
