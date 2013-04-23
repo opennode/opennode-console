@@ -73,12 +73,13 @@ Ext.define('Onc.core.Backend', {
 						Ext.Msg.show({
 							title : 'Server error ' + response.status,
 							msg : (response.responseText)
-									? "<div style='overflow: scroll; width: 500px;'><pre>"
+									? "<div style='overflow: scroll; width: 480px;height: 425px;'><pre>"
 											+ response.responseText
 											+ "</pre></div>"
 									: "Server error has occured!",
 							buttons : Ext.MessageBox.OK,
-							width : 500
+							width : 500,
+							height : 500
 						});
 					} 
                 } else {

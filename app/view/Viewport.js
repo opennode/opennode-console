@@ -68,13 +68,12 @@ Ext.define('Onc.view.Viewport', {
                 style: {
                     textDecoration: 'underline'
                 }
-            },  {
+            }, {
                 id: 'newapp-button',
                 xtype: 'button',
                 text: 'New Application',
-                style:{
-                    fontWeight:"bolder"
-                }
+                cls: 'btn-green',
+                icon: 'img/icon/new_app.png'
             }, {
                 id: 'tasks-button',
                 xtype: 'button',
