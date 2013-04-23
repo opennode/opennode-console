@@ -23,12 +23,14 @@ Ext.define('Onc.controller.NewVmController', {
             success: function(response) {
                 var ret = Ext.JSON.decode(response.responseText);
                 if (!ret['success']) {
+                    Ext.getCmp('submitButton').enable();
                     var form = this.getForm().getForm();
                     form.markInvalid(ret['errors']);
                 } else {
                     this.getWindow().destroy();
                     this.fireBusEvent('displayNotification', 'Your request was successfully submitted. Stay tuned!', 'New VM request submitted');
                 }
+                
             }.bind(this),
             failure: function(response) {
                 console.error(response.responseText);
@@ -76,8 +78,10 @@ Ext.define('Onc.controller.NewVmController', {
         this.control({
             '#create-new-vm-button': {
                 click: function(sender) {
+                  
                     var form = this.getForm().getForm();
                     if (form.isValid()) {
+                        Ext.getCmp('submitButton').disable();
                         var data = form.getFieldValues();
                         // cleanup for auto-generated properties from form input fields
                         // TODO: figure out how to exclude input field from
