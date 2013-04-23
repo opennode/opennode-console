@@ -10,7 +10,7 @@ Ext.define('Onc.model.SearchResult', {
         {name : 'tags'}	
     ],
 
-proxy: {
+    proxy: {
         type: 'onc',
         reader: {
             type: 'json',
@@ -18,7 +18,8 @@ proxy: {
         },
         extraParams: {
             'depth': 1,
-            'attrs': 'hostname,ipv4_address,state,url,tags'
+            'attrs': 'hostname,ipv4_address,state,url,tags',
+            'exclude': 'openvz'
         },
         limitParam: null, pageParam: null, startParam: null,
         url: 'computes'
