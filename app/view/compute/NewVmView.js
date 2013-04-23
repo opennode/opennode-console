@@ -103,7 +103,9 @@ Ext.define('Onc.view.compute.NewVmView', {
     },
 
     disableControls: function(boolValue) {
-        var controls = ['num_cores', 'swap_size', 'memory', 'diskspace', 'hostname', 'ipv4_address', 'nameservers', 'root_password', 'root_password_repeat', 'start_on_boot', 'start_vm','ipv4_mask'];
+        var controls = ['vm_profile', 'storage_location', 'num_cores', 'swap_size', 'memory', 'diskspace', 
+                        'hostname', 'ipv4_address', 'nameservers', 'root_password', 
+                        'root_password_repeat', 'start_on_boot', 'start_vm','ipv4_mask'];
 
         Ext.Array.forEach(controls, function(control) {
             Ext.getCmp(control).setDisabled(boolValue);
@@ -422,7 +424,7 @@ Ext.define('Onc.view.compute.NewVmView', {
 
                     }, {
                         xtype: 'fieldset',
-                        title: "3.Set network parameters",
+                        title: (Onc.model.AuthenticatedUser.isAdmin())?"3.Set network parameters":"3.Set hostname",
                         layout: {
                             type: 'table',
                             columns: 2
@@ -517,6 +519,7 @@ Ext.define('Onc.view.compute.NewVmView', {
                 id: 'submitButton',
                 disabled: true,
                 text: 'Create',
+                cls:'btn-green',
                 itemId: 'create-new-vm-button'
             }]
         };
