@@ -10,8 +10,9 @@ Ext.define('Onc.store.RegisteredNodesStore', {
         },
 
         extraParams: {
-            'depth': 2,
-            'exclude': 'incoming'
+            'depth': 1,
+            'exclude': 'incoming,templates,consoles,routes,interfaces',
+            'attrs': 'id,hostname,state,blacklisted_for_allocation',
         },
         url: '/machines'
     }

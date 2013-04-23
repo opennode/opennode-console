@@ -111,6 +111,26 @@ Ext.define('Onc.controller.InfrastructureJoinController', {
                         }
                     });
                 },
+                'hostBlacklist': function(source, id) {
+                    var url = '/computes/{0}'.format(id);
+
+                    var store = this.getStore('RegisteredNodesStore');
+                    var record = store.findRecord('id', id);
+                    record.set("status", "blacklisting");
+                    var blacklisted = record.get("blacklisted_for_allocation");
+                    Onc.core.Backend.request('PUT', url, {
+                        jsonData: {
+                            'blacklisted_for_allocation': !blacklisted
+                        },
+                        success: function(response) {
+                            this._load(false);
+                            record.set("status", "");
+                        }.bind(this),
+                        failure: function(response) {
+                            console.error('Blacklisting host action failed: ' + response.responseText);
+                        }
+                    });
+                },
 
                 'reload': function(source) {
                     this._load(true);

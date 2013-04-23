@@ -88,14 +88,17 @@ Ext.define('Onc.view.InfrastructureJoinView', {
                     xtype: 'actioncolumn',
                     width: 50,
                     renderer: function (val, metadata, record, rowIndex, colIndex, store, gridView) {
-		                if (record.get('status') == "deleting") {
-		                   this.items[0].icon=''
-		                   this.items[1].icon='img/icon/loading.gif';//hidden setting not working
-		                } else {
-		                   this.items[0].icon='img/icon/delete_edit.gif';
-		                   this.items[1].icon='';
-		                }
-		                return val;
+                        var blacklisted = record.get('blacklisted_for_allocation');
+                        if (["deleting", "blacklisting"].contains(record.get('status'))) {
+                            this.items[0].icon = '';
+                            this.items[1].icon = 'img/icon/loading.gif';// hidden setting not working
+                            this.items[2].icon = '';
+                        } else {
+                            this.items[0].icon = 'img/icon/delete_edit.gif';
+                            this.items[1].icon = '';
+                            this.items[2].icon = 'img/icon/checkbox_' + ((blacklisted) ? 'off' : 'on') + '.png';
+                        }
+                        return val;
 		            },
                     items: [{
                         icon: 'img/icon/delete_edit.gif',
@@ -107,6 +110,14 @@ Ext.define('Onc.view.InfrastructureJoinView', {
                         }.bind(this)
                     },{
                         icon: ''
+                    },{
+                        icon: 'img/icon/checkbox_on.png',
+                        text: 'Allowed',
+                        altText: 'Allowed for VM allocation',
+                        tooltip: 'Allowed for VM allocation',
+                        handler: function(grid, rowIndex, colIndex){
+                            this._blacklistHost(grid.store.getAt(rowIndex).get('hostname'),grid.store.getAt(rowIndex).get('id'));
+                        }.bind(this)
                     }]
                 }],
                 viewConfig: {
@@ -137,15 +148,22 @@ Ext.define('Onc.view.InfrastructureJoinView', {
     _rejectHost: function(hostname){
         this._performActionWithConfirmation(
                 'Reject Host',
-                'Are you sure you want to reject host <b>{0}<b>'.format(hostname),
+                'Are you sure you want to reject host <b>{0}</b>'.format(hostname),
                 'hostReject', hostname);
     },
 
     _deleteHost: function(hostname){
         this._performActionWithConfirmation(
                 'Delete Host',
-                'Are you sure you want to delete host <b>{0}<b>'.format(hostname),
+                'Are you sure you want to delete host <b>{0}</b>'.format(hostname),
                 'hostDelete', hostname);
+    },
+
+    _blacklistHost: function(hostname, id){
+        this._performActionWithConfirmation(
+                'Blacklist Host',
+                'Are you sure you want to blacklist host <b>{0}</b> for not being suitable for VM allocation?'.format(hostname),
+                'hostBlacklist', id);
     },
 
     _performActionWithConfirmation: function(confirmTitle, confirmText, eventName, hostname) {
