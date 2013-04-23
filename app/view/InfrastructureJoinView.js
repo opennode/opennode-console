@@ -110,13 +110,14 @@ Ext.define('Onc.view.InfrastructureJoinView', {
                         }.bind(this)
                     },{
                         icon: ''
-                    },{
+                    }, {
                         icon: 'img/icon/checkbox_on.png',
                         text: 'Allowed',
                         altText: 'Allowed for VM allocation',
                         tooltip: 'Allowed for VM allocation',
-                        handler: function(grid, rowIndex, colIndex){
-                            this._blacklistHost(grid.store.getAt(rowIndex).get('hostname'),grid.store.getAt(rowIndex).get('id'));
+                        handler: function(grid, rowIndex, colIndex) {
+                            var rec=grid.store.getAt(rowIndex);
+                            this._blacklistHost(rec.get('hostname'), rec.get('id'), rec.get('blacklisted_for_allocation'));
                         }.bind(this)
                     }]
                 }],
@@ -159,11 +160,11 @@ Ext.define('Onc.view.InfrastructureJoinView', {
                 'hostDelete', hostname);
     },
 
-    _blacklistHost: function(hostname, id){
-        this._performActionWithConfirmation(
-                'Blacklist Host',
-                'Are you sure you want to blacklist host <b>{0}</b> for not being suitable for VM allocation?'.format(hostname),
-                'hostBlacklist', id);
+    _blacklistHost: function(hostname, id, blacklisted) {
+        var text = (blacklisted)
+                        ? 'Are you sure you want remove host <b>{0}</b> from VM allocation blacklist?'.format(hostname)
+                        : 'Are you sure you want to blacklist host <b>{0}</b> for not being suitable for VM allocation?'.format(hostname)
+        this._performActionWithConfirmation('Blacklist Host', text, 'hostBlacklist', id);
     },
 
     _performActionWithConfirmation: function(confirmTitle, confirmText, eventName, hostname) {
