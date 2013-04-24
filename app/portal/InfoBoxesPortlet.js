@@ -13,8 +13,9 @@ Ext.define('Onc.portal.InfoBoxesPortlet', {
         var assignedRamBox = this.down("#assignedRamBox");
         var assignedHddBox = this.down("#assignedHddBox");
         resourceContainer.setLoading(true);
-
-        Onc.core.Backend.request('GET', 'machines/?depth=3&attrs=diskspace,memory,__type__').success(function(response) {
+        var url = (Onc.model.AuthenticatedUser.isAdmin()) ? 'machines' : 'computes';
+            
+        Onc.core.Backend.request('GET', url + '/?depth=3&attrs=diskspace,memory,__type__').success(function(response) {
 
             var physServers = 0;
             var physCloudServers = 0;
