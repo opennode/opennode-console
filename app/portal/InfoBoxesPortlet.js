@@ -30,7 +30,9 @@ Ext.define('Onc.portal.InfoBoxesPortlet', {
                     physServers++;
                     physCloudServers++;
                     assignedHDD += serv.diskspace.total;
-                    assignedRam += parseInt(serv.memory, 10);
+                    // sometimes memory is not reported and is null
+                    if (serv.memory != null)
+                        assignedRam += parseInt(serv.memory, 10);
                     for ( var j = 0; j < serv.children.length; j++) {
                         var child = serv.children[j];
                         if (child.__type__ == 'VirtualizationContainer') {
