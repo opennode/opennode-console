@@ -15,7 +15,7 @@ Ext.define('Onc.store.TemplatesStore', {
             type: 'json',
             root: 'children'
         },
-        url: 'templates/',
+        url: 'templates/by-name/',
 
         extraParams: {
             depth: 2,
