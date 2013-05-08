@@ -19,7 +19,7 @@ def all_files(*dirs, **kwargs):
 package_data = {'opennode.onc': list(all_files('app', 'css', 'theme', 'lib/ext-4.1', 'lib/novnc', 'lib/term', 'lib/log4js', 'img',
                                                exclude=('lib/ext-4.1/docs', 'lib/ext-4.1/builds', 'lib/ext-4.1/build',
                                                         'lib/ext-4.1/jsbuilder', 'lib/ext-4.1/welcome')))
-                + ['../../index.html', '../../favicon.ico', '../../*.js', '../../beep.wav']}
+                + ['../../index.html', '../../favicon.ico', '../../*.js', '../../beep.wav', '../../portal.html']}
 
 setup(
     name = "opennode.oms.onc",
