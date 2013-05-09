@@ -25,6 +25,13 @@ Ext.override(Ext.data.Connection, {
 
 Ext.Loader.setConfig({enabled: true, disableCaching: false});
 
+
+
+//Get url parameters to check if there is embedded=true
+var params = Ext.urlDecode(location.search.substring(1));
+IS_EMBEDDED = (params["embedded"]) ? true : false; 
+
+
 Ext.syncRequire([
     'Ext.window.MessageBox',
     'Ext.XTemplate',
