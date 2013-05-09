@@ -15,6 +15,13 @@ Ext.define('Onc.view.Viewport', {
     _adjustViewToGroups: function() {
         var isAdmin = Onc.model.AuthenticatedUser.isAdmin();
         var adminButtons = ['infrastructurejoin-button', 'tasks-button', 're-register-gauges','viewlog-button'];
+        //if is onc is embedded do not show buttons:
+		if (IS_EMBEDDED) {
+			hideButtons = ['oms-shell-button', 'logout-button', 'username-label'];
+			for (var i = 0; i < hideButtons.length; i++)
+				this.down('#' + hideButtons[i]).hidden = true;
+		} 
+        
         var adminTabs = ['vmmap'];
         // adjust controll buttons
         for (var i = 0; i < adminButtons.length; i++) {
@@ -32,9 +39,9 @@ Ext.define('Onc.view.Viewport', {
     items: [{
         region: 'north',
         id: 'header',
-        html: '<img src="'+IMG_LOGO_MAIN+' " alt="OpenNode Console" width="436px" height="59px" />',
-        height: 66,
-        padding: 5,
+        html: (IS_EMBEDDED) ? '' : '<img src="'+IMG_LOGO_MAIN+' " alt="OpenNode Console" width="436px" height="59px" />',
+        height: (IS_EMBEDDED) ? 35 : 66,
+        padding: (IS_EMBEDDED) ? 0 : 5,
         border: false,
         bodyStyle: 'background: inherit',
         items: [{
@@ -72,6 +79,7 @@ Ext.define('Onc.view.Viewport', {
                 id: 'newapp-button',
                 xtype: 'button',
                 text: 'New Application',
+                scale: (IS_EMBEDDED)?'medium':'small',
                 cls: 'btn-green',
                 icon: 'img/icon/new_app.png'
             }, {
