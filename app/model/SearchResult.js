@@ -7,7 +7,8 @@ Ext.define('Onc.model.SearchResult', {
         {name: 'state', type: 'string'},
         {name: 'ipv4_address', type: 'string'},
         {name: '__type__', type: 'string'},
-        {name : 'tags'}	
+        {name : 'tags'},
+        {name : 'features'} 
     ],
 
 proxy: {
@@ -17,8 +18,9 @@ proxy: {
             root: 'children'
         },
         extraParams: {
-            'depth': 1,
-            'attrs': 'hostname,ipv4_address,state,url,tags'
+            depth: 1,
+            attrs: 'hostname,ipv4_address,state,url,tags,features',
+            exclude: 'openvz'
         },
         limitParam: null, pageParam: null, startParam: null,
         url: 'computes'
