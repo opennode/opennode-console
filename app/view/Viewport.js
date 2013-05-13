@@ -16,12 +16,12 @@ Ext.define('Onc.view.Viewport', {
         var isAdmin = Onc.model.AuthenticatedUser.isAdmin();
         var adminButtons = ['infrastructurejoin-button', 'tasks-button', 're-register-gauges','viewlog-button'];
         //if is onc is embedded do not show buttons:
-		if (IS_EMBEDDED) {
-			hideButtons = ['oms-shell-button', 'logout-button', 'username-label'];
-			for (var i = 0; i < hideButtons.length; i++)
-				this.down('#' + hideButtons[i]).hidden = true;
-		} 
-        
+        if (IS_EMBEDDED) {
+            hideButtons = ['oms-shell-button', 'logout-button', 'username-label'];
+            for (var i = 0; i < hideButtons.length; i++)
+               this.down('#' + hideButtons[i]).hidden = true;
+        } 
+
         var adminTabs = ['vmmap'];
         // adjust controll buttons
         for (var i = 0; i < adminButtons.length; i++) {
@@ -31,7 +31,6 @@ Ext.define('Onc.view.Viewport', {
         var tabs = this.down('#mainTabs');
         if (!isAdmin)
             for (var i = 0; i < adminTabs.length; i++) {
-                console.log(tabs);
                 tabs.remove(this.down('#' + adminTabs[i]));
             }
     },

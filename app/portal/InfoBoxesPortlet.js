@@ -27,6 +27,7 @@ Ext.define('Onc.portal.InfoBoxesPortlet', {
 
             for ( var i = 0; i < response.children.length; i++) {
                 var serv = response.children[i];
+
                 if (serv.__type__ == 'Compute') {
                     physServers++;
                     physCloudServers++;
