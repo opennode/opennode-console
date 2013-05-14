@@ -15,7 +15,6 @@ Ext.define('Onc.portal.InfoBoxesPortlet', {
         resourceContainer.setLoading(true);
 
         Onc.core.Backend.request('GET', 'computes/?depth=2&attrs=features,diskspace,memory,__type__,tags&exclude=openvz').success(function(response) {
-            console.log(response);
             var physServers = 0;
             var physCloudServers = 0;
             var physHACloudServers = 0;
