@@ -16,6 +16,9 @@ Ext.define('Onc.model.NetworkInterface', {
         'members',
         {name: 'subnet_mask', type: 'string', convert: function(_, rec) {
             var ipAddress = rec.get('ipv4_address');
+            //XXX a hack - what if OMS doesn't tell us about the netmask?
+            if (ipAddress.indexOf('/') == -1)
+                ipAddress += '/24';
             return !ipAddress ? '' : IPAddress.normalizeIpv4(ipAddress).netmask;
         }}
     ],
