@@ -15,7 +15,8 @@ Ext.define('Onc.portal.TasksPortlet', {
 
     initComponent: function() {
         this.initMessages();
-        Ext.getStore('TasksPortletStore').startAutoRefresh(2);
+        Ext.getStore('TasksPortletStore').removeAll();
+        Ext.getStore('TasksPortletStore').startAutoRefresh(10);
         Ext.apply(this, {
             store: 'TasksPortletStore',
             hideHeaders: true,
