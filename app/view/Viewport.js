@@ -15,7 +15,7 @@ Ext.define('Onc.view.Viewport', {
     _adjustViewToGroups: function() {
         var isAdmin = Onc.model.AuthenticatedUser.isAdmin();
         var adminButtons = ['infrastructurejoin-button', 'tasks-button', 're-register-gauges','viewlog-button'];
-        var adminTabs = ['vmmap'];
+        var adminTabs = ['vmmap', 'dashboard'];
         // adjust controll buttons
         for (var i = 0; i < adminButtons.length; i++) {
             this.down('#' + adminButtons[i]).hidden = !isAdmin;
@@ -24,7 +24,6 @@ Ext.define('Onc.view.Viewport', {
         var tabs = this.down('#mainTabs');
         if (!isAdmin)
             for (var i = 0; i < adminTabs.length; i++) {
-                console.log(tabs);
                 tabs.remove(this.down('#' + adminTabs[i]));
             }
     },

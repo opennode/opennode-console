@@ -45,7 +45,10 @@ Ext.define('Onc.portal.GaugesChartPortlet', {
                     if (success) {
                         if (records.length > 0) {
                             var firstRecord = records[0];
-                            if (firstRecord) Ext.getCmp("gauges_chart_computes").select(firstRecord)
+                            if (firstRecord){
+                            	var cmp = Ext.getCmp("gauges_chart_computes");
+                            	if(cmp) cmp.select(firstRecord)
+                            } 
                         }
                     }
                 }
