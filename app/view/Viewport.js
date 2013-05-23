@@ -15,14 +15,14 @@ Ext.define('Onc.view.Viewport', {
     _adjustViewToGroups: function() {
         var isAdmin = Onc.model.AuthenticatedUser.isAdmin();
         var adminButtons = ['infrastructurejoin-button', 'tasks-button', 're-register-gauges','viewlog-button'];
+        var adminTabs = ['vmmap', 'dashboard'];
         //if is onc is embedded do not show buttons:
         if (IS_EMBEDDED) {
             hideButtons = ['oms-shell-button', 'logout-button', 'username-label'];
             for (var i = 0; i < hideButtons.length; i++)
                this.down('#' + hideButtons[i]).hidden = true;
-        } 
+        }
 
-        var adminTabs = ['vmmap'];
         // adjust controll buttons
         for (var i = 0; i < adminButtons.length; i++) {
             this.down('#' + adminButtons[i]).hidden = !isAdmin;
