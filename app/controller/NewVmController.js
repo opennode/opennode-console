@@ -26,6 +26,10 @@ Ext.define('Onc.controller.NewVmController', {
                     Ext.getCmp('submitButton').enable();
                     var form = this.getForm().getForm();
                     form.markInvalid(ret['errors']);
+                    // special care for the pre-commit check
+                    for (var i = 0; i < ret['errors'].length; i++)
+                        if (ret['errors'][i]['id'] === 'vm')
+                            this.fireBusEvent('displayNotification', ret['errors'][i]['msg'], 'VM creation has failed');
                 } else {
                     this.getWindow().destroy();
                     this.fireBusEvent('displayNotification', 'Your request was successfully submitted. Stay tuned!', 'New VM request submitted');
@@ -34,7 +38,7 @@ Ext.define('Onc.controller.NewVmController', {
             }.bind(this),
             failure: function(response) {
                 console.error(response.responseText);
-                this.fireBusEvent('displayNotification', 'Error occurred while creating new Virtual Machine', 'error');
+                this.fireBusEvent('displayNotification', 'Error occurred while creating new Virtual Machine', 'Error');
             }.bind(this)
         });
     },

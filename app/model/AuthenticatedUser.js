@@ -22,6 +22,8 @@ Ext.define('Onc.model.AuthenticatedUser', {
     },
 
     isAdmin: function() {
+        if (!this.groups)
+            return false;
         return this.groups.indexOf('admins') > -1;
     }
 

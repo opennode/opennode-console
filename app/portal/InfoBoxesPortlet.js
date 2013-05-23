@@ -13,38 +13,32 @@ Ext.define('Onc.portal.InfoBoxesPortlet', {
         var assignedRamBox = this.down("#assignedRamBox");
         var assignedHddBox = this.down("#assignedHddBox");
         resourceContainer.setLoading(true);
-        var url = (Onc.model.AuthenticatedUser.isAdmin()) ? 'machines' : 'computes';
-            
-        Onc.core.Backend.request('GET', url + '/?depth=3&attrs=diskspace,memory,__type__').success(function(response) {
 
+        Onc.core.Backend.request('GET', 'computes/?depth=2&attrs=features,diskspace,memory,__type__,tags&exclude=openvz').success(function(response) {
             var physServers = 0;
             var physCloudServers = 0;
             var physHACloudServers = 0;
             var subnets = 0;
-            var virtMachines = [];
+            var virtMachines = 0;
             var assignedRam = 0;
             var assignedHDD = 0;
 
             for ( var i = 0; i < response.children.length; i++) {
-                var serv = response.children[i];
-                if (serv.__type__ == 'Compute') {
+                var server = response.children[i];
+                if (Ext.Array.contains(server.features, 'IUndeployed'))
+                    continue;
+                if (!Ext.Array.contains(server.features, 'IVirtualCompute')) {
                     physServers++;
+                    // XXX number of servers and numbr of non-HA servers is the same at the moment
                     physCloudServers++;
-                    assignedHDD += serv.diskspace.total;
-                    // sometimes memory is not reported and is null
-                    if (serv.memory != null)
-                        assignedRam += parseInt(serv.memory, 10);
-                    for ( var j = 0; j < serv.children.length; j++) {
-                        var child = serv.children[j];
-                        if (child.__type__ == 'VirtualizationContainer') {
-                            Ext.each(child.children, function(it, index) {
-                                virtMachines.push(it.id);
-                            });
-                        }
-                    }
-                }
+                } else 
+                    virtMachines++;
+                if (server.diskspace != null)
+                    assignedHDD += server.diskspace.total;
+                // sometimes memory is not reported and is null
+                if (server.memory != null)
+                    assignedRam += parseInt(server.memory, 10);
             }
-            virtMachines = Ext.Array.unique(virtMachines);
 
             if (physServersBox) physServersBox.updateData({
                 value: physServers,
@@ -52,7 +46,7 @@ Ext.define('Onc.portal.InfoBoxesPortlet', {
                 sub2_value: physHACloudServers
             });
             if (virtualMachinesBox) virtualMachinesBox.updateData({
-                value: virtMachines.length
+                value: virtMachines
             });
             if (assignedRamBox) assignedRamBox.updateData({
                 value: assignedRam

@@ -1,7 +1,7 @@
 Ext.define('Onc.store.TasksStore', {
     extend: 'Ext.data.Store',
     model: 'Onc.model.Task',
-	autoLoad:true,	
+    autoLoad:true,	
     proxy: {
         type: 'onc',
         reader: {
