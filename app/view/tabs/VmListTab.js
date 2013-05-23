@@ -49,7 +49,13 @@ Ext.define('Onc.view.tabs.VmListTab', {
     initComponent: function() {
         var filter = Ext.create('feature.filters', {
             local: false,
-            autoReload: true
+            autoReload: true,
+			filters:[].concat(Onc.model.AuthenticatedUser.isAdmin() ? [] : [{
+				type: 'string',
+				dataIndex: 'features',
+				value: 'IVirtualCompute,IDeployed'
+			}])
+
         });
         // Override so it searches from beginning. To make a difference between active/inactive
         Ext.override(Ext.ux.grid.filter.StringFilter, {
