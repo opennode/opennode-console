@@ -40,7 +40,8 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
                 title: 'Deleting a VM',
                 text: 'Are you sure you want to delete this VM?'
             });
-            buttons[buttons.length] = this._makeButton('edit', "Edit", "Edit machine", false);
+           	if(Onc.model.AuthenticatedUser.isAdmin()) 
+           		buttons[buttons.length] = this._makeButton('edit', "Edit", "Edit machine", false);
 
             if (!this.disableHost) {
                 var btn = this._makeButton('host', "Host", "Go to host", false);
