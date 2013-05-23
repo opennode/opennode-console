@@ -4,7 +4,10 @@ Ext.define('Onc.store.SearchResultsStore', {
 
     filters: [{
         filterFn: function(item) {
-            return !Ext.Array.contains(item.get('features'), 'IUndeployed');
+        	var features = item.get('features');
+        	if(!Onc.model.AuthenticatedUser.isAdmin() && !Ext.Array.contains(features, 'IVirtualCompute')) 
+        		return false;
+            return !Ext.Array.contains(features, 'IUndeployed');
         }
     }]
 
