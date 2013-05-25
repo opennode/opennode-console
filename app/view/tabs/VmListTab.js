@@ -74,10 +74,13 @@ Ext.define('Onc.view.tabs.VmListTab', {
                 if (!this.encode) {
                     for (i = 0; i < len; i++) {
                         f = filters[i];
+  
+						if (f.data["type"] === "string" && f.data["value"]) {
+							var arrayOfStrings = f.data["value"].toString().split(",");
+							for (var j = 0; j < arrayOfStrings.length; j++)
+								p['q'].push(f.field + ":" + arrayOfStrings[j]);
+						}
 
-                        if (f.data["type"] === "string" &&  f.data["value"]) {
-                            p['q'].push(f.field + ":" + f.data["value"]);
-                        }
                     }
                 } else {
                     tmp = [];
