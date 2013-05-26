@@ -121,6 +121,11 @@
   word-wrap: break-word;
   height: 1.2em;
   margin-left: 2px; }
+#vmmap .ip {
+  font-size: 9px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-left: 2px; }
 #vmmap .mem {
   margin-top: 2px;
   padding-left: 8px;
