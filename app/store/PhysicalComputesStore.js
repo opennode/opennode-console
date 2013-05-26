@@ -11,7 +11,7 @@ Ext.define('Onc.store.PhysicalComputesStore', {
 
         extraParams: {
             'exclude': 'incoming,templates,consoles,routes,interfaces',
-            'attrs': '__type__,hostname,diskspace,memory,num_cores,state,tags,uptime,url,children,backend,features',
+            'attrs': '__type__,hostname,diskspace,memory,num_cores,state,tags,uptime,url,children,backend,features,ipv4_address',
             'depth': 3
         },
 
