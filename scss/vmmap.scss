@@ -38,6 +38,12 @@
         height: 1.2em;
         margin-left: 2px;
     }
+    .ip {
+        font-size: 9px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-left: 2px;
+    }
     .mem {
         margin-top: 2px;
         padding-left: 8px;

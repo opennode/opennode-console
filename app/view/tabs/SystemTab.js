@@ -58,6 +58,7 @@ Ext.define('Onc.view.tabs.SystemTab', {
                 {html: 'Kernel'}, {style: "font-weight: bold", html: rec.get('kernel')},
                 {html: 'Template'}, {style: "font-weight: bold", html: rec.get('template')},
                 {html: 'Uptime'}, {itemId: 'uptime', style: "font-weight: bold", html: rec.getUptime()},
+                {html: 'Ip'}, {style: "font-weight: bold", html: rec.get('ipv4_address')},
                 {html: 'ID'}, {style: "font-weight: bold", html: rec.getId()}]
         }, {
             title: "Metrics",

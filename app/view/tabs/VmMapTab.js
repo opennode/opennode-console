@@ -117,6 +117,7 @@ Ext.define('Onc.view.tabs.VmMapTab', {
                             '</div>',
                         '</tpl>',
                         '<div class="name">{name}</div>',
+                        '<div class="ip">{ip}</div>',
                         '<div class="mem">{mem}</div>',
                         '<tpl if="values.id !== undefined">',
                             '<span class="uptime">{uptime}</span>',
@@ -146,7 +147,8 @@ Ext.define('Onc.view.tabs.VmMapTab', {
             columns: [
                 {header: 'Name', dataIndex: 'hostname', width: 100,
                     renderer: function(name, meta, rec) {
-                        return '<div class="name">' + name + '</div>';
+                        return '<div class="name">' + name + '</div>'+
+                        	   '<div class="ip">' + rec.get("ipv4_address") + '</div>';
                     }
                 },
                 {header: 'Map', dataIndex: 'memory', flex: 1,
@@ -185,10 +187,13 @@ Ext.define('Onc.view.tabs.VmMapTab', {
                             // wrap too long host names
                             if (hn.length > 22)
                                 hn = hn.substr(0,20) + '..';
+                                
+                            var ip = vm.get('ipv4_address');
 
                             r[r.length] = {
                                 id: id,
                                 name: hn,
+                                ip:ip,
                                 classes: classes,
                                 mem: parseInt(memory),
                                 uptime: uptime,
