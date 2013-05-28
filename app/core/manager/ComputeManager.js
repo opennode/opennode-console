@@ -71,8 +71,22 @@ Ext.define('Onc.core.manager.ComputeManager', {
     _createObserver: function(vm, desiredState, vmStateChangedCallback) {
         return {
             changeState: function() {
-                vm.set('state', desiredState);
-                vm.save();
+                var url = "/computes/" + vm.get('id') + "/";
+                var action = 'actions/';
+                if(desiredState == 'active')
+                	action += 'start';
+            	else if(desiredState == 'inactive')
+                	action += 'shutdown';
+                	
+				Onc.core.Backend.request('PUT', url + action, {
+					success: function(response) {
+
+					}.bind(this),
+					failure: function(response) {
+						console.error('Changing compute state to "' + desiredState + '" failed: ' + response.responseText);
+					}
+				}); 
+
 
                 this.subscription = Onc.core.hub.Hub.subscribe(this.onDataFromHub.bind(this), {'compute': vm.get('url')}, 'state_change');
             },
