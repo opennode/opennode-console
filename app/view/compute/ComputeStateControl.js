@@ -40,7 +40,8 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
                 title: 'Deleting a VM',
                 text: 'Are you sure you want to delete this VM?'
             });
-           	if(Onc.model.AuthenticatedUser.isAdmin()) 
+            
+           	if(Onc.model.AuthenticatedUser.isAdmin() && this.compute.isDeployed()) 
            		buttons[buttons.length] = this._makeButton('edit', "Edit", "Edit machine", false);
 
             if (!this.disableHost) {
@@ -124,9 +125,11 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
     _setState: function(name) {
         if (this.compute.get('state') === 'inactive') {
             this._visible('start');
+            if(!this.compute.isPhysical()) this.down('#delete-button').setVisible(true);
             this._disabled('graceful');
         } else if (this.compute.get('state') === 'active') {
             this._disabled('start');
+            if(!this.compute.isPhysical()) this.down('#delete-button').setVisible(false);
             this._visible('graceful');
         } else {
             //Exception undefined// throw new Exception('Compute is in unknown state: ' + this.compute.get('state'));
@@ -150,7 +153,7 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
 
     _visible: function(btnName) {
         // Controls are shown only for Virtual Machines
-        this._set(btnName, !this.compute.isPhysical());
+        this._set(btnName, !this.compute.isPhysical() && this.compute.isDeployed());
     },
     _disabled: function(btnName) {
         this._set(btnName, false, false);
