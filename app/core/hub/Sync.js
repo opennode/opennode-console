@@ -147,6 +147,7 @@ Ext.define('Onc.core.hub.Sync', {
             if (additions)
                 this._addRecords(additions);
             // handle computes state changes
+            
             if(stateChanges)
                 this._processChanges('computeStateChanged', stateChanges);
             // handle changed compute feature set
