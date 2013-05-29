@@ -138,26 +138,24 @@ Ext.define('Onc.core.hub.Sync', {
             }.bind(this));
 
             // remove records entries
-            if (removals)
+            if (!empty(removals))
                 this._removeRecords(removals);
             // remove deleted elements from the subscription list
             if (deletions)
                 this._deleteSubscriptions(deletions);
             // handle addition of new items
-            if (additions)
+            if (!empty(additions))
                 this._addRecords(additions);
-            
-                
             // handle computes state changes
             
-            if(stateChanges)
+            if(!empty(stateChanges))
                 this._processChanges('computeStateChanged', stateChanges);
             // handle changed compute feature set
-            if (featureChanges){
+            if (!empty(featureChanges)){
             	this._processChanges('computeFeaturesChanged', featureChanges);
             	this._processChanges('computeStateChanged', featureChanges);
             } 
-            if (suspiciousChanges) this._processChanges('computeSuspiciousChanged', suspiciousChanges);
+            if (!empty(suspiciousChanges)) this._processChanges('computeSuspiciousChanged', suspiciousChanges);
         }
     },
 
