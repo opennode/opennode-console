@@ -90,8 +90,11 @@ Ext.define('Onc.controller.MainController', {
             var tab = tabPanel.child('computeview[computeId=' + vmId + ']');
             if(tab)
                 tabPanel.remove(tab);
-        }
-
+        },
+        refreshVmListGrid: function(additions) {
+    	 	var grid = Ext.getCmp("vmgrid");
+    	 	if(grid) grid.filters.reload();
+    	}
     },
 
     // TODO: move global variables to separate locator class

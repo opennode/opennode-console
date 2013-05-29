@@ -144,8 +144,12 @@ Ext.define('Onc.core.hub.Sync', {
             if (deletions)
                 this._deleteSubscriptions(deletions);
             // handle addition of new items
-            if (!empty(additions))
-                this._addRecords(additions);
+            if (!empty(additions)) {
+            	console.log(additions);
+            	Onc.core.EventBus.fireEvent('refreshVmListGrid', additions);
+            	this._addRecords(additions);
+            }
+               
             // handle computes state changes
             
             if(!empty(stateChanges))
