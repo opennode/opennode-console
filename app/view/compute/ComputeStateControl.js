@@ -77,7 +77,12 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
     refresh: function(){
         this._setState();
     },
-
+    
+	listeners: {
+		'afterrender': function() {
+			this._setMaskIfDeploying();
+		}
+	},
     // Helper methods
 
     _makeButton: function(name, text, tooltip, hidden, confirmation) {
@@ -120,9 +125,20 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
         ), this;
     },
 
+	_setMaskIfDeploying: function() {
+		if (this.el) {
+			if (Ext.Array.contains(this.compute.get('features'), 'IDeploying'))
+				this.el.mask("Deploying ...");
+			else
+				this.el.unmask();
+		}
+	},
+	
+	_setState: function(name) {
 
-    _setState: function(name) {
-    	if(!this.compute.isPhysical()){
+		if (!this.compute.isPhysical()) {
+			this._setMaskIfDeploying();
+    	
 	    	if(Onc.model.AuthenticatedUser.isAdmin() && this.compute.isDeployed()) 
 	    		this.down('#edit-button').setVisible(true);
 	    	else
