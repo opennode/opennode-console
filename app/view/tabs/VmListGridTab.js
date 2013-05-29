@@ -11,6 +11,13 @@ Ext.define('Onc.view.tabs.VmListGridTab', {
             id: 'vmgrid',
             store: "VmGridStore",
             tbar: [{
+                xtype: 'button',
+                iconCls: 'x-tbar-loading',
+                handler: function() {
+                    var grid = Ext.getCmp("vmgrid");
+                    grid.filters.reload();
+                }
+            },{
                 text: 'Only running',
                 tooltip: 'Show only running',
                 enableToggle: true,
@@ -73,7 +80,12 @@ Ext.define('Onc.view.tabs.VmListGridTab', {
                         var grid = Ext.getCmp("vmgrid");
                         grid.filters.clearFilters();
                     }
-                }]
+                }],
+	            listeners: {
+	                afterrender: function() {
+	                    this.child('#refresh').hide();
+	                }
+                }
             })],
 
         }];
