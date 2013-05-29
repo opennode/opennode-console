@@ -45,6 +45,11 @@ Ext.define('Onc.controller.ComputeController', {
                 var index = store.findExact('id', vmId);
                 if (index !== -1) store.removeAt(index);
             }
+            var searchStore = Ext.getStore('SearchResultsStore');
+            if(searchStore){
+       			var index = searchStore.findExact('id', vmId);
+           		if (index !== -1) searchStore.removeAt(index);
+            }
         },
 
         computeStateChanged: function(computeId, value){
