@@ -21,6 +21,7 @@ Ext.define('Onc.controller.ComputeStateController', {
             });
         },
         computeDeleteCompleted: function(vm){
+        	Onc.core.EventBus.fireEvent('computeRemove', vm.get('id'), vm.get('url'));
         },
 
         computeStateChanged: function(computeId, value){
