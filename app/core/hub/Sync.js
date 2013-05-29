@@ -146,13 +146,17 @@ Ext.define('Onc.core.hub.Sync', {
             // handle addition of new items
             if (additions)
                 this._addRecords(additions);
+            
+                
             // handle computes state changes
             
             if(stateChanges)
                 this._processChanges('computeStateChanged', stateChanges);
             // handle changed compute feature set
-            if (featureChanges) this._processChanges('computeFeaturesChanged', featureChanges);
-
+            if (featureChanges){
+            	this._processChanges('computeFeaturesChanged', featureChanges);
+            	this._processChanges('computeStateChanged', featureChanges);
+            } 
             if (suspiciousChanges) this._processChanges('computeSuspiciousChanged', suspiciousChanges);
         }
     },

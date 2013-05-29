@@ -41,8 +41,7 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
                 text: 'Are you sure you want to delete this VM?'
             });
             
-           	if(Onc.model.AuthenticatedUser.isAdmin() && this.compute.isDeployed()) 
-           		buttons[buttons.length] = this._makeButton('edit', "Edit", "Edit machine", false);
+           	buttons[buttons.length] = this._makeButton('edit', "Edit", "Edit machine", false);
 
             if (!this.disableHost) {
                 var btn = this._makeButton('host', "Host", "Go to host", false);
@@ -123,6 +122,13 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
 
 
     _setState: function(name) {
+    	if(!this.compute.isPhysical()){
+	    	if(Onc.model.AuthenticatedUser.isAdmin() && this.compute.isDeployed()) 
+	    		this.down('#edit-button').setVisible(true);
+	    	else
+	    		this.down('#edit-button').setVisible(false);
+    	}
+    		
         if (this.compute.get('state') === 'inactive') {
             this._visible('start');
             if(!this.compute.isPhysical()) this.down('#delete-button').setVisible(true);
