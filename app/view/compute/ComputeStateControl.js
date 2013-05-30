@@ -128,7 +128,7 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
 	_setMaskIfDeploying: function() {
 		if (this.el) {
 			if (Ext.Array.contains(this.compute.get('features'), 'IDeploying'))
-				this.el.mask("Deploying ...");
+				this.el.mask("Deploying ...", "x-mask-msg-plaintext");
 			else
 				this.el.unmask();
 		}
