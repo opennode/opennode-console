@@ -68,6 +68,31 @@ Ext.define('Onc.core.hub.Sync', {
     },
 
     _syncRecord: function(rec, changes) {
+		
+		if (rec.store) {
+			// If has any attrs, then keep only changes that is in attrs array.
+			if (rec.store.proxy.extraParams && rec.store.proxy.extraParams['attrs']) {
+				var attrs = rec.store.proxy.extraParams['attrs'];
+
+				if (attrs) {
+					var attrsArr = attrs.split(",");
+					if (!empty(changes))
+						console.log("not empty");
+
+					for (var field in changes) {
+						if (!Ext.Array.contains(attrsArr, field))
+							delete changes[field]
+					}
+					// If no changes left, then record is not synced.
+					if (empty(changes))
+						return;
+				}
+			}
+		} else {
+			//Don't sync records without store-s.
+			return;
+		}
+
         if (this._doppelganger)
             throw new Error("Attempt to sync a record while another one is already being synced");
 
@@ -132,10 +157,12 @@ Ext.define('Onc.core.hub.Sync', {
                 else
                     console.warn("Unsupported update type %s", event);
             }
-            var records = this._byUrl.massoc(url);
-            records.forEach(function(rec) {
-                this._syncRecord(rec, attrChanges);
-            }.bind(this));
+            if(!empty(attrChanges)) {
+	            var records = this._byUrl.massoc(url);
+	            records.forEach(function(rec) {
+	                this._syncRecord(rec, attrChanges);
+	            }.bind(this));
+	        }
 
             // remove records entries
             if (!empty(removals))

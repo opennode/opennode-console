@@ -9,12 +9,20 @@ Ext.define('Onc.controller.ComputeStateController', {
 
 
     busListeners: {
-        computesStateChangeStarted: function(vms){
-            this._enableCsControls(false, vms);
+        computesStateChangeStarted: function(resp){
+            Ext.Array.each(resp.vms, function(vm){
+	            Ext.Array.each(this._getComponentsForId(vm.get('id')), function(cmp){
+	               	var text = "&nbsp;";
+	               	if(resp.desiredState == 'active')
+	                	text = 'Starting...';
+	            	else if(resp.desiredState == 'inactive')
+	                	text = 'Shutting down...';
+	                	
+	                cmp.setCustomMask(text);
+	            });
+	        }, this);
         },
-        computesStateChangeCompleted: function(vms){
-            this._enableCsControls(true, vms);
-        },
+
         computeDeleteStarted: function(vm) {
             Ext.ComponentQuery.query('computestatecontrol[computeId=' + vm.getId() + ']').forEach(function(c) {
                 c.el.mask("Deleting ...", "x-mask-msg-suspicious-vm");
@@ -68,18 +76,6 @@ Ext.define('Onc.controller.ComputeStateController', {
                 }
             }
         });
-    },
-
-
-    // Helper methods
-
-    _enableCsControls: function(enabled, vms){
-        // enable / disable all ComputeStateControl components for each VM from list
-        Ext.Array.each(vms, function(vm){
-            Ext.Array.each(this._getComponentsForId(vm.get('id')), function(cmp){
-                cmp.setDisabled(!enabled, vms);
-            });
-        }, this);
     },
 
     _getComponentsForId: function(vmId){

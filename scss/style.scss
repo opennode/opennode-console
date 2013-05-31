@@ -275,7 +275,16 @@ $state-icon-margin: 5px;
 .host-tip {
 	border-color: lightgray !important;
 }
-
+.x-mask-msg-plaintext{
+  z-index: 2001 !important;
+  padding: 6px !important;
+  border: none !important;
+  background-color: transparent !important;
+}
+.x-mask-msg-plaintext div{
+  border: none !important;
+  background-color: transparent !important;
+}
 .x-mask-msg-suspicious{
 	z-index: 2001 !important;
 }
