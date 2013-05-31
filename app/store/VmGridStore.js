@@ -13,7 +13,7 @@ Ext.define('Onc.store.VmGridStore', {
             'depth': 1,
             'attrs': 'id,url,tags,architecture,cpu_info,os_release,kernel,template,' 
                    + 'hostname,ipv4_address,ipv6_address,state,effective_state,num_cores,' 
-                   + 'memory,diskspace,network,swap_size,uptime,suspicious,features',
+                   + 'memory,diskspace,network,swap_size,suspicious,features',
         },
         limitParam: 'limit',
         pageParam: 'offset',

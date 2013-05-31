@@ -30,47 +30,12 @@ Ext.define('Onc.core.manager.ComputeManager', {
     // compute Observer
 
     _setStateAndWait: function(vms, desiredState) {
-        var observers = [];
-
-        var timerId = setTimeout(function() {
-            // signal connected observers that we are done
-            Ext.each(observers, function(observer) {
-                observer.finished();
-            });
-
-        }, 120000);
-
-        function checkCompleted() {
-            if(observers.length == 0) {
-                clearTimeout(timerId);
-
-                // notify that state transition ended
-                Onc.core.EventBus.fireEvent('computesStateChangeCompleted', vms);
-            }
-        }
-
-        function onVMStateChanged(observer) {
-            observers.remove(observer);
-            checkCompleted();
-        }
 
         // notify that state transition started
-        this.fireBusEvent('computesStateChangeStarted', vms);
+        this.fireBusEvent('computesStateChangeStarted', {vms:vms, desiredState:desiredState});
 
         Ext.each(vms, function(vm) {
             if(vm.get('state') != desiredState) {
-                var vmObserver = this._createObserver(vm, desiredState, onVMStateChanged);
-                observers.push(vmObserver);
-                vmObserver.changeState();
-            }
-        }, this);
-
-        checkCompleted();
-    },
-
-    _createObserver: function(vm, desiredState, vmStateChangedCallback) {
-        return {
-            changeState: function() {
                 var url = "/computes/" + vm.get('id') + "/";
                 var action = 'actions/';
                 if(desiredState == 'active')
@@ -80,34 +45,16 @@ Ext.define('Onc.core.manager.ComputeManager', {
                 	
 				Onc.core.Backend.request('PUT', url + action, {
 					success: function(response) {
-
+						//state end comes with sync
 					}.bind(this),
 					failure: function(response) {
 						console.error('Changing compute state to "' + desiredState + '" failed: ' + response.responseText);
 					}
-				}); 
-
-
-                this.subscription = Onc.core.hub.Hub.subscribe(this.onDataFromHub.bind(this), {'compute': vm.get('url')}, 'state_change');
-            },
-
-            onDataFromHub: function(values) {
-                values.compute.forEach(function(el) {
-                    var eo = el[1];
-                    if(eo.name === 'effective_state' && eo.value === desiredState)
-                        this.finished();
-                }, this);
-            },
-
-            finished: function() {
-                if(this.subscription.subscribed) {
-                    this.subscription.unsubscribe();
-                    vmStateChangedCallback(this);
-                }
+				});
             }
-        };
-    },
+        }, this);
 
+    },
 
     // TODO: move to abstract Manager class
     fireBusEvent: function(eventName, args) {
