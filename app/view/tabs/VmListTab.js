@@ -11,7 +11,7 @@ Ext.define('Onc.view.tabs.VmListTab', {
 
     viewConfig: {
         getRowClass: function(record) {
-            return 'compute state-' + record.get('state');
+            return 'compute state-' + Onc.model.Compute.calculatedState(record.get("features"), record.get("state"));
         }
     },
 
@@ -53,7 +53,7 @@ Ext.define('Onc.view.tabs.VmListTab', {
 			filters:[].concat(Onc.model.AuthenticatedUser.isAdmin() ? [] : [{
 				type: 'string',
 				dataIndex: 'features',
-				value: 'IVirtualCompute,IDeployed'
+				value: 'IVirtualCompute'
 			}])
 
         });
@@ -120,7 +120,7 @@ Ext.define('Onc.view.tabs.VmListTab', {
 
         this.columns = [
             {header: 'State', xtype: 'templatecolumn', tpl: new Ext.XTemplate(
-                    '<div class="state-color" data-qtip="State: {state}"></div>',
+                    '<div class="state-color" data-qtip="State: {[Onc.model.Compute.calculatedState(values.features,values.state)]}"></div>',
                     '<div class="{[this.getComputeType(values.tags)]}-icon">',
                     '<span data-qtip="{[this.getType(values.tags, false)]}">',
                     '{[this.getType(values.tags, true)]}</span></div>',
