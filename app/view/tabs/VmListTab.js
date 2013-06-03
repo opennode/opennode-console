@@ -276,6 +276,8 @@ Ext.define('Onc.view.tabs.VmListTab', {
         if(!cellComponent){
             cellComponent = componentFactory();
             this._cellComponentMap[componentKey] = cellComponent;
+        } else {
+        	cellComponent.fireEvent("afterrender");
         }
 
         // create new container and add component
@@ -294,11 +296,12 @@ Ext.define('Onc.view.tabs.VmListTab', {
 
     // destroys container and component cache
     onDestroy: function(){
+    	console.log("destroy")
         // containers
         for(var containerKey in this._cellContainerMap){
             this._destroyCellContainer(containerKey);
         }
-        delete this._cellContainerMap;
+       // delete this._cellContainerMap;
 
         // components
         for(var componentKey in this._cellComponentMap){
