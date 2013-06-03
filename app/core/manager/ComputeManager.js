@@ -25,6 +25,10 @@ Ext.define('Onc.core.manager.ComputeManager', {
     graceful: function(vms) {
         this._setStateAndWait(vms, 'inactive');
     },
+    
+    redeploy: function(vm) {
+        this._setStateAndWait([vm], 'redeploy');
+    },
 
 
     // compute Observer
@@ -42,6 +46,8 @@ Ext.define('Onc.core.manager.ComputeManager', {
                 	action += 'start';
             	else if(desiredState == 'inactive')
                 	action += 'shutdown';
+                if(desiredState == 'redeploy')
+                	action += 'allocate';
                 	
 				Onc.core.Backend.request('PUT', url + action, {
 					success: function(response) {
