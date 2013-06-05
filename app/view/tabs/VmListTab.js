@@ -8,6 +8,8 @@ Ext.define('Onc.view.tabs.VmListTab', {
     title: "Virtual Machines",
     multiSelect: true,
     header: false,
+    
+    cacheComponents: true, // to reuse components or not
 
     viewConfig: {
         getRowClass: function(record) {
@@ -221,7 +223,7 @@ Ext.define('Onc.view.tabs.VmListTab', {
 
     _computeStateRenderer: function(domId, _, _, vmRec) {
         var csKey = 'computestate-' + vmRec.get('id');
-        this._addToContainer(csKey, domId, function(){
+        this._addToContainer(vmRec.get('id'), csKey, domId, function(){
             return Ext.widget('computestatecontrol', {
                 compute: vmRec,
                 // fixed layout needed because of ExtJs-4.1 rendering mechanism 
@@ -242,7 +244,7 @@ Ext.define('Onc.view.tabs.VmListTab', {
             resizable: false,
             renderer: makeColumnRenderer(function(domId, _, _, rec) {
                 var gaugeKey = 'gauge-' + rec.get('id') + '-' + label;
-                this._addToContainer(gaugeKey, domId, function(){
+                this._addToContainer(rec.get('id'), gaugeKey, domId, function(){
                     return  this._createGauge(label, name, unit, rec);
                 }.bind(this));
             }.bind(this))
@@ -270,27 +272,40 @@ Ext.define('Onc.view.tabs.VmListTab', {
             });
     },
 
-    _addToContainer: function(componentKey, domId, componentFactory){
-        // retrieve existing component, or create if one does not exists
-        var cellComponent = this._cellComponentMap[componentKey];
-        if(!cellComponent){
-            cellComponent = componentFactory();
-            this._cellComponentMap[componentKey] = cellComponent;
-        } else {
-        	cellComponent.fireEvent("afterrender");
-        }
+    _addToContainer: function(computeId, componentKey, domId, componentFactory){
+    	
+		if (this.cacheComponents) {
+			// retrieve existing component, or create if one does not exists
+			var cellComponent = this._cellComponentMap[componentKey];
+			if (!cellComponent) {
+				cellComponent = componentFactory();
+				this._cellComponentMap[componentKey] = cellComponent;
+			} else {
+				cellComponent.fireEvent("afterrender");
+			}
 
-        // create new container and add component
-        var cellContainer = Ext.create('Ext.container.Container', {
-            renderTo: domId
-        });
-        cellContainer.add(cellComponent);
+			// create new container and add component
+			var cellContainer = Ext.create('Ext.container.Container', {
+				renderTo : domId
+			});
+			cellContainer.add(cellComponent);
 
-        // destroy previous gauge container
-        this._destroyCellContainer(componentKey);
+			// destroy previous gauge container
+			this._destroyCellContainer(componentKey);
 
-        // memorize current gauge container
-        this._cellContainerMap[componentKey] = cellContainer;
+			// memorize current gauge container
+			this._cellContainerMap[componentKey] = cellContainer;
+		} else {
+			// create new container and add component
+			var cellContainer = Ext.create('Ext.container.Container', {
+				computeIdForDestroying: computeId,
+				renderTo : domId
+			});
+			cellContainer.add(componentFactory());
+			return cellContainer;
+		}
+
+       
     },
 
 
