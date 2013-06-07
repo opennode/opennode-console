@@ -240,7 +240,7 @@ Ext.define('Onc.view.tabs.VmListTab', {
             align: 'center',
             dataIndex: 'id',
             resizable: false,
-            renderer: makeColumnRenderer(function(domId, _, _, rec) {
+            renderer: makeColumnRenderer(function(domId, value, metadata, rec) {
                 var gaugeKey = 'gauge-' + rec.get('id') + '-' + label;
                 this._addToContainer(gaugeKey, domId, function(){
                     return  this._createGauge(label, name, unit, rec);

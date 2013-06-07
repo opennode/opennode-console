@@ -64,7 +64,7 @@ Ext.define('Onc.controller.MainController', {
                     fields: ['timestamp', 'cpu', 'memory', 'diskspace', 'network'],
                     data: [],
                     sorters: ['timestamp']
-                }),
+                })
             });
             tabPanel.add(tab);
             tabPanel.setActiveTab(tab);
