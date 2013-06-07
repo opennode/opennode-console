@@ -12,9 +12,9 @@ Ext.onReady(function() {
 });
 
 Ext.Loader.setConfig('paths', {
-    'Ext': 'lib/ext-4.1/src',
-    'Onc': './app',
-    'Ext.ux': 'lib/ext-4.1/examples/ux'
+    
+    'Onc': './app'
+    
 });
 
 Ext.Ajax.timeout = 200000;

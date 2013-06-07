@@ -26,7 +26,7 @@ Ext.define('Onc.core.util.Deferred', {
             this.errbacks.push(fn);
         return this;
     },
-    finally: function(fn) {
+    'finally': function(fn) {
         if (this._exArgs || this._result)
             fn.apply(this, [this._result ? true : false].concat(this._result || this._exArgs));
         else
