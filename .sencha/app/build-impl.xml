@@ -320,11 +320,11 @@ this file in most cases.
                 <fileset dir="${framework.dir}" 
                           includes="resources/**/css/**/*"/>
             </copy>
-<!-- Not good, should exclude missing js files with extjs requires-->
+<!-- Not good, should exclude missing js files with extjs requires
   	   <copy toDir="${build.dir}/${framework.rel.path}">
                 <fileset dir="${framework.dir}" 
                          includes="src/**/*"/>
-	  </copy>
+	  </copy>-->
             <copy toDir="${build.dir}/${framework.rel.path}">
                 <fileset dir="${framework.dir}" 
                          includes="src/ux/**/css/**/*"/>

@@ -7,7 +7,6 @@
 Ext.Loader.addClassPathMappings({
   "BridgeMembersStore": "app/view/tabs/NetworkTab.js",
   "Ext": "ext/src",
-  "Onc.core.manager.ComputeManager": "app/core/manager/Copy of ComputeManager.js",
   "Onc.core.ui.widgets.TagBox": "app/core/ui/widgets/Tagger.js",
   "Onc.core.ui.widgets.TagModel": "app/core/ui/widgets/Tagger.js",
   "Onc": "app",
