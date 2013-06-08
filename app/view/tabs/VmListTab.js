@@ -135,7 +135,18 @@ Ext.define('Onc.view.tabs.VmListTab', {
                     dataIndex: 'state'
 			},
             {header: 'Name', filterable: true, dataIndex: 'hostname', width: 100, flex: 0, editor: {xtype: 'textfield', allowBlank: false}},
-            {header: 'Inet4', filterable: true, dataIndex: 'ipv4_address', width: 120, editor: {xtype: 'textfield', allowBlank: true}},
+            {header: 'Inet4', filterable: true, dataIndex: 'ipv4_address', width: 120, editor: {xtype: 'textfield', allowBlank: true},
+				renderer:  function (value, metaData, record, row, col, store, gridView) {
+					if (value.indexOf('0.0.0.0') === 0) {
+						if (Ext.Array.contains(record.get('features'), 'IDeploying'))
+							return 'IP is being allocated...';
+						else if (Ext.Array.contains(record.get('features'), 'IUndeployed'))
+							return 'IP not allocated';
+					}
+					return value;
+				}
+
+		    },
 
             {header: 'actions', width: 165, flex: 0, renderer:
                 makeColumnRenderer(this._computeStateRenderer.bind(this))
