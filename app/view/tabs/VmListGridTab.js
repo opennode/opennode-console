@@ -9,6 +9,7 @@ Ext.define('Onc.view.tabs.VmListGridTab', {
         this.items = [{
             xtype: 'computevmlisttab',
             id: 'vmgrid',
+            cacheComponents: false,
             store: "VmGridStore",
             tbar: [{
                 xtype: 'button',
@@ -47,6 +48,7 @@ Ext.define('Onc.view.tabs.VmListGridTab', {
                 listeners: {
 
                     change: function(combo, newValue, oldValue, eOpts) {
+                    	var store = Ext.getStore("VmGridStore");
                         var id = newValue;
                         // hide columns if type is hangar
                         var grid = Ext.getCmp("vmgrid");
@@ -59,8 +61,8 @@ Ext.define('Onc.view.tabs.VmListGridTab', {
                         });
 
                         var type = Ext.getStore('VmGridTypeStore').getById(id);
-                        Ext.getStore("VmGridStore").proxy.url = type.get("url");
-                        Ext.getStore("VmGridStore").load();
+                        store.proxy.url = type.get("url");
+                        store.load();
                     }.bind(this),
 
                     afterrender: function(combo, eOpts) {
