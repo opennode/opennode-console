@@ -76,8 +76,6 @@ Ext.define('Onc.core.hub.Sync', {
 
 				if (attrs) {
 					var attrsArr = attrs.split(",");
-					if (!empty(changes))
-						console.log("not empty");
 
 					for (var field in changes) {
 						if (!Ext.Array.contains(attrsArr, field))

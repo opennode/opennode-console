@@ -50,6 +50,10 @@ Ext.define('Onc.controller.ComputeStateController', {
                 graceful: function(sender, vm) {
                     computeManager.graceful([vm]);
                 },
+                
+                redeploy: function(sender, vm) {
+                    computeManager.redeploy(vm);
+                },
 
                 edit: function(sender, vm) {
                     vm.loadParent(

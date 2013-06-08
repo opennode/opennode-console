@@ -178,6 +178,8 @@ Ext.define('Onc.model.Compute', {
             }
         });
     },
+    
+    
 
     statics: {
         getField: function(id, field, callbackFn) {
@@ -238,7 +240,17 @@ Ext.define('Onc.model.Compute', {
                 if (ctype.indexOf('virt:yes') >= 0)
                     return 'vm';
                 else return 'comp';
-            },
+        },
+        
+        calculatedState: function(features, state){
+	    	// IUndeployed and IDeploying can be at the same time, IDeploying takes presence
+	    	if(Ext.Array.contains(features, 'IUndeployed'))
+	    		state = "error";
+	    		
+	    	if(Ext.Array.contains(features, 'IDeploying'))
+	    		state = "deploying";
+	    	return state;
+	    },
 
         getType: function(ctype, shortver) {
                 var el;
