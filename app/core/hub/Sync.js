@@ -62,10 +62,38 @@ Ext.define('Onc.core.hub.Sync', {
 
 
     _deleteSubscriptions: function(urls) {
-        for (var i = 0; i < urls.length; i++) {
-            Onc.core.hub.Hub.deleteSubscription(urls[i]);
-        }
-    },
+		for (var i = 0; i < urls.length; i++) {
+			var url = urls[i];
+			// If hangar VM is deleted then it may be moved instead
+			if (url.indexOf("/machines/hangar/") === 0) {
+				var res = url.split('/');
+				var computeId = res[res.length - 2];
+				var newUrl = "/computes/" + computeId
+				// Check if UUID excists in computes/ url instead
+				Onc.core.Backend.request('GET', newUrl, {
+					success : function(response) {
+						var ret = Ext.JSON.decode(response.responseText);
+						var correctUrl = ret.url;
+						// sometimes moved vm url has not been changed yet
+						if (correctUrl != url) {
+							Onc.core.hub.Hub.replaceSubscription(url, correctUrl);
+							//update data
+							var records = this._byUrl.massoc(url);
+							records.forEach( function(rec) {
+								this._syncRecord(rec, ret);
+							}.bind(this));
+						}
+					}.bind(this),
+
+					failure : function(response) {
+						Onc.core.hub.Hub.deleteSubscription(url);
+					}.bind(this)
+				});
+			} else {
+				Onc.core.hub.Hub.deleteSubscription(url);
+			}
+		}
+	},
 
     _syncRecord: function(rec, changes) {
 		
@@ -166,7 +194,7 @@ Ext.define('Onc.core.hub.Sync', {
             if (!empty(removals))
                 this._removeRecords(removals);
             // remove deleted elements from the subscription list
-            if (deletions)
+            if (deletions.length!=0)
                 this._deleteSubscriptions(deletions);
             // handle addition of new items
             if (!empty(additions)) {
