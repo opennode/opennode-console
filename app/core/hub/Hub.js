@@ -103,6 +103,10 @@ Ext.define('Onc.core.hub.Hub', {
     deleteSubscription: function(url) {
         this._reg.delmassoc(url);
     },
+   
+	replaceSubscription: function(findUrl, replacementUrl) {
+		this._reg.replaceassocBeginsWith(findUrl, replacementUrl);
+	},
 
     _poll: function() {
         var d = new Onc.core.util.Deferred();

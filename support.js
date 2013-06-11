@@ -73,6 +73,13 @@ Array.prototype.delassoc = function(k) {
         }
     }
 };
+Array.prototype.replaceassocBeginsWith = function(k, v) {
+    for (var i = this.length - 1; i >= 0; i -= 1) {
+        if (this[i][0].indexOf(k) === 0) {
+            this[i][0]=this[i][0].replace(k, v);
+        }
+    }
+};
 
 Array.prototype.setmassoc = function(k, v) {
     for (var i = this.length - 1; i >= 0; i -= 1) {
