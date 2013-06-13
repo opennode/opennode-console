@@ -31,6 +31,12 @@ Ext.define('Onc.controller.NewVmController', {
                         if (ret['errors'][i]['id'] === 'vm')
                             this.fireBusEvent('displayNotification', ret['errors'][i]['msg'], 'VM creation has failed');
                 } else {
+					if (url.indexOf("hangar") !== -1) {
+						var computeManager = Onc.core.manager.ComputeManager;
+						computeManager.redeploy(Ext.create(Onc.model.Compute, {
+							id : ret['result']['id']
+						}));
+					}
                     this.getWindow().destroy();
                     this.fireBusEvent('displayNotification', 'Your request was successfully submitted. Stay tuned!', 'New VM request submitted');
                 }
