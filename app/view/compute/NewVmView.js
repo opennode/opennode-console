@@ -1,3 +1,4 @@
+
 Ext.define('Onc.view.compute.NewVmView', {
     extend: 'Ext.window.Window',
     alias: 'widget.newvm',
@@ -232,7 +233,6 @@ Ext.define('Onc.view.compute.NewVmView', {
                                                 this.setConstraints('diskspace', 'diskspace', 'disk_max', 'disk_min', 1, 1 / 1024, 'total');
 
                                                 this.setValue('backend', 'base_type');
-                                                this.setValue('hostname', 'name');
                                                 this.setValue('ipv4_address', 'ip');
                                                 this.setValue('nameservers', 'nameserver');
                                                 this.setValue('root_password', 'password');
