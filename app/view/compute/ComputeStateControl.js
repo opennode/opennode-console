@@ -42,7 +42,7 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
             });
             
            	buttons[buttons.length] = this._makeButton('edit', "Edit", "Edit machine", false);
-			buttons[buttons.length] = this._makeButton('redeploy', "Redeploy", "Redeploy machine", true);
+			buttons[buttons.length] = this._makeButton('allocate', "Allocate", "Allocate machine", true);
 
             if (!this.disableHost) {
                 var btn = this._makeButton('host', "Host", "Go to host", false);
@@ -149,9 +149,9 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
 	    		this.down('#edit-button').setVisible(false);
 	    		
 	    	if(Ext.Array.contains(this.compute.get('features'), 'IUndeployed') && !Ext.Array.contains(this.compute.get('features'), 'IDeploying')) 
-	    		this.down('#redeploy-button').setVisible(true);
+	    		this.down('#allocate-button').setVisible(true);
 	    	else
-	    		this.down('#redeploy-button').setVisible(false);
+	    		this.down('#allocate-button').setVisible(false);
     	}
     		
         if (this.compute.get('state') === 'inactive') {
