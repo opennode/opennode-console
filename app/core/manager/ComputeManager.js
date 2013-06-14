@@ -6,8 +6,8 @@ Ext.define('Onc.core.manager.ComputeManager', {
     destroy: function(vm, callback) {
         Onc.core.EventBus.fireEvent('computeDeleteStarted', vm);
 
-        var url = vm.get('url');
-        Onc.core.Backend.request('DELETE', url, {
+        var url = 'computes/' + vm.get('id') + '/actions/undeploy';
+        Onc.core.Backend.request('PUT', url, {
             success: function(response) {
                 Onc.core.EventBus.fireEvent('computeDeleteCompleted', vm);
             },
