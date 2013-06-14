@@ -33,7 +33,7 @@ Ext.define('Onc.controller.NewVmController', {
                 } else {
 					if (url.indexOf("hangar") !== -1) {
 						var computeManager = Onc.core.manager.ComputeManager;
-						computeManager.redeploy(Ext.create(Onc.model.Compute, {
+						computeManager.allocate(Ext.create(Onc.model.Compute, {
 							id : ret['result']['id']
 						}));
 					}

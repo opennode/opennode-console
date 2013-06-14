@@ -51,8 +51,8 @@ Ext.define('Onc.controller.ComputeStateController', {
                     computeManager.graceful([vm]);
                 },
                 
-                redeploy: function(sender, vm) {
-                    computeManager.redeploy(vm);
+                allocate: function(sender, vm) {
+                    computeManager.allocate(vm);
                 },
 
                 edit: function(sender, vm) {
