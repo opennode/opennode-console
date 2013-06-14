@@ -101,7 +101,16 @@ Ext.define('Onc.core.ui.widgets.Gauge', {
         if (value === undefined) return value;
         value = this.convert(value);
         var display = this.display || this.defaultDisplay;
-        return value['to' + display[0].capitalize()](display[1]);
+		try {
+			return value['to' + display[0].capitalize()](display[1]);
+		} catch(err) {
+			console.log("Error converting value:");
+			console.log(value)
+			console.log(err);
+			return 0;
+		}
+
+        
     },
     _dimGauge : function(doIt) {
 		if (doIt) {

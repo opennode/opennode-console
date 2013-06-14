@@ -18,10 +18,10 @@ Ext.define('Onc.view.tabs.VmListTab', {
     },
 
     listeners: {
-        'afterrender': function(grid) {
+        'boxready': function(grid) {
             grid.filters.createFilters();
             this.createColumns(grid.headerCt);
-            grid.view.refresh();
+            grid.filters.reload();
         }
     },
 
@@ -47,17 +47,20 @@ Ext.define('Onc.view.tabs.VmListTab', {
             headerCt.add(attrsColumns);
         }
     },
+	lockedFilters: function() {
+		var f = (Onc.model.AuthenticatedUser.isAdmin()) ? [] : [{
+			type: 'string',
+			dataIndex: 'features',
+			value: 'IVirtualCompute'
+		}];
+		return f;
+	},
 
     initComponent: function() {
         var filter = Ext.create('feature.filters', {
             local: false,
             autoReload: true,
-			filters:[].concat(Onc.model.AuthenticatedUser.isAdmin() ? [] : [{
-				type: 'string',
-				dataIndex: 'features',
-				value: 'IVirtualCompute'
-			}])
-
+			filters:this.lockedFilters()
         });
         // Override so it searches from beginning. To make a difference between active/inactive
         Ext.override(Ext.ux.grid.filter.StringFilter, {

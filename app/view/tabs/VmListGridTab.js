@@ -5,6 +5,8 @@ Ext.define('Onc.view.tabs.VmListGridTab', {
     layout: 'fit',
     closable: true,
 
+	isFirstLoad: true, 
+
     initComponent: function() {
         this.items = [{
             xtype: 'computevmlisttab',
@@ -62,7 +64,12 @@ Ext.define('Onc.view.tabs.VmListGridTab', {
 
                         var type = Ext.getStore('VmGridTypeStore').getById(id);
                         store.proxy.url = type.get("url");
-                        store.load();
+                        
+                        if(this.isFirstLoad)
+                        	this.isFirstLoad = false;
+                        else  
+                        	store.load();
+                        	
                     }.bind(this),
 
                     afterrender: function(combo, eOpts) {
@@ -80,7 +87,11 @@ Ext.define('Onc.view.tabs.VmListGridTab', {
                     text: 'Clear filters',
                     handler: function() {
                         var grid = Ext.getCmp("vmgrid");
-                        grid.filters.clearFilters();
+                        // Remove all filters to apply "default" filters
+                        grid.filters.removeAll();
+                        grid.filters.addFilters(grid.lockedFilters());
+                      	grid.filters.createFilters();
+                        grid.filters.reload();
                     }
                 }],
 	            listeners: {
