@@ -33,7 +33,7 @@ Ext.define('Onc.view.tabs.SystemTab', {
                 items: {
                     xtype: 'button',
                     itemId: 'zabbix-button',
-                    hidden: !ENABLE_ZABBIX,
+                    hidden: !Ext.ENABLE_ZABBIX,
                     scale: 'large',
                     icon: 'img/icon/zabbix.png',
                     iconAlign: 'top',

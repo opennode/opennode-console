@@ -106,8 +106,8 @@ Ext.define('Onc.controller.MainController', {
         Sm.log.Logger.getRoot().addAppender(this.logViewerAppender);
 
         // set log level if LOG_LEVEL defined in config.js
-        if(LOG_LEVEL)
-            Sm.log.Logger.getRoot().setLevel(Sm.log.Level[LOG_LEVEL]);
+        if(Ext.LOG_LEVEL)
+            Sm.log.Logger.getRoot().setLevel(Sm.log.Level[Ext.LOG_LEVEL]);
 
         var log = Sm.log.Logger.getLogger( 'UI');
 

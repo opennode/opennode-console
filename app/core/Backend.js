@@ -12,7 +12,7 @@ Ext.define('Onc.core.Backend', {
     },
 
     url: function(url) {
-            return BACKEND_PREFIX + url.replace(/^\//,'');
+            return Ext.BACKEND_PREFIX + url.replace(/^\//,'');
     },
 
     ajaxRequest: function(request, options) {

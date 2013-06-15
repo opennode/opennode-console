@@ -40,7 +40,7 @@ Ext.define('Onc.view.LoginWindow', {
             border: false,
             bodyStyle: 'background: inherit',
             bodyPadding: 5,
-            html: '<img src="'+IMG_LOGO_LOGIN+'" alt="OpenNode Console" width="290px" height="59px" />'
+            html: '<img src="'+Ext.IMG_LOGO_LOGIN+'" alt="OpenNode Console" width="290px" height="59px" />'
         }, {
             emptyText: "Username",
             name: 'username',
