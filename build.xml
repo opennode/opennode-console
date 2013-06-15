@@ -12,12 +12,6 @@
             <fileset dir="${basedir}/lib" includes="**/*"/>
         </copy>
 
-	<copy todir="${build.dir}/css" overwrite="true">
-            <fileset dir="${basedir}/css" includes="**/*"/>
-        </copy>
-	<copy todir="${build.dir}/theme" overwrite="true">
-            <fileset dir="${basedir}/theme" includes="**/*"/>
-        </copy>
 
         <!-- copy config -->
         <copy file="${basedir}/config.js"
