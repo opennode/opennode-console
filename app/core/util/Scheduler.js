@@ -14,7 +14,7 @@ Ext.define('Onc.core.util.Scheduler', {
                 if (options.repeat) {
                     if (!d)
                         throw new Error("Callback should return a deferred");
-                    d.finally(function() {
+                    d.finallyDo(function() {
                         setTimeout(function() {
                             self.schedule(options);
                         }, options.wait);
