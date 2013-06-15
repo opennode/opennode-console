@@ -1,11 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<project name="onc" default=".help">
+<project name="Onc" default=".help">
     <!--
     The build-impl.xml file imported here contains the guts of the build process. It is
     a great idea to read that file to understand how the process works, but it is best to
     limit your changes to this file.
     -->
     <import file="${basedir}/.sencha/app/build-impl.xml"/>
+    <target name="-after-build">
+        <!-- Copy lib files -->
+ 	 <copy todir="${build.dir}/lib" overwrite="true">
+            <fileset dir="${basedir}/lib" includes="**/*"/>
+        </copy>
+
+	<copy todir="${build.dir}/css" overwrite="true">
+            <fileset dir="${basedir}/css" includes="**/*"/>
+        </copy>
+	<copy todir="${build.dir}/theme" overwrite="true">
+            <fileset dir="${basedir}/theme" includes="**/*"/>
+        </copy>
+
+        <!-- copy config -->
+        <copy file="${basedir}/config.js"
+            tofile="${build.dir}/config.js"
+            overwrite="true" />
+	<copy file="${basedir}/conf-default.js"
+            tofile="${build.dir}/conf-default.js"
+            overwrite="true" />
+
+    </target>
 
     <!--
     The following targets can be provided to inject logic before and/or after key steps
