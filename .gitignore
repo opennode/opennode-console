@@ -26,3 +26,5 @@ config.js
 lib/ext-4.1/
 .idea
 /oldtests
+/.sencha_backup/
+/ext/

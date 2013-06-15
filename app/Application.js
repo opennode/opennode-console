@@ -1,14 +1,16 @@
 Ext.syncRequire([
+	'Ext',
     'Ext.window.MessageBox',
     'Ext.XTemplate',
     'Ext.form.*',
     'Ext.ajax.*',
-    'Ext.app.Controller',
+    'Ext.app.Controller'
+]);
 
+Ext.require([
     // used by log4js-ext
     'Ext.ux.RowExpander',
     'Ext.ux.statusbar.StatusBar',
-
     'Onc.core.Backend',
     'Onc.core.Proxy',
     'Onc.core.Store',
@@ -75,8 +77,10 @@ Ext.onReady(function() {
   }, 250);
 });
 
+
 Ext.Loader.setConfig('paths', {
-    'Onc': './app' 
+
+    'overrides': './overrides'  
 });
 
 Ext.Ajax.timeout = 200000;
@@ -89,6 +93,37 @@ Ext.Loader.setConfig({enabled: true, disableCaching: false});
 
 
 
+if (typeof console === 'undefined') {
+    var c = console = {};
+    c.debug = c.log = c.error = c.warn = c.assert = Ext.emptyFn;
+}
+
+
+// These are essentially IP address normalisers.
+Ext.apply(Ext.data.SortTypes, {
+    asIpv4: function(value) {
+        return IPAddress.normalizeIpv4(value).addr;
+    },
+
+    asIpv6: function(value) {
+        return IPAddress.normalizeIpv6(value).addr;
+    }
+});
+
+
+
+Ext.apply(Ext.form.field.VTypes, {
+    password: function(val, field) {
+        if (field.initialPassField) {
+            var pwd = field.up('form').down('#' + field.initialPassField);
+            return (val == pwd.getValue());
+        }
+        return true;
+    },
+
+    passwordText: 'Passwords do not match'
+});
+
 //Get url parameters to check if there is embedded=true
 var params = Ext.urlDecode(location.search.substring(1));
 IS_EMBEDDED = (params["embedded"]) ? true : false; 
@@ -96,15 +131,18 @@ IS_EMBEDDED = (params["embedded"]) ? true : false;
 
 
 
-if (ENABLE_VMMAP == true) {
+if (Ext.ENABLE_VMMAP == true) {
     Ext.syncRequire('Onc.view.tabs.VmMapTab');
 }
 Ext.define('Onc.Application', {
     name: 'Onc',
 
     extend: 'Ext.app.Application',
+    
+    requires:['Onc.model.Compute'],
 
     views: [
+    'Onc.view.NotificationBarView'
         // TODO: add views here
     ],
 
@@ -132,66 +170,3 @@ Ext.define('Onc.Application', {
 });
 
 
-Ext.override(Ext.Base, {
-    toString: function() {
-        return '<{0}>'.format(this.$className);
-    },
-
-    cls: function() { return this.$className.split('.').pop(); }
-});
-
-
-if (typeof console === 'undefined') {
-    var c = console = {};
-    c.debug = c.log = c.error = c.warn = c.assert = Ext.emptyFn;
-}
-
-
-// These are essentially IP address normalisers.
-Ext.apply(Ext.data.SortTypes, {
-    asIpv4: function(value) {
-        return IPAddress.normalizeIpv4(value).addr;
-    },
-
-    asIpv6: function(value) {
-        return IPAddress.normalizeIpv6(value).addr;
-    }
-});
-
-
-Ext.data.Association.create = function(association){
-    if (!association.isAssociation) {
-        if (Ext.isString(association)) {
-            association = {
-                type: association
-            };
-        }
-
-        switch (association.type) {
-        case 'belongsTo':
-            return Ext.create('Ext.data.BelongsToAssociation', association);
-        case 'hasMany':
-            return Ext.create('Ext.data.HasManyAssociation', association);
-        case 'polymorphic':
-            return Ext.create('association.polymorphic', association);
-        default:
-            //<debug>
-            Ext.Error.raise('Unknown Association type: "' + association.type + '"');
-            //</debug>
-        }
-    }
-    return association;
-};
-
-
-Ext.apply(Ext.form.field.VTypes, {
-    password: function(val, field) {
-        if (field.initialPassField) {
-            var pwd = field.up('form').down('#' + field.initialPassField);
-            return (val == pwd.getValue());
-        }
-        return true;
-    },
-
-    passwordText: 'Passwords do not match'
-});

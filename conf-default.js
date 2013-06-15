@@ -1,17 +1,19 @@
-BACKEND_PREFIX = '';
-ENABLE_VMMAP = true;
-ENABLE_VMMAP_TOOLBAR = true;
-ENABLE_VMMAP_REFRESH = true;
-ENABLE_VMMAP_TAG = false;
-ENABLE_VMMAP_RESIZE = false;
-ENABLE_VMMAP_MIGRATE = true;
-ENABLE_VMLIST_DELETE = false;
-ENABLE_VNC = false;
-ENABLE_ZABBIX = false;
-ENABLE_VMMAP_LEGEND = false;
+var Ext = Ext || {};
+
+Ext.BACKEND_PREFIX = '';
+Ext.ENABLE_VMMAP = true;
+Ext.ENABLE_VMMAP_TOOLBAR = true;
+Ext.ENABLE_VMMAP_REFRESH = true;
+Ext.ENABLE_VMMAP_TAG = false;
+Ext.ENABLE_VMMAP_RESIZE = false;
+Ext.ENABLE_VMMAP_MIGRATE = true;
+Ext.ENABLE_VMLIST_DELETE = false;
+Ext.ENABLE_VNC = false;
+Ext.ENABLE_ZABBIX = false;
+Ext.ENABLE_VMMAP_LEGEND = false;
 
 //FATAL, ERROR, WARN, INFO, DEBUG, and TRACE.
-LOG_LEVEL = 'INFO';
+Ext.LOG_LEVEL = 'INFO';
 
-IMG_LOGO_MAIN="img/onc_logo.png";
-IMG_LOGO_LOGIN="img/onc_logo_login.png";
+Ext.IMG_LOGO_MAIN = "img/onc_logo.png";
+Ext.IMG_LOGO_LOGIN = "img/onc_logo_login.png";

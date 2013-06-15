@@ -8,9 +8,7 @@ Ext.Loader.addClassPathMappings({
   " Ext.Msg": "ext/src/window/MessageBox.js",
   "BridgeMembersStore": "app/view/tabs/NetworkTab.js",
   "Ext": "ext/src",
-  "onc": "app",
   "Onc.core.ui.widgets.TagBox": "app/core/ui/widgets/Tagger.js",
-  "Onc.Application": "app/application.js",
   "Onc.core.ui.widgets.TagModel": "app/core/ui/widgets/Tagger.js",
   "Ext.rtl.EventObjectImpl": "ext/src/rtl/EventObject.js",
   "Onc": "app"
@@ -18,8 +16,8 @@ Ext.Loader.addClassPathMappings({
 Ext.ClassManager.addNameAlternateMappings({
   "Onc.model.IpRoute": [],
   "Onc.model.Task": [],
-  "Onc.model.ManagedNode": [],
   "Onc.view.compute.EditVmView": [],
+  "Onc.model.ManagedNode": [],
   "Onc.controller.TasksController": [],
   "Ext.ux.grid.TransformGrid": [],
   "Ext.ux.ajax.DataSimlet": [],
@@ -27,19 +25,18 @@ Ext.ClassManager.addNameAlternateMappings({
   "Onc.model.Hangar": [],
   "Onc.store.VirtualizationContainerStore": [],
   "Onc.model.NetworkInterface": [],
-  "Onc.portal.GaugesChartPortlet": [],
   "Onc.store.TasksPortletStore": [],
+  "Onc.portal.GaugesChartPortlet": [],
   "Onc.portal.LogPortlet": [],
   "Onc.model.VmProfile": [],
+  "Onc.store.VmProfilesStore": [],
   "Ext.ux.event.Driver": [],
   "Ext.ux.ajax.XmlSimlet": [],
-  "Onc.store.VmProfilesStore": [],
-  "onc.view.Main": [],
   "Onc.store.SearchResultsStore": [],
   "Onc.view.compute.ComputeView": [],
-  "Onc.core.ui.components.NetworkGauge": [],
-  "Ext.ux.DataView.DragSelector": [],
   "Onc.view.compute.GaugesChartView": [],
+  "Ext.ux.DataView.DragSelector": [],
+  "Onc.core.ui.components.NetworkGauge": [],
   "Onc.store.TasksStore": [],
   "Onc.view.compute.ZabbixRegistrationView": [],
   "Ext.ux.grid.menu.ListMenu": [],
@@ -54,20 +51,20 @@ Ext.ClassManager.addNameAlternateMappings({
   "Onc.core.ui.widgets.GaugeChart": [],
   "Onc.model.Command": [],
   "Onc.store.AllocationPolicyStore": [],
-  "Onc.model.Compute": [],
   "Onc.model.NetworkInterfaces": [],
+  "Onc.model.Compute": [],
   "Ext.ux.PreviewPlugin": [],
   "Onc.portal.TasksPortlet": [],
   "Onc.model.ZabbixHostgroup": [],
   "Onc.store.VmGridStore": [],
-  "Onc.core.ui.components.ComputeGauge": [],
   "Onc.store.ZabbixHostgroupsStore": [],
   "Ext.ux.ajax.SimXhr": [],
-  "Ext.ux.event.RecorderManager": [],
+  "Onc.core.ui.components.ComputeGauge": [],
   "Onc.store.ComputesStore": [],
+  "Ext.ux.event.RecorderManager": [],
   "Onc.model.AuthenticatedUser": [],
-  "Onc.view.tabs.SystemTab": [],
   "Ext.ux.ProgressBarPager": [],
+  "Onc.view.tabs.SystemTab": [],
   "Ext.ux.CellDragDrop": [],
   "Onc.core.ui.widgets.Gauge": [],
   "Ext.ux.ajax.Simlet": [],
@@ -80,12 +77,12 @@ Ext.ClassManager.addNameAlternateMappings({
   "Onc.controller.LoginController": [],
   "Onc.core.EventBus": [],
   "Ext.ux.event.Recorder": [],
-  "Onc.portal.InfoBoxesPortlet": [],
   "Onc.view.compute.NewVmView": [],
+  "Onc.portal.InfoBoxesPortlet": [],
   "Onc.core.polymorphic.Association": [],
   "Onc.core.ui.widgets.Shell": [],
-  "Onc.core.hub.Sync": [],
   "Onc.core.Proxy": [],
+  "Onc.core.hub.Sync": [],
   "Ext.ux.ajax.SimManager": [],
   "Ext.ux.grid.filter.BooleanFilter": [],
   "Onc.view.Viewport": [],
@@ -95,8 +92,8 @@ Ext.ClassManager.addNameAlternateMappings({
   "Ext.ux.TabScrollerMenu": [],
   "Ext.ux.IFrame": [],
   "Onc.model.Base": [],
-  "Onc.view.tabs.VncTab": [],
   "Ext.ux.form.SearchField": [],
+  "Onc.view.tabs.VncTab": [],
   "Ext.ux.dd.CellFieldDropZone": [],
   "Onc.view.tabs.PortalTab": [],
   "Ext.ux.LiveSearchGridPanel": [],
@@ -106,10 +103,10 @@ Ext.ClassManager.addNameAlternateMappings({
   "Onc.view.compute.ComputeHeaderView": [],
   "Onc.view.InfrastructureJoinView": [],
   "Onc.view.SearchResultsView": [],
-  "Onc.core.hub.Hub": [],
   "Ext.ux.data.PagingMemoryProxy": [
     "Ext.data.PagingMemoryProxy"
   ],
+  "Onc.core.hub.Hub": [],
   "Onc.view.tabs.VmListGridTab": [],
   "Ext.ux.BoxReorderer": [],
   "Ext.ux.grid.filter.Filter": [],
@@ -124,19 +121,19 @@ Ext.ClassManager.addNameAlternateMappings({
   "Onc.controller.NewVmController": [],
   "Onc.controller.ZabbixRegistrationController": [],
   "Ext.ux.grid.filter.ListFilter": [],
-  "Onc.view.tabs.NetworkTab": [],
   "Onc.controller.MigrateController": [],
+  "Onc.view.tabs.NetworkTab": [],
   "Ext.ux.dd.PanelFieldDragZone": [],
   "Onc.model.Storage": [],
-  "Onc.core.util.Completer": [],
   "Onc.controller.ComputeController": [],
+  "Onc.core.util.Completer": [],
   "Onc.core.ui.widgets.StaticTip": [
     "Ext.StaticTip"
   ],
   "Ext.ux.GMapPanel": [],
   "Onc.core.polymorphic.Reader": [],
-  "Onc.store.NodesStore": [],
   "Onc.model.Templates": [],
+  "Onc.store.NodesStore": [],
   "Onc.controller.DashboardController": [],
   "Ext.ux.GroupTabPanel": [],
   "Ext.ux.DataView.LabelEditor": [],
@@ -146,8 +143,8 @@ Ext.ClassManager.addNameAlternateMappings({
   "Onc.controller.ComputeStateController": [],
   "Ext.ux.layout.Center": [],
   "Onc.core.Backend": [],
-  "Onc.model.VirtualizationContainer": [],
   "Onc.store.PhysicalComputesStore": [],
+  "Onc.model.VirtualizationContainer": [],
   "Onc.core.manager.ComputeManager": [],
   "Ext.ux.DataView.Animated": [],
   "Onc.core.ui.widgets.Tagger": [],
@@ -156,23 +153,22 @@ Ext.ClassManager.addNameAlternateMappings({
   "Ext.ux.statusbar.StatusBar": [
     "Ext.ux.StatusBar"
   ],
-  "BridgeMembersStore": [],
   "Onc.view.LoginWindow": [],
+  "BridgeMembersStore": [],
   "Onc.store.GaugesChartComputesStore": [],
   "Onc.store.IncomingNodesStore": [],
-  "Onc.core.ui.components.CPUGauge": [],
   "Onc.view.compute.ComputeStateControl": [],
+  "Onc.core.ui.components.CPUGauge": [],
   "Onc.view.tabs.VmMapTab": [],
-  "Onc.core.ui.widgets.Vnc": [],
   "Ext.ux.grid.menu.RangeMenu": [],
-  "Onc.view.tabs.StorageTab": [],
+  "Onc.core.ui.widgets.Vnc": [],
   "Ext.ux.RowExpander": [],
-  "Onc.view.tabs.ShellTab": [],
+  "Onc.view.tabs.StorageTab": [],
   "Onc.view.SearchFilterView": [],
+  "Onc.view.tabs.ShellTab": [],
   "Ext.ux.event.Player": [],
   "Onc.controller.EditVmController": [],
   "Onc.portal.PortalDropZone": [],
-  "onc.controller.Main": [],
   "Onc.model.Template": [],
   "Onc.core.hub.Subscription": [],
   "Ext.ux.ToolbarDroppable": [],
@@ -181,17 +177,17 @@ Ext.ClassManager.addNameAlternateMappings({
   "Onc.core.ui.widgets.TagModel": [],
   "Onc.portal.PortalPanel": [],
   "Ext.ux.TabCloseMenu": [],
-  "Onc.view.tabs.TemplatesTab": [],
   "Onc.core.ui.components.MemoryGauge": [],
+  "Onc.view.tabs.TemplatesTab": [],
   "Onc.core.ui.widgets.InfoBox": [],
   "Onc.controller.NotificationBarController": [],
   "Ext.ux.DataTip": [],
-  "Onc.core.util.Scheduler": [],
   "Ext.ux.grid.filter.DateTimeFilter": [],
-  "Onc.view.tabs.DashboardTab": [],
+  "Onc.core.util.Scheduler": [],
   "Ext.ux.form.ItemSelector": [
     "Ext.ux.ItemSelector"
   ],
+  "Onc.view.tabs.DashboardTab": [],
   "Ext.ux.ajax.JsonSimlet": [],
   "Ext.ux.Spotlight": [],
   "Ext.ux.grid.FiltersFeature": [],
@@ -201,10 +197,10 @@ Ext.ClassManager.addNameAlternateMappings({
 Ext.ClassManager.addNameAliasMappings({
   "Onc.model.IpRoute": [],
   "Onc.model.Task": [],
-  "Onc.model.ManagedNode": [],
   "Onc.view.compute.EditVmView": [
     "widget.editvm"
   ],
+  "Onc.model.ManagedNode": [],
   "Onc.controller.TasksController": [],
   "Ext.ux.grid.TransformGrid": [],
   "Ext.ux.ajax.DataSimlet": [],
@@ -212,32 +208,29 @@ Ext.ClassManager.addNameAliasMappings({
   "Onc.model.Hangar": [],
   "Onc.store.VirtualizationContainerStore": [],
   "Onc.model.NetworkInterface": [],
+  "Onc.store.TasksPortletStore": [],
   "Onc.portal.GaugesChartPortlet": [
     "widget.gaugeschartportlet"
   ],
-  "Onc.store.TasksPortletStore": [],
   "Onc.portal.LogPortlet": [
     "widget.logportlet"
   ],
   "Onc.model.VmProfile": [],
+  "Onc.store.VmProfilesStore": [],
   "Ext.ux.event.Driver": [],
   "Ext.ux.ajax.XmlSimlet": [
     "simlet.xml"
-  ],
-  "Onc.store.VmProfilesStore": [],
-  "onc.view.Main": [
-    "widget.app-main"
   ],
   "Onc.store.SearchResultsStore": [],
   "Onc.view.compute.ComputeView": [
     "widget.computeview"
   ],
-  "Onc.core.ui.components.NetworkGauge": [
-    "widget.networkgauge"
-  ],
-  "Ext.ux.DataView.DragSelector": [],
   "Onc.view.compute.GaugesChartView": [
     "widget.gaugeschartview"
+  ],
+  "Ext.ux.DataView.DragSelector": [],
+  "Onc.core.ui.components.NetworkGauge": [
+    "widget.networkgauge"
   ],
   "Onc.store.TasksStore": [],
   "Onc.view.compute.ZabbixRegistrationView": [
@@ -264,8 +257,8 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "Onc.model.Command": [],
   "Onc.store.AllocationPolicyStore": [],
-  "Onc.model.Compute": [],
   "Onc.model.NetworkInterfaces": [],
+  "Onc.model.Compute": [],
   "Ext.ux.PreviewPlugin": [
     "plugin.preview"
   ],
@@ -274,20 +267,20 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "Onc.model.ZabbixHostgroup": [],
   "Onc.store.VmGridStore": [],
+  "Onc.store.ZabbixHostgroupsStore": [],
+  "Ext.ux.ajax.SimXhr": [],
   "Onc.core.ui.components.ComputeGauge": [
     "widget.computegauge"
   ],
-  "Onc.store.ZabbixHostgroupsStore": [],
-  "Ext.ux.ajax.SimXhr": [],
+  "Onc.store.ComputesStore": [],
   "Ext.ux.event.RecorderManager": [
     "widget.eventrecordermanager"
   ],
-  "Onc.store.ComputesStore": [],
   "Onc.model.AuthenticatedUser": [],
+  "Ext.ux.ProgressBarPager": [],
   "Onc.view.tabs.SystemTab": [
     "widget.computesystemtab"
   ],
-  "Ext.ux.ProgressBarPager": [],
   "Ext.ux.CellDragDrop": [
     "plugin.celldragdrop"
   ],
@@ -308,11 +301,11 @@ Ext.ClassManager.addNameAliasMappings({
   "Onc.controller.LoginController": [],
   "Onc.core.EventBus": [],
   "Ext.ux.event.Recorder": [],
-  "Onc.portal.InfoBoxesPortlet": [
-    "widget.infoboxesportlet"
-  ],
   "Onc.view.compute.NewVmView": [
     "widget.newvm"
+  ],
+  "Onc.portal.InfoBoxesPortlet": [
+    "widget.infoboxesportlet"
   ],
   "Onc.core.polymorphic.Association": [
     "association.polymorphic"
@@ -320,10 +313,10 @@ Ext.ClassManager.addNameAliasMappings({
   "Onc.core.ui.widgets.Shell": [
     "widget.shell"
   ],
-  "Onc.core.hub.Sync": [],
   "Onc.core.Proxy": [
     "proxy.onc"
   ],
+  "Onc.core.hub.Sync": [],
   "Ext.ux.ajax.SimManager": [],
   "Ext.ux.grid.filter.BooleanFilter": [
     "gridfilter.boolean"
@@ -341,11 +334,11 @@ Ext.ClassManager.addNameAliasMappings({
     "widget.uxiframe"
   ],
   "Onc.model.Base": [],
-  "Onc.view.tabs.VncTab": [
-    "widget.computevnctab"
-  ],
   "Ext.ux.form.SearchField": [
     "widget.searchfield"
+  ],
+  "Onc.view.tabs.VncTab": [
+    "widget.computevnctab"
   ],
   "Ext.ux.dd.CellFieldDropZone": [],
   "Onc.view.tabs.PortalTab": [
@@ -368,10 +361,10 @@ Ext.ClassManager.addNameAliasMappings({
   "Onc.view.SearchResultsView": [
     "widget.searchresults"
   ],
-  "Onc.core.hub.Hub": [],
   "Ext.ux.data.PagingMemoryProxy": [
     "proxy.pagingmemory"
   ],
+  "Onc.core.hub.Hub": [],
   "Onc.view.tabs.VmListGridTab": [
     "widget.computevmlistgridtab"
   ],
@@ -400,14 +393,14 @@ Ext.ClassManager.addNameAliasMappings({
   "Ext.ux.grid.filter.ListFilter": [
     "gridfilter.list"
   ],
+  "Onc.controller.MigrateController": [],
   "Onc.view.tabs.NetworkTab": [
     "widget.computenetworktab"
   ],
-  "Onc.controller.MigrateController": [],
   "Ext.ux.dd.PanelFieldDragZone": [],
   "Onc.model.Storage": [],
-  "Onc.core.util.Completer": [],
   "Onc.controller.ComputeController": [],
+  "Onc.core.util.Completer": [],
   "Onc.core.ui.widgets.StaticTip": [
     "widget.statictip"
   ],
@@ -417,8 +410,8 @@ Ext.ClassManager.addNameAliasMappings({
   "Onc.core.polymorphic.Reader": [
     "reader.polymorphic"
   ],
-  "Onc.store.NodesStore": [],
   "Onc.model.Templates": [],
+  "Onc.store.NodesStore": [],
   "Onc.controller.DashboardController": [],
   "Ext.ux.GroupTabPanel": [
     "widget.grouptabpanel"
@@ -434,8 +427,8 @@ Ext.ClassManager.addNameAliasMappings({
     "layout.ux.center"
   ],
   "Onc.core.Backend": [],
-  "Onc.model.VirtualizationContainer": [],
   "Onc.store.PhysicalComputesStore": [],
+  "Onc.model.VirtualizationContainer": [],
   "Onc.core.manager.ComputeManager": [],
   "Ext.ux.DataView.Animated": [],
   "Onc.core.ui.widgets.Tagger": [
@@ -446,39 +439,38 @@ Ext.ClassManager.addNameAliasMappings({
   "Ext.ux.statusbar.StatusBar": [
     "widget.statusbar"
   ],
-  "BridgeMembersStore": [],
   "Onc.view.LoginWindow": [
     "widget.loginwindow"
   ],
+  "BridgeMembersStore": [],
   "Onc.store.GaugesChartComputesStore": [],
   "Onc.store.IncomingNodesStore": [],
-  "Onc.core.ui.components.CPUGauge": [
-    "widget.cpugauge"
-  ],
   "Onc.view.compute.ComputeStateControl": [
     "widget.computestatecontrol"
+  ],
+  "Onc.core.ui.components.CPUGauge": [
+    "widget.cpugauge"
   ],
   "Onc.view.tabs.VmMapTab": [
     "widget.computevmmaptab"
   ],
+  "Ext.ux.grid.menu.RangeMenu": [],
   "Onc.core.ui.widgets.Vnc": [
     "widget.vnc"
   ],
-  "Ext.ux.grid.menu.RangeMenu": [],
+  "Ext.ux.RowExpander": [],
   "Onc.view.tabs.StorageTab": [
     "widget.computestoragetab"
-  ],
-  "Ext.ux.RowExpander": [],
-  "Onc.view.tabs.ShellTab": [
-    "widget.computeshelltab"
   ],
   "Onc.view.SearchFilterView": [
     "widget.searchfilter"
   ],
+  "Onc.view.tabs.ShellTab": [
+    "widget.computeshelltab"
+  ],
   "Ext.ux.event.Player": [],
   "Onc.controller.EditVmController": [],
   "Onc.portal.PortalDropZone": [],
-  "onc.controller.Main": [],
   "Onc.model.Template": [],
   "Onc.core.hub.Subscription": [],
   "Ext.ux.ToolbarDroppable": [],
@@ -491,11 +483,11 @@ Ext.ClassManager.addNameAliasMappings({
   "Ext.ux.TabCloseMenu": [
     "plugin.tabclosemenu"
   ],
-  "Onc.view.tabs.TemplatesTab": [
-    "widget.computetemplatestab"
-  ],
   "Onc.core.ui.components.MemoryGauge": [
     "widget.memorygauge"
+  ],
+  "Onc.view.tabs.TemplatesTab": [
+    "widget.computetemplatestab"
   ],
   "Onc.core.ui.widgets.InfoBox": [
     "widget.infobox"
@@ -504,16 +496,16 @@ Ext.ClassManager.addNameAliasMappings({
   "Ext.ux.DataTip": [
     "plugin.datatip"
   ],
-  "Onc.core.util.Scheduler": [],
   "Ext.ux.grid.filter.DateTimeFilter": [
     "gridfilter.datetime"
   ],
-  "Onc.view.tabs.DashboardTab": [
-    "widget.computedashboardtab"
-  ],
+  "Onc.core.util.Scheduler": [],
   "Ext.ux.form.ItemSelector": [
     "widget.itemselector",
     "widget.itemselectorfield"
+  ],
+  "Onc.view.tabs.DashboardTab": [
+    "widget.computedashboardtab"
   ],
   "Ext.ux.ajax.JsonSimlet": [
     "simlet.json"

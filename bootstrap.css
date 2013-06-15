@@ -4,4 +4,4 @@
  * to the most recently built CSS file for the application to allow index.html
  * in the development directory to load properly (i.e., "dev mode").
  */
-@import 'build/onc/testing/resources/onc-all.css';
+@import 'build/Onc/production/resources/Onc-all.css';
