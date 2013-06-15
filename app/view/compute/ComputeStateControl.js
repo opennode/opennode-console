@@ -91,7 +91,7 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
             xtype: 'button',
             scale: 'large',
             itemId: '{0}-button'.format(name),
-            icon: 'img/icon/computestatecontrol/{0}.png'.format(name),
+            icon: 'resources/img/icon/computestatecontrol/{0}.png'.format(name),
             iconAlign: 'top',
             tooltip: tooltip,
             hidden: hidden,

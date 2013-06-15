@@ -80,7 +80,7 @@ Ext.define('Onc.view.Viewport', {
                 text: 'New Application',
                 scale: (Ext.IS_EMBEDDED)?'medium':'small',
                 cls: 'btn-green',
-                icon: 'img/icon/new_app.png'
+                icon: 'resources/img/icon/new_app.png'
             }, {
                 id: 'tasks-button',
                 xtype: 'button',

@@ -6,7 +6,7 @@
 @import "shell";
 @import "portlets";
 
-$ICON-PREFIX: "../img/icon/";
+$ICON-PREFIX: "img/icon/";
 @function ico($name) {
     @return $ICON-PREFIX + $name + ".png";
 }
@@ -66,7 +66,7 @@ $state-icon-margin: 5px;
   height: $search-result-height - 1;
   float: left;
   background-color: white;
-  background-image: url("../img/shadow_left.png");
+  background-image: url("img/shadow_left.png");
   background-position: top right;
   background-repeat: repeat-y;
 }
@@ -87,16 +87,16 @@ $state-icon-margin: 5px;
 }  
 
 .state-migrating .state-color{
-  background-image: url("../img/load_blue.gif");
+  background-image: url("img/load_blue.gif");
 }  
 .state-other .state-color{
-  background-image: url("../img/load_orange.gif");
+  background-image: url("img/load_orange.gif");
 }  
 .state-deploying .state-color{
-  background-image: url("../img/load_green.gif");
+  background-image: url("img/load_green.gif");
 }  
 .state-wait .state-color{
-  background-image: url("../img/load_wait.gif");
+  background-image: url("img/load_wait.gif");
   background-position: top center;
 }  
 
@@ -118,7 +118,7 @@ $state-icon-margin: 5px;
         height: $search-result-height;
         margin-right:3px;
         float: left;
-        background-image: url("../img/shadow_right.png");
+        background-image: url("img/shadow_right.png");
         background-position: top left;
         background-repeat: repeat-y;
       }

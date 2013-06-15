@@ -15,5 +15,5 @@ Ext.ENABLE_VMMAP_LEGEND = false;
 //FATAL, ERROR, WARN, INFO, DEBUG, and TRACE.
 Ext.LOG_LEVEL = 'INFO';
 
-Ext.IMG_LOGO_MAIN = "img/onc_logo.png";
-Ext.IMG_LOGO_LOGIN = "img/onc_logo_login.png";
+Ext.IMG_LOGO_MAIN = "resources/img/onc_logo.png";
+Ext.IMG_LOGO_LOGIN = "resources/img/onc_logo_login.png";

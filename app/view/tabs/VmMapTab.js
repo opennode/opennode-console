@@ -40,12 +40,12 @@ Ext.define('Onc.view.tabs.VmMapTab', {
                 {xtype: 'toolbar',
                 itemId: 'toolbar',
                 items: (!Ext.ENABLE_VMMAP_REFRESH ? [] : [{
-                    icon: 'img/icon/refresh.png',
+                    icon: 'resources/img/icon/refresh.png',
                     text: 'Refresh',
                     scope: this,
                     handler: this.updateAll
                 }]).concat(!Ext.ENABLE_VMMAP_RESIZE ? [] : [{
-                    icon: 'img/icon/resize.png',
+                    icon: 'resources/img/icon/resize.png',
                     itemId: 'resize',
                     text: 'Resize',
                     scope: this,
@@ -59,7 +59,7 @@ Ext.define('Onc.view.tabs.VmMapTab', {
                     scope: this,
                     handler: this.onTagClick
                 }]).concat(!Ext.ENABLE_VMMAP_MIGRATE ? [] : [{
-                    icon: 'img/icon/migrate.png',
+                    icon: 'resources/img/icon/migrate.png',
                     itemId: 'migrate',
                     text: 'Migrate',
                     scope: this,

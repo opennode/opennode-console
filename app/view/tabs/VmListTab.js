@@ -203,7 +203,7 @@ Ext.define('Onc.view.tabs.VmListTab', {
 
         var tbarButtons = actions.map(function(action) {
             return {
-                icon: 'img/icon/' + action.icon + '16.png',
+                icon: 'resources/img/icon/' + action.icon + '16.png',
                 listeners: {
                     'click': function() {
                         var selectedItems = this.getSelectionModel().getSelection();
@@ -221,13 +221,13 @@ Ext.define('Onc.view.tabs.VmListTab', {
         tbarButtons.unshift({
             itemId: 'new-vm-button',
             text: 'New',
-            icon: 'img/icon/add.png',
+            icon: 'resources/img/icon/add.png',
             tooltip: 'Add a new virtual machine'
         },
         !Ext.ENABLE_VMLIST_DELETE ? null : {
             itemId: 'delete-vm-button',
             text: 'Delete',
-            icon: 'img/icon/delete.png',
+            icon: 'resources/img/icon/delete.png',
             tooltip: 'Delete the selected virtual machines'
         });
 
