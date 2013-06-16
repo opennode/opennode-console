@@ -157,12 +157,12 @@ Ext.define('Onc.view.tabs.VmListTab', {
             this._makeGaugeColumn('Disk usage', 'diskspace', 'MB'),
 
             {header: 'ID', dataIndex: 'id', width: 130, hidden: true,
-           		renderer: function(val, metadata, record, rowIndex, colIndex, store) {
-              	  Onc.core.EventBus.fireEvent("computeSuspiciousChanged", record.data['id'], record.data['suspicious']);
-              	  return val;
-           		}
-			},
- 			{
+                renderer: function(val, metadata, record, rowIndex, colIndex, store) {
+                    Onc.core.EventBus.fireEvent("computeSuspiciousChanged", record.data['id'], record.data['suspicious']);
+                    return val;
+                }
+            },
+            {
                 header: 'Tags',
                 filter: {
                     active: true,
@@ -172,6 +172,11 @@ Ext.define('Onc.view.tabs.VmListTab', {
                 hidden:true,
                 width: 100,
                 flex: 0
+            },
+            {
+                header: 'Owner', 
+                hidden: !Onc.model.AuthenticatedUser.isAdmin(),
+                dataIndex: 'owner'
             }
         ];
 
