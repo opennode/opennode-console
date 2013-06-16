@@ -47,20 +47,20 @@ Ext.define('Onc.view.tabs.VmListTab', {
             headerCt.add(attrsColumns);
         }
     },
-	lockedFilters: function() {
-		var f = (Onc.model.AuthenticatedUser.isAdmin()) ? [] : [{
-			type: 'string',
-			dataIndex: 'features',
-			value: 'IVirtualCompute'
-		}];
-		return f;
-	},
+    lockedFilters: function() {
+        var f = (Onc.model.AuthenticatedUser.isAdmin()) ? [] : [{
+            type: 'string',
+            dataIndex: 'features',
+            value: 'IVirtualCompute'
+        }];
+        return f;
+    },
 
     initComponent: function() {
         var filter = Ext.create('feature.filters', {
             local: false,
             autoReload: true,
-			filters:this.lockedFilters()
+            filters:this.lockedFilters()
         });
         // Override so it searches from beginning. To make a difference between active/inactive
         Ext.override(Ext.ux.grid.filter.StringFilter, {
@@ -71,7 +71,6 @@ Ext.define('Onc.view.tabs.VmListTab', {
             },
         });
 
-        
         Ext.override(filter, {
             buildQuery: function(filters) {
                 var p = {}, i, f, tmp, len = filters.length;
@@ -103,10 +102,7 @@ Ext.define('Onc.view.tabs.VmListTab', {
                 return p;
             }
         });
-        
-        
-        
-        
+
         this.addEvents('groupStop', 'groupStart');
 
         // initialize component and subscription cache
@@ -138,7 +134,7 @@ Ext.define('Onc.view.tabs.VmListTab', {
                         }
                     }), width: 75,
                     dataIndex: 'state'
-			},
+            },
             {header: 'Name', filterable: true, dataIndex: 'hostname', width: 100, flex: 0, editor: {xtype: 'textfield', allowBlank: false}},
             {header: 'Inet4', filterable: true, dataIndex: 'ipv4_address', width: 120, editor: {xtype: 'textfield', allowBlank: true},
 				renderer:  function (value, metaData, record, row, col, store, gridView) {
@@ -150,10 +146,9 @@ Ext.define('Onc.view.tabs.VmListTab', {
 					}
 					return value;
 				}
-
 		    },
 
-            {header: 'actions', width: 165, flex: 0, renderer:
+            {header: 'actions', width: 165, flex: 0, filterable: false, renderer:
                 makeColumnRenderer(this._computeStateRenderer.bind(this))
             },
 
@@ -168,19 +163,18 @@ Ext.define('Onc.view.tabs.VmListTab', {
            		}
 			},
  			{
-				header: 'Tags',
-            	filter: {
-            	    active: true,
-            	    type: "string"
-           	 	},
-            	dataIndex: 'tags',
-            	hidden:true,
-            	width: 100,
-            	flex: 0
- 			}
-	            
+                header: 'Tags',
+                filter: {
+                    active: true,
+                    type: "string"
+                },
+                dataIndex: 'tags',
+                hidden:true,
+                width: 100,
+                flex: 0
+            }
         ];
-        
+
         this.callParent(arguments);
     },
 
@@ -256,6 +250,7 @@ Ext.define('Onc.view.tabs.VmListTab', {
             align: 'center',
             dataIndex: 'id',
             resizable: false,
+            filterable: false,
             renderer: makeColumnRenderer(function(domId, _, _, rec) {
                 var gaugeKey = 'gauge-' + rec.get('id') + '-' + label;
                 this._addToContainer(rec.get('id'), gaugeKey, domId, function(){
