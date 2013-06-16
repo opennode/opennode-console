@@ -11,6 +11,16 @@ Ext.require([
     // used by log4js-ext
     'Ext.ux.RowExpander',
     'Ext.ux.statusbar.StatusBar',
+    // added because of production build
+    'Ext.data.JsonStore',
+    'Ext.layout.container.Border',
+    'Ext.chart.Chart',
+    'Ext.chart.axis.Numeric',
+    'Ext.chart.series.Line',
+    'Ext.tab.Panel',
+    'Ext.container.ButtonGroup',
+    'Ext.grid.column.Template',
+    
     'Onc.core.Backend',
     'Onc.core.Proxy',
     'Onc.core.Store',
@@ -79,7 +89,6 @@ Ext.onReady(function() {
 
 
 Ext.Loader.setConfig('paths', {
-
     'overrides': './overrides'  
 });
 
@@ -128,7 +137,41 @@ Ext.apply(Ext.form.field.VTypes, {
 var params = Ext.urlDecode(location.search.substring(1));
 IS_EMBEDDED = (params["embedded"]) ? true : false; 
 
+Ext.override(Ext.data.association.Association, {
+	statics: {
+	create : function(association) {
+		if (!association.isAssociation) {
+			if (Ext.isString(association)) {
+				association = {
+					type : association
+				};
+			}
 
+			switch (association.type) {
+				case 'belongsTo':
+					return Ext.create('Ext.data.BelongsToAssociation', association);
+				case 'hasMany':
+					return Ext.create('Ext.data.HasManyAssociation', association);
+				case 'polymorphic':
+					return Ext.create('Onc.core.polymorphic.Association', association);
+				default:
+					//<debug>
+					Ext.Error.raise('Unknown Association type: "' + association.type + '"');
+				//</debug>
+			}
+		}
+		return association;
+	}
+	}
+});
+
+Ext.override(Ext.Base, {
+	toString: function() {
+        return '<{0}>'.format(this.$className);
+    },
+
+    cls: function() { return this.$className.split('.').pop(); }
+}); 
 
 
 if (Ext.ENABLE_VMMAP == true) {
@@ -168,5 +211,7 @@ Ext.define('Onc.Application', {
         // TODO: add stores here
     ]
 });
+
+
 
 
