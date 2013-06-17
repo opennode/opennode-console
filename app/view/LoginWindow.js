@@ -19,7 +19,7 @@ Ext.define('Onc.view.LoginWindow', {
     items: [{
         xtype: 'form',
         frame: true,
-
+		width: 310,
         defaults: {
             xtype: 'textfield',
             anchor: '100%',

@@ -46,7 +46,7 @@ Ext.define('Onc.view.Viewport', {
         items: [{
             xtype: 'container',
             border: false,
-            style: 'position: absolute; top: 0px; right: 0px',
+            style: 'position: absolute; ',
             bodyStyle: 'background: inherit',
             defaults: {
                 margin: '0 0 0 2'
@@ -67,42 +67,49 @@ Ext.define('Onc.view.Viewport', {
                     "text-transform": "capitalize"
                 }
             }, {
-                id: 'viewlog-button',
-                xtype: 'button',
-                text: 'View logs',
-                ui: 'default-toolbar',
-                style: {
-                    textDecoration: 'underline'
-                }
-            }, {
-                id: 'newapp-button',
-                xtype: 'button',
-                text: 'New Application',
-                scale: (Ext.IS_EMBEDDED)?'medium':'small',
-                cls: 'btn-green',
-                icon: 'resources/img/icon/new_app.png'
-            }, {
-                id: 'tasks-button',
-                xtype: 'button',
-                text: 'Tasks'
-            }, {
-                id: 'infrastructurejoin-button',
-                xtype: 'button',
-                text: 'Host management'
-            }, {
-                id: 'oms-shell-button',
-                xtype: 'button',
-                text: 'OMS Shell'
-            }, {
-                id: 're-register-gauges',
-                xtype: 'button',
-                text: 'Re-register Gauges'
-            },
-            {
-                id: 'logout-button',
-                xtype: 'button',
-                text: 'Log out'
-            }]
+            	xtype: 'container', 
+            	style: 'text-align: right;',
+            	defaults: {
+	                margin: '0 0 0 2'
+	            },
+            	items:[{
+	                id: 'viewlog-button',
+	                xtype: 'button',
+	                text: 'View logs',
+	                ui: 'default-toolbar',
+	                style: {
+	                    textDecoration: 'underline'
+	                }
+	            }, {
+	                id: 'newapp-button',
+	                xtype: 'button',
+	                text: 'New Application',
+	                scale: (Ext.IS_EMBEDDED)?'medium':'small',
+	                cls: 'btn-green',
+	                icon: 'resources/img/icon/new_app.png'
+	            }, {
+	                id: 'tasks-button',
+	                xtype: 'button',
+	                text: 'Tasks'
+	            }, {
+	                id: 'infrastructurejoin-button',
+	                xtype: 'button',
+	                text: 'Host management'
+	            }, {
+	                id: 'oms-shell-button',
+	                xtype: 'button',
+	                text: 'OMS Shell'
+	            }, {
+	                id: 're-register-gauges',
+	                xtype: 'button',
+	                text: 'Re-register Gauges'
+	            },
+	            {
+	                id: 'logout-button',
+	                xtype: 'button',
+	                text: 'Log out'
+	            }
+            ]}]
         }]
     }, {
         region: 'west',
