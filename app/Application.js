@@ -20,6 +20,8 @@ Ext.require([
     'Ext.tab.Panel',
     'Ext.container.ButtonGroup',
     'Ext.grid.column.Template',
+    'Onc.core.ui.widgets.StaticTip',
+    'Ext.grid.plugin.RowEditing',
     
     'Onc.core.Backend',
     'Onc.core.Proxy',
@@ -169,8 +171,8 @@ Ext.override(Ext.Base, {
 	toString: function() {
         return '<{0}>'.format(this.$className);
     },
-
-    cls: function() { return this.$className.split('.').pop(); }
+	// Caused errors, what is purpose of this?
+    // cls: function() { return this.$className.split('.').pop(); }
 }); 
 
 
