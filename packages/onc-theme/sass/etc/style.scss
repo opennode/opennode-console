@@ -146,32 +146,32 @@ $state-icon-margin: 5px;
     background-image: url(ico("memory"));
 }
 
-.x-tab-icon {
-    &.icon-hd {
+.x-tab-button  {
+    .icon-hd {
         background-image: url(ico("hd"));
     }
-    &.icon-network {
+    .icon-network {
         background-image: url(ico("network"));
     }
-    &.icon-system {
+    .icon-system {
         background-image: url(ico("mainframe-24x24"));
     }
-    &.icon-shell {
+    .icon-shell {
         background-image: url(ico("shell-24x24"));
     }
-    &.icon-templates {
+    .icon-templates {
         background-image: url(ico("template"));
     }
-    &.icon-vmlist {
+    .icon-vmlist {
         background-image: url(ico("vmlist"));
     }
-    &.icon-vmmap {
+    .icon-vmmap {
         background-image: url(ico("map-24x24"));
     }
-    &.icon-dashboard {
+    .icon-dashboard {
         background-image: url(ico("dashboard"));
     }
-    &.icon-list {
+    .icon-list {
         background-image: url(ico("list"));
     }
 }
