@@ -12,7 +12,6 @@ develop-eggs
 eggs
 parts
 dist
-build
 docs/Makefile
 docs/make.bat
 docs/html

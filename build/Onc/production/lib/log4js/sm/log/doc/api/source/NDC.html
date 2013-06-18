@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * Copyright © 2012 Pedro Agullo Soliveres.
+ * 
+ * This file is part of Log4js-ext.
+ *
+ * Log4js-ext is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License.
+ *
+ * Commercial use is permitted to the extent that the code/component(s)
+ * do NOT become part of another Open Source or Commercially developed
+ * licensed development library or toolkit without explicit permission.
+ *
+ * Log4js-ext is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Log4js-ext.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+ * 
+ * This software uses the ExtJs library (http://extjs.com), which is 
+ * distributed under the GPL v3 license (see http://extjs.com/license).
+ */
+
+(function() {
+   &quot;use strict&quot;; //$NON-NLS-1$
+
+<span id='Sm-log-NDC'>   /**
+</span>    * This class provide a stack of 'marker' strings that helps track related
+    * logging operations across different loggers.
+    * 
+    * It is equivalent to log4j's NDC.
+    */
+   Ext.define('Sm.log.NDC', { //$NON-NLS-1$
+      singleton : true,
+      
+      uses : ['Sm.log.util.Assert'],
+      
+      config : {
+<span id='Sm-log-NDC-cfg-stack'>         /**
+</span>          * @private
+          * @cfg {Array}
+          * 
+          * 
+          * The stack of NDC strings
+          */ 
+         stack : []
+   
+<span id='Sm-log-NDC-method-setStack'>         /**
+</span>          * @method setStack
+          * @private
+          */
+   
+<span id='Sm-log-NDC-method-getStack'>         /**
+</span>          * @method getStack
+          * @private
+          */
+      },
+      
+<span id='Sm-log-NDC-method-push'>      /**
+</span>       * Pushes a marker string.
+       * 
+       * @param {String} str The additional marker string.
+       * 
+       * @returns {void}
+       */
+      push : function(str) {
+         this.stack.push(str);
+      },
+      
+<span id='Sm-log-NDC-method-pop'>      /**
+</span>       * Removes the last marker string.
+       * 
+       * Don't return anything to discourage programmatic usage
+       * 
+       * @returns {void}
+       */
+      pop : function() {
+         this.getStack().pop();
+      },
+      
+<span id='Sm-log-NDC-method-getNDCString'>      /**
+</span>       * @private Package access
+       * 
+       * Returns an string representing all marker strings, separated by '.'.
+       * 
+       * @returns {String} 
+       *      An string representing all marker strings, separated by '.'.
+       */
+      getNDCString : function() {
+        return this.getStack().join('.');
+      },
+      
+<span id='Sm-log-NDC-method-clear'>      /**
+</span>       * @private Package access
+       * 
+       * Removes all markers.
+       * 
+       * @returns {void}
+       */
+      clear : function() {
+         this.setStack([] );
+      }
+   });
+}());</pre>
+</body>
+</html>

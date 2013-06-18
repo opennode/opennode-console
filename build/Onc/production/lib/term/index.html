@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xml:lang="en" lang="en">
+  <head>
+    <title>OpenNode console terminal demo</title>
+    <link rel="stylesheet" href="styles.css" type="text/css"></link>
+    <link rel="stylesheet" href="shell.css" type="text/css"></link>
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="knockout-1.2.1.js"></script>
+    <script type="text/javascript" src="ShellInABox.js"></script>
+    <script type="text/javascript" src="embedded-shellinabox.js"></script>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"></link>
+  </head>
+    
+  <body  style="height: 100%; ">
+    <noscript>JavaScript must be enabled for OMS Shell </noscript>
+          
+    <h1>OpenNode web console
+    <div class="choice">
+        <button id="reconnect" data-bind="click: reconnect">Reconnect</button>
+      <select id="chooser"  data-bind="options: consoles, optionsText: 'name', value: selectedConsole"></select></div></h1>
+          
+    <div id="box">
+      <h3>
+        <span data-bind="visible: !selectedConsole().parameters, text: selectedConsole().host">localhost</span>
+        <span data-bind="visible: selectedConsole().parameters">
+          User name:
+          <input class="parameters" name="user" data-bind="value: selectedConsole().user" />
+          Host name:
+          <input class="parameters" name="host" data-bind="value: selectedConsole().host"/>
+        </span>
+      </h3>
+
+      <div class="filler">
+        <div id="vt100" data-bind="shell: {console: selectedConsole().connectionUrl()}"></div>
+      </div>
+    </div>
+  </body>
+</html>
