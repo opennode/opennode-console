@@ -16,7 +16,7 @@
         <!-- copy config -->
         <copy file="${basedir}/config.js"
             tofile="${build.dir}/config.js"
-            overwrite="true" />
+            overwrite="true" failonerror="false" quiet="true"/>
 	<copy file="${basedir}/conf-default.js"
             tofile="${build.dir}/conf-default.js"
             overwrite="true" />
