@@ -19,6 +19,49 @@ Ext.define('Onc.view.compute.NewVmView', {
      * The parent compute where the VM will be created.
      */
     parentCompute: null,
+    
+    /**
+     * Temp field. Keeps form fields that are hidden based on base_type, so we can unhide them.
+     */
+    tempHiddenFields: [],
+    
+    
+    /*
+     * Tooltips that are loaded once.
+     */
+    tooltipMapStatic : {
+        'template': 'Choose VM template',
+        'num_cores': 'Number of cores',
+        'cpu_limit': 'CPU usage limit',
+        'memory': 'Assigned RAM',
+        'swap_size': 'Assigned swap memory',
+        'diskspace': 'Assigned disk space',
+        'ipv4_address': 'IPv4 address: Server does automatic allocation if IP is empty ',
+        'nameservers': 'Domain Name Servers, comma seperated list',
+        'root_password': 'Root password',
+        'root_password_repeat': 'Repeat root password',
+        'start_on_boot': 'Start VM on boot',
+        'start_vm': 'Start VM'
+    },
+    /*
+     * Tooltips that are changing based on template.base_type property value
+     * Default tooltips, when no BaseType is found in tooltipMapBaseType
+     */
+    tooltipMapDefaults : {  
+        'hostname': 'Hostname',
+    },
+    tooltipMapBaseType : {
+        'kvm':{'hostname': 'VM label'}
+    },
+    /*
+     * Labels that are changing based on template.base_type property value
+     */
+    labelsMapDefaults : {
+        'hostname': 'Hostname',
+    },
+    labelsMapBaseType : {
+        'kvm':{'hostname': 'VM label'}
+    },
 
     st: null, // selected template
     
@@ -103,6 +146,40 @@ Ext.define('Onc.view.compute.NewVmView', {
         component.labelEl.update(oldLabel + limitsPart);
     },
 
+	baseTypeChanges: function(baseType){
+	    this.loadTooltips(baseType);
+	    Ext.iterate(this.tempHiddenFields, function(control, visible) {
+            if(!visible)
+                Ext.getCmp(control).show();
+            else
+                Ext.getCmp(control).hide();
+        });
+		switch (baseType){
+			case "kvm":
+			    
+                var fieldsVisibility = {
+                    'swap_size' : false,
+                    'credentialsFieldset' : false,
+                    'credentialsFieldsetKvm' : true
+                };
+                Ext.iterate(fieldsVisibility, function(control, visible) {
+    			    if(visible)
+                        Ext.getCmp(control).show();
+                    else
+                        Ext.getCmp(control).hide();
+                });
+                this.tempHiddenFields = fieldsVisibility;
+                
+                break;
+		}
+		
+        var labelsMap = (baseType == "openvz" || this.labelsMapBaseType[baseType] === undefined) ? this.labelsMapDefaults : this.labelsMapBaseType[baseType];
+
+		Ext.iterate(labelsMap, function(controlName, label) {
+            Ext.getCmp(controlName).setFieldLabel(label);
+        });
+	},
+	
     disableControls: function(boolValue) {
         var controls = ['vm_profile', 'storage_location', 'num_cores', 'swap_size', 'memory', 'diskspace', 
                         'hostname', 'ipv4_address', 'nameservers', 'root_password', 
@@ -112,6 +189,29 @@ Ext.define('Onc.view.compute.NewVmView', {
             Ext.getCmp(control).setDisabled(boolValue);
         });
     },
+    
+    loadTooltips: function(baseType){
+        var tooltipMap = {};
+        Ext.Object.merge(tooltipMap, this.tooltipMapDefaults);
+        
+        if(!baseType) Ext.Object.merge(tooltipMap, this.tooltipMapStatic);
+        
+        if(this.tooltipMapBaseType[baseType] !== undefined)
+            Ext.Object.merge(tooltipMap, this.tooltipMapBaseType[baseType]);
+        
+        Ext.iterate(tooltipMap, function(controlName, tooltip) {
+            var toolTipName = controlName+"Tip";
+            var oldToolTip = Ext.ComponentQuery.query('tooltip[itemId='+toolTipName+']');
+            if(oldToolTip[0]) oldToolTip[0].destroy();
+            console.log(toolTipName)
+            Ext.create('Ext.tip.ToolTip', {
+                itemId: toolTipName,
+                target: controlName,
+                html: tooltip
+            });
+        });
+    },
+    
     loadTemplates: function(store) {
         var templatesIcons = Ext.getCmp('templatesIcons');
         var combo = Ext.getCmp('allocation_policy');
@@ -123,7 +223,6 @@ Ext.define('Onc.view.compute.NewVmView', {
             combo.enable();
             if (this.st) {
                 var newStIndex = store.findBy(function(record, id) {
-                    console.log(record);
                     if (record.get('name_and_base_type') == this.st.get("name_and_base_type") || record.get('name') == this.st.get("name") || record.get('name_short') == this.st.get("name_short")) { return true; }
                 }.bind(this));
                 if (newStIndex != -1) {
@@ -136,35 +235,13 @@ Ext.define('Onc.view.compute.NewVmView', {
             combo.disable();
         }
     },
-
+    
     listeners: {
         'afterrender': function() {
-            var tooltipMap = {
-                'template': 'Choose VM template',
-
-                'num_cores': 'Number of cores',
-                'cpu_limit': 'CPU usage limit',
-                'memory': 'Assigned RAM',
-                'swap_size': 'Assigned swap memory',
-                'diskspace': 'Assigned disk space',
-
-                'hostname': 'Hostname',
-                'ipv4_address': 'IPv4 address: Server does automatic allocation if IP is empty ',
-                'nameservers': 'Domain Name Servers, comma seperated list',
-                'root_password': 'Root password',
-                'root_password_repeat': 'Repeat root password',
-
-                'start_on_boot': 'Start VM on boot',
-                'start_vm': 'Start VM'
-            };
+            
             this.disableControls(true);
-            Ext.iterate(tooltipMap, function(controlName, tooltip) {
-                Ext.create('Ext.tip.ToolTip', {
-                    target: controlName,
-                    html: tooltip
-                });
-            });
-
+            
+            this.loadTooltips();
             // Hiding "users" fields, shown if "admin"
             var isAdmin = Onc.model.AuthenticatedUser.isAdmin();
             var onlyAdminFields = ['allocation_policy', 'storage_location', 'ipv4_address', 'nameservers', 'start_vm', 'start_on_boot'];
@@ -218,8 +295,8 @@ Ext.define('Onc.view.compute.NewVmView', {
                                     overItemCls: 'template-over',
                                     selectedItemCls: 'template-selected',
                                     trackOver: true,
-                                    tpl: ['<table><tbody><tr><tpl for=".">', '<td><div class="template-icon-wrap" data-qtip="{name_and_base_type}">', '<span>{name_short}</span>',
-                                            '<img src="img/appicons/{name_short}.png" width="65" height="65" onerror="this.style.display =\'none\'"/>', '</div><div class="template_name">{name_and_base_type}</div></td>', '</tpl></tbody></table>', ''],
+                                    tpl: ['<table><tbody><tr><tpl for=".">', '<td>', '<div class="template-wrap"><div class="base_type">{base_type}</div>','<div class="template-icon-wrap" data-qtip="{name_and_base_type}">', '<span>{name_short}</span>',
+                                            '<img src="img/appicons/{name_short}.png" width="65" height="65" onerror="this.style.display =\'none\'"/>', '</div></div><div class="template_name">{name}</div></td>', '</tpl></tbody></table>', ''],
                                     itemSelector: 'div.template-icon-wrap',
                                     emptyText: 'No templates available',
                                     listeners: {
@@ -238,8 +315,11 @@ Ext.define('Onc.view.compute.NewVmView', {
                                                 this.setValue('root_password', 'password');
                                                 this.setValue('root_password_repeat', 'password');
                                                 this.setValue('template', 'name');
+                                                Ext.getCmp('templatePassword').setText(this.st.get('password'));
+                                                
 
                                                 this.disableControls(false);
+                                                this.baseTypeChanges(this.st.get("base_type"))
                                                 Ext.getCmp('submitButton').enable();
                                             } else {
                                                 this.disableControls(true);
@@ -430,7 +510,7 @@ Ext.define('Onc.view.compute.NewVmView', {
                             columns: 2
                         },
                         items: [{
-                            fieldLabel: "Hostname",
+                            fieldLabel: this.labelsMapDefaults['hostname'],
                             name: 'hostname',
                             id: 'hostname',
                             xtype: 'textfield',
@@ -464,6 +544,7 @@ Ext.define('Onc.view.compute.NewVmView', {
                     }, {
                         xtype: 'fieldset',
                         title: "4.Set credentials",
+                        id: 'credentialsFieldset',
                         layout: {
                             type: 'vbox',
                             pack: 'start',
@@ -506,6 +587,25 @@ Ext.define('Onc.view.compute.NewVmView', {
                                 id: 'start_on_boot',
                                 fieldLabel: "Start on boot"
                             }]
+                        }]
+                    }, {
+                        xtype: 'fieldset',
+                        title: "4.Default credentials",
+                        id: 'credentialsFieldsetKvm',
+                        hidden: true,
+                        layout: {
+                            type: 'hbox'
+                        },
+                        items: [{
+                            flex: 1,
+                            xtype: 'label',
+                            text: 'Password:'
+                        },{
+                            flex: 4,
+                            xtype: 'label',
+                            id: 'templatePassword',
+                            text: '',
+                            style: 'font-weight:bold'
                         }]
                     }],
 
