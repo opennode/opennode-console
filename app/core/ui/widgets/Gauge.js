@@ -107,7 +107,8 @@ Ext.define('Onc.core.ui.widgets.Gauge', {
 			console.log("Error converting value:");
 			console.log(value)
 			console.log(err);
-			return 0;
+			value = 0;
+			return value['to' + display[0].capitalize()](display[1]);
 		}
 
         
