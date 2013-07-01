@@ -122,7 +122,7 @@ Ext.define('Onc.view.tabs.SystemTab', {
     _getDisplayTags: function(){
         // display only custom tags from record (start with 'label:')
         var displayTags = [];
-        Ext.Array.forEach(this.record.get('tags'), function(item){
+        Ext.Array.each(this.record.get('tags'), function(item){
             if(item.indexOf('label:') === 0) {
                 displayTags.push(item);
             }
