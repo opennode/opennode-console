@@ -203,7 +203,6 @@ Ext.define('Onc.view.compute.NewVmView', {
             var toolTipName = controlName+"Tip";
             var oldToolTip = Ext.ComponentQuery.query('tooltip[itemId='+toolTipName+']');
             if(oldToolTip[0]) oldToolTip[0].destroy();
-            console.log(toolTipName)
             Ext.create('Ext.tip.ToolTip', {
                 itemId: toolTipName,
                 target: controlName,
