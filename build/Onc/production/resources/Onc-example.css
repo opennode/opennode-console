@@ -802,18 +802,23 @@
 }
 
 /* line 306, ../../../../packages/onc-theme/sass/etc/style.scss */
-.template-icon-wrap {
+.template-wrap {
   display: inline-block;
   zoom: 1;
   position: relative;
+  width: 75px;
+  height: 75px;
+  margin: 0 5px 4px 5px;
+}
+
+/* line 314, ../../../../packages/onc-theme/sass/etc/style.scss */
+.template-icon-wrap {
   cursor: pointer;
   cursor: hand;
   white-space: nowrap;
   vertical-align: middle;
   text-align: center;
   background-repeat: no-repeat;
-  width: 75px;
-  height: 75px;
   overflow: hidden;
   line-height: 75px;
   border-radius: 5px;
@@ -821,28 +826,39 @@
   -webkit-border-radius: 5px;
   border: 1px solid gray;
   background-color: #fff;
-  margin: 0 5px;
   text-shadow: 1px 1px 3px #969496;
   font-weight: bold;
   color: #00a3ff;
 }
 
-/* line 330, ../../../../packages/onc-theme/sass/etc/style.scss */
+/* line 332, ../../../../packages/onc-theme/sass/etc/style.scss */
+.base_type {
+  position: absolute;
+  z-index: 10;
+  text-align: center;
+  width: 100%;
+  text-shadow: 0px 0px 4px black;
+  font-size: 11px;
+  font-weight: bold;
+  color: #fff;
+}
+
+/* line 342, ../../../../packages/onc-theme/sass/etc/style.scss */
 #templatesIcons {
   margin-bottom: 10px;
 }
 
-/* line 333, ../../../../packages/onc-theme/sass/etc/style.scss */
+/* line 345, ../../../../packages/onc-theme/sass/etc/style.scss */
 .template-over {
   border: 1px solid #00a3ff;
 }
 
-/* line 336, ../../../../packages/onc-theme/sass/etc/style.scss */
+/* line 348, ../../../../packages/onc-theme/sass/etc/style.scss */
 .template-selected {
   border: 2px solid #00a3ff;
 }
 
-/* line 339, ../../../../packages/onc-theme/sass/etc/style.scss */
+/* line 351, ../../../../packages/onc-theme/sass/etc/style.scss */
 .template_name {
   height: 25px;
   width: 75px;
@@ -853,7 +869,7 @@
   color: gray;
 }
 
-/* line 349, ../../../../packages/onc-theme/sass/etc/style.scss */
+/* line 361, ../../../../packages/onc-theme/sass/etc/style.scss */
 .template-icon-wrap img {
   background-color: #fff;
   position: absolute;
@@ -867,7 +883,7 @@
   /* Half the width */
 }
 
-/* line 360, ../../../../packages/onc-theme/sass/etc/style.scss */
+/* line 372, ../../../../packages/onc-theme/sass/etc/style.scss */
 .username {
   font-size: 14px;
   color: #6D6D6D;
@@ -892,7 +908,7 @@
   box-shadow: #fff 0 1px 0px 0 inset;
 }
 
-/* line 385, ../../../../packages/onc-theme/sass/etc/style.scss */
+/* line 397, ../../../../packages/onc-theme/sass/etc/style.scss */
 .btn-green {
   color: #000 !important;
   border-color: #72aa00 !important;
@@ -914,7 +930,7 @@
   /* IE6-9 */
 }
 
-/* line 398, ../../../../packages/onc-theme/sass/etc/style.scss */
+/* line 410, ../../../../packages/onc-theme/sass/etc/style.scss */
 .btn-green .x-btn-inner {
   text-shadow: 0px 0px 3px #e4fa64 !important;
   filter: dropshadow(color=#e4fa64, offx=0, offy=0) !important;
