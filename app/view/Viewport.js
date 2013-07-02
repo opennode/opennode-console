@@ -114,7 +114,7 @@ Ext.define('Onc.view.Viewport', {
     }, {
         region: 'west',
         collapsible: true,
-        collapsed: IS_EMBEDDED,
+        collapsed: Ext.IS_EMBEDDED,
         split: true,
         header: false,
         width: 220,
