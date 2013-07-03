@@ -14,19 +14,13 @@ Ext.define('Onc.store.VmGridStore', {
             'attrs': 'id,url,tags,architecture,cpu_info,os_release,kernel,template,' 
                    + 'hostname,ipv4_address,ipv6_address,state,effective_state,num_cores,' 
                    + 'memory,diskspace,network,swap_size,suspicious,features,owner',
+            'exclude': 'openvz'
         },
         limitParam: 'limit',
         pageParam: 'offset',
         startParam: null,
         url: 'computes'
     },
-    // This does not work on filtered grid
-    // filters: [{
-    // property: 'id',
-    // value: /[^openvz]/
-    // }],
-    // 
-    
     
 	removeAllRecords: function() {
 		var toRemove = this.getTotalCount();
