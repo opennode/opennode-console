@@ -1,0 +1,34 @@
+$include-default: false;
+
+//$base-color: #F2F2F2;
+
+$base-color: #CFD6FF;
+
+$tab-font-size: 14 !default;
+$tab-font-weight: normal !default;
+$tab-height: 28px !default;
+$tab-spacing: 1px !default;
+$tab-inner-border: false !default;
+$tab-top-border-radius: 0px 0px 0 0 !default;
+$tabbar-top-body-padding: 0px 0 0px !default;
+$tab-border-color:#d9e2eb;
+
+
+$panel-border-color:#d9e2eb;
+
+//$frame-base-color:#d9e2eb;
+$panel-header-background-gradient:(#f5f7ff #e6ebff);
+$panel-header-color:#363636;
+
+$window-border-color:#d9e2eb;
+//$window-base-color:#d9e2eb;
+$window-header-color:#363636;
+$window-background-color:#d9e2eb;
+
+
+
+
+$relative-image-path-for-uis: true; // defaults to "../images/" when true
+
+
+@import "style";
