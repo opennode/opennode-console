@@ -26,3 +26,4 @@ lib/ext-4.2/
 /oldtests
 /.sencha_backup/
 /ext/
+/build
