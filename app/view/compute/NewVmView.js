@@ -203,7 +203,6 @@ Ext.define('Onc.view.compute.NewVmView', {
             var toolTipName = controlName+"Tip";
             var oldToolTip = Ext.ComponentQuery.query('tooltip[itemId='+toolTipName+']');
             if(oldToolTip[0]) oldToolTip[0].destroy();
-            console.log(toolTipName)
             Ext.create('Ext.tip.ToolTip', {
                 itemId: toolTipName,
                 target: controlName,
@@ -296,7 +295,7 @@ Ext.define('Onc.view.compute.NewVmView', {
                                     selectedItemCls: 'template-selected',
                                     trackOver: true,
                                     tpl: ['<table><tbody><tr><tpl for=".">', '<td>', '<div class="template-wrap"><div class="base_type">{base_type}</div>','<div class="template-icon-wrap" data-qtip="{name_and_base_type}">', '<span>{name_short}</span>',
-                                            '<img src="img/appicons/{name_short}.png" width="65" height="65" onerror="this.style.display =\'none\'"/>', '</div></div><div class="template_name">{name}</div></td>', '</tpl></tbody></table>', ''],
+                                            '<img src="resources/img/appicons/{name_short}.png" width="65" height="65" onerror="this.style.display =\'none\'"/>', '</div></div><div class="template_name">{name}</div></td>', '</tpl></tbody></table>', ''],
                                     itemSelector: 'div.template-icon-wrap',
                                     emptyText: 'No templates available',
                                     listeners: {

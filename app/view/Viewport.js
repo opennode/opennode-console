@@ -17,7 +17,7 @@ Ext.define('Onc.view.Viewport', {
         var adminButtons = ['infrastructurejoin-button', 'tasks-button', 're-register-gauges','viewlog-button'];
         var adminTabs = ['vmmap', 'dashboard'];
         //if is onc is embedded do not show buttons:
-        if (IS_EMBEDDED) {
+        if (Ext.IS_EMBEDDED) {
             hideButtons = ['oms-shell-button', 'logout-button', 'username-label'];
             for (var i = 0; i < hideButtons.length; i++)
                this.down('#' + hideButtons[i]).hidden = true;
@@ -38,15 +38,15 @@ Ext.define('Onc.view.Viewport', {
     items: [{
         region: 'north',
         id: 'header',
-        html: (IS_EMBEDDED) ? '' : '<img src="'+IMG_LOGO_MAIN+' " alt="OpenNode Console" width="436px" height="59px" />',
-        height: (IS_EMBEDDED) ? 35 : 66,
-        padding: (IS_EMBEDDED) ? 0 : 5,
+        html: (Ext.IS_EMBEDDED) ? '' : '<img src="'+Ext.IMG_LOGO_MAIN+' " alt="OpenNode Console" width="436px" height="59px" />',
+        height: (Ext.IS_EMBEDDED) ? 35 : 66,
+        padding: (Ext.IS_EMBEDDED) ? 0 : 5,
         border: false,
         bodyStyle: 'background: inherit',
         items: [{
             xtype: 'container',
             border: false,
-            style: 'position: absolute; top: 0px; right: 0px',
+            style: 'position: absolute; ',
             bodyStyle: 'background: inherit',
             defaults: {
                 margin: '0 0 0 2'
@@ -67,47 +67,54 @@ Ext.define('Onc.view.Viewport', {
                     "text-transform": "capitalize"
                 }
             }, {
-                id: 'viewlog-button',
-                xtype: 'button',
-                text: 'View logs',
-                ui: 'default-toolbar',
-                style: {
-                    textDecoration: 'underline'
-                }
-            }, {
-                id: 'newapp-button',
-                xtype: 'button',
-                text: 'New Application',
-                scale: (IS_EMBEDDED)?'medium':'small',
-                cls: 'btn-green',
-                icon: 'img/icon/new_app.png'
-            }, {
-                id: 'tasks-button',
-                xtype: 'button',
-                text: 'Tasks'
-            }, {
-                id: 'infrastructurejoin-button',
-                xtype: 'button',
-                text: 'Host management'
-            }, {
-                id: 'oms-shell-button',
-                xtype: 'button',
-                text: 'OMS Shell'
-            }, {
-                id: 're-register-gauges',
-                xtype: 'button',
-                text: 'Re-register Gauges'
-            },
-            {
-                id: 'logout-button',
-                xtype: 'button',
-                text: 'Log out'
-            }]
+            	xtype: 'container', 
+            	style: 'text-align: right;',
+            	defaults: {
+	                margin: '0 0 0 2'
+	            },
+            	items:[{
+	                id: 'viewlog-button',
+	                xtype: 'button',
+	                text: 'View logs',
+	                ui: 'default-toolbar',
+	                style: {
+	                    textDecoration: 'underline'
+	                }
+	            }, {
+	                id: 'newapp-button',
+	                xtype: 'button',
+	                text: 'New Application',
+	                scale: (Ext.IS_EMBEDDED)?'medium':'small',
+	                cls: 'btn-green',
+	                icon: 'resources/img/icon/new_app.png'
+	            }, {
+	                id: 'tasks-button',
+	                xtype: 'button',
+	                text: 'Tasks'
+	            }, {
+	                id: 'infrastructurejoin-button',
+	                xtype: 'button',
+	                text: 'Host management'
+	            }, {
+	                id: 'oms-shell-button',
+	                xtype: 'button',
+	                text: 'OMS Shell'
+	            }, {
+	                id: 're-register-gauges',
+	                xtype: 'button',
+	                text: 'Re-register Gauges'
+	            },
+	            {
+	                id: 'logout-button',
+	                xtype: 'button',
+	                text: 'Log out'
+	            }
+            ]}]
         }]
     }, {
         region: 'west',
         collapsible: true,
-        collapsed: IS_EMBEDDED,
+        collapsed: Ext.IS_EMBEDDED,
         split: true,
         header: false,
         width: 220,
@@ -153,7 +160,7 @@ Ext.define('Onc.view.Viewport', {
             closable: false,
             xtype: 'computevmlistgridtab',
             itemId: 'vmgrid'
-        }].concat(!ENABLE_VMMAP ? [] : [{
+        }].concat(!Ext.ENABLE_VMMAP ? [] : [{
             itemId: 'vmmap',
             title: "VM Map",
             iconCls: 'icon-vmmap',

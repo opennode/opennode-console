@@ -41,17 +41,17 @@ Ext.define('Onc.view.InfrastructureJoinView', {
 		                if (record.get('status') === "accepting") {
 		                   this.items[0].icon = '';
 		                   this.items[1].icon = '';
-		                   this.items[2].icon='img/icon/loading.gif';//hidden setting not working
+		                   this.items[2].icon='resources/img/icon/loading.gif';//hidden setting not working
 		                } else {
-		                   this.items[0].icon = 'img/icon/accept.png'
-		                   this.items[1].icon = 'img/icon/delete.png'
+		                   this.items[0].icon = 'resources/img/icon/accept.png'
+		                   this.items[1].icon = 'resources/img/icon/delete.png'
 		                   this.items[2].icon='';
 		                }
 		                return val;
 		            },
                     width: 50,
                     items: [{
-                        icon: 'img/icon/accept.png',
+                        icon: 'resources/img/icon/accept.png',
                         text: 'Accept',
                         altText: 'Accept',
                         tooltip: 'Accept',
@@ -59,7 +59,7 @@ Ext.define('Onc.view.InfrastructureJoinView', {
                             this._acceptHost(grid.store.getAt(rowIndex).get('hostname'));
                         }.bind(this)
                     },{
-                        icon: 'img/icon/delete.png',
+                        icon: 'resources/img/icon/delete.png',
                         text: 'Reject',
                         altText: 'Reject',
                         tooltip: 'Reject',
@@ -90,15 +90,15 @@ Ext.define('Onc.view.InfrastructureJoinView', {
                     renderer: function (val, metadata, record, rowIndex, colIndex, store, gridView) {
 		                if (record.get('status') == "deleting") {
 		                   this.items[0].icon=''
-		                   this.items[1].icon='img/icon/loading.gif';//hidden setting not working
+		                   this.items[1].icon='resources/img/icon/loading.gif';//hidden setting not working
 		                } else {
-		                   this.items[0].icon='img/icon/delete_edit.gif';
+		                   this.items[0].icon='resources/img/icon/delete_edit.gif';
 		                   this.items[1].icon='';
 		                }
 		                return val;
 		            },
                     items: [{
-                        icon: 'img/icon/delete_edit.gif',
+                        icon: 'resources/img/icon/delete_edit.gif',
                         text: 'Delete',
                         altText: 'Delete',
                         tooltip: 'Delete',

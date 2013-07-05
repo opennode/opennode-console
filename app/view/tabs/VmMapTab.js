@@ -36,21 +36,21 @@ Ext.define('Onc.view.tabs.VmMapTab', {
             store: 'PhysicalComputesStore',
             selection: Ext.create('Ext.util.MixedCollection'),
 
-            dockedItems: !ENABLE_VMMAP_TOOLBAR ? undefined : [
+            dockedItems: !Ext.ENABLE_VMMAP_TOOLBAR ? undefined : [
                 {xtype: 'toolbar',
                 itemId: 'toolbar',
-                items: (!ENABLE_VMMAP_REFRESH ? [] : [{
-                    icon: 'img/icon/refresh.png',
+                items: (!Ext.ENABLE_VMMAP_REFRESH ? [] : [{
+                    icon: 'resources/img/icon/refresh.png',
                     text: 'Refresh',
                     scope: this,
                     handler: this.updateAll
-                }]).concat(!ENABLE_VMMAP_RESIZE ? [] : [{
-                    icon: 'img/icon/resize.png',
+                }]).concat(!Ext.ENABLE_VMMAP_RESIZE ? [] : [{
+                    icon: 'resources/img/icon/resize.png',
                     itemId: 'resize',
                     text: 'Resize',
                     scope: this,
                     handler: this.onResizeClick
-                }]).concat(!ENABLE_VMMAP_TAG ? [] : [{
+                }]).concat(!Ext.ENABLE_VMMAP_TAG ? [] : [{
                     iconCls: 'icon-tag',
                     itemId: 'tag',
                     text: 'Tag',
@@ -58,13 +58,13 @@ Ext.define('Onc.view.tabs.VmMapTab', {
                     hidden: true,
                     scope: this,
                     handler: this.onTagClick
-                }]).concat(!ENABLE_VMMAP_MIGRATE ? [] : [{
-                    icon: 'img/icon/migrate.png',
+                }]).concat(!Ext.ENABLE_VMMAP_MIGRATE ? [] : [{
+                    icon: 'resources/img/icon/migrate.png',
                     itemId: 'migrate',
                     text: 'Migrate',
                     scope: this,
                     handler: this.onMigrateClick
-                }]).concat(!ENABLE_VMMAP_LEGEND ? [] : [{
+                }]).concat(!Ext.ENABLE_VMMAP_LEGEND ? [] : [{
                     xtype: 'tbseparator'
                 }, {
                     xtype: 'button',
@@ -497,7 +497,7 @@ Ext.define('Onc.view.tabs.VmMapTab', {
                     this.lastSelectedCell = el;
                 }
 
-                if (ENABLE_VMMAP_TOOLBAR && ENABLE_VMMAP_TAG) {
+                if (Ext.ENABLE_VMMAP_TOOLBAR && Ext.ENABLE_VMMAP_TAG) {
                     var toolbar = this.getDockedComponent('toolbar');
                     var tagbtn = toolbar.getComponent('tag');
                     if (this.selection.getCount() > 0) {

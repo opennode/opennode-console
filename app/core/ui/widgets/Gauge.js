@@ -114,10 +114,12 @@ Ext.define('Onc.core.ui.widgets.Gauge', {
         
     },
     _dimGauge : function(doIt) {
-		if (doIt) {
-			this.el.addCls('problem');
-		} else {
-			this.el.removeCls('problem');
+    	if(this.el){
+			if (doIt) {
+				this.el.addCls('problem');
+			} else {
+				this.el.removeCls('problem');
+			}
 		}
 	},
 	_checkForFailure : function() {

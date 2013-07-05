@@ -1,0 +1,414 @@
+@import "utils";
+
+@import "loader";
+@import "gauge";
+@import "vmmap";
+@import "shell";
+@import "portlets";
+
+$ICON-PREFIX: "img/icon/";
+@function ico($name) {
+    @return $ICON-PREFIX + $name + ".png";
+}
+
+
+$state-icon-size: 30px;
+$search-result-height: 40px;
+$state-icon-margin: 5px;
+
+#search-results {
+    $SCROLLBAR-WIDTH: 15px;
+    $search-results-width: 200px + $SCROLLBAR-WIDTH;
+    $search-results-horizontal-padding: 5px;
+
+    width: $search-results-width;
+
+    overflow: hidden;
+
+    .search-result {
+        cursor: pointer;
+        border-bottom: 1px solid #d9e2eb;
+        border-top: 1px solid #d9e2eb;
+        background: #fff;
+        background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ffffff) to(#ecf1f5));
+        background-image: -webkit-linear-gradient(top, #ffffff, #ecf1f5);
+        background-image: -moz-linear-gradient(top, #ffffff, #ecf1f5);
+        background-image: -o-linear-gradient(top, #ffffff, #ecf1f5);
+        background-image: linear-gradient(top, #ffffff, #ecf1f5);
+        height: $search-result-height+1;
+        .hostname { font-weight: bold; }
+        .descr {
+            font-size:12px;
+            padding-top: 2px;
+            color: #363636;
+            width: $search-results-width - (2 * $search-results-horizontal-padding +
+                                            $state-icon-size +
+                                            2 * $state-icon-margin) - $SCROLLBAR-WIDTH - 6;
+            line-height: 1.5em;
+            display: block;
+
+            &, .hostname {
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+        }
+
+        $item-hover-color: #ccf;
+        &.x-item-over { background-color: $item-hover-color; }
+        &.x-item-selected { background-color: darken($item-hover-color, 5%) !important; }
+    }
+}
+
+.state-color {
+  display: block;
+  width: 10px;
+  height: $search-result-height - 1;
+  float: left;
+  background-color: white;
+  background-image: url("img/shadow_left.png");
+  background-position: top right;
+  background-repeat: repeat-y;
+}
+.state-active .state-color{
+  background-color: #04ad04;
+}
+.state-running .state-color{
+  background-color: #76ce00;
+}  
+.state-suspended .state-color{
+  background-color: #F55600;
+}  
+.state-inactive .state-color{
+  background-color: gray;
+}  
+.state-error .state-color{
+  background-color: #e5231f;
+}  
+
+.state-migrating .state-color{
+  background-image: url("img/load_blue.gif");
+}  
+.state-other .state-color{
+  background-image: url("img/load_orange.gif");
+}  
+.state-deploying .state-color{
+  background-image: url("img/load_green.gif");
+}  
+.state-wait .state-color{
+  background-image: url("img/load_wait.gif");
+  background-position: top center;
+}  
+
+
+
+.state-suspended .state-color{
+  background-color: #ffee66;
+}  
+.state-stopped .state-color{
+  background-color: #ee6633;
+}  
+
+
+.compute {
+     .split-vertical{
+        display: block;
+        background: transparent;
+        width: 3px;
+        height: $search-result-height;
+        margin-right:3px;
+        float: left;
+        background-image: url("img/shadow_right.png");
+        background-position: top left;
+        background-repeat: repeat-y;
+      }
+    .comp-icon{
+      @include c-icon;
+       background-image: url(ico("mainframe-24x36"));
+    }
+    .vm-icon{
+      @include c-icon;
+       background-image: url(ico("mainframe-VM-24x24"));
+    }
+}
+
+
+.icon-hd {
+    background-image: url(ico("hd"));
+}
+.icon-cpu {
+    background-image: url(ico("cpu"));
+}
+.icon-network {
+    background-image: url(ico("network"));
+}
+.icon-memory {
+    background-image: url(ico("memory"));
+}
+
+.x-tab-button  {
+    .icon-hd {
+        background-image: url(ico("hd"));
+    }
+    .icon-network {
+        background-image: url(ico("network"));
+    }
+    .icon-system {
+        background-image: url(ico("mainframe-24x24"));
+    }
+    .icon-shell {
+        background-image: url(ico("shell-24x24"));
+    }
+    .icon-templates {
+        background-image: url(ico("template"));
+    }
+    .icon-vmlist {
+        background-image: url(ico("vmlist"));
+    }
+    .icon-vmmap {
+        background-image: url(ico("map-24x24"));
+    }
+    .icon-dashboard {
+        background-image: url(ico("dashboard"));
+    }
+    .icon-list {
+        background-image: url(ico("list"));
+    }
+}
+
+.x-action-col-icon {
+    opacity: 0.7;
+    &:hover { opacity: 1.0; }
+}
+
+
+@mixin bg-and-border($color) {
+    border: 2px solid darken($color, 5%);
+    background-color: $color;
+}
+
+
+.horizontal-dataview-item {
+    float: left;
+    margin-right: 2px;
+    margin-bottom: 2px;
+    padding: 3px;
+    @include xbrowser(border-radius, 10px);
+    cursor: default;
+}
+
+.template-picker-item:nth-child(odd) {
+    background: #E8E8FF;
+    &.x-boundlist-item-over {
+        background: #DFE8F6;
+    }
+}
+
+
+// NETWORK TAB
+.bridge-interface-members {
+    min-height: 20px;
+    div {
+        @extend .horizontal-dataview-item;
+
+        $color: #f0f0ff;
+        @include bg-and-border($color);
+
+        &:hover {
+            @include bg-and-border(darken($color, 5%));
+        }
+    }
+}
+
+
+// VMMAP tab
+.cpu-legend {
+    background: url(ico("cpu-legend"));
+}
+.memory-legend {
+    background: url(ico("memory-legend"));
+}
+.disk-legend {
+    background: url(ico("disk-legend"));
+}
+.computestatecontrol {
+    .x-btn {
+        border-width: 0;
+        background: transparent;
+
+        opacity: 0.75;
+        &:hover { opacity: 1.0; }
+
+        &.x-btn-disabled {
+            opacity: 0.35 !important;
+        }
+    }
+}
+
+.resources {
+    ol ol, ol ul, ul ol, ul ul  {
+        margin-left: 2em;
+    }
+    ol ul, ul ul {
+        li{
+            list-style: disc;
+        }
+    }
+    li{
+        strong{
+            font-weight: bolder;
+            padding-right: 3px;
+        }
+    }
+
+}
+
+.ulist {
+    ul {
+        li{
+            padding-left: 1em;
+            list-style: disc;
+        }
+    } 
+}
+
+.host-tip {
+	border-color: lightgray !important;
+}
+.x-mask-msg-plaintext{
+  z-index: 2001 !important;
+  padding: 6px !important;
+  border: none !important;
+  background-color: transparent !important;
+}
+.x-mask-msg-plaintext div{
+  border: none !important;
+  background-color: transparent !important;
+}
+.x-mask-msg-suspicious{
+	z-index: 2001 !important;
+}
+.x-mask-msg-suspicious div{
+	background-image: url('img/icon/exclamation.gif') !important;
+}
+.x-mask-msg-suspicious-vm div {
+	background-image: url('img/icon/form/exclamation.gif') !important;
+	border: none !important;
+	background-color: transparent !important;
+}
+.x-mask-msg-suspicious-vm {
+	z-index: 2001 !important;
+	padding: 6px !important;
+	border: none !important;
+	background-color: transparent !important;
+}
+
+.template-wrap {
+  display: inline-block;
+  zoom: 1;
+  position: relative;
+  width: 75px;
+  height: 75px;
+  margin: 0 5px 4px 5px; }
+  
+.template-icon-wrap {
+  cursor: pointer;
+  cursor: hand;
+  white-space: nowrap;
+  vertical-align: middle;
+  text-align: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  line-height: 75px;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border: 1px solid gray;
+  background-color: #fff;
+  text-shadow: 1px 1px 3px #969496;
+  font-weight: bold;
+  color: #00a3ff; }
+  
+.base_type {
+  position: absolute;
+  z-index: 10;
+  text-align: center;
+  width: 100%;
+  text-shadow: 0px 0px 4px rgb(0, 0, 0);
+  font-size: 11px;
+  font-weight: bold;
+  color:#fff; }
+  
+#templatesIcons{
+	margin-bottom:10px;
+}
+.template-over{
+	border: 1px solid #00a3ff;
+}
+.template-selected{
+	border: 2px solid #00a3ff;
+}
+.template_name{
+	height: 25px;
+	width: 75px;
+	font-size: 10px;
+	overflow: hidden;
+	text-align: center;
+	margin: 0 5px;
+	color:gray;
+}
+
+.template-icon-wrap img{
+   background-color:#fff;
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   width: 65px;
+   height: 65px;
+   margin-top: -32px; /* Half the height */
+   margin-left: -32px; /* Half the width */
+}
+
+.username{
+	font-size:14px; 
+	color:#6D6D6D; 
+	padding:3px 10px 3px 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	border:2px solid #63B4EB;
+	background-color:#63B4EB;
+	
+	border-color: #d9e2eb;
+	border-width: 1px;
+	border-style: solid;
+	background-image: none;
+	background-color: #e0e5ff;
+	background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #f5f7ff), color-stop(100%, #e6ebff));
+	background-image: -webkit-linear-gradient(top, #f5f7ff,#e6ebff);
+	background-image: -moz-linear-gradient(top, #f5f7ff,#e6ebff);
+	background-image: -o-linear-gradient(top, #f5f7ff,#e6ebff);
+	background-image: linear-gradient(top, #f5f7ff,#e6ebff);
+	-webkit-box-shadow: #fff 0 1px 0px 0 inset;
+	-moz-box-shadow: #fff 0 1px 0px 0 inset;
+	box-shadow: #fff 0 1px 0px 0 inset;	
+}
+
+.btn-green {
+	color: #000 !important;
+	border-color: #72aa00 !important;
+	background: #bfd255 !important; /* Old browsers */
+	background: -moz-linear-gradient(top, #bfd255 0%, #8eb92a 50%, #72aa00 51%, #9ecb2d 100%) !important; /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#bfd255), color-stop(50%,#8eb92a), color-stop(51%,#72aa00), color-stop(100%,#9ecb2d)) !important; /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #bfd255 0%,#8eb92a 50%,#72aa00 51%,#9ecb2d 100%) !important; /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #bfd255 0%,#8eb92a 50%,#72aa00 51%,#9ecb2d 100%) !important; /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #bfd255 0%,#8eb92a 50%,#72aa00 51%,#9ecb2d 100%) !important; /* IE10+ */
+	background: linear-gradient(to bottom, #bfd255 0%,#8eb92a 50%,#72aa00 51%,#9ecb2d 100%) !important; /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#bfd255', endColorstr='#9ecb2d',GradientType=0 ) !important; /* IE6-9 */
+
+}
+.btn-green .x-btn-inner{
+		text-shadow: 0px 0px 3px #e4fa64 !important;
+        filter: dropshadow(color=#e4fa64, offx=0, offy=0) !important;
+}
+
