@@ -1,7 +1,0 @@
-Log4js-ext 
-========================================================================
-
-Log4js-ext is an Open Source library that provides logging 
-support for javascript in an ExtJs environment.
-
-You can go to http://code.google.com/p/log4js-ext/ for additional information.
