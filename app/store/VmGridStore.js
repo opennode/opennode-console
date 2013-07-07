@@ -39,11 +39,7 @@ Ext.define('Onc.store.VmGridStore', {
 			var items = Ext.ComponentQuery.query('component[computeIdForDestroying=' + id + ']').forEach(function(c) {
                 c.destroy();
             });
-		},
+		}
 
-        load: function(store, records, successful, eOpts) {
-            // remove manually unwanted record, filtering does not work on filtered grid
-            store.remove(store.findRecord("id", "openvz"));
-        }
-    },
+    }
 });
