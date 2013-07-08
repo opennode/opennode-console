@@ -54,7 +54,7 @@ Ext.define('Onc.core.ui.components.ComputeGauge', {
     _checkIfActive: function() {
         var active = this.compute.get('state') == 'active';
         if (!active){
-            this.setValue(0);
+            // this.setValue(0); // Causes unnecessary refresh
             // TODO: check if null check is necessary 
             if(this.getEl())
                 this.getEl().addCls('gauge-disabled');
