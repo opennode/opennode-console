@@ -137,7 +137,8 @@ Ext.apply(Ext.form.field.VTypes, {
 
 //Get url parameters to check if there is embedded=true
 var params = Ext.urlDecode(location.search.substring(1));
-Ext.IS_EMBEDDED = (params["embedded"]) ? true : false; 
+var PARAM_IS_EMBEDDED = (params["embedded"] == "true") ? true : false; 
+Ext.IS_EMBEDDED = (PARAM_IS_EMBEDDED)? PARAM_IS_EMBEDDED : Ext.IS_EMBEDDED;
 
 Ext.override(Ext.data.association.Association, {
 	statics: {
