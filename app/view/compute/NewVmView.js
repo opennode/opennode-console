@@ -215,9 +215,7 @@ Ext.define('Onc.view.compute.NewVmView', {
         var templatesIcons = Ext.getCmp('templatesIcons');
         var combo = Ext.getCmp('allocation_policy');
         if (store) {// enable
-
-            templatesIcons.store = store;
-            templatesIcons.refresh();
+			templatesIcons.bindStore(store);
             templatesIcons.enable();
             combo.enable();
             if (this.st) {
