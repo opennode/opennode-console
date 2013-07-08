@@ -216,7 +216,7 @@ Ext.define('Onc.view.compute.NewVmView', {
         var combo = Ext.getCmp('allocation_policy');
         if (store) {// enable
 			templatesIcons.bindStore(store);
-            templatesIcons.enable();
+            // templatesIcons.enable();
             combo.enable();
             if (this.st) {
                 var newStIndex = store.findBy(function(record, id) {
@@ -227,7 +227,7 @@ Ext.define('Onc.view.compute.NewVmView', {
                 }
             }
         } else {// disable
-            templatesIcons.disable();
+            // templatesIcons.disable();
             templatesIcons.deselect(this.st);
             combo.disable();
         }
