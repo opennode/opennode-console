@@ -10,18 +10,31 @@ Ext.define('Onc.view.Viewport', {
         this.callParent(arguments);
         this.down('#username-label').update({name:Onc.model.AuthenticatedUser.username});
         this._adjustViewToGroups();
+        
+        // adjust view settings if onc is embedded
+        if(Ext.IS_EMBEDDED){
+        	var header = this.down('#header');
+        	header.html = "";
+        	header.height = 35;
+        	header.padding = 0;
+        	var searchpanel = this.down('#searchpanel');
+        	searchpanel.collapsed = true;
+        	
+        	var newappbutton = this.down('#newapp-button');
+        	newappbutton.scale = 'medium';
+        	
+        	// do not show buttons:
+        	var hideButtons = ['oms-shell-button', 'logout-button', 'username-label'];
+            for (var i = 0; i < hideButtons.length; i++){
+               this.down('#' + hideButtons[i]).hidden = true;
+            }
+        }
     },
 
     _adjustViewToGroups: function() {
         var isAdmin = Onc.model.AuthenticatedUser.isAdmin();
         var adminButtons = ['infrastructurejoin-button', 'tasks-button', 're-register-gauges','viewlog-button'];
         var adminTabs = ['vmmap', 'dashboard'];
-        //if is onc is embedded do not show buttons:
-        if (Ext.IS_EMBEDDED) {
-            hideButtons = ['oms-shell-button', 'logout-button', 'username-label'];
-            for (var i = 0; i < hideButtons.length; i++)
-               this.down('#' + hideButtons[i]).hidden = true;
-        }
 
         // adjust controll buttons
         for (var i = 0; i < adminButtons.length; i++) {
@@ -38,9 +51,9 @@ Ext.define('Onc.view.Viewport', {
     items: [{
         region: 'north',
         id: 'header',
-        html: (Ext.IS_EMBEDDED) ? '' : '<img src="'+Ext.IMG_LOGO_MAIN+' " alt="OpenNode Console" width="436px" height="59px" />',
-        height: (Ext.IS_EMBEDDED) ? 35 : 66,
-        padding: (Ext.IS_EMBEDDED) ? 0 : 5,
+        html: '<img src="'+Ext.IMG_LOGO_MAIN+' " alt="OpenNode Console" width="436px" height="59px" />',
+        height: 66,
+        padding: 5,
         border: false,
         bodyStyle: 'background: inherit',
         items: [{
@@ -84,7 +97,7 @@ Ext.define('Onc.view.Viewport', {
 	                id: 'newapp-button',
 	                xtype: 'button',
 	                text: 'New Application',
-	                scale: (Ext.IS_EMBEDDED)?'medium':'small',
+	                scale: 'small',
 	                cls: 'btn-green',
 	                icon: 'resources/img/icon/new_app.png'
 	            }, {
@@ -113,8 +126,9 @@ Ext.define('Onc.view.Viewport', {
         }]
     }, {
         region: 'west',
+        id: 'searchpanel',
         collapsible: true,
-        collapsed: Ext.IS_EMBEDDED,
+        collapsed: false,
         split: true,
         header: false,
         width: 220,
