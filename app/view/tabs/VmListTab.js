@@ -234,7 +234,7 @@ Ext.define('Onc.view.tabs.VmListTab', {
         return tbarButtons;
     },
 
-    _computeStateRenderer: function(domId, _, _, vmRec) {
+    _computeStateRenderer: function(domId, _, __, vmRec) {
         var csKey = 'computestate-' + vmRec.get('id');
         this._addToContainer(vmRec.get('id'), csKey, domId, function(){
             return Ext.widget('computestatecontrol', {
@@ -256,7 +256,7 @@ Ext.define('Onc.view.tabs.VmListTab', {
             dataIndex: 'id',
             resizable: false,
             filterable: false,
-            renderer: makeColumnRenderer(function(domId, _, _, rec) {
+            renderer: makeColumnRenderer(function(domId, _, __, rec) {
                 var gaugeKey = 'gauge-' + rec.get('id') + '-' + label;
                 this._addToContainer(rec.get('id'), gaugeKey, domId, function(){
                     return  this._createGauge(label, name, unit, rec);
