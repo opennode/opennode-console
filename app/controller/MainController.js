@@ -41,9 +41,12 @@ Ext.define('Onc.controller.MainController', {
                 function(error) {
                     // TODO: visual display of the error
                     console.error('Error while loading data: ', error);
-                    this.fireBusEvent('displayNotification', error, 'Error');
+                    if(typeof error !== "string")
+                    	error = "Unknown error in ONC: object."
+                   	this.fireBusEvent('displayNotification', error, 'Error');
+                   	
                     return;
-                }
+                }.bind(this)
             );
         } else {
             tabPanel.setActiveTab(tab);
