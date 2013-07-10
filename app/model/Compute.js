@@ -76,6 +76,7 @@ Ext.define('Onc.model.Compute', {
     },
 
     getChild: function(name) {
+    	if(!this.children) return null;
         return this.children().findRecord('id', name);
     },
 
