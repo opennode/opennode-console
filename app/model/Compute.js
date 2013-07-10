@@ -87,12 +87,15 @@ Ext.define('Onc.model.Compute', {
 
     associations: [
         {
-            type: 'polymorphic',
+            type: 'hasMany',
             model: 'Onc.model.Base',
             name: 'children',
-            getTypeDiscriminator: function(node) {
-                return'Onc.model.' + node['__type__'];
-            }
+            reader : {
+	            type: 'polymorphic',
+	            getTypeDiscriminator:function(node) {
+	                return 'Onc.model.' + node['__type__'];
+	            }
+	        }
         }
     ],
     hasMany: [
