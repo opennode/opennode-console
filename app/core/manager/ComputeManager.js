@@ -6,7 +6,12 @@ Ext.define('Onc.core.manager.ComputeManager', {
     destroy: function(vm, callback) {
         Onc.core.EventBus.fireEvent('computeDeleteStarted', vm);
 
-        var url = 'computes/' + vm.get('id') + '/actions/undeploy';
+        var url = 'bin/rm?arg=/computes/' + vm.get('id');
+
+        if (!vm.isUndeployed()) {
+            var url = 'computes/' + vm.get('id') + '/actions/undeploy';
+        }
+
         Onc.core.Backend.request('PUT', url, {
             success: function(response) {
                 Onc.core.EventBus.fireEvent('computeDeleteCompleted', vm);
@@ -25,11 +30,10 @@ Ext.define('Onc.core.manager.ComputeManager', {
     graceful: function(vms) {
         this._setStateAndWait(vms, 'inactive');
     },
-    
+
     allocate: function(vm) {
         this._setStateAndWait([vm], 'allocate');
     },
-
 
     // compute Observer
 

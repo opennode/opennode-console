@@ -131,6 +131,12 @@ Ext.define('Onc.model.Compute', {
         return Onc.model.Compute.containsDeployedFeature(features);
     },
 
+    isUndeployed: function() {
+        var features = this.get('features');
+        return Onc.model.Compute.containsUndeployedFeature(features);
+    },
+
+
     loadParent: function(successCb, failureCb) {
         // we assume that physical computes don't have any parents
         if (!this.isPhysical()) {
@@ -227,6 +233,7 @@ Ext.define('Onc.model.Compute', {
                 }
             }
         },
+
         isDeployed: function(jsonRecord) {
             return Onc.model.Compute.containsDeployedFeature(jsonRecord['features']);
         },
@@ -234,6 +241,13 @@ Ext.define('Onc.model.Compute', {
         containsDeployedFeature: function(features) {
             if (features)
                 return Ext.Array.contains(features, 'IDeployed')
+            else
+                return false;
+        },
+
+        containsUndeployedFeature: function(features) {
+            if (features)
+                return Ext.Array.contains(features, 'IUndeployed')
             else
                 return false;
         },
@@ -247,7 +261,7 @@ Ext.define('Onc.model.Compute', {
                     return 'vm';
                 else return 'comp';
         },
-        
+
         calculatedState: function(features, state){
 	    	// IUndeployed and IDeploying can be at the same time, IDeploying takes presence
 	    	if(Ext.Array.contains(features, 'IUndeployed'))
@@ -271,7 +285,10 @@ Ext.define('Onc.model.Compute', {
 
                 if(el) {
                     if(shortver) {
-                        var shortTypes = {'openvz':'OVZ', 'kvm':'KVM', 'physical':'PHY', 'opennode 6 server':'ON6',
+                        var shortTypes = {'openvz':'OVZ',
+                                          'kvm':'KVM',
+                                          'physical':'PHY',
+                                          'opennode 6 server':'ON6',
                                           'opennode management server':'OMS'};
                         if (shortTypes[el]) {
                             return shortTypes[el];

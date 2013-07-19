@@ -1,6 +1,6 @@
 var Ext = Ext || {};
 
-Ext.BACKEND_PREFIX = '';
+Ext.BACKEND_PREFIX = 'http://37.0.26.252/';
 Ext.ENABLE_VMMAP = true;
 Ext.ENABLE_VMMAP_TOOLBAR = true;
 Ext.ENABLE_VMMAP_REFRESH = true;
