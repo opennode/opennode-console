@@ -47,20 +47,20 @@ Ext.define('Onc.core.manager.ComputeManager', {
                 var url = "/computes/" + vm.get('id') + "/";
                 var action = 'actions/';
                 if(desiredState == 'active')
-                	action += 'start';
-            	else if(desiredState == 'inactive')
-                	action += 'shutdown';
+                    action += 'start';
+                else if(desiredState == 'inactive')
+                    action += 'shutdown';
                 if(desiredState == 'allocate')
-                	action += 'allocate';
-                	
-				Onc.core.Backend.request('PUT', url + action, {
-					success: function(response) {
-						//state end comes with sync
-					}.bind(this),
-					failure: function(response) {
-						console.error('Changing compute state to "' + desiredState + '" failed: ' + response.responseText);
-					}
-				});
+                    action += 'allocate';
+
+                Onc.core.Backend.request('PUT', url + action, {
+                    success: function(response) {
+                        //state end comes with sync
+                    }.bind(this),
+                    failure: function(response) {
+                        console.error('Changing compute state to "' + desiredState + '" failed: ' + response.responseText);
+                        }
+                    });
             }
         }, this);
 
