@@ -63,6 +63,911 @@
 /* including package ext-theme-neutral */
 /* including package ext-theme-classic */
 /* including package onc-theme */
+/* line 3, ../../sass/etc/loader.scss */
+#loading-mask {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 20000;
+  background-color: white;
+}
+
+/* line 13, ../../sass/etc/loader.scss */
+#loading {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  padding: 2px;
+  z-index: 20001;
+  height: auto;
+  margin: -35px 0 0 -30px;
+}
+
+/* line 23, ../../sass/etc/loader.scss */
+#loading .loading-indicator {
+  background: url(img/onloader.gif) no-repeat;
+  color: #555;
+  padding: 53px 0px;
+  margin: 0;
+  height: auto;
+  font: 13px tahoma,arial,helvetica;
+  text-align: center;
+}
+
+@keyframes blink {
+  /* line 4, ../../sass/etc/gauge.scss */
+  from {
+    opacity: 1.0;
+  }
+
+  /* line 5, ../../sass/etc/gauge.scss */
+  to {
+    opacity: 0.1;
+  }
+}
+
+@-webkit-keyframes blink {
+  /* line 4, ../../sass/etc/gauge.scss */
+  from {
+    opacity: 1.0;
+  }
+
+  /* line 5, ../../sass/etc/gauge.scss */
+  to {
+    opacity: 0.1;
+  }
+}
+
+@-moz-keyframes blink {
+  /* line 4, ../../sass/etc/gauge.scss */
+  from {
+    opacity: 1.0;
+  }
+
+  /* line 5, ../../sass/etc/gauge.scss */
+  to {
+    opacity: 0.1;
+  }
+}
+
+/* line 12, ../../sass/etc/gauge.scss */
+.gauge {
+  text-align: center;
+  padding: 5px;
+  border-radius: 5px;
+  -ms-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  overflow: hidden;
+}
+/* line 18, ../../sass/etc/gauge.scss */
+.gauge span {
+  font-size: 11px;
+}
+/* line 19, ../../sass/etc/gauge.scss */
+.gauge label {
+  font-weight: bold;
+}
+/* line 20, ../../sass/etc/gauge.scss */
+.gauge > span {
+  white-space: nowrap;
+}
+/* line 22, ../../sass/etc/gauge.scss */
+.gauge .bar {
+  margin-top: 3px;
+  background-color: lightgray;
+}
+/* line 26, ../../sass/etc/gauge.scss */
+.gauge .bar div {
+  background-color: blue;
+  transition: width 0.25s ease-out;
+  -ms-transition: width 0.25s ease-out;
+  -webkit-transition: width 0.25s ease-out;
+  -moz-transition: width 0.25s ease-out;
+}
+/* line 31, ../../sass/etc/gauge.scss */
+.gauge .bar, .gauge .bar div {
+  height: 5px;
+  border-radius: 2.5px;
+}
+/* line 38, ../../sass/etc/gauge.scss */
+.gauge .bar.overload {
+  animation: blink 0.5s infinite alternate;
+  -ms-animation: blink 0.5s infinite alternate;
+  -webkit-animation: blink 0.5s infinite alternate;
+  -moz-animation: blink 0.5s infinite alternate;
+}
+/* line 43, ../../sass/etc/gauge.scss */
+.gauge.with-icon {
+  padding-left: 35px;
+  background-repeat: no-repeat;
+  background-position: 5px 5px;
+}
+/* line 49, ../../sass/etc/gauge.scss */
+.gauge.with-border {
+  border: 1px solid lightblue;
+}
+
+/* line 53, ../../sass/etc/gauge.scss */
+.gauge.problem {
+  color: gray;
+}
+
+/* line 56, ../../sass/etc/gauge.scss */
+.gauge.problem .bar div {
+  background-color: gray !important;
+}
+
+/* line 2, ../../sass/etc/vmmap.scss */
+#vmmap .node-cell {
+  border: 1px solid #CCC;
+  padding: 5px;
+  margin-right: -1px;
+  margin-top: -1px;
+  float: left;
+}
+/* line 8, ../../sass/etc/vmmap.scss */
+#vmmap .node-cell:hover .uptime {
+  opacity: 0.5;
+}
+/* line 11, ../../sass/etc/vmmap.scss */
+#vmmap .node-cell.inactive {
+  background-color: #FEDEDE;
+}
+/* line 14, ../../sass/etc/vmmap.scss */
+#vmmap .node-cell.selected {
+  background-color: #D0F8F0;
+}
+/* line 17, ../../sass/etc/vmmap.scss */
+#vmmap .node-cell.tag-highlight {
+  border: 2px solid #333399;
+  margin-right: 0px;
+}
+/* line 22, ../../sass/etc/vmmap.scss */
+#vmmap .node-cell-free {
+  border: 1px solid #CCC;
+  padding: 5px 5px 42px;
+  margin-top: -1px;
+  float: left;
+  background-color: #D0F8D0;
+  opacity: 0.6;
+}
+/* line 30, ../../sass/etc/vmmap.scss */
+#vmmap .x-grid-cell-inner {
+  overflow-x: auto;
+}
+/* line 33, ../../sass/etc/vmmap.scss */
+#vmmap .name {
+  font-decoration: italic;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  height: 1.2em;
+  margin-left: 2px;
+}
+/* line 41, ../../sass/etc/vmmap.scss */
+#vmmap .ip {
+  font-size: 9px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-left: 2px;
+}
+/* line 47, ../../sass/etc/vmmap.scss */
+#vmmap .mem {
+  margin-top: 2px;
+  padding-left: 8px;
+  color: #4e0e0e;
+  text-align: center;
+  font-size: 120%;
+}
+/* line 54, ../../sass/etc/vmmap.scss */
+#vmmap .uptime {
+  color: #303030;
+  opacity: 0.25;
+}
+/* line 58, ../../sass/etc/vmmap.scss */
+#vmmap .cores {
+  margin-left: 3px;
+  color: #6e6eae;
+}
+/* line 62, ../../sass/etc/vmmap.scss */
+#vmmap .resize-container {
+  display: inline-block;
+  float: left;
+  margin-right: 4px;
+}
+/* line 67, ../../sass/etc/vmmap.scss */
+#vmmap .resizer {
+  margin-top: -1px;
+  cursor: w-resize;
+  float: left;
+  width: 18px;
+  background-color: #CCC;
+}
+/* line 74, ../../sass/etc/vmmap.scss */
+#vmmap .bar {
+  max-width: 40px;
+  margin-top: 3px;
+  background-color: lightgray;
+}
+/* line 79, ../../sass/etc/vmmap.scss */
+#vmmap .bar div {
+  width: 0px;
+  transition: width 0.25s ease-out;
+  -ms-transition: width 0.25s ease-out;
+  -webkit-transition: width 0.25s ease-out;
+  -moz-transition: width 0.25s ease-out;
+}
+/* line 83, ../../sass/etc/vmmap.scss */
+#vmmap .bar.cpubar div {
+  background-color: #007FF6;
+}
+/* line 86, ../../sass/etc/vmmap.scss */
+#vmmap .bar.memorybar div {
+  background-color: #80A050;
+}
+/* line 89, ../../sass/etc/vmmap.scss */
+#vmmap .bar.diskspacebar div {
+  background-color: #FFD838;
+}
+/* line 93, ../../sass/etc/vmmap.scss */
+#vmmap .bar, #vmmap .bar div {
+  height: 5px;
+  border-radius: 2.5px;
+}
+/* line 99, ../../sass/etc/vmmap.scss */
+#vmmap .bar.cpubar, #vmmap .bar div {
+  background-color: #B0C0C8;
+}
+/* line 102, ../../sass/etc/vmmap.scss */
+#vmmap .bar.memorybar, #vmmap .bar div {
+  background-color: #B0C0A8;
+}
+/* line 105, ../../sass/etc/vmmap.scss */
+#vmmap .bar.diskspacebar, #vmmap .bar div {
+  background-color: #C8C098;
+}
+/* line 109, ../../sass/etc/vmmap.scss */
+#vmmap .bar.overload {
+  animation: blink 0.5s infinite alternate;
+  -ms-animation: blink 0.5s infinite alternate;
+  -webkit-animation: blink 0.5s infinite alternate;
+  -moz-animation: blink 0.5s infinite alternate;
+}
+/* line 113, ../../sass/etc/vmmap.scss */
+#vmmap .tags {
+  margin-top: 15px;
+  float: right;
+}
+/* line 117, ../../sass/etc/vmmap.scss */
+#vmmap .tag {
+  text-align: center;
+  color: #000000;
+  width: 16px;
+  height: 16px;
+  opacity: 0.25;
+}
+/* line 123, ../../sass/etc/vmmap.scss */
+#vmmap .tag:hover {
+  opacity: 0.7;
+}
+
+/* line 2, ../../sass/etc/shell.scss */
+.webshell #console {
+  height: auto;
+}
+
+/* line 1, ../../sass/etc/portlets.scss */
+.infobox {
+  background: url("img/infobox_bg.png") repeat-x;
+  width: 95px;
+  height: 95px;
+  border: 1px solid #d9e2eb;
+  color: #363636;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* line 9, ../../sass/etc/portlets.scss */
+.ib_header {
+  background: url("img/infobox_line.png") repeat-x bottom;
+  width: 100%;
+  height: 25%;
+  text-align: center;
+}
+
+/* line 16, ../../sass/etc/portlets.scss */
+.ib_header div {
+  vertical-align: middle;
+  line-height: 22px;
+  font-size: 11px;
+}
+
+/* line 21, ../../sass/etc/portlets.scss */
+.ib_main {
+  height: 60%;
+}
+
+/* line 24, ../../sass/etc/portlets.scss */
+.ib_footer {
+  height: 15%;
+  font-size: 10px;
+}
+
+/* line 28, ../../sass/etc/portlets.scss */
+.ib_footer span {
+  padding: 0 1px 0 1px;
+}
+
+/* line 31, ../../sass/etc/portlets.scss */
+.ib_f_right {
+  float: right;
+  padding-right: 2px;
+}
+
+/* line 35, ../../sass/etc/portlets.scss */
+.ib_f_left {
+  float: left;
+  padding-left: 2px;
+}
+
+/* line 39, ../../sass/etc/portlets.scss */
+.ib_bold_nr {
+  font-weight: bold;
+}
+
+/* line 42, ../../sass/etc/portlets.scss */
+.ib_main div {
+  line-height: 57px;
+  font-size: 50px;
+  vertical-align: middle;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  letter-spacing: -1px;
+}
+
+/* line 50, ../../sass/etc/portlets.scss */
+.ib_main div span {
+  font-size: 8px;
+  color: gray;
+}
+
+/* line 55, ../../sass/etc/portlets.scss */
+.tasks-table .x-grid-cell-inner {
+  padding: 6px 6px !important;
+}
+
+/* line 58, ../../sass/etc/portlets.scss */
+.tasks-table .x-grid-row .x-grid-cell {
+  background-color: transparent !important;
+}
+
+/* line 19, ../../sass/etc/style.scss */
+#search-results {
+  width: 215px;
+  overflow: hidden;
+}
+/* line 28, ../../sass/etc/style.scss */
+#search-results .search-result {
+  cursor: pointer;
+  border-bottom: 1px solid #d9e2eb;
+  border-top: 1px solid #d9e2eb;
+  background: #fff;
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(white) to(#ecf1f5));
+  background-image: -webkit-linear-gradient(top, white, #ecf1f5);
+  background-image: -moz-linear-gradient(top, white, #ecf1f5);
+  background-image: -o-linear-gradient(top, white, #ecf1f5);
+  background-image: linear-gradient(top, #ffffff, #ecf1f5);
+  height: 41px;
+}
+/* line 39, ../../sass/etc/style.scss */
+#search-results .search-result .hostname {
+  font-weight: bold;
+}
+/* line 40, ../../sass/etc/style.scss */
+#search-results .search-result .descr {
+  font-size: 12px;
+  padding-top: 2px;
+  color: #363636;
+  width: 144px;
+  line-height: 1.5em;
+  display: block;
+}
+/* line 50, ../../sass/etc/style.scss */
+#search-results .search-result .descr, #search-results .search-result .descr .hostname {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+/* line 58, ../../sass/etc/style.scss */
+#search-results .search-result.x-item-over {
+  background-color: #ccccff;
+}
+/* line 59, ../../sass/etc/style.scss */
+#search-results .search-result.x-item-selected {
+  background-color: #b3b3ff !important;
+}
+
+/* line 63, ../../sass/etc/style.scss */
+.state-color {
+  display: block;
+  width: 10px;
+  height: 39px;
+  float: left;
+  background-color: white;
+  background-image: url("img/shadow_left.png");
+  background-position: top right;
+  background-repeat: repeat-y;
+}
+
+/* line 73, ../../sass/etc/style.scss */
+.state-active .state-color {
+  background-color: #04ad04;
+}
+
+/* line 76, ../../sass/etc/style.scss */
+.state-running .state-color {
+  background-color: #76ce00;
+}
+
+/* line 79, ../../sass/etc/style.scss */
+.state-suspended .state-color {
+  background-color: #F55600;
+}
+
+/* line 82, ../../sass/etc/style.scss */
+.state-inactive .state-color {
+  background-color: gray;
+}
+
+/* line 85, ../../sass/etc/style.scss */
+.state-error .state-color {
+  background-color: #e5231f;
+}
+
+/* line 89, ../../sass/etc/style.scss */
+.state-migrating .state-color {
+  background-image: url("img/load_blue.gif");
+}
+
+/* line 92, ../../sass/etc/style.scss */
+.state-other .state-color {
+  background-image: url("img/load_orange.gif");
+}
+
+/* line 95, ../../sass/etc/style.scss */
+.state-deploying .state-color {
+  background-image: url("img/load_green.gif");
+}
+
+/* line 98, ../../sass/etc/style.scss */
+.state-wait .state-color {
+  background-image: url("img/load_wait.gif");
+  background-position: top center;
+}
+
+/* line 105, ../../sass/etc/style.scss */
+.state-suspended .state-color {
+  background-color: #ffee66;
+}
+
+/* line 108, ../../sass/etc/style.scss */
+.state-stopped .state-color {
+  background-color: #ee6633;
+}
+
+/* line 114, ../../sass/etc/style.scss */
+.compute .split-vertical {
+  display: block;
+  background: transparent;
+  width: 3px;
+  height: 40px;
+  margin-right: 3px;
+  float: left;
+  background-image: url("img/shadow_right.png");
+  background-position: top left;
+  background-repeat: repeat-y;
+}
+/* line 125, ../../sass/etc/style.scss */
+.compute .comp-icon {
+  background-position: center 3px;
+  background-repeat: no-repeat;
+  float: left;
+  margin-left: 5px;
+  margin-right: 5px;
+  padding-top: 5px;
+  width: 30px;
+  height: 40px;
+  color: #363636;
+  vertical-align: bottom;
+  text-align: center;
+  font-size: 10px;
+  line-height: 55px;
+  background-image: url("img/icon/mainframe-24x36.png");
+}
+/* line 129, ../../sass/etc/style.scss */
+.compute .vm-icon {
+  background-position: center 3px;
+  background-repeat: no-repeat;
+  float: left;
+  margin-left: 5px;
+  margin-right: 5px;
+  padding-top: 5px;
+  width: 30px;
+  height: 40px;
+  color: #363636;
+  vertical-align: bottom;
+  text-align: center;
+  font-size: 10px;
+  line-height: 55px;
+  background-image: url("img/icon/mainframe-VM-24x24.png");
+}
+
+/* line 136, ../../sass/etc/style.scss */
+.icon-hd {
+  background-image: url("img/icon/hd.png");
+}
+
+/* line 139, ../../sass/etc/style.scss */
+.icon-cpu {
+  background-image: url("img/icon/cpu.png");
+}
+
+/* line 142, ../../sass/etc/style.scss */
+.icon-network {
+  background-image: url("img/icon/network.png");
+}
+
+/* line 145, ../../sass/etc/style.scss */
+.icon-memory {
+  background-image: url("img/icon/memory.png");
+}
+
+/* line 150, ../../sass/etc/style.scss */
+.x-tab-button .icon-hd {
+  background-image: url("img/icon/hd.png");
+}
+/* line 153, ../../sass/etc/style.scss */
+.x-tab-button .icon-network {
+  background-image: url("img/icon/network.png");
+}
+/* line 156, ../../sass/etc/style.scss */
+.x-tab-button .icon-system {
+  background-image: url("img/icon/mainframe-24x24.png");
+}
+/* line 159, ../../sass/etc/style.scss */
+.x-tab-button .icon-shell {
+  background-image: url("img/icon/shell-24x24.png");
+}
+/* line 162, ../../sass/etc/style.scss */
+.x-tab-button .icon-templates {
+  background-image: url("img/icon/template.png");
+}
+/* line 165, ../../sass/etc/style.scss */
+.x-tab-button .icon-vmlist {
+  background-image: url("img/icon/vmlist.png");
+}
+/* line 168, ../../sass/etc/style.scss */
+.x-tab-button .icon-vmmap {
+  background-image: url("img/icon/map-24x24.png");
+}
+/* line 171, ../../sass/etc/style.scss */
+.x-tab-button .icon-dashboard {
+  background-image: url("img/icon/dashboard.png");
+}
+/* line 174, ../../sass/etc/style.scss */
+.x-tab-button .icon-list {
+  background-image: url("img/icon/list.png");
+}
+
+/* line 179, ../../sass/etc/style.scss */
+.x-action-col-icon {
+  opacity: 0.7;
+}
+/* line 181, ../../sass/etc/style.scss */
+.x-action-col-icon:hover {
+  opacity: 1.0;
+}
+
+/* line 191, ../../sass/etc/style.scss */
+.horizontal-dataview-item, .bridge-interface-members div {
+  float: left;
+  margin-right: 2px;
+  margin-bottom: 2px;
+  padding: 3px;
+  border-radius: 10px;
+  -ms-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  cursor: default;
+}
+
+/* line 200, ../../sass/etc/style.scss */
+.template-picker-item:nth-child(odd) {
+  background: #E8E8FF;
+}
+/* line 202, ../../sass/etc/style.scss */
+.template-picker-item:nth-child(odd).x-boundlist-item-over {
+  background: #DFE8F6;
+}
+
+/* line 209, ../../sass/etc/style.scss */
+.bridge-interface-members {
+  min-height: 20px;
+}
+/* line 211, ../../sass/etc/style.scss */
+.bridge-interface-members div {
+  border: 2px solid #d7d7ff;
+  background-color: #f0f0ff;
+}
+/* line 217, ../../sass/etc/style.scss */
+.bridge-interface-members div:hover {
+  border: 2px solid #bdbdff;
+  background-color: #d7d7ff;
+}
+
+/* line 225, ../../sass/etc/style.scss */
+.cpu-legend {
+  background: url("img/icon/cpu-legend.png");
+}
+
+/* line 228, ../../sass/etc/style.scss */
+.memory-legend {
+  background: url("img/icon/memory-legend.png");
+}
+
+/* line 231, ../../sass/etc/style.scss */
+.disk-legend {
+  background: url("img/icon/disk-legend.png");
+}
+
+/* line 235, ../../sass/etc/style.scss */
+.computestatecontrol .x-btn {
+  border-width: 0;
+  background: transparent;
+  opacity: 0.75;
+}
+/* line 240, ../../sass/etc/style.scss */
+.computestatecontrol .x-btn:hover {
+  opacity: 1.0;
+}
+/* line 242, ../../sass/etc/style.scss */
+.computestatecontrol .x-btn.x-btn-disabled {
+  opacity: 0.35 !important;
+}
+
+/* line 249, ../../sass/etc/style.scss */
+.resources ol ol, .resources ol ul, .resources ul ol, .resources ul ul {
+  margin-left: 2em;
+}
+/* line 253, ../../sass/etc/style.scss */
+.resources ol ul li, .resources ul ul li {
+  list-style: disc;
+}
+/* line 258, ../../sass/etc/style.scss */
+.resources li strong {
+  font-weight: bolder;
+  padding-right: 3px;
+}
+
+/* line 268, ../../sass/etc/style.scss */
+.ulist ul li {
+  padding-left: 1em;
+  list-style: disc;
+}
+
+/* line 275, ../../sass/etc/style.scss */
+.host-tip {
+  border-color: lightgray !important;
+}
+
+/* line 278, ../../sass/etc/style.scss */
+.x-mask-msg-plaintext {
+  z-index: 2001 !important;
+  padding: 6px !important;
+  border: none !important;
+  background-color: transparent !important;
+}
+
+/* line 284, ../../sass/etc/style.scss */
+.x-mask-msg-plaintext div {
+  border: none !important;
+  background-color: transparent !important;
+}
+
+/* line 288, ../../sass/etc/style.scss */
+.x-mask-msg-suspicious {
+  z-index: 2001 !important;
+}
+
+/* line 291, ../../sass/etc/style.scss */
+.x-mask-msg-suspicious div {
+  background-image: url("img/icon/exclamation.gif") !important;
+}
+
+/* line 294, ../../sass/etc/style.scss */
+.x-mask-msg-suspicious-vm div {
+  background-image: url("img/icon/form/exclamation.gif") !important;
+  border: none !important;
+  background-color: transparent !important;
+}
+
+/* line 299, ../../sass/etc/style.scss */
+.x-mask-msg-suspicious-vm {
+  z-index: 2001 !important;
+  padding: 6px !important;
+  border: none !important;
+  background-color: transparent !important;
+}
+
+/* line 306, ../../sass/etc/style.scss */
+.template-wrap {
+  display: inline-block;
+  zoom: 1;
+  position: relative;
+  width: 75px;
+  height: 75px;
+  margin: 0 5px 4px 5px;
+}
+
+/* line 314, ../../sass/etc/style.scss */
+.template-icon-wrap {
+  cursor: pointer;
+  cursor: hand;
+  white-space: nowrap;
+  vertical-align: middle;
+  text-align: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  line-height: 75px;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border: 1px solid gray;
+  background-color: #fff;
+  text-shadow: 1px 1px 3px #969496;
+  font-weight: bold;
+  color: #00a3ff;
+}
+
+/* line 332, ../../sass/etc/style.scss */
+.base_type {
+  position: absolute;
+  z-index: 10;
+  text-align: center;
+  width: 100%;
+  text-shadow: 0px 0px 4px black;
+  font-size: 11px;
+  font-weight: bold;
+  color: #fff;
+}
+
+/* line 342, ../../sass/etc/style.scss */
+#templatesIcons {
+  margin-bottom: 10px;
+}
+
+/* line 345, ../../sass/etc/style.scss */
+.template-over {
+  border: 1px solid #00a3ff;
+}
+
+/* line 348, ../../sass/etc/style.scss */
+.template-selected {
+  border: 2px solid #00a3ff;
+}
+
+/* line 351, ../../sass/etc/style.scss */
+.template_name {
+  height: 25px;
+  width: 75px;
+  font-size: 10px;
+  overflow: hidden;
+  text-align: center;
+  margin: 0 5px;
+  color: gray;
+}
+
+/* line 361, ../../sass/etc/style.scss */
+.template-icon-wrap img {
+  background-color: #fff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 65px;
+  height: 65px;
+  margin-top: -32px;
+  /* Half the height */
+  margin-left: -32px;
+  /* Half the width */
+}
+
+/* line 372, ../../sass/etc/style.scss */
+.username {
+  font-size: 14px;
+  color: #6D6D6D;
+  padding: 3px 10px 3px 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  border: 2px solid #63B4EB;
+  background-color: #63B4EB;
+  border-color: #d9e2eb;
+  border-width: 1px;
+  border-style: solid;
+  background-image: none;
+  background-color: #e0e5ff;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #f5f7ff), color-stop(100%, #e6ebff));
+  background-image: -webkit-linear-gradient(top, #f5f7ff, #e6ebff);
+  background-image: -moz-linear-gradient(top, #f5f7ff, #e6ebff);
+  background-image: -o-linear-gradient(top, #f5f7ff, #e6ebff);
+  background-image: linear-gradient(top, #f5f7ff, #e6ebff);
+  -webkit-box-shadow: #fff 0 1px 0px 0 inset;
+  -moz-box-shadow: #fff 0 1px 0px 0 inset;
+  box-shadow: #fff 0 1px 0px 0 inset;
+}
+
+/* line 397, ../../sass/etc/style.scss */
+.btn-green {
+  color: #000 !important;
+  border-color: #72aa00 !important;
+  background: #bfd255 !important;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #bfd255 0%, #8eb92a 50%, #72aa00 51%, #9ecb2d 100%) !important;
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #bfd255), color-stop(50%, #8eb92a), color-stop(51%, #72aa00), color-stop(100%, #9ecb2d)) !important;
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #bfd255 0%, #8eb92a 50%, #72aa00 51%, #9ecb2d 100%) !important;
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #bfd255 0%, #8eb92a 50%, #72aa00 51%, #9ecb2d 100%) !important;
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #bfd255 0%, #8eb92a 50%, #72aa00 51%, #9ecb2d 100%) !important;
+  /* IE10+ */
+  background: linear-gradient(to bottom, #bfd255 0%, #8eb92a 50%, #72aa00 51%, #9ecb2d 100%) !important;
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#bfd255', endColorstr='#9ecb2d',GradientType=0 ) !important;
+  /* IE6-9 */
+}
+
+/* line 410, ../../sass/etc/style.scss */
+.btn-green .x-btn-inner {
+  text-shadow: 0px 0px 3px #e4fa64 !important;
+  filter: dropshadow(color=#e4fa64, offx=0, offy=0) !important;
+}
+
+/* line 417, ../../sass/etc/style.scss */
+#msg-div {
+  position: absolute;
+  left: 35%;
+  top: 10px;
+  width: 300px;
+  z-index: 20000;
+}
+
+/* line 424, ../../sass/etc/style.scss */
+#msg-div .msg {
+  border-radius: 8px;
+  -moz-border-radius: 8px;
+  background: #F6F6F6;
+  border: 2px solid #ccc;
+  margin-top: 2px;
+  padding: 10px 15px;
+  color: #555;
+}
+
+/* line 433, ../../sass/etc/style.scss */
+#msg-div .msg h3 {
+  margin: 0 0 8px;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+/* line 438, ../../sass/etc/style.scss */
+#msg-div .msg p {
+  margin: 0;
+}
+
 /* including package ext-theme-classic */
 /* including package ext-theme-neutral */
 /**
@@ -19528,23 +20433,34 @@ body.x-nbr .x-tab-default-right-frameInfo {
 }
 
 /* including package onc-theme */
-/**
- * Create the base structure of an Ext.Panel
- * @member Ext.panel.Panel
- */
-/**
- * Creates a visual theme for an Ext.Panel
- * @member Ext.panel.Panel
- */
-/**
- * Creates the base structure of an Ext.Window
- * @member Ext.window.Window
- */
-/**
- * Creates a visual theme for an Ext.Panel
- * @member Ext.window.Window
- */
-/**
- * Creates the base structure of a Tab.
- * @member Ext.tab.Tab
- */
+/* line 3, ../../sass/src/panel/Panel.scss */
+.x-panel-header-text-default {
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.32);
+}
+
+/* line 1, ../../sass/src/window/Window.scss */
+.x-window-header-text-default {
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.32);
+}
+
+/* line 1, ../../sass/src/tab/Tab.scss */
+.x-tab-default .x-tab-icon-el {
+  width: 24px;
+  height: 24px;
+  line-height: 22px;
+}
+
+/* line 6, ../../sass/src/tab/Tab.scss */
+.x-tab-default-icon-text-left .x-tab-inner {
+  padding-left: 28px;
+}
+
+/* line 9, ../../sass/src/tab/Tab.scss */
+.x-tab-default .x-tab-inner {
+  line-height: 22px;
+}
+
+/* line 12, ../../sass/src/tab/Tab.scss */
+.x-tab-bar-plain {
+  height: 32px;
+}
