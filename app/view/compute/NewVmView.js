@@ -313,6 +313,7 @@ Ext.define('Onc.view.compute.NewVmView', {
                                                 this.setValue('root_password_repeat', 'password');
                                                 this.setValue('template', 'name');
                                                 Ext.getCmp('templatePassword').setText(this.st.get('password'));
+                                                Ext.getCmp('templateUsername').setText(this.st.get('username'));
                                                 
 
                                                 this.disableControls(false);
@@ -594,6 +595,16 @@ Ext.define('Onc.view.compute.NewVmView', {
                             type: 'hbox'
                         },
                         items: [{
+                            flex: 1,
+                            xtype: 'label',
+                            text: 'Username:'
+                        }, {
+                            flex: 4,
+                            xtype: 'label',
+                            id: 'templateUsername',
+                            text: '',
+                            style: 'font-weight:bold'
+                        }, {
                             flex: 1,
                             xtype: 'label',
                             text: 'Password:'

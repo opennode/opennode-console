@@ -7,6 +7,7 @@ Ext.define('Onc.model.Template', {
         {name: 'tags'},
         {name: 'name', type: 'string'},
         {name: 'base_type', type: 'string'},
+        {name: 'username', type: 'string'}
         {name: 'password', type: 'string'},
         {name: 'nameserver', type: 'string'},
         {name: 'ip', type: 'string'},
