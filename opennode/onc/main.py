@@ -8,13 +8,13 @@ from ConfigParser import Error as ConfigKeyError
 
 import opennode.onc
 
-from grokcore.component import context, name, implements, Adapter, Subscription
+from grokcore.component import context, implements, Adapter, Subscription
 from grokcore.security import require
 
 from twisted.web.server import NOT_DONE_YET
 from twisted.web.static import File
 
-from opennode.oms.endpoint.httprest.base import IHttpRestView, HttpRestView, IHttpRestSubViewFactory
+from opennode.oms.endpoint.httprest.base import IHttpRestView, IHttpRestSubViewFactory
 from opennode.oms.model.model.plugins import IPlugin, PluginInfo
 from opennode.oms.config import IRequiredConfigurationFiles, gen_config_file_names, get_config
 
@@ -43,22 +43,6 @@ class OncPlugin(PluginInfo):
             os.symlink(symlink_source, symlink_target)
         except ConfigKeyError:
             pass
-
-
-class OncRootView(HttpRestView):
-    """This view will never render, it's just used to attach the ONCViewFactory
-    which will create a new OncView depending on the sub-path.
-
-    """
-
-    context(OncPlugin)
-    name('root')
-
-    # html and js have to be open.
-    # We'll be able to close some parts of javascripts
-    # but core stuff has to be open otherwise we cannot render
-    # the Onc login window
-    require('oms.nothing')
 
 
 class OncView(object):
@@ -108,7 +92,7 @@ class OncConfigView(object):
 
 class OncViewFactory(Adapter):
     implements(IHttpRestSubViewFactory)
-    context(OncRootView)
+    context(OncPlugin)
 
     def resolve(self, path):
         if path == []:
@@ -123,6 +107,7 @@ class OncViewFactory(Adapter):
         resource = File(filename)
         if not resource.exists():
             return False
+
         # make sure fonts are servers with a correct mime type
         resource.contentTypes['.woff'] = 'application/x-font-woff'
 
