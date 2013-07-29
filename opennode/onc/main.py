@@ -15,6 +15,7 @@ from twisted.web.server import NOT_DONE_YET
 from twisted.web.static import File
 
 from opennode.oms.endpoint.httprest.base import IHttpRestView, IHttpRestSubViewFactory
+from opennode.oms.endpoint.httprest.root import MethodNotAllowed
 from opennode.oms.model.model.plugins import IPlugin, PluginInfo
 from opennode.oms.config import IRequiredConfigurationFiles, gen_config_file_names, get_config
 
@@ -94,7 +95,10 @@ class OncViewFactory(Adapter):
     implements(IHttpRestSubViewFactory)
     context(OncPlugin)
 
-    def resolve(self, path):
+    def resolve(self, path, method):
+        if method.lower() != 'get':
+            raise MethodNotAllowed('Method not allowed', ('GET', ))
+
         if path == []:
             path = ['index.html']
 
@@ -106,7 +110,7 @@ class OncViewFactory(Adapter):
 
         resource = File(filename)
         if not resource.exists():
-            return False
+            return
 
         # make sure fonts are servers with a correct mime type
         resource.contentTypes['.woff'] = 'application/x-font-woff'
