@@ -95,8 +95,8 @@ class OncViewFactory(Adapter):
     implements(IHttpRestSubViewFactory)
     context(OncPlugin)
 
-    def resolve(self, path, method):
-        if method.lower() != 'get':
+    def resolve(self, path, request):
+        if request.method.lower() != 'get':
             raise MethodNotAllowed('Method not allowed', ('GET', ))
 
         if path == []:
