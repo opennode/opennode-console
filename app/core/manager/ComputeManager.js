@@ -55,7 +55,27 @@ Ext.define('Onc.core.manager.ComputeManager', {
 
                 Onc.core.Backend.request('PUT', url + action, {
                     success: function(response) {
-                        //state end comes with sync
+                        // TODO switch to using task response code
+                        // special check 
+                        if (desiredState == 'allocate') {
+                            var stdout = JSON.parse(response.responseText).stdout[0];
+                            if (stdout.startswith('Found no fitting machines')) {
+                               Onc.core.EventBus.fireEvent('displayNotification',
+                                    'There were no matching resources. Please retry in some time.',
+                                    'Allocation failed');
+                               // remove the mask from controls too
+                               var cntrls = Ext.ComponentQuery.query('computestatecontrol[computeId=' +
+                                    vm.get('id') + ']')
+                               Ext.Array.each(cntrls, function(cmp){
+                                    if (cmp.el.isMasked()) {
+                                        cmp.el.unmask();
+                                    }
+                                });
+                               
+                            }
+                            
+                        }
+
                     }.bind(this),
                     failure: function(response) {
                         console.error('Changing compute state to "' + desiredState + '" failed: ' + response.responseText);

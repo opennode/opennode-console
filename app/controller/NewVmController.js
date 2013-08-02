@@ -103,6 +103,9 @@ Ext.define('Onc.controller.NewVmController', {
                         var hangarUrl = '/machines/hangar';
                         var backend = data['backend'];// get template backend to dynamically create it
                         delete data['backend'];
+                        // convert GBs to MBs of diskspace as OMS expects
+                        data['diskspace'] = data['diskspace'] * 1024;
+                        
                         
                         if (parentCompute) {
                             var url = parentCompute.getChild('vms').get('url');
