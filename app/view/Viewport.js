@@ -96,7 +96,7 @@ Ext.define('Onc.view.Viewport', {
 	            }, {
 	                id: 'newapp-button',
 	                xtype: 'button',
-	                text: 'New Application',
+	                text: 'Create VM',
 	                scale: 'small',
 	                cls: 'btn-green',
 	                icon: 'resources/img/icon/new_app.png'
