@@ -20,10 +20,11 @@ Ext.define('Onc.view.tabs.VmListGridTab', {
                     var grid = Ext.getCmp("vmgrid");
                     grid.filters.reload();
                 }
-            },{
+            }, {
                 text: 'Only running',
                 tooltip: 'Show only running',
                 enableToggle: true,
+                hidden: !Ext.ENABLE_LOCAL_FILTER,
                 handler: function(button, state) {
                     var onlyRunning = (button.pressed !== false);
                     var grid = Ext.getCmp("vmgrid");
