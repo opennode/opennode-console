@@ -1,41 +1,45 @@
 Ext.define('Onc.view.compute.GaugesChartView', {
-    extend: 'Ext.Panel',
-    alias: 'widget.gaugeschartview',
+    extend : 'Ext.Panel',
+    alias : 'widget.gaugeschartview',
 
-    border: false,
-    closable:true,
-    layout: 'fit',
+    border : false,
+    closable : true,
+    layout : 'fit',
 
-    store: null,
+    store : null,
 
-    _checkIfActive: function() {
+    _checkIfActive : function() {
         return true;
     },
-    
-    minimumTimestamp: 0,
 
-    onMetricsData: function(data) {
+    minimumTimestamp : 0,
+
+    onMetricsData : function(data) {
         var currentMinimum = this.minimumTimestamp;
 
-        for ( var url in data) {
+        for (var url in data) {
             var updates = data[url];
             // get type from url
             var type = url.substr(url.lastIndexOf("/") + 1);
             type = type.substr(0, type.lastIndexOf("_"));
 
-            for ( var i = 0; i < updates.length; i += 1) {
+            for (var i = 0; i < updates.length; i += 1) {
                 var timestamp = updates[i][0];
                 var update = updates[i][1];
                 if (parseInt(timestamp) != Number.NaN && timestamp !== undefined) {
                     this.minimumTimestamp = (this.minimumTimestamp == 0 || this.minimumTimestamp > timestamp) ? timestamp : this.minimumTimestamp;
                     var d = {
-                        'timestamp': timestamp
+                        'timestamp' : timestamp
                     };
                     // Format data to fit on Chart
-                    if (type == "memory") update = update / 1024;
-                    if (type == "cpu") update = update * 100;
-                    if (type == "network") update = update / 1024;
-                    if (type == "diskspace") update = update / 1024;
+                    if (type == "memory")
+                        update = update / 1024;
+                    if (type == "cpu")
+                        update = update * 100;
+                    if (type == "network")
+                        update = update / 1024;
+                    if (type == "diskspace")
+                        update = update / 1024;
 
                     d[type] = update;
                     this.store.add(d);
@@ -50,17 +54,17 @@ Ext.define('Onc.view.compute.GaugesChartView', {
         }
     },
 
-    compute: null,
+    compute : null,
 
-    loadOldData: function() {
+    loadOldData : function() {
         Onc.core.hub.Hub.getFromPast(0, this.urls, this.onMetricsData.bind(this));
     },
-    clearData: function() {
+    clearData : function() {
         this.store.removeAll();
         this.minimumTimestamp = 0;
     },
 
-    initComponent: function() {
+    initComponent : function() {
         this.title = "Chart: " + this.compute.get('hostname');
 
         var url = this.compute.get('url');
@@ -68,138 +72,138 @@ Ext.define('Onc.view.compute.GaugesChartView', {
         Onc.core.hub.Hub.subscribe(this.onMetricsData.bind(this), this.urls, 'chart', this._checkIfActive.bind(this));
 
         this.items = [{
-            xtype: 'chart',
-            name: 'gaugesChart',
-            minWidth: 800,
-            minHeight: 600,
-            style: 'background:#fff',
-            animate: false,
-            store: this.store,
-            legend: {
-                position: 'right'
+            xtype : 'chart',
+            name : 'gaugesChart',
+            minWidth : 800,
+            minHeight : 600,
+            style : 'background:#fff',
+            animate : false,
+            store : this.store,
+            legend : {
+                position : 'right'
             },
-            axes: [{
-                type: 'Numeric',
-                minimum: 0,
-                position: 'left',
-                fields: ['cpu', 'memory', 'network', 'diskspace'],
-                title: 'consumption',
-                minorTickSteps: 1,
-                grid: {
-                    odd: {
-                        opacity: 1,
-                        fill: '#ddd',
-                        stroke: '#bbb',
-                        'stroke-width': 0.5
+            axes : [{
+                type : 'Numeric',
+                minimum : 0,
+                position : 'left',
+                fields : ['cpu', 'memory', 'network', 'diskspace'],
+                title : 'consumption',
+                minorTickSteps : 1,
+                grid : {
+                    odd : {
+                        opacity : 1,
+                        fill : '#ddd',
+                        stroke : '#bbb',
+                        'stroke-width' : 0.5
                     }
                 }
             }, {
-                type: 'Numeric',
-                position: 'bottom',
-                fields: ['timestamp'],
-                title: 'Time',
+                type : 'Numeric',
+                position : 'bottom',
+                fields : ['timestamp'],
+                title : 'Time',
 
-                label: {
-                    font: '10px Arial',
-                    renderer: function(timestamp) {
+                label : {
+                    font : '10px Arial',
+                    renderer : function(timestamp) {
                         var date = new Date(timestamp)
                         return Ext.Date.format(date, 'Y-m-d G:i:s');
                     }
                 }
             }],
-            series: [{
-                type: 'line',
-                highlight: {
-                    size: 7,
-                    radius: 7
+            series : [{
+                type : 'line',
+                highlight : {
+                    size : 7,
+                    radius : 7
                 },
-                axis: 'left',
-                xField: 'timestamp',
-                yField: 'cpu',
-                markerConfig: {
-                    type: 'circle',
-                    size: 4,
-                    radius: 4,
-                    'stroke-width': 0
+                axis : 'left',
+                xField : 'timestamp',
+                yField : 'cpu',
+                markerConfig : {
+                    type : 'circle',
+                    size : 4,
+                    radius : 4,
+                    'stroke-width' : 0
                 },
-                tips: {
-                    trackMouse: true,
+                tips : {
+                    trackMouse : true,
 
-                    renderer: function(storeItem, item) {
+                    renderer : function(storeItem, item) {
                         var date = new Date(storeItem.get('timestamp'));
                         this.setTitle(Ext.Date.format(date, 'Y-m-d G:i:s'));
                         this.update(storeItem.get('cpu'));
                     }
                 }
             }, {
-                type: 'line',
-                highlight: {
-                    size: 7,
-                    radius: 7
+                type : 'line',
+                highlight : {
+                    size : 7,
+                    radius : 7
                 },
-                axis: 'left',
-                xField: 'timestamp',
-                yField: 'memory',
+                axis : 'left',
+                xField : 'timestamp',
+                yField : 'memory',
 
-                markerConfig: {
-                    type: 'circle',
-                    size: 4,
-                    radius: 4,
-                    'stroke-width': 0
+                markerConfig : {
+                    type : 'circle',
+                    size : 4,
+                    radius : 4,
+                    'stroke-width' : 0
                 },
-                tips: {
-                    trackMouse: true,
-                    renderer: function(storeItem, item) {
+                tips : {
+                    trackMouse : true,
+                    renderer : function(storeItem, item) {
                         var date = new Date(storeItem.get('timestamp'));
                         this.setTitle(Ext.Date.format(date, 'Y-m-d G:i:s'));
                         this.update(storeItem.get('memory') + " GB");
                     }
                 }
             }, {
-                type: 'line',
-                highlight: {
-                    size: 7,
-                    radius: 7
+                type : 'line',
+                highlight : {
+                    size : 7,
+                    radius : 7
                 },
-                axis: 'left',
-                xField: 'timestamp',
-                yField: 'network',
+                axis : 'left',
+                xField : 'timestamp',
+                yField : 'network',
 
-                markerConfig: {
-                    type: 'circle',
-                    size: 4,
-                    radius: 4,
-                    'stroke-width': 0
+                markerConfig : {
+                    type : 'circle',
+                    size : 4,
+                    radius : 4,
+                    'stroke-width' : 0
                 },
-                tips: {
-                    width: 150,
-                    trackMouse: true,
-                    renderer: function(storeItem, item) {
+                tips : {
+                    width : 150,
+                    trackMouse : true,
+                    renderer : function(storeItem, item) {
                         var date = new Date(storeItem.get('timestamp'));
                         this.setTitle(Ext.Date.format(date, 'Y-m-d G:i:s'));
                         this.update(storeItem.get('network') + "");
                     }
                 }
             }, {
-                type: 'line',
-                highlight: {
-                    size: 7,
-                    radius: 7
+                type : 'line',
+                highlight : {
+                    size : 7,
+                    radius : 7
                 },
-                axis: 'left',
-                xField: 'timestamp',
-                yField: 'diskspace',
+                axis : 'left',
+                xField : 'timestamp',
+                yField : 'diskspace',
 
-                markerConfig: {
-                    type: 'circle',
-                    size: 4,
-                    radius: 4,
-                    'stroke-width': 0
+                markerConfig : {
+                    type : 'circle',
+                    size : 4,
+                    radius : 4,
+                    'stroke-width' : 0
                 },
-                tips: {
-                    width: 150,
-                    trackMouse: true,
-                    renderer: function(storeItem, item) {
+                tips : {
+                    width : 150,
+                    trackMouse : true,
+                    renderer : function(storeItem, item) {
                         var date = new Date(storeItem.get('timestamp'));
                         this.setTitle(Ext.Date.format(date, 'Y-m-d G:i:s'));
                         this.update(storeItem.get('diskspace') + "");
@@ -209,13 +213,13 @@ Ext.define('Onc.view.compute.GaugesChartView', {
         }];
 
         this.tbar = [{
-            text: 'Clear',
-            handler: function() {
+            text : 'Clear',
+            handler : function() {
                 this.clearData();
             }.bind(this)
         }, {
-            text: 'Old Data',
-            handler: function() {
+            text : 'Old Data',
+            handler : function() {
                 this.loadOldData();
             }.bind(this)
         }];

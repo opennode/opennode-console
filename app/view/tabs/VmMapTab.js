@@ -1,231 +1,212 @@
 Ext.define('Onc.view.tabs.VmMapTab', {
-    extend: 'Onc.view.tabs.Tab',
-    alias: 'widget.computevmmaptab',
-    requires: 'Ext.util.MixedCollection',
+    extend : 'Onc.view.tabs.Tab',
+    alias : 'widget.computevmmaptab',
+    requires : 'Ext.util.MixedCollection',
 
-    layout: 'fit',
+    layout : 'fit',
 
-    _storeLoaded: false,
+    _storeLoaded : false,
 
-    listeners: {
-        activate: function(){
-            if(this._storeLoaded)
+    listeners : {
+        activate : function() {
+            if (this._storeLoaded)
                 return;
 
             var store = Ext.getStore('PhysicalComputesStore');
             store.load({
-                scope: this,
-                callback: function(records, operation, success) {
-                    if(!success){
+                scope : this,
+                callback : function(records, operation, success) {
+                    if (!success) {
                         Onc.core.EventBus.fireEvent('displayNotification', 'Error while loading data', 'error');
-                    }
-                    else
+                    } else
                         this._storeLoaded = true;
                 }
             });
         }
     },
 
-    initComponent: function() {
+    initComponent : function() {
         this.items = [{
-            xtype: 'gridpanel',
-            hideHeaders: true,
-            columnLines: true,
-            border: true,
-            id: 'vmmap',
-            store: 'PhysicalComputesStore',
-            selection: Ext.create('Ext.util.MixedCollection'),
+            xtype : 'gridpanel',
+            hideHeaders : true,
+            columnLines : true,
+            border : true,
+            id : 'vmmap',
+            store : 'PhysicalComputesStore',
+            selection : Ext.create('Ext.util.MixedCollection'),
 
-            dockedItems: !Ext.ENABLE_VMMAP_TOOLBAR ? undefined : [
-                {xtype: 'toolbar',
-                itemId: 'toolbar',
-                items: (!Ext.ENABLE_VMMAP_REFRESH ? [] : [{
-                    icon: 'resources/img/icon/refresh.png',
-                    text: 'Refresh',
-                    scope: this,
-                    handler: this.updateAll
+            dockedItems : !Ext.ENABLE_VMMAP_TOOLBAR ? undefined : [{
+                xtype : 'toolbar',
+                itemId : 'toolbar',
+                items : (!Ext.ENABLE_VMMAP_REFRESH ? [] : [{
+                    icon : 'resources/img/icon/refresh.png',
+                    text : 'Refresh',
+                    scope : this,
+                    handler : this.updateAll
                 }]).concat(!Ext.ENABLE_VMMAP_RESIZE ? [] : [{
-                    icon: 'resources/img/icon/resize.png',
-                    itemId: 'resize',
-                    text: 'Resize',
-                    scope: this,
-                    handler: this.onResizeClick
+                    icon : 'resources/img/icon/resize.png',
+                    itemId : 'resize',
+                    text : 'Resize',
+                    scope : this,
+                    handler : this.onResizeClick
                 }]).concat(!Ext.ENABLE_VMMAP_TAG ? [] : [{
-                    iconCls: 'icon-tag',
-                    itemId: 'tag',
-                    text: 'Tag',
-                    disabled: true,
-                    hidden: true,
-                    scope: this,
-                    handler: this.onTagClick
+                    iconCls : 'icon-tag',
+                    itemId : 'tag',
+                    text : 'Tag',
+                    disabled : true,
+                    hidden : true,
+                    scope : this,
+                    handler : this.onTagClick
                 }]).concat(!Ext.ENABLE_VMMAP_MIGRATE ? [] : [{
-                    icon: 'resources/img/icon/migrate.png',
-                    itemId: 'migrate',
-                    text: 'Migrate',
-                    scope: this,
-                    handler: this.onMigrateClick
+                    icon : 'resources/img/icon/migrate.png',
+                    itemId : 'migrate',
+                    text : 'Migrate',
+                    scope : this,
+                    handler : this.onMigrateClick
                 }]).concat(!Ext.ENABLE_VMMAP_LEGEND ? [] : [{
-                    xtype: 'tbseparator'
+                    xtype : 'tbseparator'
                 }, {
-                    xtype: 'button',
-                    text: 'CPU',
-                    iconCls: 'cpu-legend',
-                    enableToggle: true,
-                    pressed: true
+                    xtype : 'button',
+                    text : 'CPU',
+                    iconCls : 'cpu-legend',
+                    enableToggle : true,
+                    pressed : true
                 }, {
-                    xtype: 'button',
-                    text: 'MEM',
-                    iconCls: 'memory-legend',
-                    enableToggle: true,
-                    pressed: true
+                    xtype : 'button',
+                    text : 'MEM',
+                    iconCls : 'memory-legend',
+                    enableToggle : true,
+                    pressed : true
                 }, {
-                    xtype: 'button',
-                    text: 'DISK',
-                    iconCls: 'disk-legend',
-                    enableToggle: true,
-                    pressed: true
-                }])}
-            ],
+                    xtype : 'button',
+                    text : 'DISK',
+                    iconCls : 'disk-legend',
+                    enableToggle : true,
+                    pressed : true
+                }])
+            }],
 
-            tagColors: {
+            tagColors : {
                 'env:production' : 'green',
                 'env:development' : 'red',
                 'env:staging' : 'blue',
                 'env:infrastructure' : 'gold'
             },
 
-            tagShortened: {
-                'env:production': 'P',
+            tagShortened : {
+                'env:production' : 'P',
                 'env:development' : 'D',
                 'env:staging' : 'S',
                 'env:infrastructure' : 'I'
             },
 
-            tagTpl: new Ext.XTemplate(
-                '<tpl for=".">',
-                    '<div class="tag" title={name} style="background-color: {color}">{tagShortened}</div>',
-               '</tpl>'
-            ),
+            tagTpl : new Ext.XTemplate('<tpl for=".">', '<div class="tag" title={name} style="background-color: {color}">{tagShortened}</div>', '</tpl>'),
 
-            vmTpl: new Ext.XTemplate(
-                '<tpl for=".">',
-                    '<div class="{classes}" id="{id}" ',
-                        'style="min-width:{minwidth}px">',
-                        '<tpl if="values.tags !== undefined">',
-                            '<div class="tags">',
-                                '{[ this.tab.vmmap.tagTpl.apply(values.tags) ]}',
-                            '</div>',
-                        '</tpl>',
-                        '<div class="name">{name}</div>',
-                        '<div class="ip">{ip}</div>',
-                        '<div class="mem">{mem}</div>',
-                        '<tpl if="values.id !== undefined">',
-                            '<span class="uptime">{uptime}</span>',
-                            '<span class="cores">{cores}</span>',
-                            '<div class="bar cpubar"><div></div></div>',
-                            '<div class="bar memorybar"><div></div></div>',
-                            '<div class="bar diskspacebar"><div></div></div>',
-                        '</tpl>',
-                    '</div>',
-                '</tpl>',
-                { tab: this }
-            ),
+            vmTpl : new Ext.XTemplate('<tpl for=".">', '<div class="{classes}" id="{id}" ', 'style="min-width:{minwidth}px">', '<tpl if="values.tags !== undefined">', '<div class="tags">', '{[ this.tab.vmmap.tagTpl.apply(values.tags) ]}', '</div>', '</tpl>', '<div class="name">{name}</div>', '<div class="ip">{ip}</div>', '<div class="mem">{mem}</div>', '<tpl if="values.id !== undefined">', '<span class="uptime">{uptime}</span>', '<span class="cores">{cores}</span>', '<div class="bar cpubar"><div></div></div>', '<div class="bar memorybar"><div></div></div>', '<div class="bar diskspacebar"><div></div></div>', '</tpl>', '</div>', '</tpl>', {
+                tab : this
+            }),
 
-            getUsedTags: function(allTags) {
+            getUsedTags : function(allTags) {
                 var usedtags;
                 Ext.each(allTags, function(tag) {
                     var color = this.tagColors[tag];
                     var shortened = this.tagShortened[tag];
                     if (color && shortened) {
                         usedtags = usedtags || [];
-                        usedtags[usedtags.length] = {name: tag, color: color, tagShortened: shortened};
+                        usedtags[usedtags.length] = {
+                            name : tag,
+                            color : color,
+                            tagShortened : shortened
+                        };
                     }
                 }, this);
                 return usedtags;
             },
 
-            columns: [
-                {header: 'Name', dataIndex: 'hostname', width: 100,
-                    renderer: function(name, meta, rec) {
-                        return '<div class="name">' + name + '</div>'+
-                        	   '<div class="ip">' + rec.get("ipv4_address") + '</div>';
-                    }
-                },
-                {header: 'Map', dataIndex: 'memory', flex: 1,
-                    renderer: function(totalMemory, meta, rec) {
-                        // FIXME: 'memory' is 0
-                        if (!totalMemory) {
-                            totalMemory = 2048;
-                        }
-
-                        var freeMemory = totalMemory;
-
-                        var r = [];
-                        var vms = rec.getChild('vms');
-                        // in case HN doesn't have a vms container, we don't show anything (ON-635)
-                        if (vms === null)
-                            return '';
-
-                        vms.children().each( function(vm) {
-                            if (!vm.isDeployed())
-                                return true;  // extjs each's way of saying 'continue'
-                            var id = 'vmmap-' + vm.getId();
-                            var classes = 'node-cell';
-                            var memory = vm.get('memory');
-                            var uptime = this.getUptime(vm);
-                            var tags = vm.get('tags');
-                            var usedtags = this.getUsedTags(tags);
-
-                            if (this.selection.contains(id)) {
-                                classes += ' selected';
-                            }
-                            if (uptime === 'inactive') {
-                                classes += ' inactive';
-                            }
-
-                            var hn = vm.get('hostname');
-                            // wrap too long host names
-                            if (hn.length > 22)
-                                hn = hn.substr(0,20) + '..';
-                                
-                            var ip = vm.get('ipv4_address');
-
-                            r[r.length] = {
-                                id: id,
-                                name: hn,
-                                ip:ip,
-                                classes: classes,
-                                mem: parseInt(memory),
-                                uptime: uptime,
-                                cores: vm.get('num_cores'),
-                                minwidth: Math.max(parseInt(300 * (memory / totalMemory)) + 30,
-                                                   parseInt(hn.length * 5.5) + 30),
-                                tags: usedtags
-                            };
-
-                            freeMemory -= memory;
-
-                            var url = vm.get('url');
-                            this.subscribeGauge(vm, url, 'cpu', id, vm.getMaxCpuLoad());
-                            this.subscribeGauge(vm, url, 'memory', id, vm.get('memory'));
-                            this.subscribeGauge(vm, url, 'diskspace', id, vm.get('diskspace')['total']);
-                        }, this);
-
-                        if (freeMemory) {
-                            r[r.length] = {
-                                name: 'free',
-                                classes: 'node-cell-free',
-                                mem: parseInt(freeMemory),
-                                minwidth: parseInt(300 * (freeMemory / totalMemory))
-                            };
-                        }
-
-                        return this.vmTpl.apply(r);
-                    }
+            columns : [{
+                header : 'Name',
+                dataIndex : 'hostname',
+                width : 100,
+                renderer : function(name, meta, rec) {
+                    return '<div class="name">' + name + '</div>' + '<div class="ip">' + rec.get("ipv4_address") + '</div>';
                 }
-            ],
+            }, {
+                header : 'Map',
+                dataIndex : 'memory',
+                flex : 1,
+                renderer : function(totalMemory, meta, rec) {
+                    // FIXME: 'memory' is 0
+                    if (!totalMemory) {
+                        totalMemory = 2048;
+                    }
 
-            subscribeGauge: function(rec, url, name, id, maxValue) {
+                    var freeMemory = totalMemory;
+
+                    var r = [];
+                    var vms = rec.getChild('vms');
+                    // in case HN doesn't have a vms container, we don't show anything (ON-635)
+                    if (vms === null)
+                        return '';
+
+                    vms.children().each(function(vm) {
+                        if (!vm.isDeployed())
+                            return true;
+                        // extjs each's way of saying 'continue'
+                        var id = 'vmmap-' + vm.getId();
+                        var classes = 'node-cell';
+                        var memory = vm.get('memory');
+                        var uptime = this.getUptime(vm);
+                        var tags = vm.get('tags');
+                        var usedtags = this.getUsedTags(tags);
+
+                        if (this.selection.contains(id)) {
+                            classes += ' selected';
+                        }
+                        if (uptime === 'inactive') {
+                            classes += ' inactive';
+                        }
+
+                        var hn = vm.get('hostname');
+                        // wrap too long host names
+                        if (hn.length > 22)
+                            hn = hn.substr(0, 20) + '..';
+
+                        var ip = vm.get('ipv4_address');
+
+                        r[r.length] = {
+                            id : id,
+                            name : hn,
+                            ip : ip,
+                            classes : classes,
+                            mem : parseInt(memory),
+                            uptime : uptime,
+                            cores : vm.get('num_cores'),
+                            minwidth : Math.max(parseInt(300 * (memory / totalMemory)) + 30, parseInt(hn.length * 5.5) + 30),
+                            tags : usedtags
+                        };
+
+                        freeMemory -= memory;
+
+                        var url = vm.get('url');
+                        this.subscribeGauge(vm, url, 'cpu', id, vm.getMaxCpuLoad());
+                        this.subscribeGauge(vm, url, 'memory', id, vm.get('memory'));
+                        this.subscribeGauge(vm, url, 'diskspace', id, vm.get('diskspace')['total']);
+                    }, this);
+
+                    if (freeMemory) {
+                        r[r.length] = {
+                            name : 'free',
+                            classes : 'node-cell-free',
+                            mem : parseInt(freeMemory),
+                            minwidth : parseInt(300 * (freeMemory / totalMemory))
+                        };
+                    }
+
+                    return this.vmTpl.apply(r);
+                }
+            }],
+
+            subscribeGauge : function(rec, url, name, id, maxValue) {
                 url += '/metrics/{0}_usage'.format(name);
                 Onc.core.hub.Hub.subscribe(function(data) {
                     var el = Ext.get(id);
@@ -245,17 +226,21 @@ Ext.define('Onc.view.tabs.VmMapTab', {
                 });
             },
 
-            listeners: {
-                'afterrender': function(cmp, eOpts ){
+            listeners : {
+                'afterrender' : function(cmp, eOpts) {
                     this.mon(this.el, 'click', this.onMouseClick, this);
                     this.mon(this.el, 'dblclick', this.onMouseDoubleClick, this);
-                    this.mon(this.store, {scope: this, update: this.updateCellEvent});
+                    this.mon(this.store, {
+                        scope : this,
+                        update : this.updateCellEvent
+                    });
 
-                    this.addEvents('showvmdetails');//, 'startvms', 'stopvms');
+                    this.addEvents('showvmdetails');
+                    //, 'startvms', 'stopvms');
                 }
             },
 
-            getUptime: function(rec) {
+            getUptime : function(rec) {
                 if (rec.get('state') === 'inactive')
                     return 'inactive';
 
@@ -280,7 +265,7 @@ Ext.define('Onc.view.tabs.VmMapTab', {
                 return '' + mins + 'm ' + s + 's';
             },
 
-            updateCell: function(store, rec) {
+            updateCell : function(store, rec) {
                 var el = Ext.get('vmmap-' + rec.getId());
                 if (el) {
                     el.down('div.name', true).innerHTML = rec.get('hostname');
@@ -299,7 +284,11 @@ Ext.define('Onc.view.tabs.VmMapTab', {
                         var color = this.tagColors[tag];
                         var shortened = this.tagShortened[tag];
                         if (color) {
-                            usedTags[usedTags.length] = {name: tag, color: color, tagShortened: shortened};
+                            usedTags[usedTags.length] = {
+                                name : tag,
+                                color : color,
+                                tagShortened : shortened
+                            };
                         }
                     }, this);
 
@@ -320,13 +309,13 @@ Ext.define('Onc.view.tabs.VmMapTab', {
                 }
             },
 
-            updateCellEvent: function(store, rec, action) {
+            updateCellEvent : function(store, rec, action) {
                 if (action === 'edit') {
                     this.updateCell(store, rec);
                 }
             },
 
-            onResizeStart: function(e, el) {
+            onResizeStart : function(e, el) {
                 if (e.button != 0) {
                     return;
                 }
@@ -342,7 +331,7 @@ Ext.define('Onc.view.tabs.VmMapTab', {
                 this.originalSize = parseInt(Ext.get(this.resizingCell).down('div.mem', true).innerHTML);
             },
 
-            onResize: function(e, el) {
+            onResize : function(e, el) {
                 if (!this.resizingCell) {
                     return;
                 }
@@ -354,43 +343,36 @@ Ext.define('Onc.view.tabs.VmMapTab', {
                 e.stopEvent();
             },
 
-            onResizeEnd: function(e, el) {
+            onResizeEnd : function(e, el) {
                 var me = this;
                 if (!this.resizingCell) {
                     return;
                 }
                 Ext.Msg.show({
-                    title:'Resize',
-                    msg: 'Resize VM from ' + this.originalSize +
-                       ' MB to ' + this.newSize + 'MB?',
-                    buttons: Ext.Msg.YESNO,
-                    icon: Ext.Msg.QUESTION,
-                    scope: me,
-                    fn: function(buttonId) {
+                    title : 'Resize',
+                    msg : 'Resize VM from ' + this.originalSize + ' MB to ' + this.newSize + 'MB?',
+                    buttons : Ext.Msg.YESNO,
+                    icon : Ext.Msg.QUESTION,
+                    scope : me,
+                    fn : function(buttonId) {
                         if (buttonId === 'no') {
                             Ext.get(this.resizingCell).child('div.mem', true).innerHTML = this.originalSize;
                             this.resizingCell.style.setProperty('width', (Math.max(this.originalWidth, 1)) + 'px');
                         } else {
                             var newSize = this.newSize;
-                            Ext.getStore('ComputesStore').loadById(this.getIdFromEl(this.resizingCell),
-                                function(compute) {
-                                    compute.set('memory', newSize);
-                                    compute.save({
-                                        success: function(ret) {
-                                            Onc.core.EventBus.fireEvent('displayNotification', 'Virtual Machine \'' +
-                                                ret.get('hostname') + '\' successfully resized');
-                                        },
-                                        failure: function(response) {
-                                            Onc.core.EventBus.fireEvent('displayNotification',
-                                                'Error occurred while resizing Virtual Machine', 'error');
-                                        }
-                                    });
-                                },
-                                function(error) {
-                                    Onc.core.EventBus.fireEvent('displayNotification',
-                                        'Error occurred while resizing Virtual Machine', 'error');
-                                }
-                            );
+                            Ext.getStore('ComputesStore').loadById(this.getIdFromEl(this.resizingCell), function(compute) {
+                                compute.set('memory', newSize);
+                                compute.save({
+                                    success : function(ret) {
+                                        Onc.core.EventBus.fireEvent('displayNotification', 'Virtual Machine \'' + ret.get('hostname') + '\' successfully resized');
+                                    },
+                                    failure : function(response) {
+                                        Onc.core.EventBus.fireEvent('displayNotification', 'Error occurred while resizing Virtual Machine', 'error');
+                                    }
+                                });
+                            }, function(error) {
+                                Onc.core.EventBus.fireEvent('displayNotification', 'Error occurred while resizing Virtual Machine', 'error');
+                            });
                         }
 
                         this.vmmapTab.disableResizing();
@@ -403,10 +385,10 @@ Ext.define('Onc.view.tabs.VmMapTab', {
                 });
             },
 
-            highlightTag: function(tag) {
+            highlightTag : function(tag) {
                 var tags = Ext.select('div.tag', false, this.el.dom);
                 var i, len = tags.getCount();
-                for (i = 0; i < len; i++) {
+                for ( i = 0; i < len; i++) {
                     Ext.fly(tags.item(i)).up('div.node-cell').removeCls('tag-highlight');
                 }
 
@@ -417,14 +399,14 @@ Ext.define('Onc.view.tabs.VmMapTab', {
 
                 tags = Ext.select('div.tag[title="' + tag + '"]', false, this.el.dom);
                 len = tags.getCount();
-                for (i = 0; i < len; i++) {
+                for ( i = 0; i < len; i++) {
                     Ext.fly(tags.item(i)).up('div.node-cell').addCls('tag-highlight');
                 }
 
                 this.isTagHighlighted = true;
             },
 
-            onMouseClick: function(e, el) {
+            onMouseClick : function(e, el) {
                 if (this.resizeMode) {
                     return;
                 }
@@ -456,7 +438,7 @@ Ext.define('Onc.view.tabs.VmMapTab', {
                     var i, item;
                     if (!e.ctrlKey) {
                         var count = allCells.getCount();
-                        for (i = 0; i < count; i++) {
+                        for ( i = 0; i < count; i++) {
                             if (i < from || i > to) {
                                 cell = allCells.item(i);
                                 if (this.selection.contains(cell.id)) {
@@ -467,7 +449,7 @@ Ext.define('Onc.view.tabs.VmMapTab', {
                         this.selection.clear();
                     }
 
-                    for (i = from; i <= to; i++) {
+                    for ( i = from; i <= to; i++) {
                         cell = allCells.item(i);
                         this.selection.add(cell.id);
                         cell.addCls('selected');
@@ -508,7 +490,7 @@ Ext.define('Onc.view.tabs.VmMapTab', {
                 }
             },
 
-            onMouseDoubleClick: function(e, el) {
+            onMouseDoubleClick : function(e, el) {
                 if (this.resizeMode || this.migrateMode) {
                     return;
                 }
@@ -530,11 +512,12 @@ Ext.define('Onc.view.tabs.VmMapTab', {
                 }
             },
 
-            getIdFromEl: function(el) {
-                return el.id.substring(6); // remove 'vmmap-' from the beginning
+            getIdFromEl : function(el) {
+                return el.id.substring(6);
+                // remove 'vmmap-' from the beginning
             },
 
-            getVmRecordFromEl: function(el) {
+            getVmRecordFromEl : function(el) {
                 return this.store.getById(this.getIdFromEl(el));
             }
         }];
@@ -542,7 +525,7 @@ Ext.define('Onc.view.tabs.VmMapTab', {
         this.callParent(arguments);
     },
 
-    afterRender: function() {
+    afterRender : function() {
         // Ilja: wtf is this?
         this.vmmap = Ext.getCmp('vmmap');
         this.vmmap.vmmapTab = this;
@@ -550,12 +533,12 @@ Ext.define('Onc.view.tabs.VmMapTab', {
         this.callParent(arguments);
     },
 
-    updateAll: function() {
+    updateAll : function() {
         this.vmmap.store.reload();
         this.vmmap.doLayout();
     },
 
-    onTagClick: function() {
+    onTagClick : function() {
         var cellList = "";
         this.vmmap.selection.each(function(id) {
             cellList += id + '<br>';
@@ -563,7 +546,7 @@ Ext.define('Onc.view.tabs.VmMapTab', {
         Ext.Msg.alert('Tag', cellList);
     },
 
-    enableResizing: function() {
+    enableResizing : function() {
         var vmmap = this.vmmap;
         var vmmapEl = vmmap.getEl();
 
@@ -571,7 +554,7 @@ Ext.define('Onc.view.tabs.VmMapTab', {
         vmmap.getDockedComponent('toolbar').getComponent('resize').setText('Cancel Resize');
 
         var allCells = Ext.select('div.node-cell', true, this.el.dom);
-        for (i = 0; i < allCells.getCount(); i++) {
+        for ( i = 0; i < allCells.getCount(); i++) {
             var cellEl = allCells.item(i);
             var cell = cellEl.dom;
             var cellStyle = cell.style;
@@ -597,7 +580,7 @@ Ext.define('Onc.view.tabs.VmMapTab', {
         Ext.EventManager.on(document, 'mouseup', vmmap.onResizeEnd, vmmap);
     },
 
-    disableResizing: function() {
+    disableResizing : function() {
         var vmmap = this.vmmap;
         var vmmapEl = vmmap.getEl();
 
@@ -605,7 +588,7 @@ Ext.define('Onc.view.tabs.VmMapTab', {
         vmmap.getDockedComponent('toolbar').getComponent('resize').setText('Resize');
 
         var resizers = Ext.select('div.resizer', true, vmmap.el.dom);
-        for (i = 0; i < resizers.getCount(); i++) {
+        for ( i = 0; i < resizers.getCount(); i++) {
             var resizer = resizers.item(i);
             var resizeContainer = resizer.dom.parentNode;
             var cell = resizeContainer.firstChild;
@@ -626,7 +609,7 @@ Ext.define('Onc.view.tabs.VmMapTab', {
         Ext.EventManager.un(document, 'mouseup', vmmap.onResizeEnd, vmmap);
     },
 
-    onResizeClick: function(button) {
+    onResizeClick : function(button) {
         if (this.vmmap.resizeMode) {
             this.disableResizing();
         } else {
@@ -634,13 +617,13 @@ Ext.define('Onc.view.tabs.VmMapTab', {
         }
     },
 
-    onMigrateClick: function(button) {
+    onMigrateClick : function(button) {
         this.migrateMode = !this.migrateMode;
         button.setText(this.migrateMode ? 'Cancel Migration' : 'Migrate');
 
         if (this.migrateMode) {
             this.dragZone = new Ext.dd.DragZone(this.getEl(), {
-                getDragData: function(e) {
+                getDragData : function(e) {
                     var nodeEl = e.getTarget('div.node-cell');
                     if (nodeEl) {
                         var vmmap = Ext.getCmp('vmmap');
@@ -649,27 +632,27 @@ Ext.define('Onc.view.tabs.VmMapTab', {
                         var sourceEl = Ext.fly(nodeEl).up('tr.x-grid-row');
                         var sourceRec = vmmap.getView().getRecord(sourceEl);
                         return {
-                            ddel: clone,
-                            nodeEl: nodeEl,
-                            sourceRec: sourceRec,
-                            repairXY: Ext.fly(nodeEl).getXY(),
-                            dragSource: this,
-                            vmmap: vmmap
+                            ddel : clone,
+                            nodeEl : nodeEl,
+                            sourceRec : sourceRec,
+                            repairXY : Ext.fly(nodeEl).getXY(),
+                            dragSource : this,
+                            vmmap : vmmap
                         }
                     }
                 },
 
-                getRepairXY: function() {
+                getRepairXY : function() {
                     return this.dragData.repairXY;
                 }
             });
 
             this.dropZone = new Ext.dd.DropZone(this.getEl(), {
-                getTargetFromEvent: function(e) {
+                getTargetFromEvent : function(e) {
                     return e.getTarget('tr.x-grid-row');
                 },
 
-                onNodeOver: function(target, dd, e, data) {
+                onNodeOver : function(target, dd, e, data) {
                     var targetRec = data.vmmap.getView().getRecord(e.getTarget('tr.x-grid-row'));
                     if (targetRec) {
                         if (targetRec.getId() !== data.sourceRec.getId()) {
@@ -679,7 +662,7 @@ Ext.define('Onc.view.tabs.VmMapTab', {
                     return Ext.dd.DropZone.prototype.dropNotAllowed;
                 },
 
-                onNodeDrop: function(target, dd, e, data) {
+                onNodeDrop : function(target, dd, e, data) {
                     var vmmap = data.vmmap;
                     var targetRec = vmmap.getView().getRecord(target);
                     if (targetRec.getId() !== data.sourceRec.getId()) {
@@ -688,14 +671,14 @@ Ext.define('Onc.view.tabs.VmMapTab', {
                         var destMachineId = targetRec.id.replace('Onc.model.Compute-', '');
                         var srcMachineId = data.sourceRec.id.replace('Onc.model.Compute-', '');
                         options = {
-                            computeId: computeId,
-                            destMachineId: destMachineId,
-                            srcMachineId: srcMachineId,
-                            srcHost: data.sourceRec.get('hostname'),
-                            destHost: targetRec.get('hostname'),
-                            nodeName: nodeName,
-                            vmIsInactive: Ext.get(data.nodeEl.id).down('span.uptime', true).innerHTML === 'inactive',
-                            vmmap: data.vmmap,
+                            computeId : computeId,
+                            destMachineId : destMachineId,
+                            srcMachineId : srcMachineId,
+                            srcHost : data.sourceRec.get('hostname'),
+                            destHost : targetRec.get('hostname'),
+                            nodeName : nodeName,
+                            vmIsInactive : Ext.get(data.nodeEl.id).down('span.uptime', true).innerHTML === 'inactive',
+                            vmmap : data.vmmap,
                         }
                         Onc.core.EventBus.fireEvent("startMigrate", options);
                         return true;

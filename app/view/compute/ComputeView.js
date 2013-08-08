@@ -1,33 +1,34 @@
 Ext.define('Onc.view.compute.ComputeView', {
-    extend: 'Ext.Container',
-    alias: 'widget.computeview',
-    requires: [
-        'Onc.view.compute.ComputeHeaderView'
-    ],
+    extend : 'Ext.Container',
+    alias : 'widget.computeview',
+    requires : ['Onc.view.compute.ComputeHeaderView'],
 
-    iconCls: 'icon-system',
-    layout: { type: 'vbox', align: 'stretch' },
+    iconCls : 'icon-system',
+    layout : {
+        type : 'vbox',
+        align : 'stretch'
+    },
 
-    _makeTab: function(title, type) {
+    _makeTab : function(title, type) {
         var tab = {
-                title: title,
-                xtype: 'compute{0}tab'.format(type),
-                itemId: '{0}tab'.format(type)
-            };
+            title : title,
+            xtype : 'compute{0}tab'.format(type),
+            itemId : '{0}tab'.format(type)
+        };
         if (type === 'shell') {
             tab['shellConfig'] = {
-                    url: Onc.core.Backend.url(Ext.String.format('/computes/{0}/consoles/default/webterm', this.record.get('id')))
+                url : Onc.core.Backend.url(Ext.String.format('/computes/{0}/consoles/default/webterm', this.record.get('id')))
             };
         }
         if (type === 'vnc') {
             tab['vncConfig'] = {
-                    url: Onc.core.Backend.url(Ext.String.format('/computes/{0}/consoles/vnc', this.record.get('id')))
+                url : Onc.core.Backend.url(Ext.String.format('/computes/{0}/consoles/vnc', this.record.get('id')))
             };
         }
         return tab;
     },
 
-    _adjustTab: function(title, tabType, shouldAdd) {
+    _adjustTab : function(title, tabType, shouldAdd) {
         var tabs = this.down('#tabs');
         var tab = tabs.down('#{0}tab'.format(tabType));
 
@@ -44,7 +45,7 @@ Ext.define('Onc.view.compute.ComputeView', {
         }
     },
 
-    updateTabs: function() {
+    updateTabs : function() {
         var me = this;
         var rec = this.record;
         me._adjustTab('System', 'system', true);
@@ -60,34 +61,32 @@ Ext.define('Onc.view.compute.ComputeView', {
         return true;
     },
 
-    listeners: {
-        'boxready': function(){
+    listeners : {
+        'boxready' : function() {
             Onc.core.EventBus.fireEvent("computeSuspiciousChanged", this.record.data['id'], this.record.data['suspicious']);
         }
     },
 
-    initComponent: function() {
+    initComponent : function() {
         var rec = this.record;
 
         this.title = rec.get('hostname');
         this.tabConfig = {
-            tooltip: (rec.get('hostname') + '<br/>' +
-                      rec.get('ipv4_address') + '<br/>' +
-                      rec.get('type'))
+            tooltip : (rec.get('hostname') + '<br/>' + rec.get('ipv4_address') + '<br/>' + rec.get('type'))
         };
         this.items = [{
-            xtype: 'computeheader',
-            record: rec
+            xtype : 'computeheader',
+            record : rec
         }, {
-            flex: 1,
-            xtype: 'tabpanel',
-            itemId: 'tabs',
-            defaults: {
-                record: rec//,
+            flex : 1,
+            xtype : 'tabpanel',
+            itemId : 'tabs',
+            defaults : {
+                record : rec//,
             },
-            items: [],
-            plain: true,
-            bodyStyle: 'background: inherit;'
+            items : [],
+            plain : true,
+            bodyStyle : 'background: inherit;'
         }];
 
         this.callParent(arguments);

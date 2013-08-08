@@ -1,61 +1,66 @@
 Ext.define('Onc.view.compute.ComputeHeaderView', {
-    extend: 'Ext.panel.Panel',
-    alias: 'widget.computeheader',
+    extend : 'Ext.panel.Panel',
+    alias : 'widget.computeheader',
 
-//    height: 50,
-    bodyPadding: 5,
-    border: false,
-    bodyStyle: 'background: inherit',
+    //    height: 50,
+    bodyPadding : 5,
+    border : false,
+    bodyStyle : 'background: inherit',
 
-    layout: {type: 'auto', align: 'middle'},
+    layout : {
+        type : 'auto',
+        align : 'middle'
+    },
 
-
-    initComponent: function() {
+    initComponent : function() {
         this.defaults = {
-            style: 'position: relative !important; float: left;',
+            style : 'position: relative !important; float: left;',
 
-            margin: '5px',
-            width: 200,
-            border: true
+            margin : '5px',
+            width : 200,
+            border : true
         };
 
         this.items = [{
-            xtype: 'cpugauge',
-            compute: this.record,
-            label: 'CPU',
-            iconCls: 'icon-cpu'
+            xtype : 'cpugauge',
+            compute : this.record,
+            label : 'CPU',
+            iconCls : 'icon-cpu'
         }, {
-            xtype: 'memorygauge',
-            compute: this.record,
-            label: 'MEM',
-            unit: 'MB',
-            iconCls: 'icon-memory'
+            xtype : 'memorygauge',
+            compute : this.record,
+            label : 'MEM',
+            unit : 'MB',
+            iconCls : 'icon-memory'
         }, {
-            xtype: 'networkgauge',
-            compute: this.record,
-            label: 'NET',
-            unit: 'Mbs',
-            value: 0,
-            convert: function(v) { return v * 8 / Math.pow(10, 6); },
-            iconCls: 'icon-network'
+            xtype : 'networkgauge',
+            compute : this.record,
+            label : 'NET',
+            unit : 'Mbs',
+            value : 0,
+            convert : function(v) {
+                return v * 8 / Math.pow(10, 6);
+            },
+            iconCls : 'icon-network'
         }, {
-            xtype: 'diskgauge',
-            compute: this.record,
-            partition: '/',
-            label: 'DISK (/)',
-            unit: 'GB',
-            display: ['fixed', 2],
-            convert: function(v) { return v / 1024; },
-            iconCls: 'icon-hd'
+            xtype : 'diskgauge',
+            compute : this.record,
+            partition : '/',
+            label : 'DISK (/)',
+            unit : 'GB',
+            display : ['fixed', 2],
+            convert : function(v) {
+                return v / 1024;
+            },
+            iconCls : 'icon-hd'
         }, {
-            xtype: 'button',
-            text: 'Show in Chart',
-            itemId: 'gauge-chart-button',
-            padding: '4 0 4 0',
-            scale   : 'medium'
+            xtype : 'button',
+            text : 'Show in Chart',
+            itemId : 'gauge-chart-button',
+            padding : '4 0 4 0',
+            scale : 'medium'
         }];
 
         this.callParent(arguments);
     }
-
 });
