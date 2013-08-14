@@ -597,7 +597,8 @@ Ext.define('Onc.view.compute.NewVmView', {
                 id : 'credentialsFieldsetKvm',
                 hidden : true,
                 layout : {
-                    type : 'hbox'
+                    type : 'table',
+                    columns: 2
                 },
                 items : [{
                     flex : 1,
@@ -608,7 +609,7 @@ Ext.define('Onc.view.compute.NewVmView', {
                     xtype : 'label',
                     id : 'templateUsername',
                     text : '',
-                    style : 'font-weight:bold'
+                    style : 'font-weight:bold; padding-left: 20px'
                 }, {
                     flex : 1,
                     xtype : 'label',
@@ -618,7 +619,7 @@ Ext.define('Onc.view.compute.NewVmView', {
                     xtype : 'label',
                     id : 'templatePassword',
                     text : '',
-                    style : 'font-weight:bold'
+                    style : 'font-weight:bold; padding-left: 20px'
                 }]
             }],
 
