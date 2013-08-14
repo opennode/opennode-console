@@ -38,6 +38,24 @@ Ext.define('Onc.model.Template', {
 
         {name: 'name_short', convert: function(_, record) {
             return record.get('name').split("-")[0];
+        }},
+
+        {name: 'display_name', convert: function(_, record) {
+            if (record.get('name') in Ext.VM_NAME_MAPPINGS) {
+                return Ext.VM_NAME_MAPPINGS[record.get('name')][0];
+            } else {
+                return record.get('name').split("-")[0];;
+            }
+            
+        }},
+
+        {name: 'tooltip_name', convert: function(_, record) {
+            if (record.get('name') in Ext.VM_NAME_MAPPINGS) {
+                return Ext.VM_NAME_MAPPINGS[record.get('name')][1];
+            } else {
+                return record.get('name');
+            }
+            
         }}
     ]
 });

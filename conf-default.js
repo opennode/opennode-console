@@ -20,3 +20,9 @@ Ext.IMG_LOGO_MAIN = "resources/img/onc_logo.png";
 Ext.IMG_LOGO_LOGIN = "resources/img/onc_logo_login.png";
 
 Ext.IS_EMBEDDED = false; // can be set to true by params["embedded"]
+
+Ext.VM_NAME_MAPPINGS = {
+    // associative array of template_name -> display_name and tooltips
+    // 'W2008R2_tmpl': ["name", "tooltip"]
+};
+
