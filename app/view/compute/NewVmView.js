@@ -315,8 +315,9 @@ Ext.define('Onc.view.compute.NewVmView', {
                                 this.setValue('backend', 'base_type');
                                 this.setValue('ipv4_address', 'ip');
                                 this.setValue('nameservers', 'nameserver');
-                                this.setValue('root_password', 'password');
-                                this.setValue('root_password_repeat', 'password');
+                                // XXX Ilja: not sure if it should be set or not
+                                //this.setValue('root_password', 'password');
+                                //this.setValue('root_password_repeat', 'password');
                                 this.setValue('template', 'name');
                                 Ext.getCmp('templatePassword').setText(this.st.get('password'));
                                 Ext.getCmp('templateUsername').setText(this.st.get('username'));
