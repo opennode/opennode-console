@@ -27,3 +27,4 @@ lib/ext-4.2/
 /.sencha_backup/
 /ext/
 /build
+.*.swp

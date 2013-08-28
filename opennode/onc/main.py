@@ -9,12 +9,14 @@ from ConfigParser import Error as ConfigKeyError
 import opennode.onc
 
 from grokcore.component import context, implements, Adapter, Subscription
+from grokcore.component import name
 from grokcore.security import require
 
 from twisted.web.server import NOT_DONE_YET
 from twisted.web.static import File
 
 from opennode.oms.endpoint.httprest.base import IHttpRestView, IHttpRestSubViewFactory
+from opennode.oms.endpoint.httprest.base import HttpRestView
 from opennode.oms.endpoint.httprest.root import MethodNotAllowed
 from opennode.oms.model.model.plugins import IPlugin, PluginInfo
 from opennode.oms.config import IRequiredConfigurationFiles, gen_config_file_names, get_config
@@ -66,6 +68,20 @@ class OncView(object):
             request.finish()
 
         return NOT_DONE_YET
+
+
+class OncRootView(HttpRestView):
+    """This view will never render, it's just used to attach the ONCViewFactory
+    which will create a new OncView depending on the sub-path.
+
+    """
+
+    context(OncPlugin)
+    # html and js have to be open.
+    # We'll be able to close some parts of javascripts
+    # but core stuff has to be open otherwise we cannot render
+    # the Onc login window
+    require('oms.nothing')
 
 
 class OncConfigView(object):
