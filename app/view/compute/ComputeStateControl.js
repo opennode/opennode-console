@@ -138,7 +138,7 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
         if (!this.compute.isPhysical()) {
             this.setCustomMask();
 
-            if (Onc.model.AuthenticatedUser.isAdmin() && this.compute.isDeployed())
+            if (Ext.ENABLE_EDIT_VM && this.compute.isDeployed())
                 this.down('#edit-button').setVisible(true);
             else
                 this.down('#edit-button').setVisible(false);
