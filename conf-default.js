@@ -13,6 +13,8 @@ Ext.ENABLE_ZABBIX = false;
 Ext.ENABLE_VMMAP_LEGEND = false;
 Ext.ENABLE_LOCAL_FILTER = false;
 
+Ext.ENABLE_EDIT_VM = false;
+
 //FATAL, ERROR, WARN, INFO, DEBUG, and TRACE.
 Ext.LOG_LEVEL = 'INFO';
 
