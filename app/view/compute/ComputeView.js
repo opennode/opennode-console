@@ -56,8 +56,8 @@ Ext.define('Onc.view.compute.ComputeView', {
         me._adjustTab('Templates', 'templates', isHn);
 
         var isActive = rec.data['state'] === 'active';
-        me._adjustTab('Shell', 'shell', isActive);
-        me._adjustTab('VNC', 'vnc', isActive && Ext.ENABLE_VNC);
+        me._adjustTab('Shell', 'shell', isActive && Ext.ENABLE_CONSOLES);
+        me._adjustTab('VNC', 'vnc', isActive && Ext.ENABLE_VNC && Ext.ENABLE_CONSOLES);
         return true;
     },
 

@@ -12,6 +12,7 @@ Ext.ENABLE_VNC = false;
 Ext.ENABLE_ZABBIX = false;
 Ext.ENABLE_VMMAP_LEGEND = false;
 Ext.ENABLE_LOCAL_FILTER = false;
+Ext.ENABLE_CONSOLES = false;
 
 Ext.ENABLE_EDIT_VM = false;
 
