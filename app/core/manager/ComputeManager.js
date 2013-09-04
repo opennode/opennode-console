@@ -65,7 +65,7 @@ Ext.define('Onc.core.manager.ComputeManager', {
                                     'Allocation failed');
                                // remove the mask from controls too
                                var cntrls = Ext.ComponentQuery.query('computestatecontrol[computeId=' +
-                                    vm.get('id') + ']')
+                                    vm.get('id') + ']');
                                Ext.Array.each(cntrls, function(cmp){
                                     if (cmp.el.isMasked()) {
                                         cmp.el.unmask();
