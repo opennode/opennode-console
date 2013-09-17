@@ -143,12 +143,13 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
 		if (!this.compute.isPhysical()) {
 			this.setCustomMask();
 
-			if (Ext.ENABLE_EDIT_VM && this.compute.isDeployed())
+			if (Ext.ENABLE_EDIT_VM && this.compute.isDeployed() && this.compute.isOpenVZ())
 				this.down('#edit-button').setVisible(true);
 			else
 				this.down('#edit-button').setVisible(false);
 
-			if (Ext.Array.contains(this.compute.get('features'), 'IUndeployed') && !Ext.Array.contains(this.compute.get('features'), 'IDeploying'))
+			if (Ext.Array.contains(this.compute.get('features'), 'IUndeployed') && 
+					!Ext.Array.contains(this.compute.get('features'), 'IDeploying'))
 				this.down('#allocate-button').setVisible(true);
 			else
 				this.down('#allocate-button').setVisible(false);

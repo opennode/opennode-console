@@ -119,11 +119,19 @@ Ext.define('Onc.model.Compute', {
 
     isPhysical: function() {
         var features = this.get('features');
-        for(var i = 0; i < features.length; i++){
-            if(features[i] === 'IVirtualCompute')
-                return false;
-        };
-        return true;
+        return !Ext.Array.contains(features, 'IVirtualCompute');
+    },
+
+    isOpenVZ: function() {
+    	var tags = this.get('tags');
+    	if (tags)
+        	return Ext.Array.contains(tags, 'virt_type:openvz');
+    },
+
+    isKVM: function() {
+    	var tags = this.get('tags');
+    	if (tags)
+        	return Ext.Array.contains(tags, 'virt_type:kvm');
     },
 
     isDeployed: function() {
@@ -150,7 +158,7 @@ Ext.define('Onc.model.Compute', {
     
     updateSubset: function(subset) {
         var url = this.get('url') + subset;
-        console.log("Getting compute sublist data: " + subset);
+        //console.log("Getting compute sublist data: " + subset);
         Ext.Ajax.request({
             url : Onc.core.Backend.url(url),
             method : 'GET',
@@ -182,7 +190,7 @@ Ext.define('Onc.model.Compute', {
                 if(subListTemp){
                     Ext.each(subListTemp.getRange(), function(it, i){
                         subList.add(it);
-                    })
+                    });
                 }
             }.bind(this),
             failure : function(request, response) {
