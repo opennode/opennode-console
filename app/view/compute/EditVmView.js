@@ -22,6 +22,7 @@ Ext.define('Onc.view.compute.EditVmView', {
     compute : null,
 
     initComponent : function() {
+    	var isAdmin = Onc.model.AuthenticatedUser.isAdmin();
         this.items = {
             xtype : 'form',
             items : [{
@@ -54,7 +55,7 @@ Ext.define('Onc.view.compute.EditVmView', {
                             this.previousSibling().setValue(newValue);
                         }
                     }
-                }, {
+                }].concat(!isAdmin ? [] : [{
                     fieldLabel : "CPU Limit",
                     name : 'cpu_limit',
                     xtype : 'numberfield',
@@ -78,7 +79,7 @@ Ext.define('Onc.view.compute.EditVmView', {
                             this.previousSibling().setValue(newValue / 100);
                         }
                     }
-                }, {
+                }]).concat([{
                     fieldLabel : "Memory/MB",
                     name : 'memory',
                     xtype : 'numberfield',
@@ -137,8 +138,8 @@ Ext.define('Onc.view.compute.EditVmView', {
                             this.previousSibling().setValue(newValue / 100);
                         }
                     }
-                }]
-            }, {
+                }])
+            }].concat(!isAdmin ? [] : [{
                 xtype : 'fieldset',
                 title : "Boot parameters",
                 layout : {
@@ -150,7 +151,7 @@ Ext.define('Onc.view.compute.EditVmView', {
                     name : 'start_on_boot',
                     fieldLabel : "Start on boot"
                 }]
-            }],
+            }]),
 
             buttons : [{
                 text : 'Cancel',
