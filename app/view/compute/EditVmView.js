@@ -116,28 +116,6 @@ Ext.define('Onc.view.compute.EditVmView', {
                             this.previousSibling().setValue(newValue);
                         }
                     }
-                }, {
-                    fieldLabel : "Swap Size/GB",
-                    name : 'swap_size',
-                    xtype : 'numberfield',
-                    minValue : 0.25,
-                    maxValue : Math.ceil(this.parentCompute.get("diskspace").total / 1024),
-                    value : this.compute.get("swap_size") / 1024,
-                    step : 0.25,
-                    width : 160
-                }, {
-                    xtype : 'slider',
-                    isFormField : false,
-                    width : 100,
-                    minValue : 25,
-                    maxValue : Math.ceil(this.parentCompute.get("diskspace").total / 10),
-                    increment : 25,
-                    value : this.compute.get("swap_size") / (10),
-                    listeners : {
-                        'change' : function(ev, newValue) {
-                            this.previousSibling().setValue(newValue / 100);
-                        }
-                    }
                 }])
             }].concat(!isAdmin ? [] : [{
                 xtype : 'fieldset',
