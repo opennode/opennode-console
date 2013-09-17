@@ -31,7 +31,6 @@ Ext.define('Onc.controller.EditVmController', {
                          compute.set('num_cores', data.num_cores);
                          compute.set('memory', data.memory);
                          compute.get('diskspace').total = data.diskspace * 1024;
-                         compute.set('swap_size', data.swap_size * 1024);
 
                          compute.save({
                            success: function(ret) {
