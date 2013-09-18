@@ -43,7 +43,10 @@ Ext.define('Onc.view.compute.EditVmView', {
                     name : 'num_cores',
                     xtype : 'numberfield',
                     value : this.compute.get("num_cores"),
-                    width : 160
+                    width : 160,
+                    minValue : 1,
+                    maxValue : 10,
+                    allowBlank: false
                 }, {
                     xtype : 'slider',
                     isFormField : false,
@@ -84,12 +87,15 @@ Ext.define('Onc.view.compute.EditVmView', {
                     name : 'memory',
                     xtype : 'numberfield',
                     value : this.compute.get("memory"),
-                    width : 160
+                    width : 160,
+                    minValue : 300,
+                    maxValue : 10240,
+                    allowBlank: false
                 }, {
                     xtype : 'slider',
                     isFormField : false,
                     width : 100,
-                    minValue : 128,
+                    minValue : 300,
                     maxValue : 10240,
                     increment : 32,
                     value : 256,
@@ -103,13 +109,16 @@ Ext.define('Onc.view.compute.EditVmView', {
                     name : 'diskspace',
                     xtype : 'numberfield',
                     value : this.compute.get("diskspace").total / 1024,
-                    width : 160
+                    width : 160,
+                    minValue : 2,
+                    maxValue : 1024,
+                    allowBlank: false
                 }, {
                     xtype : 'slider',
                     isFormField : false,
                     width : 100,
                     minValue : 2,
-                    maxValue : Math.ceil(this.parentCompute.get("diskspace").total / 1024),
+                    maxValue : 1024,
                     value : this.compute.get("diskspace").total / 1024,
                     listeners : {
                         'change' : function(ev, newValue) {
@@ -137,8 +146,9 @@ Ext.define('Onc.view.compute.EditVmView', {
                     this.up('window').destroy();
                 }
             }, {
-                text : 'Edit',
-                itemId : 'edit-vm-button'
+                text : 'Update VM',
+                itemId : 'edit-vm-button',
+                cls : 'btn-green'
             }]
         };
 
