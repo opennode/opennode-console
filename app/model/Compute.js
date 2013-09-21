@@ -248,14 +248,14 @@ Ext.define('Onc.model.Compute', {
 
         containsDeployedFeature: function(features) {
             if (features)
-                return Ext.Array.contains(features, 'IDeployed')
+                return Ext.Array.contains(features, 'IDeployed');
             else
                 return false;
         },
 
         containsUndeployedFeature: function(features) {
             if (features)
-                return Ext.Array.contains(features, 'IUndeployed')
+                return Ext.Array.contains(features, 'IUndeployed');
             else
                 return false;
         },

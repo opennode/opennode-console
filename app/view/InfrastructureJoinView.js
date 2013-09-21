@@ -43,8 +43,8 @@ Ext.define('Onc.view.InfrastructureJoinView', {
 		                   this.items[1].icon = '';
 		                   this.items[2].icon='resources/img/icon/loading.gif';//hidden setting not working
 		                } else {
-		                   this.items[0].icon = 'resources/img/icon/accept.png'
-		                   this.items[1].icon = 'resources/img/icon/delete.png'
+		                   this.items[0].icon = 'resources/img/icon/accept.png';
+		                   this.items[1].icon = 'resources/img/icon/delete.png';
 		                   this.items[2].icon='';
 		                }
 		                return val;
@@ -89,7 +89,7 @@ Ext.define('Onc.view.InfrastructureJoinView', {
                     width: 50,
                     renderer: function (val, metadata, record, rowIndex, colIndex, store, gridView) {
 		                if (record.get('status') == "deleting") {
-		                   this.items[0].icon=''
+		                   this.items[0].icon='';
 		                   this.items[1].icon='resources/img/icon/loading.gif';//hidden setting not working
 		                } else {
 		                   this.items[0].icon='resources/img/icon/delete_edit.gif';

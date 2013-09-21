@@ -68,7 +68,7 @@ Ext.define('Onc.view.compute.GaugesChartView', {
         this.title = "Chart: " + this.compute.get('hostname');
 
         var url = this.compute.get('url');
-        this.urls = [url + 'metrics/diskspace_usage', url + 'metrics/cpu_usage', url + 'metrics/memory_usage', url + 'metrics/network_usage']
+        this.urls = [url + 'metrics/diskspace_usage', url + 'metrics/cpu_usage', url + 'metrics/memory_usage', url + 'metrics/network_usage'];
         Onc.core.hub.Hub.subscribe(this.onMetricsData.bind(this), this.urls, 'chart', this._checkIfActive.bind(this));
 
         this.items = [{
@@ -106,7 +106,7 @@ Ext.define('Onc.view.compute.GaugesChartView', {
                 label : {
                     font : '10px Arial',
                     renderer : function(timestamp) {
-                        var date = new Date(timestamp)
+                        var date = new Date(timestamp);
                         return Ext.Date.format(date, 'Y-m-d G:i:s');
                     }
                 }
