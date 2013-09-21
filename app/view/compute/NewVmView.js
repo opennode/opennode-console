@@ -188,7 +188,7 @@ Ext.define('Onc.view.compute.NewVmView', {
     },
 
     disableControls : function(boolValue) {
-        var controls = ['vm_profile', 'storage_location', 'num_cores', 'swap_size', 'memory', 'diskspace', 'hostname', 'ipv4_address', 'nameservers', 'root_password', 'root_password_repeat', 'start_on_boot', 'start_vm', 'ipv4_mask'];
+        var controls = ['vm_profile', 'storage_location', 'num_cores', 'swap_size', 'memory', 'diskspace','hostname', 'ipv4_address', 'nameservers', 'root_password', 'root_password_repeat', 'start_on_boot', 'start_vm', 'ipv4_mask'];
 
         Ext.Array.forEach(controls, function(control) {
             Ext.getCmp(control).setDisabled(boolValue);
@@ -323,7 +323,7 @@ Ext.define('Onc.view.compute.NewVmView', {
                                 Ext.getCmp('templateUsername').setText(this.st.get('username'));
 
                                 this.disableControls(false);
-                                this.baseTypeChanges(this.st.get("base_type"))
+                                this.baseTypeChanges(this.st.get("base_type"));
                                 Ext.getCmp('submitButton').enable();
                             } else {
                                 this.disableControls(true);
@@ -391,7 +391,7 @@ Ext.define('Onc.view.compute.NewVmView', {
                                 var computeId = newValue;
                                 var comp = Ext.getStore('AllocationPolicyStore').getById(computeId);
                                 this.parentCompute = comp;
-                                var templatesStore = this.parentCompute.getList('templates')
+                                var templatesStore = this.parentCompute.getList('templates');
                                 if (!templatesStore) {
                                     this.parentCompute.updateSubset('templates', 1, function(templatesStore) {
                                         this.loadTemplates(templatesStore);
@@ -430,7 +430,7 @@ Ext.define('Onc.view.compute.NewVmView', {
                             }
                         }.bind(this),
                         afterrender : function(combo, eOpts) {
-                            var id = (this.parentCompute) ? this.parentCompute.getId() : 'automatic'
+                            var id = (this.parentCompute) ? this.parentCompute.getId() : 'automatic';
                             combo.select(id);
                         }.bind(this)
                     }
