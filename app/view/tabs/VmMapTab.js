@@ -638,7 +638,7 @@ Ext.define('Onc.view.tabs.VmMapTab', {
                             repairXY : Ext.fly(nodeEl).getXY(),
                             dragSource : this,
                             vmmap : vmmap
-                        }
+                        };
                     }
                 },
 
@@ -679,7 +679,7 @@ Ext.define('Onc.view.tabs.VmMapTab', {
                             nodeName : nodeName,
                             vmIsInactive : Ext.get(data.nodeEl.id).down('span.uptime', true).innerHTML === 'inactive',
                             vmmap : data.vmmap,
-                        }
+                        };
                         Onc.core.EventBus.fireEvent("startMigrate", options);
                         return true;
                     }

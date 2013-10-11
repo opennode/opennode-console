@@ -114,7 +114,7 @@ Ext.define('Onc.view.tabs.VmListTab', {
         if (this.record) {
             filter.local = true;
             // For HN vmlist only local filtering
-            this.store = this.record.getChild('vms').children();
+            this.store = this.record.getChild(this.vmlistConfig.url).children();
             this.store.filterBy(function(record) {
                 return Ext.Array.contains(record.get("features"), "IDeployed");
             });

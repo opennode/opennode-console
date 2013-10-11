@@ -1,7 +1,6 @@
 Ext.define('Onc.store.VmGridStore', {
     extend: 'Onc.core.Store',
     model: 'Onc.model.Compute',
-    pageSize: 10,
     proxy: {
         type: 'onc',
         reader: {
@@ -21,14 +20,13 @@ Ext.define('Onc.store.VmGridStore', {
         startParam: null,
         url: 'computes'
     },
-    
+
 	removeAllRecords: function() {
 		var toRemove = this.getTotalCount();
 		if (toRemove > 0)
 			this.remove(this.getRange());
 	},
 
-       
     listeners: {
     	beforeload: function( store, operation, eOpts ){
     		this.removeAllRecords();
@@ -40,6 +38,5 @@ Ext.define('Onc.store.VmGridStore', {
                 c.destroy();
             });
 		}
-
     }
 });

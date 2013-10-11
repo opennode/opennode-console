@@ -42,7 +42,7 @@ Ext.define('Onc.controller.MainController', {
                     // TODO: visual display of the error
                     console.error('Error while loading data: ', error);
                     if(typeof error !== "string")
-                    	error = "Unknown error in ONC: object."
+                    	error = "Unknown error in ONC: object.";
                    	this.fireBusEvent('displayNotification', error, 'Error');
                    	
                     return;

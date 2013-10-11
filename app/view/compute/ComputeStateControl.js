@@ -170,6 +170,9 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
 			this.setCustomMask();
 		} else if (this.compute.get('state') === 'starting') {
 			this.setCustomMask();
+		} else if (!this.compute.isDeployed() && !Onc.model.AuthenticatedUser.isAdmin()) {
+			// 'lie' to a user about the state of vm (OMS-572)
+			this.setCustomMask('Allocation in progress...');
 		} else {
 			//Exception undefined// throw new Exception('Compute is in unknown state: ' + this.compute.get('state'));
 			console.log('Compute is in unknown state: ' + this.compute.get('state'));

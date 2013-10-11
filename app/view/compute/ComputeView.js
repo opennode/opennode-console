@@ -9,12 +9,17 @@ Ext.define('Onc.view.compute.ComputeView', {
         align : 'stretch'
     },
 
-    _makeTab : function(title, type) {
+    _makeTab : function(title, type, tab_specification) {
         var tab = {
             title : title,
             xtype : 'compute{0}tab'.format(type),
-            itemId : '{0}tab'.format(type)
+            itemId : '{0}tab-{1}'.format(type, tab_specification)
         };
+        if (type === 'vmlist') {
+            tab['vmlistConfig'] = {
+                url : 'vms-' + tab_specification
+            };
+        }
         if (type === 'shell') {
             tab['shellConfig'] = {
                 url : Onc.core.Backend.url(Ext.String.format('/computes/{0}/consoles/default/webterm', this.record.get('id')))
@@ -28,12 +33,12 @@ Ext.define('Onc.view.compute.ComputeView', {
         return tab;
     },
 
-    _adjustTab : function(title, tabType, shouldAdd) {
+    _adjustTab : function(title, tabType, shouldAdd, tab_specification) {
         var tabs = this.down('#tabs');
-        var tab = tabs.down('#{0}tab'.format(tabType));
+        var tab = tabs.down('#{0}tab{1}'.format(tabType, tab_specification));
 
         if (!tab && shouldAdd) {
-            tabs.add(this._makeTab(title, tabType));
+            tabs.add(this._makeTab(title, tabType, tab_specification));
 
             // a special case for convenience
             if (tabType === 'vmlist') {
@@ -51,7 +56,10 @@ Ext.define('Onc.view.compute.ComputeView', {
         me._adjustTab('System', 'system', true);
 
         var isHn = rec.getChild('vms');
-        me._adjustTab('VMs', 'vmlist', isHn);
+        var isOpenVz = rec.getChild('vms-openvz');
+        var isKVM = rec.getChild('vms-kvm');
+        me._adjustTab('KVM VMs', 'vmlist', isKVM, 'kvm');
+        me._adjustTab('OpenVZ VMs', 'vmlist', isOpenVz, 'openvz');
         me._adjustTab('Network', 'network', isHn);
         me._adjustTab('Templates', 'templates', isHn);
 

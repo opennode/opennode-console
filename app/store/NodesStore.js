@@ -9,7 +9,7 @@ Ext.define('Onc.store.NodesStore', {
             this._staticBeforeload(store, options);
         },
         load: function(store, records, successful, eOpts) {
-            this._staticLoad(store, records, successful, eOpts)
+            this._staticLoad(store, records, successful, eOpts);
         }
     },
     
