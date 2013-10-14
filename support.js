@@ -161,4 +161,4 @@ Array.prototype.remove = function(el) {
     var idx = this.indexOf(el);
     if(idx != -1)
         this.splice(idx, 1);
-}
+};

@@ -106,6 +106,10 @@ Ext.define('Onc.controller.NewVmController', {
                         // convert GBs to MBs of diskspace as OMS expects
                         data['diskspace'] = data['diskspace'] * 1024;
                         
+                        // check if vm template is special - Windows - if so, set notify_admin flag
+                        if (data['template'].toLowerCase().startswith('win')) { 
+                        	data['notify_admin'] = true;	
+                        }
                         
                         if (parentCompute) {
                             var url = parentCompute.getChild('vms').get('url');
