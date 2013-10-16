@@ -16,7 +16,7 @@ Ext.define('Onc.controller.NewVmController', {
             }).show();
         }
     },
-    
+
     createVm: function(url, data) {
         Onc.core.Backend.request('POST', url, {
             jsonData: data,
@@ -38,9 +38,13 @@ Ext.define('Onc.controller.NewVmController', {
 						}));
 					}
                     this.getWindow().destroy();
-                    this.fireBusEvent('displayNotification', 'Your request was successfully submitted. Stay tuned!', 'New VM request submitted');
+                    var message = "Your request was successfully submitted. Stay tuned!";
+                    if (data['notify_admin']) {
+                    	message.concat(" Before using the VM it needs to be activated by the administrator. Notification has been sent");
+                    }
+                    this.fireBusEvent('displayNotification', message, 'New VM request submitted');
                 }
-                
+
             }.bind(this),
             failure: function(response) {
                 console.error(response.responseText);
@@ -48,7 +52,7 @@ Ext.define('Onc.controller.NewVmController', {
             }.bind(this)
         });
     },
-    
+
     createVmInHangar: function(hangarUrl, url, data, backend) {
 
         // GET to check if url exist
@@ -68,7 +72,7 @@ Ext.define('Onc.controller.NewVmController', {
                     },
                     success: function(response) {
                         var ret = Ext.JSON.decode(response.responseText);
-                        if (ret['success']) { 
+                        if (ret['success']) {
                             var correctUrl = ret['result']['url'];
                             this.createVmInHangar("", correctUrl, data, "");
                             this.fireBusEvent('displayNotification', 'Created hangar VM! Has url:' + correctUrl, 'New hangar VM request submitted');
@@ -88,7 +92,7 @@ Ext.define('Onc.controller.NewVmController', {
         this.control({
             '#create-new-vm-button': {
                 click: function(sender) {
-                  
+
                     var form = this.getForm().getForm();
                     if (form.isValid()) {
                         Ext.getCmp('submitButton').disable();
@@ -105,20 +109,22 @@ Ext.define('Onc.controller.NewVmController', {
                         delete data['backend'];
                         // convert GBs to MBs of diskspace as OMS expects
                         data['diskspace'] = data['diskspace'] * 1024;
-                        
+
                         // check if vm template is special - Windows - if so, set notify_admin flag
-                        if (data['template'].toLowerCase().startswith('win')) { 
-                        	data['notify_admin'] = true;	
+                        if (data['template'].toLowerCase().startswith('win')) {
+                        	data['notify_admin'] = true;
+                        } else {
+                        	data['notify_admin'] = false;
                         }
-                        
+
                         if (parentCompute) {
                             var url = parentCompute.getChild('vms').get('url');
                             this.createVm(url, data);
                         } else {
-                            
+
 
                             var url = hangarUrl + '/vms-' + backend;
-                            this.createVmInHangar(hangarUrl, url, data, backend)
+                            this.createVmInHangar(hangarUrl, url, data, backend);
                         }
                     }
                 }
