@@ -135,6 +135,16 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
 			} else if (this.compute.get('state') === 'starting') {
 				this.el.mask('Starting...', "x-mask-msg-plaintext");
 			}
+
+			if (!this.compute.get('license_activated')) {
+				this.el.mask('Pending activation...', "x-mask-msg-plaintext");
+
+			if (!this.compute.isDeployed() && !Onc.model.AuthenticatedUser.isAdmin()) {
+				// 'lie' to a user about the state of vm (OMS-572)
+				this.el.mask('Allocation in progress...', "x-mask-msg-plaintext");
+			}
+
+		}
 		}
 	},
 
@@ -148,8 +158,9 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
 			else
 				this.down('#edit-button').setVisible(false);
 
-			if (Ext.Array.contains(this.compute.get('features'), 'IUndeployed') && 
-					!Ext.Array.contains(this.compute.get('features'), 'IDeploying'))
+			if (Ext.Array.contains(this.compute.get('features'), 'IUndeployed') &&
+					!Ext.Array.contains(this.compute.get('features'), 'IDeploying') &&
+					Onc.model.AuthenticatedUser.isAdmin())
 				this.down('#allocate-button').setVisible(true);
 			else
 				this.down('#allocate-button').setVisible(false);
@@ -168,16 +179,12 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
 
 		} else if (this.compute.get('state') === 'stopping') {
 			this.setCustomMask();
-		} else if (this.compute.get('state') === 'starting') {
+		}else if (this.compute.get('state') === 'starting') {
 			this.setCustomMask();
-		} else if (!this.compute.isDeployed() && !Onc.model.AuthenticatedUser.isAdmin()) {
-			// 'lie' to a user about the state of vm (OMS-572)
-			this.setCustomMask('Allocation in progress...');
 		} else {
 			//Exception undefined// throw new Exception('Compute is in unknown state: ' + this.compute.get('state'));
 			console.log('Compute is in unknown state: ' + this.compute.get('state'));
 		}
-
 	},
 
 	_set : function(btnName, visible, enabled) {

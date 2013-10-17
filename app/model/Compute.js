@@ -37,6 +37,7 @@ Ext.define('Onc.model.Compute', {
 
         {name: 'features'},
         {name: 'suspicious', type: 'boolean'},
+        {name: 'license_activated', type: 'boolean'},
 
         {name: 'owner', type: 'string'}
     ],
@@ -155,7 +156,7 @@ Ext.define('Onc.model.Compute', {
             console.error('Loading of a parent of a physical machine is not supported.');
         }
     },
-    
+
     updateSubset: function(subset) {
         var url = this.get('url') + subset;
         //console.log("Getting compute sublist data: " + subset);
@@ -198,8 +199,8 @@ Ext.define('Onc.model.Compute', {
             }
         });
     },
-    
-    
+
+
 
     statics: {
         getField: function(id, field, callbackFn) {
@@ -274,7 +275,7 @@ Ext.define('Onc.model.Compute', {
 	    	// IUndeployed and IDeploying can be at the same time, IDeploying takes presence
 	    	if(Ext.Array.contains(features, 'IUndeployed'))
 	    		state = "error";
-	    		
+
 	    	if(Ext.Array.contains(features, 'IDeploying'))
 	    		state = "deploying";
 	    	return state;
