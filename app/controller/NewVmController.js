@@ -40,7 +40,7 @@ Ext.define('Onc.controller.NewVmController', {
                     this.getWindow().destroy();
                     var message = "Your request was successfully submitted. Stay tuned!";
                     if (data['notify_admin']) {
-                    	message.concat(" Before using the VM it needs to be activated by the administrator. Notification has been sent");
+                    	message += " Before using the VM it needs to be activated by the administrator. Notification has been sent";
                     }
                     this.fireBusEvent('displayNotification', message, 'New VM request submitted');
                 }
@@ -111,7 +111,7 @@ Ext.define('Onc.controller.NewVmController', {
                         data['diskspace'] = data['diskspace'] * 1024;
 
                         // check if vm template is special - Windows - if so, set notify_admin flag
-                        if (data['template'].toLowerCase().startswith('win')) {
+                        if (data['template'].toLowerCase().startswith('win') && Ext.ENABLE_TEMPLATE_ACTIVATION) {
                         	data['notify_admin'] = true;
                         } else {
                         	data['notify_admin'] = false;
