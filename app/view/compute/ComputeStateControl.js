@@ -136,7 +136,7 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
 				this.el.mask('Starting...', "x-mask-msg-plaintext");
 			}
 
-			if (!this.compute.get('license_activated')) {
+			if (!this.compute.get('license_activated') && !this.compute.isPhysical()) {
 				this.el.mask('Pending activation...', "x-mask-msg-plaintext");
 
 			if (!this.compute.isDeployed() && !Onc.model.AuthenticatedUser.isAdmin()) {
