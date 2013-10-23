@@ -16,11 +16,14 @@ Ext.define('Onc.controller.ComputeController', {
                 return;
             }
             this.fireBusEvent('displayNotification', 'New VM \'{0}\' was created'.format(vm.get('hostname')), 'VM created');
+
+            // reload vmlist
+            Ext.getStore('VmGridStore').load();
             vm.loadParent(
                 function(hn){
                     vmList = this._getVMListCmp(hn.get('id'));
-                    if (vmList && vmList.getStore().indexOf(vm) == -1) {
-                        vmList.getStore().add(vm);
+                    if (vmList) {
+                        vmList.getStore().load();
                     }
                 }.bind(this),
                 function(operation){
@@ -75,7 +78,7 @@ Ext.define('Onc.controller.ComputeController', {
                 }
             );
         },
-        
+
         computeSuspiciousChanged: function(computeId, suspicious) {
             Ext.ComponentQuery.query('computeview[computeId=' + computeId + ']').forEach(function(c) {
                 if (suspicious) {

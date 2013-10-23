@@ -11,7 +11,7 @@ Ext.define('Onc.controller.NewVmController', {
 
     busListeners: {
         displayNewVMDialog: function(hn) {
-            this.getView('compute.NewVmView').create({
+             this.getView('compute.NewVmView').create({
                 parentCompute: hn
             }).show();
         }
@@ -31,24 +31,27 @@ Ext.define('Onc.controller.NewVmController', {
                         if (ret['errors'][i]['id'] === 'vm')
                             this.fireBusEvent('displayNotification', ret['errors'][i]['msg'], 'VM creation has failed');
                 } else {
-					if (url.indexOf("hangar") !== -1) {
-						var computeManager = Onc.core.manager.ComputeManager;
-						computeManager.allocate(Ext.create(Onc.model.Compute, {
-							id : ret['result']['id']
-						}));
-					}
-                    this.getWindow().destroy();
-                    var message = "Your request was successfully submitted. Stay tuned!";
-                    if (data['notify_admin']) {
-                    	message += " Before using the VM it needs to be activated by the administrator. Notification has been sent";
+                    if (url.indexOf("hangar") !== -1) {
+                        var computeManager = Onc.core.manager.ComputeManager;
+                        computeManager.allocate(Ext.create(Onc.model.Compute, {
+                            id : ret['result']['id'],
+                            license_activated: !data['notify_admin']
+                        }));
                     }
-                    this.fireBusEvent('displayNotification', message, 'New VM request submitted');
+                    this.getWindow().destroy();
+
+                    if (data['notify_admin']) {
+                        this.fireBusEvent('displayNotification', Ext.TEMPLATE_ACTIVATION_MESSAGE, 'Warning!');
+                    } else {
+                        var message = "Your request was successfully submitted. Stay tuned!";
+                        this.fireBusEvent('displayNotification', message, 'Warning!');
+                   }
                 }
 
             }.bind(this),
             failure: function(response) {
                 console.error(response.responseText);
-                this.fireBusEvent('displayNotification', 'Error occurred while creating new Virtual Machine', 'Error');
+                this.fireBusEvent('displayNotification', 'Error occurred while creating a new virtual machine', 'Error');
             }.bind(this)
         });
     },
@@ -107,6 +110,7 @@ Ext.define('Onc.controller.NewVmController', {
                         var hangarUrl = '/machines/hangar';
                         var backend = data['backend'];// get template backend to dynamically create it
                         delete data['backend'];
+                        delete data['license_activated'];
                         // convert GBs to MBs of diskspace as OMS expects
                         data['diskspace'] = data['diskspace'] * 1024;
 
@@ -121,8 +125,7 @@ Ext.define('Onc.controller.NewVmController', {
                             var url = parentCompute.getChild('vms').get('url');
                             this.createVm(url, data);
                         } else {
-
-
+                            console.log('creating with data', data);
                             var url = hangarUrl + '/vms-' + backend;
                             this.createVmInHangar(hangarUrl, url, data, backend);
                         }

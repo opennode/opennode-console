@@ -25,6 +25,7 @@ Ext.IMG_LOGO_LOGIN = "resources/img/onc_logo_login.png";
 Ext.IS_EMBEDDED = false; // can be set to true by params["embedded"]
 
 Ext.ENABLE_TEMPLATE_ACTIVATION = false;
+Ext.TEMPLATE_ACTIVATION_MESSAGE = "The template will require activation before proceeding";
 
 Ext.VM_NAME_MAPPINGS = {
     // associative array of template_name -> display_name and tooltips

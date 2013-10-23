@@ -56,7 +56,7 @@ Ext.define('Onc.core.manager.ComputeManager', {
                 Onc.core.Backend.request('PUT', url + action, {
                     success: function(response) {
                         // TODO switch to using task response code
-                        // special check 
+                        // special check
                         if (desiredState == 'allocate') {
                             var stdout = JSON.parse(response.responseText).stdout[0];
                             if (stdout.startswith('Found no fitting machines')) {
@@ -68,12 +68,10 @@ Ext.define('Onc.core.manager.ComputeManager', {
                                     vm.get('id') + ']');
                                Ext.Array.each(cntrls, function(cmp){
                                     if (cmp.el.isMasked()) {
-                                        cmp.el.unmask();
+                                            cmp.el.unmask();
                                     }
                                 });
-                               
                             }
-                            
                         }
 
                     }.bind(this),
