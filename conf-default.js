@@ -27,6 +27,8 @@ Ext.IS_EMBEDDED = false; // can be set to true by params["embedded"]
 Ext.ENABLE_TEMPLATE_ACTIVATION = false;
 Ext.TEMPLATE_ACTIVATION_MESSAGE = "The template will require activation before proceeding";
 
+Ext.MISSING_CREDS_WARNING = '<div align="center"><b>Default credentials are not known. Please contact support!</b></div>';
+
 Ext.VM_NAME_MAPPINGS = {
     // associative array of template_name -> display_name and tooltips
     // 'W2008R2_tmpl': ["name", "tooltip"]

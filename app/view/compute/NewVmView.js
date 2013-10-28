@@ -153,7 +153,7 @@ Ext.define('Onc.view.compute.NewVmView', {
         component.labelEl.update(oldLabel + limitsPart);
     },
 
-    baseTypeChanges : function(baseType) {
+    baseTypeChanges : function(baseType, disable_kvm_creds) {
         this.loadTooltips(baseType);
         Ext.iterate(this.tempHiddenFields, function(control, visible) {
             if (!visible)
@@ -167,7 +167,7 @@ Ext.define('Onc.view.compute.NewVmView', {
                 var fieldsVisibility = {
                     'swap_size' : false,
                     'credentialsFieldset' : false,
-                    'credentialsFieldsetKvm' : true
+                    'credentialsFieldsetKvm' : true && !disable_kvm_creds
                 };
                 Ext.iterate(fieldsVisibility, function(control, visible) {
                     if (visible)
@@ -326,11 +326,22 @@ Ext.define('Onc.view.compute.NewVmView', {
                                 //this.setValue('root_password', 'password');
                                 //this.setValue('root_password_repeat', 'password');
                                 this.setValue('template', 'name');
-                                Ext.getCmp('templatePassword').setText(this.st.get('password'));
-                                Ext.getCmp('templateUsername').setText(this.st.get('username'));
+                                // show a warning if username or password are missing from the template
+                                var disable_kvm_creds = false;
+                                if (this.st.get("base_type") === 'kvm' &&
+                                        (!this.st.get('password') || !this.st.get('username'))) {
+
+                                    Ext.getCmp('notice').setText(Ext.MISSING_CREDS_WARNING, false);
+                                    Ext.getCmp('notice').show();
+                                    disable_kvm_creds = true;
+                                } else {
+                                    Ext.getCmp('notice').hide();
+                                    Ext.getCmp('templatePassword').setText(this.st.get('password'));
+                                    Ext.getCmp('templateUsername').setText(this.st.get('username'));
+                                }
 
                                 this.disableControls(false);
-                                this.baseTypeChanges(this.st.get("base_type"));
+                                this.baseTypeChanges(this.st.get("base_type"), disable_kvm_creds);
                                 Ext.getCmp('submitButton').enable();
                             } else {
                                 this.disableControls(true);
@@ -568,7 +579,7 @@ Ext.define('Onc.view.compute.NewVmView', {
                     pack : 'start',
                     align : 'stretch'
                 },
-                items : [{
+                items : [ {
                     flex : 1,
                     fieldLabel : "Root Password",
                     name : 'root_password',
@@ -606,7 +617,17 @@ Ext.define('Onc.view.compute.NewVmView', {
                         fieldLabel : "Start on boot"
                     }]
                 }]
-            }, {
+            },{
+                    colspan : 2,
+                    name : 'notice',
+                    id : 'notice',
+                    xtype : 'label',
+                    inputType : 'textfield',
+                    labelWidth : 120,
+                    text: ''
+                    //hidden: true
+                },
+             {
                 xtype : 'fieldset',
                 title : "4.Default credentials",
                 id : 'credentialsFieldsetKvm',
@@ -615,7 +636,8 @@ Ext.define('Onc.view.compute.NewVmView', {
                     type : 'table',
                     columns: 2
                 },
-                items : [{
+                items : [
+                {
                     flex : 1,
                     xtype : 'label',
                     text : 'Username:'

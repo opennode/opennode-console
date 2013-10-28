@@ -46,7 +46,7 @@ Ext.define('Onc.model.Template', {
             } else {
                 return record.get('name').split("-")[0];;
             }
-            
+
         }},
 
         {name: 'tooltip_name', convert: function(_, record) {
@@ -55,7 +55,7 @@ Ext.define('Onc.model.Template', {
             } else {
                 return record.get('name');
             }
-            
+
         }}
     ]
 });
