@@ -299,8 +299,8 @@ Ext.define('Onc.view.compute.NewVmView', {
                     overItemCls : 'template-over',
                     selectedItemCls : 'template-selected',
                     trackOver : true,
-                    tpl : ['<table><tbody><tr><tpl for=".">', 
-                    		'<td>', 
+                    tpl : ['<table><tbody><tr><tpl for=".">',
+                    		'<td>',
                     		'<div class="template-wrap"><div class="base_type">{base_type}</div>',
                     		'<div class="template-icon-wrap" data-qtip="{tooltip_name}">',
                     		'<span>{name_short}</span>',
@@ -530,6 +530,13 @@ Ext.define('Onc.view.compute.NewVmView', {
                     },
                     labelWidth : 70,
                     width : 280,
+                    validator: function(v) {
+                            // only allow ASCII, disallow punctuation
+                            if (!v.match("^[a-zA-Z0-9\-]+$")) {
+                                return "Hostname is malformed. Only letters are allowed.";
+                            }
+                            return true;
+                        }
                 }, {
                     fieldLabel : "IP Address",
                     name : 'ipv4_address',
