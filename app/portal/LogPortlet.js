@@ -26,9 +26,10 @@ Ext.define('Onc.portal.LogPortlet', {
             if (response.stdout) {
                 // cleanup of the store
                 this.store.removeAll();
-                for ( var i = 0; i < response.stdout.length; i++) {
+                var messages = response.stdout[0].split('\n');
+                for ( var i = 0; i < messages.length; i++) {
                     // get the log components
-                    var message = response.stdout[i];
+                    var message = messages[i];
 
                     var date = message.substr(0, message.indexOf(" "));
                     message = message.substr(message.indexOf(" ") + 1);
@@ -48,7 +49,7 @@ Ext.define('Onc.portal.LogPortlet', {
                 }
                 eventContainer.setLoading(false);
                 } else {
-                    console.log('Event log processing failed due to a missing log output')
+                    console.log('Event log processing failed due to a missing log output');
                     // eventCmp.update('<b>/proc/completed/ does not return stdout</b>');
                     eventContainer.setLoading(false);
                 }
