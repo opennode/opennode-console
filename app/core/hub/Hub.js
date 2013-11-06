@@ -1,7 +1,7 @@
 Ext.define('Onc.core.hub.Hub', {
     singleton: true,
 
-    POLL_INTERVAL: 2000,
+    POLL_INTERVAL: 5000,
     URL: 'stream',
     METHOD: 'POST',
 
@@ -11,7 +11,7 @@ Ext.define('Onc.core.hub.Hub', {
     // State
     _running: false,
     _relativisticToken: +(new Date),
-    
+
     /**
      * Called when logging out, so polling for changes would stop.
      */
@@ -103,7 +103,7 @@ Ext.define('Onc.core.hub.Hub', {
     deleteSubscription: function(url) {
         this._reg.delmassoc(url);
     },
-   
+
 	replaceSubscription: function(findUrl, replacementUrl) {
 		this._reg.replaceassocBeginsWith(findUrl, replacementUrl);
 	},

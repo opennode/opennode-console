@@ -145,6 +145,11 @@ Ext.define('Onc.model.Compute', {
         return Onc.model.Compute.containsUndeployedFeature(features);
     },
 
+    isDeploying: function() {
+        var features = this.get('features');
+        return Onc.model.Compute.containsIDeployingFeature(features);
+    },
+
 
     loadParent: function(successCb, failureCb) {
         // we assume that physical computes don't have any parents
@@ -257,6 +262,13 @@ Ext.define('Onc.model.Compute', {
         containsUndeployedFeature: function(features) {
             if (features)
                 return Ext.Array.contains(features, 'IUndeployed');
+            else
+                return false;
+        },
+
+        containsIDeployingFeature: function(features) {
+            if (features)
+                return Ext.Array.contains(features, 'IDeploying');
             else
                 return false;
         },

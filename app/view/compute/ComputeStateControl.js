@@ -142,7 +142,10 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
 			if (!this.compute.isDeployed() && !Onc.model.AuthenticatedUser.isAdmin()) {
 				// 'lie' to a user about the state of vm (OMS-572)
 				this.el.mask('Allocation in progress...', "x-mask-msg-plaintext");
-			}
+			} else if (!this.compute.isDeployed() && !this.compute.isDeploying()) {
+                // awayting verification of the undeployed status VMs
+                this.el.mask('Cleaning up...', "x-mask-msg-plaintext");
+            }
 
 		}
 		}
