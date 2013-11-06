@@ -135,19 +135,17 @@ Ext.define('Onc.view.compute.ComputeStateControl', {
 			} else if (this.compute.get('state') === 'starting') {
 				this.el.mask('Starting...', "x-mask-msg-plaintext");
 			}
-
 			if (!this.compute.get('license_activated') && !this.compute.isPhysical()) {
 				this.el.mask('Pending activation...', "x-mask-msg-plaintext");
+			}
 
-			if (!this.compute.isDeployed() && !Onc.model.AuthenticatedUser.isAdmin()) {
-				// 'lie' to a user about the state of vm (OMS-572)
+			if (!this.compute.isDeployed() && this.compute.isDeploying() &&
+			     !Onc.model.AuthenticatedUser.isAdmin()) {
 				this.el.mask('Allocation in progress...', "x-mask-msg-plaintext");
 			} else if (!this.compute.isDeployed() && !this.compute.isDeploying()) {
                 // awayting verification of the undeployed status VMs
                 this.el.mask('Cleaning up...', "x-mask-msg-plaintext");
             }
-
-		}
 		}
 	},
 
