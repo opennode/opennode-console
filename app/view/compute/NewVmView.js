@@ -543,7 +543,7 @@ Ext.define('Onc.view.compute.NewVmView', {
                     width : 280,
                     validator: function(v) {
                             // only allow ASCII, disallow punctuation
-                            if (!v.match("^[a-zA-Z0-9-]+$")) {
+                            if (!v.match("^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])$")) {
                                 return "Hostname is malformed. Only letters and digits are allowed.";
                             }
                             return true;
