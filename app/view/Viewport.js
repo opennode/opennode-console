@@ -23,7 +23,7 @@ Ext.define('Onc.view.Viewport', {
             newappbutton.scale = 'medium';
 
             // do not show buttons:
-            var hideButtons = ['oms-shell-button', 'logout-button', 'username-label'];
+            var hideButtons = ['logout-button', 'username-label'];
             for (var i = 0; i < hideButtons.length; i++) {
                 this.down('#' + hideButtons[i]).hidden = true;
             }
@@ -32,7 +32,7 @@ Ext.define('Onc.view.Viewport', {
 
     _adjustViewToGroups : function() {
         var isAdmin = Onc.model.AuthenticatedUser.isAdmin();
-        var adminButtons = ['infrastructurejoin-button', 'tasks-button', 're-register-gauges', 'viewlog-button'];
+        var adminButtons = ['infrastructurejoin-button', 'tasks-button', 're-register-gauges', 'viewlog-button', 'oms-shell-button'];
         var adminTabs = ['vmmap', 'dashboard'];
 
         // adjust controll buttons
