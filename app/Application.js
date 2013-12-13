@@ -1,5 +1,5 @@
 Ext.syncRequire([
-	'Ext',
+    'Ext',
     'Ext.window.MessageBox',
     'Ext.XTemplate',
     'Ext.form.*',
@@ -11,7 +11,6 @@ Ext.require([
     // used by log4js-ext
     'Ext.ux.RowExpander',
     'Ext.ux.statusbar.StatusBar',
-    // added because of production build
     'Ext.data.JsonStore',
     'Ext.layout.container.Border',
     'Ext.chart.Chart',
@@ -22,11 +21,11 @@ Ext.require([
     'Ext.grid.column.Template',
     'Onc.core.ui.widgets.StaticTip',
     'Ext.grid.plugin.RowEditing',
-    
+
     'Onc.core.Backend',
     'Onc.core.Proxy',
     'Onc.core.Store',
-	'Onc.store.NodesStore',
+    'Onc.store.NodesStore',
     'Onc.core.EventBus',
 
     'Onc.core.polymorphic.Reader',
@@ -50,7 +49,7 @@ Ext.require([
     'Onc.core.ui.widgets.Shell',
     'Onc.core.ui.widgets.Vnc',
     'Onc.core.ui.widgets.InfoBox',
-    
+
     'Onc.core.ui.components.ComputeGauge',
     'Onc.core.ui.components.MemoryGauge',
     'Onc.core.ui.components.CPUGauge',
@@ -184,7 +183,7 @@ Ext.define('Onc.Application', {
     name: 'Onc',
 
     extend: 'Ext.app.Application',
-    
+
     requires:['Onc.model.Compute'],
 
     views: [

@@ -11,6 +11,6 @@ Ext.application({
     name: 'Onc',
 
     extend: 'Onc.Application',
-    
+
     autoCreateViewport: false
 });

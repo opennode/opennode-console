@@ -23,9 +23,9 @@ Ext.define('Onc.view.Viewport', {
             newappbutton.scale = 'medium';
 
             // do not show buttons:
-            var hideButtons = ['logout-button', 'username-label'];
-            for (var i = 0; i < hideButtons.length; i++) {
-                this.down('#' + hideButtons[i]).hidden = true;
+            var hideComponents = ['logout-button', 'username-label', 'searchpanel'];
+            for (var i = 0; i < hideComponents.length; i++) {
+                this.down('#' + hideComponents[i]).hidden = true;
             }
         }
     },
