@@ -44,7 +44,7 @@ Ext.define('Onc.controller.NewVmController', {
                         this.fireBusEvent('displayNotification', Ext.TEMPLATE_ACTIVATION_MESSAGE, 'Warning!');
                     } else {
                         var message = "Your request was successfully submitted. Stay tuned!";
-                        this.fireBusEvent('displayNotification', message, 'Warning!');
+                        this.fireBusEvent('displayNotification', message, 'Congratulations!');
                    }
                 }
 

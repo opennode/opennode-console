@@ -6,8 +6,8 @@ Ext.define('Onc.view.NotificationBarView', {
 
     msgCt: null,
 
-    msg: function(title, format){
-    	Ext.MessageBox.alert(title, format);
+    msg: function(title, messageText){
+        Ext.MessageBox.alert(title, messageText);
      },
 
     displayMessage: function(messageText, messageType){
