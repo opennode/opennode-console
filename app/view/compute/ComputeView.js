@@ -35,7 +35,7 @@ Ext.define('Onc.view.compute.ComputeView', {
 
     _adjustTab : function(title, tabType, shouldAdd, tab_specification) {
         var tabs = this.down('#tabs');
-        var tab = tabs.down('#{0}tab{1}'.format(tabType, tab_specification));
+        var tab = tabs.down('#{0}-tab{1}'.format(tabType, tab_specification));
 
         if (!tab && shouldAdd) {
             tabs.add(this._makeTab(title, tabType, tab_specification));
